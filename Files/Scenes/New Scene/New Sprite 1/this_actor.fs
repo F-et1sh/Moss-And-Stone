@@ -1,0 +1,1 @@
+{"Name":"New Sprite 1"}

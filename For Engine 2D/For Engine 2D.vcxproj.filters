@@ -1,0 +1,779 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Code">
+      <UniqueIdentifier>{4155d467-a7f7-4be8-b526-a872f251081e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Pre-Compiled Headers">
+      <UniqueIdentifier>{84abf3bc-aa4b-4465-b5fd-34ec183a2856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics">
+      <UniqueIdentifier>{56c80257-e28d-47cb-a070-e3d5670b0a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Audio">
+      <UniqueIdentifier>{73982dd7-be77-4efe-bbac-ca137bb8d24f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Audio\Sound">
+      <UniqueIdentifier>{1db795df-6d18-4a66-acce-96dbac6ee79b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Audio\Sound Device">
+      <UniqueIdentifier>{a4f38667-0f53-41df-99eb-485867d6519c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{6d3fe493-b96a-4e4f-a5ac-3e615e8ed6ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\x86">
+      <UniqueIdentifier>{1ac3a218-0b5c-46d4-9be9-150f6e81e6ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\x64">
+      <UniqueIdentifier>{427c678e-b255-48a3-87d9-2b8fb3f1456a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Audio\Sound Manager">
+      <UniqueIdentifier>{d3a48136-60c0-490c-a4b1-4568d976c3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Pipline">
+      <UniqueIdentifier>{a540ae77-d36b-4885-9bc6-02eb137a1a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Pipline\Uniform Buffer">
+      <UniqueIdentifier>{412e76a2-5b84-429f-8530-effeb09d8496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Pipline\Shader">
+      <UniqueIdentifier>{e6cad576-5e1f-4c46-8439-e03cbe3ae2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animation">
+      <UniqueIdentifier>{bb38a648-d9d8-40bf-8533-a174f184c808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animation\Animation">
+      <UniqueIdentifier>{97ad3c0b-9cd1-4009-8a96-91c17cdbacfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animation\Sprite Animator">
+      <UniqueIdentifier>{c1924e58-3a71-4965-8ff2-d776c7ace829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animation\Blend Tree">
+      <UniqueIdentifier>{9b333d0c-94b4-4f9b-88f5-e69a561d63f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animation\Animation State">
+      <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Math">
+      <UniqueIdentifier>{bb516158-6c09-4f78-83e0-0b26ccccfb97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Dynamic Array">
+      <UniqueIdentifier>{b99e1a61-fe05-405c-9fbb-ac3cf1d44e03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Debug">
+      <UniqueIdentifier>{862895b7-9d90-4ddb-aae9-155c32694645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Debug\For Debug GUI">
+      <UniqueIdentifier>{d4be8948-b582-4404-9eaa-28d2ca5729a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Text Render">
+      <UniqueIdentifier>{185714d3-f412-45cf-a7da-9064fb85cd4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Text Render\forchar">
+      <UniqueIdentifier>{8cd88f0b-5fd7-4271-84fb-e7f623501a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Text Render\Font">
+      <UniqueIdentifier>{f04b5dc3-af27-476e-a0bd-64f8b797c742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{525f6fd6-efc0-4dc4-8150-ab1c51b5dd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Texturing">
+      <UniqueIdentifier>{c532fc66-9c45-4455-88e9-4cbd518a0419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Texturing\Texture Atlas">
+      <UniqueIdentifier>{4a81d7e0-db1f-4d25-9e15-c304cfe6b896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Texturing\Texture">
+      <UniqueIdentifier>{840d3e6c-c8d5-4ed2-a02c-68c4020bf781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\File">
+      <UniqueIdentifier>{0d627577-6119-4e9d-863d-ecf91a88f764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Convert">
+      <UniqueIdentifier>{8ae4f160-6078-4541-a226-bb09dbb373ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Core">
+      <UniqueIdentifier>{bd509882-8d43-491c-bd79-6f9a6f053bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\GLFW">
+      <UniqueIdentifier>{a43908b6-9f53-4f39-aae6-2c874cabde8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Window">
+      <UniqueIdentifier>{e34d5850-3e06-4add-b33c-b224f5740f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS">
+      <UniqueIdentifier>{80303011-8640-4d62-9c82-678d2fa6e62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component %28 Inherit %29">
+      <UniqueIdentifier>{2c920850-e16b-409c-b69b-dfb6059e3a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Actor %28 Inherit %29">
+      <UniqueIdentifier>{d944eb92-44e1-414f-ab2c-d579aa808eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Components">
+      <UniqueIdentifier>{7ca032b8-3497-4a85-aa23-c3fbf51fcbb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Mesh2D">
+      <UniqueIdentifier>{3bd0d8e3-85e1-4fab-95de-6721a3f806c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Settings">
+      <UniqueIdentifier>{a93b151a-8a13-4301-9417-a4eeb574a065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Objects">
+      <UniqueIdentifier>{6c4ea22b-2117-48a3-b481-b42f4cc3b175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Objects\Rectangle">
+      <UniqueIdentifier>{2725fac7-b98c-4e8b-b742-dd9c06d93d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Event System">
+      <UniqueIdentifier>{3c7ad39d-2090-4dd2-aa14-8ce96e856e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Event System\Event">
+      <UniqueIdentifier>{68d26f98-24a0-42a5-83d4-2c246e79186c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Event System\Event Dispatcher">
+      <UniqueIdentifier>{65c66fd8-7c40-4035-8ffc-c6230d38396a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Event System\Event Types">
+      <UniqueIdentifier>{b669a006-274c-45ab-8f08-f98a7993f84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Camera">
+      <UniqueIdentifier>{8d31b8c4-b70e-4d03-8169-beea29500c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Text %28 rewrite %29">
+      <UniqueIdentifier>{2731f142-a502-4c00-9857-e054fc7b0ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Dear ImGui">
+      <UniqueIdentifier>{ea2c61b0-7b03-4b59-bba9-a73eed980c1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Scene Management">
+      <UniqueIdentifier>{0dd46a4e-cf58-4887-a390-a10bbdb2b6e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Scene Management\Scene">
+      <UniqueIdentifier>{b3aff55b-1a9a-44da-8762-702a4c26e8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management">
+      <UniqueIdentifier>{cb8e5356-d685-4ac5-b8e8-9a6ea84028e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resource Manager">
+      <UniqueIdentifier>{c1c29c95-28a4-41cb-81a7-2cbbf86366f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resource %28 Inherit %29">
+      <UniqueIdentifier>{ff9807db-c651-49dc-8bfd-7a88d5072ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\UI">
+      <UniqueIdentifier>{0d4540c2-37b1-4e42-adf5-611bf7acc059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\UI\Gizmo %28 Inherit %29">
+      <UniqueIdentifier>{ec6e965d-4f85-4fbc-b301-0a0a6240d3ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\UI\Button">
+      <UniqueIdentifier>{a8fca404-7d8b-49a2-904a-528a5e8eb925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\UI\Button\Button %28 Inherit %29">
+      <UniqueIdentifier>{82315a68-a641-491f-a392-4a4260a0aa16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\UI\Button\Button Manager">
+      <UniqueIdentifier>{b69fb750-963a-4ec1-8e96-0e95ff01f721}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\UI\Button\UI Button">
+      <UniqueIdentifier>{c0a8a3a5-5414-4154-9148-0efe41226bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\ResourceModule %28 inherit %29">
+      <UniqueIdentifier>{b3b45ea8-0420-4fcc-8ac9-4e9715e49d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\IMGUI">
+      <UniqueIdentifier>{a3600644-a960-4071-8afa-34417029786a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Serializable %28 Inherit %29">
+      <UniqueIdentifier>{52c52bfc-ff8f-488e-afb4-6d154435f01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\ResourceCache">
+      <UniqueIdentifier>{9c797905-7e9d-4fd1-b01a-e28072c82dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Components\Transform">
+      <UniqueIdentifier>{f93e1623-3c0d-4d6c-8353-b59a28f28278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Components\Sprite">
+      <UniqueIdentifier>{a8772713-1ad0-4a27-badd-73796fa36963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Application">
+      <UniqueIdentifier>{6781ea4a-1c3d-4486-99bc-60c09aa70c34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component Factory">
+      <UniqueIdentifier>{420aec30-db11-491c-aa2d-e3853eff7e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Scene Management\Scene Manager">
+      <UniqueIdentifier>{bdc9d22b-7761-46df-bb77-d2299678f961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI">
+      <UniqueIdentifier>{4c46b716-7db8-49bf-8633-baf8c76532f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\ISettingsDrawable">
+      <UniqueIdentifier>{aa49fa91-5217-4b90-8ef0-1d6adcf829e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\ActorListUI">
+      <UniqueIdentifier>{f28fe58e-19e9-49bd-a53a-80e0b73943aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\InspectorUI">
+      <UniqueIdentifier>{e6d17afe-9339-4f8e-b4fc-5ff833ae11b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\ISelectable %28 inherit %29">
+      <UniqueIdentifier>{c6cfd3bf-d01f-4dbc-be64-64c54d036093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\ResourceUI">
+      <UniqueIdentifier>{083f24e8-ee87-476d-870e-16e5266de1f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Application\Default">
+      <UniqueIdentifier>{d8f1e567-357e-42f1-b323-5445280bfcc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Application\Editor">
+      <UniqueIdentifier>{2741fbd3-3426-40e9-ad4d-7b6f7bc08abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management">
+      <UniqueIdentifier>{f39b7212-2f2c-4196-883a-ac4ebe6b2dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Render Manager">
+      <UniqueIdentifier>{09935eb3-4242-4da7-b4e1-de1c493f6b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Renderers">
+      <UniqueIdentifier>{45076a25-b2d5-43bb-95e7-5013f50882d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Renderers\Sprite Renderer">
+      <UniqueIdentifier>{de2cb3ce-c938-482d-9a29-5bb502963775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Renderers\Rectangle Renderer">
+      <UniqueIdentifier>{94f15aa7-4349-44aa-af6d-c46f20a8106a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\ProfileWindowUI">
+      <UniqueIdentifier>{1f348c65-911d-4d33-b82c-1a8176ba7dee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Renderer %28 inherit %29">
+      <UniqueIdentifier>{beb24c18-a84c-47ce-b7fe-80de19d97eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Input">
+      <UniqueIdentifier>{c9166382-56b2-4891-b238-c7956a44f185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Components\Camera">
+      <UniqueIdentifier>{cb68e3aa-dd31-414e-831e-911b707d292c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component Registrar">
+      <UniqueIdentifier>{ea6f2c01-768d-4b10-872e-fc646ec69812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Path Manager">
+      <UniqueIdentifier>{0c8aca53-846d-4980-a4ec-a967618fbcd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\ImGui">
+      <UniqueIdentifier>{b6c63c4f-059d-4d73-8441-f63bd2796ad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\ResourceLoader">
+      <UniqueIdentifier>{314be5c5-773c-4562-9e95-6d830a0818f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Framebuffer">
+      <UniqueIdentifier>{5820a0e9-ba74-4a6d-a989-7bf9874520df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Application\Test">
+      <UniqueIdentifier>{0872809c-cac2-4faf-82ab-8c0493387fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Renderer Factory">
+      <UniqueIdentifier>{68320dbf-9c55-48f4-9802-068bf511c5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Renderer Management\Renderer Registrar">
+      <UniqueIdentifier>{6974e382-9935-4393-89d9-d3f8d642f875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Components\Map">
+      <UniqueIdentifier>{c7e5cb34-99b6-46fc-ad7e-c2c5514ff737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\VAO &amp; VBO">
+      <UniqueIdentifier>{c04a9818-78d1-463c-b44c-c8b65179178d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\VAO &amp; VBO\Vertex Array">
+      <UniqueIdentifier>{8f8f6600-956e-433a-b4f4-5bce8ef50ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\VAO &amp; VBO\Vertex Buffer">
+      <UniqueIdentifier>{d02ba574-ff9e-4b87-aaa3-eb3ec7564566}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\forpch.cpp">
+      <Filter>Code\Pre-Compiled Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SoundDevice.cpp">
+      <Filter>Code\Audio\Sound Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Sound.cpp">
+      <Filter>Code\Audio\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Font.cpp">
+      <Filter>Code\Graphics\Text Render\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UniformBuffer.cpp">
+      <Filter>Code\Graphics\Pipline\Uniform Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SoundManager.cpp">
+      <Filter>Code\Audio\Sound Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Shader.cpp">
+      <Filter>Code\Graphics\Pipline\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\fordebuggui.cpp">
+      <Filter>Code\Debug\For Debug GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Camera.cpp">
+      <Filter>Code\Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Animator.cpp">
+      <Filter>Code\Graphics\Animation\Sprite Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\VertexArray.cpp">
+      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Array</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\VertexBuffer.cpp">
+      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Texture.cpp">
+      <Filter>Code\Graphics\Texturing\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Window.cpp">
+      <Filter>Code\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\FOR_GLFW.cpp">
+      <Filter>Code\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EventTypes.cpp">
+      <Filter>Code\Event System\Event Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Event.cpp">
+      <Filter>Code\Event System\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EventDispatcher.cpp">
+      <Filter>Code\Event System\Event Dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Rectangle.cpp">
+      <Filter>Code\Graphics\Objects\Rectangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Text.cpp">
+      <Filter>Code\Text %28 rewrite %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\BlendTree.cpp">
+      <Filter>Code\Graphics\Animation\Blend Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\AnimationState.cpp">
+      <Filter>Code\Graphics\Animation\Animation State</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Animation.cpp">
+      <Filter>Code\Graphics\Animation\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\forchar.cpp">
+      <Filter>Code\Graphics\Text Render\forchar</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Component.cpp">
+      <Filter>Code\ECS\Component %28 Inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Actor.cpp">
+      <Filter>Code\ECS\Actor %28 Inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\USpriteComponent.cpp">
+      <Filter>Code\ECS\Components\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ComponentFactory.cpp">
+      <Filter>Code\ECS\Component Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SpriteRenderer.cpp">
+      <Filter>Code\Graphics\Renderer Management\Renderers\Sprite Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\TextureAtlas.cpp">
+      <Filter>Code\Graphics\Texturing\Texture Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Button.cpp">
+      <Filter>Code\Graphics\UI\Button\Button %28 Inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ButtonManager.cpp">
+      <Filter>Code\Graphics\UI\Button\Button Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GizmoBox.cpp">
+      <Filter>Code\Graphics\UI\Gizmo %28 Inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Mesh2D.cpp">
+      <Filter>Code\Graphics\Mesh2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UI_Button.cpp">
+      <Filter>Code\Graphics\UI\Button\UI Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RectangleRenderer.cpp">
+      <Filter>Code\Graphics\Renderer Management\Renderers\Rectangle Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceManager.cpp">
+      <Filter>Code\Resource Management\Resource Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Resource.cpp">
+      <Filter>Code\Resource Management\Resource %28 Inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Serializable.cpp">
+      <Filter>Code\Resource Management\Serializable %28 Inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Scene.cpp">
+      <Filter>Code\Scene Management\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceCache.cpp">
+      <Filter>Code\Resource Management\ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceUI.cpp">
+      <Filter>Code\UI\ResourceUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceModule.cpp">
+      <Filter>Code\Resource Management\ResourceModule %28 inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\InspectorUI.cpp">
+      <Filter>Code\UI\InspectorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ActorListUI.cpp">
+      <Filter>Code\UI\ActorListUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\FOR_IMGUI.cpp">
+      <Filter>Code\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ISelectable.cpp">
+      <Filter>Code\UI\ISelectable %28 inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\IPropertiesDrawable.cpp">
+      <Filter>Code\UI\ISettingsDrawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceLoader.cpp">
+      <Filter>Code\Resource Management\ResourceLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UTransformComponent.cpp">
+      <Filter>Code\ECS\Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SceneManager.cpp">
+      <Filter>Code\Scene Management\Scene Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Application.cpp">
+      <Filter>Code\Application\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EditorApplication.cpp">
+      <Filter>Code\Application\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ProfileWindowUI.cpp">
+      <Filter>Code\UI\ProfileWindowUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderManager.cpp">
+      <Filter>Code\Graphics\Renderer Management\Render Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Renderer.cpp">
+      <Filter>Code\Graphics\Renderer Management\Renderer %28 inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Input.cpp">
+      <Filter>Code\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UCameraComponent.cpp">
+      <Filter>Code\ECS\Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ComponentRegistrar.cpp">
+      <Filter>Code\ECS\Component Registrar</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\PathManager.cpp">
+      <Filter>Code\Resource Management\Path Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Framebuffer.cpp">
+      <Filter>Code\Graphics\Framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Test.cpp">
+      <Filter>Code\Application\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RendererFactory.cpp">
+      <Filter>Code\Graphics\Renderer Management\Renderer Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RendererRegistrar.cpp">
+      <Filter>Code\Graphics\Renderer Management\Renderer Registrar</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UMapComponent.cpp">
+      <Filter>Code\ECS\Components\Map</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Code\forpch.h">
+      <Filter>Code\Pre-Compiled Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\formath.h">
+      <Filter>Code\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SoundDevice.h">
+      <Filter>Code\Audio\Sound Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Sound.h">
+      <Filter>Code\Audio\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forcore.h">
+      <Filter>Code\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\fordebug.h">
+      <Filter>Code\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forsettings.h">
+      <Filter>Code\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forarray.h">
+      <Filter>Code\Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forchar.h">
+      <Filter>Code\Graphics\Text Render\forchar</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Font.h">
+      <Filter>Code\Graphics\Text Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Text.h">
+      <Filter>Code\Text %28 rewrite %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UniformBuffer.h">
+      <Filter>Code\Graphics\Pipline\Uniform Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SoundManager.h">
+      <Filter>Code\Audio\Sound Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Shader.h">
+      <Filter>Code\Graphics\Pipline\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\fordebuggui.h">
+      <Filter>Code\Debug\For Debug GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Camera.h">
+      <Filter>Code\Graphics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Animation.h">
+      <Filter>Code\Graphics\Animation\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Animator.h">
+      <Filter>Code\Graphics\Animation\Sprite Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\BlendTree.h">
+      <Filter>Code\Graphics\Animation\Blend Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\AnimationState.h">
+      <Filter>Code\Graphics\Animation\Animation State</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\VertexArray.h">
+      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\VertexBuffer.h">
+      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Rectangle.h">
+      <Filter>Code\Graphics\Objects\Rectangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Texture.h">
+      <Filter>Code\Graphics\Texturing\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forfile.h">
+      <Filter>Code\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forconvert.h">
+      <Filter>Code\Convert</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Window.h">
+      <Filter>Code\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\FOR_GLFW.h">
+      <Filter>Code\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Event.h">
+      <Filter>Code\Event System\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\EventDispatcher.h">
+      <Filter>Code\Event System\Event Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\EventTypes.h">
+      <Filter>Code\Event System\Event Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Actor.h">
+      <Filter>Code\ECS\Actor %28 Inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Component.h">
+      <Filter>Code\ECS\Component %28 Inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ComponentFactory.h">
+      <Filter>Code\ECS\Component Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\USpriteComponent.h">
+      <Filter>Code\ECS\Components\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SpriteRenderer.h">
+      <Filter>Code\Graphics\Renderer Management\Renderers\Sprite Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\TextureAtlas.h">
+      <Filter>Code\Graphics\Texturing\Texture Atlas</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Button.h">
+      <Filter>Code\Graphics\UI\Button\Button %28 Inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ButtonManager.h">
+      <Filter>Code\Graphics\UI\Button\Button Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\GizmoBox.h">
+      <Filter>Code\Graphics\UI\Gizmo %28 Inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Mesh2D.h">
+      <Filter>Code\Graphics\Mesh2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UI_Button.h">
+      <Filter>Code\Graphics\UI\Button\UI Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\RectangleRenderer.h">
+      <Filter>Code\Graphics\Renderer Management\Renderers\Rectangle Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ResourceManager.h">
+      <Filter>Code\Resource Management\Resource Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Resource.h">
+      <Filter>Code\Resource Management\Resource %28 Inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Serializable.h">
+      <Filter>Code\Resource Management\Serializable %28 Inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Scene.h">
+      <Filter>Code\Scene Management\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ResourceCache.h">
+      <Filter>Code\Resource Management\ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ResourceUI.h">
+      <Filter>Code\UI\ResourceUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ResourceModule.h">
+      <Filter>Code\Resource Management\ResourceModule %28 inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\InspectorUI.h">
+      <Filter>Code\UI\InspectorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ActorListUI.h">
+      <Filter>Code\UI\ActorListUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\FOR_IMGUI.h">
+      <Filter>Code\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_glfw.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>Code\Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ISelectable.h">
+      <Filter>Code\UI\ISelectable %28 inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\IPropertiesDrawable.h">
+      <Filter>Code\UI\ISettingsDrawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ResourceLoader.h">
+      <Filter>Code\Resource Management\ResourceLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UTransformComponent.h">
+      <Filter>Code\ECS\Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SceneManager.h">
+      <Filter>Code\Scene Management\Scene Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Application.h">
+      <Filter>Code\Application\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\EditorApplication.h">
+      <Filter>Code\Application\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ProfileWindowUI.h">
+      <Filter>Code\UI\ProfileWindowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\RenderManager.h">
+      <Filter>Code\Graphics\Renderer Management\Render Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Renderer.h">
+      <Filter>Code\Graphics\Renderer Management\Renderer %28 inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Input.h">
+      <Filter>Code\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UCameraComponent.h">
+      <Filter>Code\ECS\Components\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ComponentRegistrar.h">
+      <Filter>Code\ECS\Component Registrar</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\PathManager.h">
+      <Filter>Code\Resource Management\Path Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Framebuffer.h">
+      <Filter>Code\Graphics\Framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Test.h">
+      <Filter>Code\Application\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\RendererFactory.h">
+      <Filter>Code\Graphics\Renderer Management\Renderer Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\RendererRegistrar.h">
+      <Filter>Code\Graphics\Renderer Management\Renderer Registrar</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UMapComponent.h">
+      <Filter>Code\ECS\Components\Map</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="FreeType\lib x64\freetype.dll">
+      <Filter>Dependencies\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="FreeType\lib x86\freetype.dll">
+      <Filter>Dependencies\x86</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="OpenAL\lib x64\OpenAL32.dll">
+      <Filter>Dependencies\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="OpenAL\lib x86\OpenAL32.dll">
+      <Filter>Dependencies\x86</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\FE2D Editor\imgui.ini">
+      <Filter>Dependencies\ImGui</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,1 @@
+{"Resource Data":{"Channels":3,"IsLinear":false,"Size":[1080.0,9137.0]},"Resource Index":7098954256517043458}
