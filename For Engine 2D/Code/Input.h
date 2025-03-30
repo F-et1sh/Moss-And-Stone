@@ -9,10 +9,19 @@ namespace FE2D {
 
 		void Release();
 		void Initialize(Window* window);
-		
-		int k = 0;
+
+		void UpdateDirection();
+
+		inline const vec2& getDirection()noexcept { 
+			this->UpdateDirection(); 
+			return m_Direction;
+		}
 
 	private:
 		Window* m_Window = nullptr;
+	private:
+		vec2 m_Direction = vec2();
+
+		std::unordered_map<int, bool> m_KeyStates;
 	};
 }

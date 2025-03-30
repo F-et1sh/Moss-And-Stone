@@ -1,1 +1,1 @@
-{"Data":{"Flip X":false,"Flip Y":false,"Texture Coords":[0.0,0.0,640.0,640.0],"Texture Index":10276131151548319646},"Type":"class FE2D::USpriteComponent"}
+{"Data":{"Flip X":false,"Flip Y":false,"Texture Coords":[0.0,0.0,1058.0,1280.0],"Texture Index":3133055812398353184},"Type":"class FE2D::USpriteComponent"}

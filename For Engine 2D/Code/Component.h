@@ -46,7 +46,7 @@ namespace FE2D {
 
             const size_t hash_code = typeid(T).hash_code();
 
-            return static_cast<T>(this->getComponent(hash_code));
+            return static_cast<T*>(this->getComponent(hash_code));
         }
 
         // Get a UComponent pointer. You can change it however you want

@@ -17,8 +17,5 @@ void FE2D::Camera::BindToWindow(Window* window) {
 }
 
 void FE2D::Camera::BindToCameraComponent(UCameraComponent& cam) {
-	m_VisionSize_Reference = &cam.m_VisionSize;
-	m_Position_Reference = &cam.m_Position;
-
-	this->synchronize();
+	m_Bound_UCameraCamera = &cam;
 }

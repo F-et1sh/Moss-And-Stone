@@ -34,6 +34,9 @@ void FE2D::RenderManager::HandleActor(AActor* actor) {
 
 		this->HandleComponent(transform, component, hash_code);
 	}
+
+	for (AActor* children : actor->getChildrens())
+		this->HandleActor(children);
 }
 
 void FE2D::RenderManager::HandleComponent(UTransformComponent* transform, const UComponent* component, size_t hash_code) {

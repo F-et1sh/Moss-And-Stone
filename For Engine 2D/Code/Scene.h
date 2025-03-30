@@ -5,6 +5,8 @@
 #include "Input.h"
 #include "UCameraComponent.h"
 
+#include "System.h"
+
 namespace FE2D {
 	using ActorList = std::vector<AActor*>;
 

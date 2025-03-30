@@ -20,7 +20,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 
 	// start here after Application::Initialize()
 
-	m_Window.setVSyn(false);
+	m_Window.setVSyn(true);
 	m_Window.setAutoClose(false);
 
 	m_Window.SubscribeOnEvent(Event::EventType::WindowClosed, [&](const Event& e) {

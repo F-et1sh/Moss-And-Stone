@@ -32,17 +32,6 @@ void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
 
-    const auto font_path = FOR_PATH.get_assets_path() / "Fonts" / "open_sans.ttf";
-    try { 
-        io.Fonts->AddFontFromFileTTF(font_path.string().c_str(), DEFAULT_PIXEL_SIZE);
-    }
-    catch (const std::exception& e) {
-        SAY("ERROR : Failed to Load Font. Using Default Font" <<
-            "\nFont Path : " << font_path <<
-            "\nPixel Size : " << DEFAULT_PIXEL_SIZE <<
-            "\nImGui : " << e.what());
-    }
-
     // The style is stealed from jgl_demos. Thank u bro, that's nice !!
     auto& colors = ImGui::GetStyle().Colors;
     {
@@ -82,6 +71,18 @@ void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
 	
 	if (!ImGui_ImplOpenGL3_Init(GLSL_VERSION))
         FOR_RUNTIME_ERROR("ERROR : Failed to Initialize ImGui\nImplOpenGL3_Init");
+
+    const auto font_path = FOR_PATH.get_assets_path() / "Fonts" / "open_sans.ttf";
+    try {
+        const std::string string_path = FE2D::wstring_to_string(font_path.wstring());
+        io.Fonts->AddFontFromFileTTF(string_path.c_str(), DEFAULT_PIXEL_SIZE);
+    }
+    catch (const std::exception& e) {
+        SAY("ERROR : Failed to Load Font. Using Default Font" <<
+            "\nFont Path : " << font_path <<
+            "\nPixel Size : " << DEFAULT_PIXEL_SIZE <<
+            "\nImGui : " << e.what());
+    }
 
     m_IsInitialized = true;
 }

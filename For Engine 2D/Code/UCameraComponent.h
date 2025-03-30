@@ -14,8 +14,9 @@ namespace FE2D {
 
 		void show_properties()override;
 
-	public:
+		const vec2& getVisionSize()const noexcept { return m_VisionSize; }
+
+	private:
 		vec2 m_VisionSize = vec2();
-		vec2 m_Position = vec2();
 	};
 }

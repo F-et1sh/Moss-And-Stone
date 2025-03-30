@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "UCameraComponent.h"
+#include "UTransformComponent.h"
 
 namespace FE2D {
 	class FOR_API Camera {
@@ -54,6 +55,12 @@ namespace FE2D {
 	private:
 		// synchronize vision size and position with pointers if they are exist
 		inline void synchronize() {
+			if (m_Bound_UCameraCamera) {
+				m_VisionSize = m_Bound_UCameraCamera->getVisionSize();
+				m_Position = m_Bound_UCameraCamera->getComponent<UTransformComponent>()->getPosition();
+				return;
+			}
+
 			if (m_VisionSize_Reference)
 				m_VisionSize = *m_VisionSize_Reference;
 
@@ -73,5 +80,8 @@ namespace FE2D {
 	private:
 		vec2* m_VisionSize_Reference = nullptr;
 		vec2* m_Position_Reference = nullptr;
+
+	private:
+		UCameraComponent* m_Bound_UCameraCamera = nullptr;
 	};
 }

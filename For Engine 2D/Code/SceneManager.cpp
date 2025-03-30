@@ -48,6 +48,9 @@ void FE2D::SceneManager::LoadScene(size_t scene_id) {
 }
 
 void FE2D::SceneManager::SerializeCurrentScene() {
+    this->m_CurrentScene.End();
+    this->TMP_DeserializeScene(m_LastSceneID);
+        
     const size_t& past_scene_id = m_CurrentScene.getSceneID();
     const std::wstring& scene_filename = m_SceneCatalog[past_scene_id];
 

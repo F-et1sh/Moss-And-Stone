@@ -295,6 +295,12 @@
     <Filter Include="Code\Graphics\VAO &amp; VBO\Vertex Buffer">
       <UniqueIdentifier>{d02ba574-ff9e-4b87-aaa3-eb3ec7564566}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\Components\PlayerController">
+      <UniqueIdentifier>{815a394a-737f-4cd3-90cb-fa5ad9d97698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Licenses">
+      <UniqueIdentifier>{bd8c0eb8-ce0e-44e5-829b-9cef023a1536}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -512,6 +518,12 @@
     </ClCompile>
     <ClCompile Include="Code\UMapComponent.cpp">
       <Filter>Code\ECS\Components\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UPlayerControllerComponent.cpp">
+      <Filter>Code\ECS\Components\PlayerController</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\System.cpp">
+      <Filter>Code\ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -758,6 +770,12 @@
     <ClInclude Include="Code\UMapComponent.h">
       <Filter>Code\ECS\Components\Map</Filter>
     </ClInclude>
+    <ClInclude Include="Code\UPlayerControllerComponent.h">
+      <Filter>Code\ECS\Components\PlayerController</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\System.h">
+      <Filter>Code\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="FreeType\lib x64\freetype.dll">
@@ -774,6 +792,24 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\FE2D Editor\imgui.ini">
       <Filter>Dependencies\ImGui</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="FreeType\FreeType_LICENSES.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="glm-master\glm_copying.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="imgui\imgui_LICENSE.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="OpenAL\OpenAL_COPYING.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fonts\OpenSans_Licence.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="sndfile\sndfile_COPYING.txt">
+      <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

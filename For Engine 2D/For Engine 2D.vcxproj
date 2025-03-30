@@ -40,6 +40,8 @@
     <ClCompile Include="Code\ISelectable.cpp" />
     <ClCompile Include="Code\IPropertiesDrawable.cpp" />
     <ClCompile Include="Code\PathManager.cpp" />
+    <ClCompile Include="Code\System.cpp" />
+    <ClCompile Include="Code\UPlayerControllerComponent.cpp" />
     <ClCompile Include="Code\ProfileWindowUI.cpp" />
     <ClCompile Include="Code\RectangleRenderer.cpp" />
     <ClCompile Include="Code\Renderer.cpp" />
@@ -149,6 +151,8 @@
     <ClInclude Include="Code\ISelectable.h" />
     <ClInclude Include="Code\IPropertiesDrawable.h" />
     <ClInclude Include="Code\PathManager.h" />
+    <ClInclude Include="Code\System.h" />
+    <ClInclude Include="Code\UPlayerControllerComponent.h" />
     <ClInclude Include="Code\ProfileWindowUI.h" />
     <ClInclude Include="Code\RectangleRenderer.h" />
     <ClInclude Include="Code\Renderer.h" />
@@ -256,6 +260,14 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Fonts\OpenSans_Licence.txt" />
+    <CopyFileToFolders Include="FreeType\FreeType_LICENSES.txt" />
+    <CopyFileToFolders Include="glm-master\glm_copying.txt" />
+    <CopyFileToFolders Include="imgui\imgui_LICENSE.txt" />
+    <CopyFileToFolders Include="OpenAL\OpenAL_COPYING.txt" />
+    <CopyFileToFolders Include="sndfile\sndfile_COPYING.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -267,28 +279,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -327,7 +339,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -371,7 +383,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -415,7 +427,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -458,7 +470,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <IntrinsicFunctions>true</IntrinsicFunctions>
