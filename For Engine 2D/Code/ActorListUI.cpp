@@ -120,10 +120,6 @@ void FE2D::ActorListUI::windowPopup() {
         m_ActorList->push_back(new AActor("New Sprite " + std::to_string(m_ActorList->size())));
         m_ActorList->back()->addComponent<USpriteComponent>();
     }
-
-    if (ImGui::MenuItem("Add Map")) {
-        m_ActorList->push_back(new AActor("New Map " + std::to_string(m_ActorList->size())));
-        m_ActorList->back()->addComponent<UMapComponent>();
     }
 
     ImGui::EndPopup();
