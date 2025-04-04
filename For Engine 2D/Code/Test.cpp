@@ -54,7 +54,7 @@ void FE2D::Test::loop() {
 		window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (size_t i = 0; i < matrices_size; i++) {
-			const mat4 matrix = scale(512) * rotate(vec3(0, 0, a + i));
+			const glm::mat4 matrix = glm::scale(glm::mat4(1.0f), glm::vec3(512.0f)) * glm::rotate(glm::mat4(1.0f), (float)(a + i), glm::vec3(0, 0, 1));
 			matrices.add(matrix);
 			texture_offsets.add(vec4(0, 0, texture.getSize()));
 		}

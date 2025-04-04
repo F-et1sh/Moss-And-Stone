@@ -8,8 +8,7 @@ namespace FE2D {
 
     #define FOR_RUNTIME_ERROR(message) throw std::runtime_error("RUNTIME ERROR : " + std::string(message))
 	
-	// Assert about a Critical Error
-	#define ASSERT(exp) if(!exp) { std::wcout << L"Critical Error in File : " << __FILE__ << std::endl; throw; }
+    #define FOR_ASSERT(exp, message) if (!(exp)) { SAY(L"CRITICAL ERROR : " << message); __debugbreak(); }
 
 // Soon
 /*

@@ -94,20 +94,20 @@ inline void FE2D::Mesh2D::draw() const {
 
 	// Scaling
 	{
-		load_matrix *= scale(vec3(m_Size, 1.0f));
+		load_matrix = scale(load_matrix, vec3(m_Size, 1.0f));
 	}
 	// Rotation
 	{
 		// Set Origin
-		load_matrix *= translate(vec3(-m_Origin.x - m_Position.x, -m_Origin.y - m_Position.y, 0.0f));
+		load_matrix = translate(load_matrix, vec3(-m_Origin.x - m_Position.x, -m_Origin.y - m_Position.y, 0.0f));
 		// Rotate
-		load_matrix *= rotate(vec3(0.0f, 0.0f, m_Rotation * FOR_RADIAN));
+		load_matrix = glm::rotate(load_matrix, glm::radians(m_Rotation), vec3(0.0f, 0.0f, 1.0f));
 		// Reset Origin
-		load_matrix *= translate(vec3(m_Origin.x + m_Position.x, m_Origin.y + m_Position.y, 0.0f));
+		load_matrix = translate(load_matrix, vec3(m_Origin.x + m_Position.x, m_Origin.y + m_Position.y, 0.0f));
 	}
 	// Translation
 	{
-		load_matrix *= translate(vec3(m_Position,            // Position
+		load_matrix = translate(load_matrix, vec3(m_Position,            // Position
 			((m_AutoSort * (-m_Position.y * m_Size.y / 2)) + // Auto-Sorting
 				m_Layer)));                                  // Layer
 	}

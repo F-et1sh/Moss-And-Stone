@@ -1,4 +1,6 @@
 #pragma once
+#include "SystemBase.h"
+
 #include "Shader.h"
 #include "TextureAtlas.h"
 
@@ -7,24 +9,28 @@
 
 namespace FE2D {
 	static constexpr size_t SPRITE_LIMIT = 256; // Limit of Sprites per one drawcall
-	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096*4, 4096*4); // Initial Size of Texture Atlas
+	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096, 4096); // Initial Size of Texture Atlas
 }
 
 namespace FE2D {
-	class FOR_API SpriteRenderer : public Renderer {
+	class FOR_API SpriteRendererSystem : public SystemBase {
 	public:
-		SpriteRenderer() = default;
-		~SpriteRenderer() = default;
+		SpriteRendererSystem() = default;
+		~SpriteRendererSystem() = default;
 
 		void Release()override;
-		void Initialize(ResourceManager* resourceManager)override;
-		void setCamera(Camera* camera)override;
-		void Handle(UTransformComponent* transform, const UComponent* component)override;
-		void Render();
+		void Initialize()override;
+
+		void setCamera(Camera* camera);
+		void Handle(TransformComponent& transform, SpriteComponent& sprite);
+		
+		void Update()override;
+		void Render()override;
 
 	private:
-		ResourceManager* m_ResourceManager = nullptr;
-		
+		void DrawSprites();
+
+	private:
 		Camera* m_Camera = nullptr;
 
 		Shader m_Shader;

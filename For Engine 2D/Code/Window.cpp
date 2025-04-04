@@ -25,7 +25,7 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 	}
 	
 	/* Set the Resolution */
-	if (window_size <= vec2(0, 0)) {
+	if (window_size.x <= 0 && window_size.y <= 0) {
 		this->FindResolution();
 	}
 	else m_Resolution = window_size;
@@ -346,8 +346,7 @@ inline void FE2D::Window::Update_DeltaTime() noexcept {
 #pragma endregion
 
 void FE2D::Window::setAutoClose(bool auto_close) {
-	if (auto_close && !m_WindowClose_EventIndex) {
-
+	if (auto_close) {
 		m_WindowClose_EventIndex = this->SubscribeOnEvent(Event::EventType::WindowClosed, [&](const Event& e) {
 			this->m_IsRunning = false;
 			});

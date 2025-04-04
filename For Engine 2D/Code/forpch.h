@@ -54,9 +54,17 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+// EnTT
+#include <entt.hpp>
+
+// GLM
+#include <glm.hpp>
+#include <gtc\type_ptr.hpp>
+#include <gtc/matrix_transform.hpp>
+using namespace glm;
+
 // For
 #include <forcore.h>
-#include <formath.h>
 #include <forarray.h>
 #include <fordebug.h>
 #include <fordebuggui.h>
@@ -71,7 +79,8 @@ using json = nlohmann::json;
 #include "FOR_IMGUI.h"
 
 // ECS
-#include "ComponentRegistrar.h"
+#include "Components.h"
+#include "Entity.h"
 
 // Resource Management
 #include "ResourceManager.h"

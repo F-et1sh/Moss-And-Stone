@@ -19,8 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Code\Actor.cpp" />
-    <ClCompile Include="Code\ActorListUI.cpp" />
+    <ClCompile Include="Code\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Code\Animation.cpp" />
     <ClCompile Include="Code\AnimationState.cpp" />
     <ClCompile Include="Code\Animator.cpp" />
@@ -29,20 +28,12 @@
     <ClCompile Include="Code\Button.cpp" />
     <ClCompile Include="Code\ButtonManager.cpp" />
     <ClCompile Include="Code\Camera.cpp" />
-    <ClCompile Include="Code\Component.cpp" />
-    <ClCompile Include="Code\ComponentFactory.cpp" />
-    <ClCompile Include="Code\ComponentRegistrar.cpp" />
+    <ClCompile Include="Code\Components.cpp" />
     <ClCompile Include="Code\EditorApplication.cpp" />
+    <ClCompile Include="Code\Entity.cpp" />
     <ClCompile Include="Code\FOR_IMGUI.cpp" />
     <ClCompile Include="Code\Framebuffer.cpp" />
-    <ClCompile Include="Code\Input.cpp" />
-    <ClCompile Include="Code\InspectorUI.cpp" />
-    <ClCompile Include="Code\ISelectable.cpp" />
-    <ClCompile Include="Code\IPropertiesDrawable.cpp" />
     <ClCompile Include="Code\PathManager.cpp" />
-    <ClCompile Include="Code\System.cpp" />
-    <ClCompile Include="Code\UPlayerControllerComponent.cpp" />
-    <ClCompile Include="Code\ProfileWindowUI.cpp" />
     <ClCompile Include="Code\RectangleRenderer.cpp" />
     <ClCompile Include="Code\Renderer.cpp" />
     <ClCompile Include="Code\RendererFactory.cpp" />
@@ -53,11 +44,9 @@
     <ClCompile Include="Code\ResourceLoader.cpp" />
     <ClCompile Include="Code\ResourceManager.cpp" />
     <ClCompile Include="Code\ResourceModule.cpp" />
-    <ClCompile Include="Code\ResourceUI.cpp" />
-    <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Code\Serializable.cpp" />
+    <ClCompile Include="Code\SystemBase.cpp" />
     <ClCompile Include="Code\Test.cpp" />
-    <ClCompile Include="Code\UCameraComponent.cpp" />
     <ClCompile Include="Code\UI_Button.cpp" />
     <ClCompile Include="Code\Event.cpp" />
     <ClCompile Include="Code\EventDispatcher.cpp" />
@@ -80,14 +69,11 @@
     <ClCompile Include="Code\Sound.cpp" />
     <ClCompile Include="Code\SoundDevice.cpp" />
     <ClCompile Include="Code\SoundManager.cpp" />
-    <ClCompile Include="Code\UMapComponent.cpp" />
-    <ClCompile Include="Code\USpriteComponent.cpp" />
-    <ClCompile Include="Code\SpriteRenderer.cpp" />
+    <ClCompile Include="Code\SpriteRendererSystem.cpp" />
     <ClCompile Include="Code\Text.cpp" />
     <ClCompile Include="Code\Texture.cpp" />
     <ClCompile Include="Code\TextureAtlas.cpp" />
     <ClCompile Include="Code\UniformBuffer.cpp" />
-    <ClCompile Include="Code\UTransformComponent.cpp" />
     <ClCompile Include="Code\VertexArray.cpp" />
     <ClCompile Include="Code\VertexBuffer.cpp" />
     <ClCompile Include="Code\Window.cpp" />
@@ -135,25 +121,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code\Actor.h" />
-    <ClInclude Include="Code\ActorListUI.h" />
+    <ClInclude Include="Code\SceneHierarchyPanel.h" />
     <ClInclude Include="Code\Application.h" />
     <ClInclude Include="Code\Button.h" />
     <ClInclude Include="Code\ButtonManager.h" />
-    <ClInclude Include="Code\Component.h" />
-    <ClInclude Include="Code\ComponentFactory.h" />
-    <ClInclude Include="Code\ComponentRegistrar.h" />
+    <ClInclude Include="Code\Components.h" />
     <ClInclude Include="Code\EditorApplication.h" />
+    <ClInclude Include="Code\Entity.h" />
     <ClInclude Include="Code\FOR_IMGUI.h" />
     <ClInclude Include="Code\Framebuffer.h" />
-    <ClInclude Include="Code\Input.h" />
-    <ClInclude Include="Code\InspectorUI.h" />
-    <ClInclude Include="Code\ISelectable.h" />
-    <ClInclude Include="Code\IPropertiesDrawable.h" />
     <ClInclude Include="Code\PathManager.h" />
-    <ClInclude Include="Code\System.h" />
-    <ClInclude Include="Code\UPlayerControllerComponent.h" />
-    <ClInclude Include="Code\ProfileWindowUI.h" />
     <ClInclude Include="Code\RectangleRenderer.h" />
     <ClInclude Include="Code\Renderer.h" />
     <ClInclude Include="Code\RendererFactory.h" />
@@ -164,11 +141,9 @@
     <ClInclude Include="Code\ResourceLoader.h" />
     <ClInclude Include="Code\ResourceManager.h" />
     <ClInclude Include="Code\ResourceModule.h" />
-    <ClInclude Include="Code\ResourceUI.h" />
-    <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\Serializable.h" />
+    <ClInclude Include="Code\SystemBase.h" />
     <ClInclude Include="Code\Test.h" />
-    <ClInclude Include="Code\UCameraComponent.h" />
     <ClInclude Include="Code\UI_Button.h" />
     <ClInclude Include="Code\Event.h" />
     <ClInclude Include="Code\EventDispatcher.h" />
@@ -180,7 +155,7 @@
     <ClInclude Include="Code\Mesh2D.h" />
     <ClInclude Include="Code\Rectangle.h" />
     <ClInclude Include="Code\Scene.h" />
-    <ClInclude Include="Code\SpriteRenderer.h" />
+    <ClInclude Include="Code\SpriteRendererSystem.h" />
     <ClInclude Include="Code\Texture.h" />
     <ClInclude Include="Code\Animation.h" />
     <ClInclude Include="Code\AnimationState.h" />
@@ -192,7 +167,6 @@
     <ClInclude Include="Code\forarray.h" />
     <ClInclude Include="Code\forchar.h" />
     <ClInclude Include="Code\fordebug.h" />
-    <ClInclude Include="Code\formath.h" />
     <ClInclude Include="Code\forsettings.h" />
     <ClInclude Include="Code\forcore.h" />
     <ClInclude Include="Code\forpch.h" />
@@ -200,12 +174,9 @@
     <ClInclude Include="Code\Sound.h" />
     <ClInclude Include="Code\SoundDevice.h" />
     <ClInclude Include="Code\SoundManager.h" />
-    <ClInclude Include="Code\UMapComponent.h" />
-    <ClInclude Include="Code\USpriteComponent.h" />
     <ClInclude Include="Code\Text.h" />
     <ClInclude Include="Code\TextureAtlas.h" />
     <ClInclude Include="Code\UniformBuffer.h" />
-    <ClInclude Include="Code\UTransformComponent.h" />
     <ClInclude Include="Code\VertexArray.h" />
     <ClInclude Include="Code\VertexBuffer.h" />
     <ClInclude Include="Code\Window.h" />
@@ -267,6 +238,14 @@
     <CopyFileToFolders Include="imgui\imgui_LICENSE.txt" />
     <CopyFileToFolders Include="OpenAL\OpenAL_COPYING.txt" />
     <CopyFileToFolders Include="sndfile\sndfile_COPYING.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Fonts\open_sans.ttf">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EnTT\EnTT_License.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -339,7 +318,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -383,7 +362,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -427,7 +406,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -470,7 +449,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <IntrinsicFunctions>true</IntrinsicFunctions>
