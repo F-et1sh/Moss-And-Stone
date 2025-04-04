@@ -1,6 +1,6 @@
 #include "Application.h"
 
-constexpr FE2D::vec2 WINDOW_RESOLUTION = FE2D::vec2(-1, -1);
+constexpr glm::vec2 WINDOW_RESOLUTION = glm::vec2(-1, -1);
 constexpr std::string_view WINDOW_NAME = "Moss And Stone";
 constexpr int WINDOW_MONITOR = 0;
 
@@ -14,7 +14,6 @@ int main(int argc, char* argv[]) {
 	try {
 		FOR_PATH.init(argv[0], false); // instance of the PathManager
 		app->Initialize(WINDOW_RESOLUTION, WINDOW_NAME, WINDOW_MONITOR);
-		app->StartGameSession();
 	}
 	catch (const std::exception& e) {
 

@@ -1,6 +1,5 @@
 #pragma once
-#include "UTransformComponent.h"
-#include "USpriteComponent.h"
+#include "Camera.h"
 
 namespace FE2D {
 	class FOR_API Renderer {
@@ -11,7 +10,7 @@ namespace FE2D {
 		virtual void Release() { }
 		virtual void Initialize(ResourceManager* resourceManager) { }
 		virtual void setCamera(Camera* camera) { }
-		virtual void Handle(UTransformComponent* transform, const UComponent* component) { }
+		//virtual void Handle(UTransformComponent* transform, const UComponent* component) { }
 		// if the Renderer making batch you can use this function.
 		// in the Handle() you saving object's info and then here drawing it
 		virtual void Render() { }

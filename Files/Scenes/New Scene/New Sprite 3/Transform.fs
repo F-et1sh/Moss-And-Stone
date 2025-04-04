@@ -1,1 +1,1 @@
-{"Data":{"AutoSort":false,"Layer":2,"Origin":[0.0,0.0],"Position":[-436.1531677246094,0.0],"Rotation":-90.0,"Scale":[1.0,1.0],"Static":false},"Type":"class FE2D::UTransformComponent"}
+{"Data":{"AutoSort":false,"Layer":7,"Origin":[0.0,0.0],"Position":[0.0,0.0],"Rotation":0.0,"Scale":[1.0,1.0],"Static":false},"Type":"class FE2D::UTransformComponent"}

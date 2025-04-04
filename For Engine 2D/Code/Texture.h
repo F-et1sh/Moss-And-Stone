@@ -17,9 +17,6 @@ namespace FE2D {
 		inline const bool is_Initialized()const noexcept { return m_Reference > 0; }
 
 	public:
-		void show_properties()override;
-
-	public:
 		inline const void*			getData    ()const noexcept { return m_Data    ; }
 		inline const bool			getIsLinear()const noexcept { return m_IsLinear; }
 		inline const vec2&			getSize    ()const noexcept { return m_Size    ; }

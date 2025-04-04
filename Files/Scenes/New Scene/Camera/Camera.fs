@@ -1,1 +1,1 @@
-{"Data":{"Position":[0.0,0.0],"Vision Size":[1920.0,1080.0]},"Type":"class FE2D::UCameraComponent"}
+{"Data":{"Vision Size":[1920.0,1080.0]},"Type":"class FE2D::UCameraComponent"}

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <formath.h>
-
 namespace FE2D {
 	struct FOR_API Sound {
 	public:

@@ -1,49 +1,42 @@
 #pragma once
 #include "Serializable.h"
-#include "Actor.h"
 #include "RenderManager.h"
-#include "Input.h"
-#include "UCameraComponent.h"
 
-#include "System.h"
+#include "SpriteRendererSystem.h"
 
 namespace FE2D {
-	using ActorList = std::vector<AActor*>;
+	class FOR_API Entity;
 
 	class FOR_API Scene {
 	public:
-		Scene(size_t scene_id) : m_SceneID(scene_id) {}
+		Scene() = default;
 		~Scene() = default;
-	private:
-		size_t m_SceneID = 0;
-	public:
-		inline size_t getSceneID()const noexcept { return m_SceneID; }
-	public:
-		bool SerializeToFolder(const std::filesystem::path& scene_folder_path)const;
-		bool DeserializeFromFolder(const std::filesystem::path& scene_folder_path);
-	public:
+
 		void Release();
-		void Initialize(ResourceManager* resourceManager, Window* window);
-
-		inline void setEditorCamera(Camera* camera) {
-			if (camera)
-				m_Renderer.setCamera(camera);
-		}
-
-		void End();
-		void Start();
-		void Update(double _deltaTime, Input& input);
-		void Render();
-	
-	private:
-		Camera m_Camera;
-
-		RenderManager m_Renderer;
+		void Initialize(Window* window, ResourceManager* resourceManager);
 
 	public:
-		inline ActorList* getActorList()noexcept { return &m_ActorList; }
+
+		Entity CreateEntity(const std::string& name = "");
+		void DestroyEntity(Entity entity);
+
+		inline entt::registry& getRegistry()noexcept { return m_Registry; }
+
+	public:
+
+		void StartGame();
+		void EndGame();
+
+		void UpdateGame();
+		void RenderGame();
 
 	private:
-		ActorList m_ActorList;
+		std::vector<std::unique_ptr<SystemBase>> m_Systems;
+
+	private:
+		entt::registry m_Registry;
+
+		friend class Entity;
+		friend class SceneHierarchyPanel;
 	};
 }

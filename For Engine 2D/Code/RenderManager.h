@@ -1,8 +1,6 @@
 #pragma once
 #include "Renderer.h"
 
-#include "SpriteRenderer.h"
-
 namespace FE2D {
 	class FOR_API RenderManager {
 	public:
@@ -14,8 +12,8 @@ namespace FE2D {
 		
 		void setCamera(Camera* camera)noexcept;
 
-		void HandleActor(AActor* actor);
-		void HandleComponent(UTransformComponent* transform, const UComponent* component, size_t hash_code);
+		//void HandleActor(AActor* actor);
+		//void HandleComponent(UTransformComponent* transform, const UComponent* component, size_t hash_code);
 
 		void Render();
 

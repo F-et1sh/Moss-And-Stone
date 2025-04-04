@@ -14,7 +14,7 @@ namespace FE2D {
             std::lock_guard<std::mutex> lock(m_Mutex);
 
             static_assert(std::is_base_of<Renderer, RendererType>::value, "Renderer Type must be derived from Renderer");
-            static_assert(std::is_base_of<UComponent, ComponentType>::value, "Component Type must be derived from UComponent");
+            //static_assert(std::is_base_of<UComponent, ComponentType>::value, "Component Type must be derived from UComponent");
 
             const size_t component_hash_code = typeid(ComponentType).hash_code();
 
