@@ -32,7 +32,7 @@ void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
 
-    // The style is stealed from jgl_demos. Thank u bro, that's nice !!
+    // This is jgl_demos's style. Thank u bro, this colors are very beautiful
     auto& colors = ImGui::GetStyle().Colors;
     {
         colors[ImGuiCol_WindowBg          ] = ImVec4{ 0.10f, 0.10f, 0.10f, 1.0f };
@@ -72,7 +72,7 @@ void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
 	if (!ImGui_ImplOpenGL3_Init(GLSL_VERSION))
         FOR_RUNTIME_ERROR("ERROR : Failed to Initialize ImGui\nImplOpenGL3_Init");
 
-    const auto font_path = FOR_PATH.get_assets_path() / "Fonts" / "open_sans.ttf";
+    const auto font_path = FOR_PATH.get_executable_path() / "open_sans.ttf";
     try {
         const std::string string_path = FE2D::wstring_to_string(font_path.wstring());
         io.Fonts->AddFontFromFileTTF(string_path.c_str(), DEFAULT_PIXEL_SIZE);
@@ -255,6 +255,9 @@ void FE2D::IMGUI::SelectTexture(const std::string& label, size_t& index) {
         ImGui::Columns(1);
 
         ImGui::End();
+
+        if (index == 0)
+            return;
 
         Texture* texture = static_cast<Texture*>(resource_array.at(index));
         if (texture) {

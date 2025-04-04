@@ -55,9 +55,6 @@
     <Filter Include="Code\Graphics\Animation\Animation State">
       <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Math">
-      <UniqueIdentifier>{bb516158-6c09-4f78-83e0-0b26ccccfb97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Dynamic Array">
       <UniqueIdentifier>{b99e1a61-fe05-405c-9fbb-ac3cf1d44e03}</UniqueIdentifier>
     </Filter>
@@ -105,15 +102,6 @@
     </Filter>
     <Filter Include="Code\ECS">
       <UniqueIdentifier>{80303011-8640-4d62-9c82-678d2fa6e62f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component %28 Inherit %29">
-      <UniqueIdentifier>{2c920850-e16b-409c-b69b-dfb6059e3a1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Actor %28 Inherit %29">
-      <UniqueIdentifier>{d944eb92-44e1-414f-ab2c-d579aa808eb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Components">
-      <UniqueIdentifier>{7ca032b8-3497-4a85-aa23-c3fbf51fcbb2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Graphics\Mesh2D">
       <UniqueIdentifier>{3bd0d8e3-85e1-4fab-95de-6721a3f806c1}</UniqueIdentifier>
@@ -193,38 +181,8 @@
     <Filter Include="Code\Resource Management\ResourceCache">
       <UniqueIdentifier>{9c797905-7e9d-4fd1-b01a-e28072c82dd1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Components\Transform">
-      <UniqueIdentifier>{f93e1623-3c0d-4d6c-8353-b59a28f28278}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Components\Sprite">
-      <UniqueIdentifier>{a8772713-1ad0-4a27-badd-73796fa36963}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Application">
       <UniqueIdentifier>{6781ea4a-1c3d-4486-99bc-60c09aa70c34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component Factory">
-      <UniqueIdentifier>{420aec30-db11-491c-aa2d-e3853eff7e73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Scene Management\Scene Manager">
-      <UniqueIdentifier>{bdc9d22b-7761-46df-bb77-d2299678f961}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI">
-      <UniqueIdentifier>{4c46b716-7db8-49bf-8633-baf8c76532f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI\ISettingsDrawable">
-      <UniqueIdentifier>{aa49fa91-5217-4b90-8ef0-1d6adcf829e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI\ActorListUI">
-      <UniqueIdentifier>{f28fe58e-19e9-49bd-a53a-80e0b73943aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI\InspectorUI">
-      <UniqueIdentifier>{e6d17afe-9339-4f8e-b4fc-5ff833ae11b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI\ISelectable %28 inherit %29">
-      <UniqueIdentifier>{c6cfd3bf-d01f-4dbc-be64-64c54d036093}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI\ResourceUI">
-      <UniqueIdentifier>{083f24e8-ee87-476d-870e-16e5266de1f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Application\Default">
       <UniqueIdentifier>{d8f1e567-357e-42f1-b323-5445280bfcc7}</UniqueIdentifier>
@@ -247,20 +205,8 @@
     <Filter Include="Code\Graphics\Renderer Management\Renderers\Rectangle Renderer">
       <UniqueIdentifier>{94f15aa7-4349-44aa-af6d-c46f20a8106a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\UI\ProfileWindowUI">
-      <UniqueIdentifier>{1f348c65-911d-4d33-b82c-1a8176ba7dee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Graphics\Renderer Management\Renderer %28 inherit %29">
       <UniqueIdentifier>{beb24c18-a84c-47ce-b7fe-80de19d97eaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Input">
-      <UniqueIdentifier>{c9166382-56b2-4891-b238-c7956a44f185}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Components\Camera">
-      <UniqueIdentifier>{cb68e3aa-dd31-414e-831e-911b707d292c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component Registrar">
-      <UniqueIdentifier>{ea6f2c01-768d-4b10-872e-fc646ec69812}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Resource Management\Path Manager">
       <UniqueIdentifier>{0c8aca53-846d-4980-a4ec-a967618fbcd7}</UniqueIdentifier>
@@ -283,9 +229,6 @@
     <Filter Include="Code\Graphics\Renderer Management\Renderer Registrar">
       <UniqueIdentifier>{6974e382-9935-4393-89d9-d3f8d642f875}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Components\Map">
-      <UniqueIdentifier>{c7e5cb34-99b6-46fc-ad7e-c2c5514ff737}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Graphics\VAO &amp; VBO">
       <UniqueIdentifier>{c04a9818-78d1-463c-b44c-c8b65179178d}</UniqueIdentifier>
     </Filter>
@@ -295,11 +238,32 @@
     <Filter Include="Code\Graphics\VAO &amp; VBO\Vertex Buffer">
       <UniqueIdentifier>{d02ba574-ff9e-4b87-aaa3-eb3ec7564566}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Components\PlayerController">
-      <UniqueIdentifier>{815a394a-737f-4cd3-90cb-fa5ad9d97698}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dependencies\Licenses">
       <UniqueIdentifier>{bd8c0eb8-ce0e-44e5-829b-9cef023a1536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Fonts">
+      <UniqueIdentifier>{e064a3a5-ac09-4ba7-a886-79c6df6c9b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Entity">
+      <UniqueIdentifier>{92b52d8b-50c4-4b92-811d-13302b175715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Scene Management\SceneHierarchyPanel">
+      <UniqueIdentifier>{f28fe58e-19e9-49bd-a53a-80e0b73943aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System">
+      <UniqueIdentifier>{3d91933a-0774-4c10-9941-924698d3e7a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component">
+      <UniqueIdentifier>{7ca032b8-3497-4a85-aa23-c3fbf51fcbb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\System Base">
+      <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Systems">
+      <UniqueIdentifier>{693dd1f0-6557-4114-afc5-c13cf3ae6321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Systems\SpriteRenderer">
+      <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -375,21 +339,6 @@
     <ClCompile Include="Code\forchar.cpp">
       <Filter>Code\Graphics\Text Render\forchar</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Component.cpp">
-      <Filter>Code\ECS\Component %28 Inherit %29</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\Actor.cpp">
-      <Filter>Code\ECS\Actor %28 Inherit %29</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\USpriteComponent.cpp">
-      <Filter>Code\ECS\Components\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ComponentFactory.cpp">
-      <Filter>Code\ECS\Component Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\SpriteRenderer.cpp">
-      <Filter>Code\Graphics\Renderer Management\Renderers\Sprite Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Code\TextureAtlas.cpp">
       <Filter>Code\Graphics\Texturing\Texture Atlas</Filter>
     </ClCompile>
@@ -426,17 +375,11 @@
     <ClCompile Include="Code\ResourceCache.cpp">
       <Filter>Code\Resource Management\ResourceCache</Filter>
     </ClCompile>
-    <ClCompile Include="Code\ResourceUI.cpp">
-      <Filter>Code\UI\ResourceUI</Filter>
-    </ClCompile>
     <ClCompile Include="Code\ResourceModule.cpp">
       <Filter>Code\Resource Management\ResourceModule %28 inherit %29</Filter>
     </ClCompile>
-    <ClCompile Include="Code\InspectorUI.cpp">
-      <Filter>Code\UI\InspectorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ActorListUI.cpp">
-      <Filter>Code\UI\ActorListUI</Filter>
+    <ClCompile Include="Code\SceneHierarchyPanel.cpp">
+      <Filter>Code\Scene Management\SceneHierarchyPanel</Filter>
     </ClCompile>
     <ClCompile Include="Code\FOR_IMGUI.cpp">
       <Filter>Code\IMGUI</Filter>
@@ -462,20 +405,8 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Code\Dear ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Code\ISelectable.cpp">
-      <Filter>Code\UI\ISelectable %28 inherit %29</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\IPropertiesDrawable.cpp">
-      <Filter>Code\UI\ISettingsDrawable</Filter>
-    </ClCompile>
     <ClCompile Include="Code\ResourceLoader.cpp">
       <Filter>Code\Resource Management\ResourceLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\UTransformComponent.cpp">
-      <Filter>Code\ECS\Components\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\SceneManager.cpp">
-      <Filter>Code\Scene Management\Scene Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\Application.cpp">
       <Filter>Code\Application\Default</Filter>
@@ -483,23 +414,11 @@
     <ClCompile Include="Code\EditorApplication.cpp">
       <Filter>Code\Application\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Code\ProfileWindowUI.cpp">
-      <Filter>Code\UI\ProfileWindowUI</Filter>
-    </ClCompile>
     <ClCompile Include="Code\RenderManager.cpp">
       <Filter>Code\Graphics\Renderer Management\Render Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\Renderer.cpp">
       <Filter>Code\Graphics\Renderer Management\Renderer %28 inherit %29</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\Input.cpp">
-      <Filter>Code\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\UCameraComponent.cpp">
-      <Filter>Code\ECS\Components\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ComponentRegistrar.cpp">
-      <Filter>Code\ECS\Component Registrar</Filter>
     </ClCompile>
     <ClCompile Include="Code\PathManager.cpp">
       <Filter>Code\Resource Management\Path Manager</Filter>
@@ -516,22 +435,22 @@
     <ClCompile Include="Code\RendererRegistrar.cpp">
       <Filter>Code\Graphics\Renderer Management\Renderer Registrar</Filter>
     </ClCompile>
-    <ClCompile Include="Code\UMapComponent.cpp">
-      <Filter>Code\ECS\Components\Map</Filter>
+    <ClCompile Include="Code\Entity.cpp">
+      <Filter>Code\ECS\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Code\UPlayerControllerComponent.cpp">
-      <Filter>Code\ECS\Components\PlayerController</Filter>
+    <ClCompile Include="Code\Components.cpp">
+      <Filter>Code\ECS\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Code\System.cpp">
-      <Filter>Code\ECS</Filter>
+    <ClCompile Include="Code\SpriteRendererSystem.cpp">
+      <Filter>Code\ECS\System\Systems\SpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SystemBase.cpp">
+      <Filter>Code\ECS\System\System Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\forpch.h">
       <Filter>Code\Pre-Compiled Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\formath.h">
-      <Filter>Code\Math</Filter>
     </ClInclude>
     <ClInclude Include="Code\SoundDevice.h">
       <Filter>Code\Audio\Sound Device</Filter>
@@ -620,21 +539,6 @@
     <ClInclude Include="Code\EventTypes.h">
       <Filter>Code\Event System\Event Types</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Actor.h">
-      <Filter>Code\ECS\Actor %28 Inherit %29</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\Component.h">
-      <Filter>Code\ECS\Component %28 Inherit %29</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ComponentFactory.h">
-      <Filter>Code\ECS\Component Factory</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\USpriteComponent.h">
-      <Filter>Code\ECS\Components\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\SpriteRenderer.h">
-      <Filter>Code\Graphics\Renderer Management\Renderers\Sprite Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Code\TextureAtlas.h">
       <Filter>Code\Graphics\Texturing\Texture Atlas</Filter>
     </ClInclude>
@@ -671,17 +575,11 @@
     <ClInclude Include="Code\ResourceCache.h">
       <Filter>Code\Resource Management\ResourceCache</Filter>
     </ClInclude>
-    <ClInclude Include="Code\ResourceUI.h">
-      <Filter>Code\UI\ResourceUI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\ResourceModule.h">
       <Filter>Code\Resource Management\ResourceModule %28 inherit %29</Filter>
     </ClInclude>
-    <ClInclude Include="Code\InspectorUI.h">
-      <Filter>Code\UI\InspectorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ActorListUI.h">
-      <Filter>Code\UI\ActorListUI</Filter>
+    <ClInclude Include="Code\SceneHierarchyPanel.h">
+      <Filter>Code\Scene Management\SceneHierarchyPanel</Filter>
     </ClInclude>
     <ClInclude Include="Code\FOR_IMGUI.h">
       <Filter>Code\IMGUI</Filter>
@@ -713,20 +611,8 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Code\Dear ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Code\ISelectable.h">
-      <Filter>Code\UI\ISelectable %28 inherit %29</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\IPropertiesDrawable.h">
-      <Filter>Code\UI\ISettingsDrawable</Filter>
-    </ClInclude>
     <ClInclude Include="Code\ResourceLoader.h">
       <Filter>Code\Resource Management\ResourceLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\UTransformComponent.h">
-      <Filter>Code\ECS\Components\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\SceneManager.h">
-      <Filter>Code\Scene Management\Scene Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\Application.h">
       <Filter>Code\Application\Default</Filter>
@@ -734,23 +620,11 @@
     <ClInclude Include="Code\EditorApplication.h">
       <Filter>Code\Application\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Code\ProfileWindowUI.h">
-      <Filter>Code\UI\ProfileWindowUI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\RenderManager.h">
       <Filter>Code\Graphics\Renderer Management\Render Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\Renderer.h">
       <Filter>Code\Graphics\Renderer Management\Renderer %28 inherit %29</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\Input.h">
-      <Filter>Code\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\UCameraComponent.h">
-      <Filter>Code\ECS\Components\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ComponentRegistrar.h">
-      <Filter>Code\ECS\Component Registrar</Filter>
     </ClInclude>
     <ClInclude Include="Code\PathManager.h">
       <Filter>Code\Resource Management\Path Manager</Filter>
@@ -767,14 +641,17 @@
     <ClInclude Include="Code\RendererRegistrar.h">
       <Filter>Code\Graphics\Renderer Management\Renderer Registrar</Filter>
     </ClInclude>
-    <ClInclude Include="Code\UMapComponent.h">
-      <Filter>Code\ECS\Components\Map</Filter>
+    <ClInclude Include="Code\Entity.h">
+      <Filter>Code\ECS\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Code\UPlayerControllerComponent.h">
-      <Filter>Code\ECS\Components\PlayerController</Filter>
+    <ClInclude Include="Code\Components.h">
+      <Filter>Code\ECS\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Code\System.h">
-      <Filter>Code\ECS</Filter>
+    <ClInclude Include="Code\SpriteRendererSystem.h">
+      <Filter>Code\ECS\System\Systems\SpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SystemBase.h">
+      <Filter>Code\ECS\System\System Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -811,5 +688,13 @@
     <CopyFileToFolders Include="sndfile\sndfile_COPYING.txt">
       <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Fonts\open_sans.ttf">
+      <Filter>Dependencies\Fonts</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EnTT\EnTT_License.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </Text>
   </ItemGroup>
 </Project>

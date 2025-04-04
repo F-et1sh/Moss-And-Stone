@@ -55,6 +55,7 @@ void FE2D::ResourceManager::Release() {
 
 void FE2D::ResourceManager::Initialize() {
     this->load_available_metadata();
+    this->load_available_resources();
 }
 
 void FE2D::ResourceManager::load_available_resources() {

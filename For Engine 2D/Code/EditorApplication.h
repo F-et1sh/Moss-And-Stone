@@ -1,53 +1,48 @@
 #pragma once
-#include "Application.h"
+#include <forpch.h>
 
-#include "ActorListUI.h"
-#include "ResourceUI.h"
-#include "ProfileWindowUI.h"
-
+#include "Window.h"
+#include "SceneHierarchyPanel.h"
 #include "Framebuffer.h"
 
 namespace FE2D {
-	class FOR_API EditorApplication : public Application {
+	class FOR_API EditorApplication {
 	public:
 		EditorApplication() = default;
 		~EditorApplication() = default;
 
-		void Release()override;
+		void Release();
 		void Initialize(
 			const vec2& window_resolution = vec2(800, 600),
 			const std::string_view& window_name = "For Default Application",
-			const size_t& monitor = -1)override;
-		void Loop()override;
+			size_t monitor = -1);
+		void Loop();
 
 	private:
-		void camera_setting();
+		void OnMainMenuBar();
 
-		void process_game();
-		void draw_Interface();
-		void draw_GameView();
 	private:
-		ResourceUI m_ResourceUI = ResourceUI(this->getResourceManager()); // set the ResourceManager
-		InspectorUI m_InspectorUI;
-		ActorListUI m_ActorListUI;
-		ProfileWindowUI m_ProfileWindowUI;
+		Window m_Window;
+		bool m_IsRunning = false;
 
-		Camera m_CameraUI;
 	private:
-		Framebuffer m_GameView;
+		bool m_CloseRequest = false;
+		inline void make_close_request()noexcept { m_CloseRequest = true; }
 
-		bool m_IsViewHovered = false;
-		bool m_IsMousePressed = false;
-
-		vec2 m_Offset = vec2();
-		vec2 m_MousePosition = vec2();
-
-		vec2 m_GameView_WindowSize = vec2();
-
-		bool m_IsGameRunning = false;
-	private:
+		// this must be called only in OnImGuiRender() function
+		// to make a close request use make_close_request()
 		void close_request();
-		bool m_IsRunning = true;
-		bool m_MakeCloseRequest = false;
+	private:
+
+		void Save();
+
+	private:
+
+		void OnImGuiRender();
+
+	private:
+		Scene m_Scene;
+		ResourceManager m_ResourceManager;
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
 }

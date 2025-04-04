@@ -15,7 +15,3 @@ void FE2D::Camera::BindToWindow(Window* window) {
 
 	m_VisionSize = window->getResolution(); // set the vision size primarily
 }
-
-void FE2D::Camera::BindToCameraComponent(UCameraComponent& cam) {
-	m_Bound_UCameraCamera = &cam;
-}

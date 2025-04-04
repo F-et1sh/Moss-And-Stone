@@ -87,10 +87,6 @@ bool FE2D::Texture::LoadFromFile(const std::wstring& file_path) {
 
 void FE2D::Texture::bind() const noexcept{ glBindTexture(GL_TEXTURE_2D, m_Reference); }
 
-void FE2D::Texture::show_properties() {
-	ImGui::Text("Texture size : %i x %i", int(m_Size.x), int(m_Size.y));
-}
-
 inline void FE2D::Texture::setIsLinear(const bool linear) noexcept {
 	m_IsLinear = linear;
 	glBindTexture(GL_TEXTURE_2D, m_Reference);

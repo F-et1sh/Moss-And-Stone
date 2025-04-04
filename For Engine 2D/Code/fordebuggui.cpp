@@ -93,8 +93,8 @@ FOR_API void FE2D_GUI::ShowInfo(const std::wstring fmt, ...) {
 }
 
 FOR_API void FE2D_GUI::ShowInfo_Texture(std::wstring fmt, unsigned int load_texture) {
-    mat4 load_matrix = mat4(1.0f);
-    load_matrix *= translate(vec3(0, 0, 0));
+    //mat4 load_matrix = mat4(1.0f);
+    //load_matrix *= translate(vec3(0, 0, 0));
     //load_matrix *= scale(vec3(Application::getAspect().x*2, Application::getAspect().y*2, 0));
     //d_Renderer.RenderRectangle(load_matrix, load_texture, vec4(1.0f, 1.0f, 1.0f, 1.0f));
     //d_OffsetY -= 200;
@@ -106,7 +106,7 @@ FOR_API void FE2D_GUI::End_of_Frame() {
         //d_Renderer.RenderText(text, d_Font);
         //text.m_String = L"";
     //}
-    d_CurrentText = 0;
+    //d_CurrentText = 0;
 }
 
 #pragma endregion

@@ -91,7 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,7 +112,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,7 +133,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +154,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Moss And Stone\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\Free Type\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

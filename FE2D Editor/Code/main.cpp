@@ -1,8 +1,6 @@
 ﻿#include "EditorApplication.h"
 
-#include "Test.h"
-
-constexpr FE2D::vec2 WINDOW_RESOLUTION = FE2D::vec2(1920, 1080);
+constexpr vec2 WINDOW_RESOLUTION = vec2(1920, 1080);
 constexpr std::string_view WINDOW_NAME = "FE2D Editor";
 constexpr int WINDOW_MONITOR = -1; // not fullscreen
 

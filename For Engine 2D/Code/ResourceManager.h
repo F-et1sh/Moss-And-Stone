@@ -4,7 +4,6 @@
 
 #include "ResourceLoader.h"
 #include "ResourceCache.h"
-#include "ResourceUI.h"
 
 #include "PathManager.h"
 
@@ -13,8 +12,6 @@ namespace FE2D {
 	// Modules of ResourceManager : 
 	// ResourceLoader   - can serialize/deserialize .fs ( .fs - ForSave ) files and load resources from source
 	// ResourceCache  - contains all of resources
-	//
-	// ResourceUI     - it's not a module of ResourceManager but inherits ResourceModule
 	class FOR_API ResourceManager {
 	public:
 		ResourceManager() = default;
