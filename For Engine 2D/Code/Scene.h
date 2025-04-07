@@ -1,5 +1,5 @@
 #pragma once
-#include "Serializable.h"
+#include "SceneSerializer.h"
 #include "RenderManager.h"
 
 #include "SpriteRendererSystem.h"

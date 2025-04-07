@@ -4,7 +4,6 @@
 #include <entt.hpp>
 
 // Based on Hazel ( The Cherno ) - Apache License 2.0
-// Thank you for your YouTube videos and open-source code on GitHub
 
 namespace FE2D {
 	class FOR_API Entity {
@@ -28,7 +27,7 @@ namespace FE2D {
 		}
 
 		template<typename T>
-		bool HasComponent() {
+		bool HasComponent()const {
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
 

@@ -265,6 +265,18 @@
     <Filter Include="Code\ECS\System\Systems\SpriteRenderer">
       <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Scene Management\Scene Serializer">
+      <UniqueIdentifier>{c96ab60f-4881-48b4-b103-bc2181a82a7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component\Components">
+      <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component\Component Factory">
+      <UniqueIdentifier>{c227adda-6aab-4138-b315-2d3ce1027330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component\Component Registrar">
+      <UniqueIdentifier>{8e02a377-25ea-4715-a653-7d61802613fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -438,14 +450,23 @@
     <ClCompile Include="Code\Entity.cpp">
       <Filter>Code\ECS\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Components.cpp">
-      <Filter>Code\ECS\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Code\SpriteRendererSystem.cpp">
       <Filter>Code\ECS\System\Systems\SpriteRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Code\SystemBase.cpp">
       <Filter>Code\ECS\System\System Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SceneSerializer.cpp">
+      <Filter>Code\Scene Management\Scene Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Components.cpp">
+      <Filter>Code\ECS\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ComponentFactory.cpp">
+      <Filter>Code\ECS\Component\Component Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ComponentRegistrar.cpp">
+      <Filter>Code\ECS\Component\Component Registrar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -644,14 +665,23 @@
     <ClInclude Include="Code\Entity.h">
       <Filter>Code\ECS\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Components.h">
-      <Filter>Code\ECS\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Code\SpriteRendererSystem.h">
       <Filter>Code\ECS\System\Systems\SpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Code\SystemBase.h">
       <Filter>Code\ECS\System\System Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SceneSerializer.h">
+      <Filter>Code\Scene Management\Scene Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Components.h">
+      <Filter>Code\ECS\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ComponentFactory.h">
+      <Filter>Code\ECS\Component\Component Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ComponentRegistrar.h">
+      <Filter>Code\ECS\Component\Component Registrar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -696,5 +726,8 @@
     <Text Include="EnTT\EnTT_License.txt">
       <Filter>Dependencies\Licenses</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

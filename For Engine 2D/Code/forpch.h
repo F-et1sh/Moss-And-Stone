@@ -59,7 +59,7 @@ using json = nlohmann::json;
 
 // GLM
 #include <glm.hpp>
-#include <gtc\type_ptr.hpp>
+#include <gtc/type_ptr.hpp>
 #include <gtc/matrix_transform.hpp>
 using namespace glm;
 

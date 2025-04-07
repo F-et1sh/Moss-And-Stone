@@ -1,18 +1,32 @@
 #pragma once
+#include "ComponentRegistrar.h"
+#include "SceneSerializer.h"
 
 namespace FE2D {
-    struct FOR_API TagComponent {
+    struct FOR_API TagComponent : ISerializableComponent {
 		std::string tag;
+
+        json Serialize()const override {
+            json j;
+            SceneSerializer::save_value(tag, j, "tag");
+            return j;
+        }
+
+        void Deserialize(const json& j)override {
+            SceneSerializer::load_value(tag, j, "tag");
+        }
 
 		TagComponent() = default;
 		TagComponent(const TagComponent&) = default;
 		TagComponent(const std::string& tag) : tag(tag) {}
-    };
     
-    struct FOR_API TransformComponent {
+    };
+    FOR_COMPONENT_REGISTER(TagComponent, "Tag")
+    
+    struct FOR_API TransformComponent : ISerializableComponent, IDrawableUIComponent {
         vec2 position = vec2();
 
-        int layer = 1;
+        int layer = 0;
 
         // Flag for Auto Sprite Sorting
         bool auto_sort = false;
@@ -52,13 +66,19 @@ namespace FE2D {
             return matrix;
         }
 
+        void DrawUI()override {
+            FOR_IMGUI.DragVector2("Scale", scale);
+        }
+
         TransformComponent() = default;
         ~TransformComponent() = default;
 
         TransformComponent(const TransformComponent&) = default;
-	};
 
-    struct FOR_API SpriteComponent {
+	};
+    FOR_COMPONENT_REGISTER(TransformComponent, "Transform")
+
+    struct FOR_API SpriteComponent : ISerializableComponent {
 
         vec4 m_TextureCoords = vec4();
 
@@ -71,14 +91,24 @@ namespace FE2D {
         ~SpriteComponent() = default;
         SpriteComponent(const SpriteComponent&) = default;
     };
+    FOR_COMPONENT_REGISTER(SpriteComponent, "SpriteRenderer")
 
-    struct FOR_API RelationshipComponent {
+    struct FOR_API RelationshipComponent : ISerializableComponent {
         entt::entity parent{ entt::null };
         std::vector<entt::entity> children;
+
+        json Serialize()const override {
+            return {};
+        }
+
+        void Deserialize(const json& j)override {
+
+        }
 
         RelationshipComponent() = default;
         ~RelationshipComponent() = default;
 
         RelationshipComponent(const RelationshipComponent&) = default;
     };
+    FOR_COMPONENT_REGISTER(RelationshipComponent, "Relationship")
 }

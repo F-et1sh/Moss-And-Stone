@@ -31,7 +31,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender() {
 		// right-click on blank space
         if (ImGui::BeginPopupContextWindow()) {
 			if (ImGui::MenuItem("Create Empty Entity"))
-				m_Context->CreateEntity("Empty Entity");
+				m_Context->CreateEntity("New Entity");
 
 			ImGui::EndPopup();
 		}
@@ -42,18 +42,35 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender() {
 	ImGui::Begin("Properties");
 	if (m_SelectedEntity)
 		DrawComponents(m_SelectedEntity);
-
 	ImGui::End();
 }
 
 void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	auto& tag = entity.GetComponent<TagComponent>().tag;
 
-	ImGuiTreeNodeFlags flags = ((m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
-	flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
-	bool opened = ImGui::TreeNodeEx(&entity, flags, tag.c_str());
+	ImGuiTreeNodeFlags flags = ((m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+	bool opened = ImGui::TreeNodeEx(tag.c_str(), flags, tag.c_str());
+
 	if (ImGui::IsItemClicked())
 		m_SelectedEntity = entity;
+
+	// Drag source (перетаскиваем эту entity)
+	if (ImGui::BeginDragDropSource()) {
+		ImGui::SetDragDropPayload("ENTITY_RELATIONSHIP", &entity, sizeof(Entity));
+		ImGui::Text("%s", tag.c_str());
+		ImGui::EndDragDropSource();
+	}
+
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_RELATIONSHIP")) {
+			Entity droppedEntity = *(Entity*)payload->Data;
+
+			if (droppedEntity != entity) {
+				droppedEntity.SetParent(entity);
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
 
 	bool entityDeleted = false;
 	if (ImGui::BeginPopupContextItem()) {
@@ -139,28 +156,17 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 	}
 
 	ImGui::PopItemWidth();
+	
+	entt::registry& registry = m_Context->getRegistry();
 
-	DrawComponent<TransformComponent>("Transform", entity, [](auto& component) {
-
-		FOR_IMGUI.DragVector2("Scale", component.scale);
-
-			//DrawVec3Control("Translation", component.Translation);
-			//vec3 rotation = degrees(component.Rotation);
-			//DrawVec3Control("Rotation", rotation);
-			//component.Rotation = radians(rotation);
-			//DrawVec3Control("Scale", component.Scale, 1.0f);
-		});
-
-	DrawComponent<SpriteComponent>("SpriteRenderer", entity, [](auto& component) {
-		ImGui::DragScalar("Texture", ImGuiDataType_U64, &component.m_TextureIndex);
-		
-		vec2 size = vec2(component.m_TextureCoords.z, component.m_TextureCoords.w);
-
-		FOR_IMGUI.DragVector2("Size", size);
-
-		component.m_TextureCoords.z = size.x;
-		component.m_TextureCoords.w = size.y;
-		});
+	for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
+		if (entry.drawUIFunc) {
+			auto* storage = registry.storage(id);
+			if (storage && storage->contains(entity)) {
+				entry.drawUIFunc(registry, entity);
+			}
+		}
+	}
 }
 
 template<typename T>

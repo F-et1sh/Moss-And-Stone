@@ -1,7 +1,6 @@
 #pragma once
 
 // Based on Hazel ( The Cherno ) - Apache License 2.0
-// Thank you for your YouTube videos and open-source code on GitHub
 
 namespace FE2D {
 	class FOR_API SceneHierarchyPanel {

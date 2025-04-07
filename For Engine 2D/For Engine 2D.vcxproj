@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\ComponentFactory.cpp" />
+    <ClCompile Include="Code\ComponentRegistrar.cpp" />
     <ClCompile Include="Code\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Code\Animation.cpp" />
     <ClCompile Include="Code\AnimationState.cpp" />
@@ -44,6 +46,7 @@
     <ClCompile Include="Code\ResourceLoader.cpp" />
     <ClCompile Include="Code\ResourceManager.cpp" />
     <ClCompile Include="Code\ResourceModule.cpp" />
+    <ClCompile Include="Code\SceneSerializer.cpp" />
     <ClCompile Include="Code\Serializable.cpp" />
     <ClCompile Include="Code\SystemBase.cpp" />
     <ClCompile Include="Code\Test.cpp" />
@@ -121,6 +124,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\ComponentFactory.h" />
+    <ClInclude Include="Code\ComponentRegistrar.h" />
     <ClInclude Include="Code\SceneHierarchyPanel.h" />
     <ClInclude Include="Code\Application.h" />
     <ClInclude Include="Code\Button.h" />
@@ -141,6 +146,7 @@
     <ClInclude Include="Code\ResourceLoader.h" />
     <ClInclude Include="Code\ResourceManager.h" />
     <ClInclude Include="Code\ResourceModule.h" />
+    <ClInclude Include="Code\SceneSerializer.h" />
     <ClInclude Include="Code\Serializable.h" />
     <ClInclude Include="Code\SystemBase.h" />
     <ClInclude Include="Code\Test.h" />
@@ -246,6 +252,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="EnTT\EnTT_License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -16,10 +16,6 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 
 	m_Window.SubscribeOnEvent(Event::EventType::WindowClosed, [&](const Event& e) { this->make_close_request(); });
 
-	auto carter = m_Scene.CreateEntity("Carter");
-	auto& sprite = carter.AddComponent<SpriteComponent>();
-	sprite.m_TextureCoords = vec4(1,1,1,1);
-
 	m_SceneHierarchyPanel.setContext(&m_Scene);
 
 	FOR_IMGUI.Initialize(m_Window.reference());
@@ -28,8 +24,10 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 
 	m_IsRunning = true;
 
-
 	m_Scene.Initialize(&m_Window, &m_ResourceManager);
+
+	SceneSerializer des(&m_Scene);
+	des.Deserialize(FOR_PATH.get_assets_path() / "new_scene.fs");
 
 	m_Scene.StartGame();
 }
@@ -50,6 +48,9 @@ void FE2D::EditorApplication::Loop() {
 		m_Window.SwapBuffers();
 		m_Window.PollEvent();
 	}
+
+	SceneSerializer ser(&m_Scene);
+	ser.Serialize(FOR_PATH.get_assets_path() / "new_scene.fs");
 }
 
 void FE2D::EditorApplication::OnMainMenuBar() {
