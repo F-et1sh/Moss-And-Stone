@@ -72,17 +72,6 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 			GLFW::MakeContextCurrent(this->m_Window);
 
 			this->ApplyCallbacks();
-
-			if (!FOR_IMGUI.is_initialized())
-				return; // if ImGui wasn't Initialized do not initialize it again
-
-			// Reinitialize ImGui after window focus
-			try {
-				FOR_IMGUI.Initialize(this->m_Window);
-			}
-			catch (const std::exception& e) {
-				SAY("Failed to Reinitilize ImGui after window focus\n" << e.what());
-			}
 			});
 
 		/* Subscribe on Window Lost Focus Event */

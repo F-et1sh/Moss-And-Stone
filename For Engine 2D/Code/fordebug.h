@@ -3,12 +3,16 @@
 #include <string>
 
 namespace FE2D {
-	#define SAY(message) std::wcerr << std::endl << message << std::endl
-	#define SAY_withoutBreak(message) std::wcerr << message
+    #define SAY(message) std::wcerr << std::endl << message << std::endl
+    #define SAY_withoutBreak(message) std::wcerr << message
 
     #define FOR_RUNTIME_ERROR(message) throw std::runtime_error("RUNTIME ERROR : " + std::string(message))
 	
+#ifdef _DEBUG
     #define FOR_ASSERT(exp, message) if (!(exp)) { SAY(L"CRITICAL ERROR : " << message); __debugbreak(); }
+#else
+    #define FOR_ASSERT(exp, message)
+#endif
 
 // Soon
 /*

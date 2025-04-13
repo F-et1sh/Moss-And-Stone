@@ -118,13 +118,14 @@ namespace FE2D {
 			return m_EventDispatcher.subscribe(type, listener);
 		}
 
-		inline void UnsubscribeOnEvent(const Event::EventType& type, const EventDispatcher::ListenerID& id) {
+		inline void UnsubscribeOnEvent(const Event::EventType& type, EventDispatcher::ListenerID id) {
 			m_EventDispatcher.unsubscribe(type, id);
 		}
 		
 	private:
 		size_t m_WindowClose_EventIndex = 0;
 	public:
+		// when the window should close ( for example you press alt+f4 ) it will close
 		void setAutoClose(bool auto_close);
 
 #pragma endregion

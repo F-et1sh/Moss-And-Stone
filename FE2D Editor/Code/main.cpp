@@ -7,8 +7,10 @@ constexpr int WINDOW_MONITOR = -1; // not fullscreen
 constexpr int SUCCESSFUL_EXIT = 0;
 constexpr int FAILED_EXIT = -1;
 
+#include "Test.h"
+
 int main(int argc, char* argv[]) {
-	setlocale(0, "Russian");
+	//setlocale(0, "Russian");
 
 	std::unique_ptr<FE2D::EditorApplication> editor_app = std::make_unique<FE2D::EditorApplication>();
 	try {
@@ -30,3 +32,5 @@ int main(int argc, char* argv[]) {
 
 	return SUCCESSFUL_EXIT;
 }
+
+// FPS : if you feel, that FPS is low, check for systems. They use SystemBase as a base class to inherit. You can remove vtable and FPS will grow up

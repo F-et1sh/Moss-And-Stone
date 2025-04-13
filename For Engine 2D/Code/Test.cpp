@@ -6,7 +6,7 @@ void FE2D::Test::init() {
 
 	window.Initialize(vec2(800, 600), "Test", -1);
 
-	shader.Initialize(L"C:/Users/home/Desktop/Moss And Stone/Files/Shaders/Test Default/TestDefault");
+	shader.Initialize(FOR_PATH.get_shaders_path() / L"Test Default/TestDefault");
 	ubo.create();
 	ubo.bufferData((16 + 64)*matrices_size+16, nullptr, GL_DYNAMIC_DRAW);
 	ubo.bindBlock(0);
@@ -35,9 +35,9 @@ void FE2D::Test::init() {
 	vbo.Unbind();
 	vao.Unbind();
 
-	texture.LoadFromFile(L"C:\\Users\\home\\Desktop\\Moss And Stone\\Files\\Resources\\5260531646027920540.jpg");
+	texture.LoadFromFile(FOR_PATH.get_resources_path() / L"17391194830148395414519475130122.jpg");
 	
-	atlas.Initialize(vec2(4096, 4096));
+	atlas.Initialize(vec2(4096, 4096*3));
 	atlas.AddTexture(texture);
 
 	camera.BindToWindow(&this->window);
@@ -54,7 +54,11 @@ void FE2D::Test::loop() {
 		window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (size_t i = 0; i < matrices_size; i++) {
-			const glm::mat4 matrix = glm::scale(glm::mat4(1.0f), glm::vec3(512.0f)) * glm::rotate(glm::mat4(1.0f), (float)(a + i), glm::vec3(0, 0, 1));
+			mat4 matrix = mat4(1.0f);
+			matrix = translate(matrix, vec3());
+			matrix = rotate(matrix, radians(float(a+i))*15, vec3(0, 0, 1));
+			matrix = scale(matrix, vec3(texture.getSize(), 0) / vec3(4));
+
 			matrices.add(matrix);
 			texture_offsets.add(vec4(0, 0, texture.getSize()));
 		}

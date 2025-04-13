@@ -8,6 +8,7 @@ namespace FE2D {
 		~Camera() = default;
 	public:
 		void BindToWindow(Window* window);
+		inline void UnbindWindow()noexcept;
 
 	public:
 
@@ -23,6 +24,7 @@ namespace FE2D {
 
 		inline void setVisionSize(const vec2& size) {
 			m_VisionSize_Reference = nullptr;
+			UnbindWindow();
 			m_VisionSize = size;
 		}
 
@@ -32,12 +34,10 @@ namespace FE2D {
 		}
 
 	public:
-		inline operator const mat4()noexcept {
+		inline operator mat4()noexcept {
 			this->synchronize();
 
-			mat4 load_matrix = translate(mat4(1.0f), vec3(m_Position, 1.0f));
-
-			load_matrix *= ortho(
+			mat4 load_matrix = ortho(
 				-m_VisionSize.x / 2,
 				 m_VisionSize.x / 2,
 				-m_VisionSize.y / 2,
@@ -46,12 +46,14 @@ namespace FE2D {
 				  1000.0f
 			);
 
+			load_matrix = translate(load_matrix, vec3(m_Position, 0.0f));
+
 			return load_matrix;
 		}
 
 	private:
 		// synchronize vision size and position with pointers if they are exist
-		inline void synchronize() {
+		inline void synchronize()noexcept {
 			if (m_VisionSize_Reference)
 				m_VisionSize = *m_VisionSize_Reference;
 
@@ -59,17 +61,22 @@ namespace FE2D {
 				m_Position = *m_Position_Reference;
 		}
 
-		inline void reset_pointers() {
+		inline void reset_pointers()noexcept {
 			m_VisionSize_Reference = nullptr;
 			m_Position_Reference = nullptr;
 		}
 
-	public:
+	private:
 		vec2 m_VisionSize = vec2();
 		vec2 m_Position = vec2();
 
 	private:
 		vec2* m_VisionSize_Reference = nullptr;
 		vec2* m_Position_Reference = nullptr;
+
+	private:
+		Window* m_Window = nullptr;
+		// index of event of window resize
+		size_t m_EventIndex = 0;
 	};
 }

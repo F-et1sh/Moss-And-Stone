@@ -1,7 +1,7 @@
 #include "forpch.h"
-#include "Framebuffer.h"
+#include "MousePicker.h"
 
-inline void FE2D::Framebuffer::Delete() noexcept {
+inline void FE2D::MousePicker::Delete() noexcept {
     this->Unbind();
 
     glDeleteRenderbuffers(1, &m_DepthBuffer);
@@ -9,7 +9,7 @@ inline void FE2D::Framebuffer::Delete() noexcept {
     glDeleteTextures(1, &m_TextureReference);
 }
 
-inline void FE2D::Framebuffer::Initialize(const vec2& resolution) noexcept {
+inline void FE2D::MousePicker::Initialize(const vec2& resolution) noexcept {
     this->Delete();
 
     glCreateFramebuffers(1, &m_Reference);
@@ -21,12 +21,22 @@ inline void FE2D::Framebuffer::Initialize(const vec2& resolution) noexcept {
     {
         glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureReference);
         glBindTexture(GL_TEXTURE_2D, m_TextureReference);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_R32I,
+            m_Width,
+            m_Height,
+            0,
+            GL_RED_INTEGER,
+            GL_INT,
+            nullptr
+        );
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     }
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_TextureReference, 0);
@@ -77,10 +87,25 @@ inline void FE2D::Framebuffer::Initialize(const vec2& resolution) noexcept {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-inline void FE2D::Framebuffer::Bind() const noexcept {
+inline void FE2D::MousePicker::Bind() const noexcept {
     glBindFramebuffer(GL_FRAMEBUFFER, m_Reference);
 }
 
-inline void FE2D::Framebuffer::Unbind() const noexcept {
+inline void FE2D::MousePicker::Unbind() const noexcept {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+int MousePicker::ReadPixel(const vec2& mouse_pos) {
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, m_Reference);
+
+    glReadBuffer(GL_COLOR_ATTACHMENT0);
+
+    int entityHandle = 0;
+    glReadPixels(static_cast<int>(mouse_pos.x), static_cast<int>(mouse_pos.y), 1, 1, GL_RED_INTEGER, GL_INT, &entityHandle);
+
+    glReadBuffer(GL_NONE);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+
+    return entityHandle;
 }

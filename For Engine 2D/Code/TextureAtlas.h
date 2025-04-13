@@ -19,7 +19,9 @@ namespace FE2D {
 		// XY - Atlas Offset
 		// ZW - Texture Size
 		inline const vec2& getTextureCoords(Texture* texture) const {
-			return m_LoadedTextures.at(texture);
+			const auto it = m_LoadedTextures.find(texture);
+			FOR_ASSERT(it != m_LoadedTextures.end(), "Texture not found in atlas");
+			return it->second;
 		}
 		inline const vec2& getSize() const noexcept { return m_AtlasSize; }
 

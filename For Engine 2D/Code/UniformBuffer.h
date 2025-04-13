@@ -4,7 +4,7 @@ namespace FE2D {
 	class FOR_API UniformBuffer {
 	public:
 		UniformBuffer() = default;
-		~UniformBuffer() = default; // release it yourself
+		~UniformBuffer() { this->release(); }
 	public:
 		inline void release()noexcept;
 

@@ -1,7 +1,10 @@
 #pragma once
 
 namespace FE2D {
-	class FOR_API Scene; // forward declaration
+	/* forward declarations */
+	class FOR_API Scene;
+	class FOR_API Shader;
+	class FOR_API UniformBuffer;
 
 	class FOR_API SystemBase {
 	public:
@@ -18,6 +21,8 @@ namespace FE2D {
 
 		virtual void Update() = 0;
 		virtual void Render() = 0;
+
+		virtual void RenderPickable(Shader& shader, UniformBuffer& ubo) {}
 
 	protected:
 		Window* m_Window = nullptr;

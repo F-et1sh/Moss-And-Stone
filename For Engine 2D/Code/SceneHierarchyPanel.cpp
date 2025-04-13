@@ -6,38 +6,55 @@
 	#define _CRT_SECURE_NO_WARNINGS
 #endif
 
-void FE2D::SceneHierarchyPanel::setContext(Scene* context) {
+void FE2D::SceneHierarchyPanel::setContext(Scene* context, IMGUI* imgui, MousePicker* mouse_picker) {
 	m_Context = context;
 	m_SelectedEntity = {};
+	m_ImGui = imgui;
+	m_MousePicker = mouse_picker;
 }
 
-void FE2D::SceneHierarchyPanel::OnImGuiRender() {
+void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered) {
 	ImGui::Begin("Scene Hierarchy");
 
 	if (m_Context) {
-		auto view = m_Context->m_Registry.view<entt::entity>();
-		for (auto entityID : view) {
-			Entity entity{ entityID, m_Context };
+		const auto& view = m_Context->getRegistry().view<IDComponent>();
+
+		// this needed to draw entities after loop, where was used entt::registry::view()
+		// because you can't modify entities in this loop
+		std::vector<Entity> entities_to_draw;
+		entities_to_draw.reserve(view.size());
+
+		for (auto entity_handle : view) {
+			Entity entity = { entity_handle, m_Context };
 
 			if (entity.HasParent())
 				continue;
 
-			DrawEntityNode(entity);
+			entities_to_draw.emplace_back(entity);
 		}
+
+		for (auto& entity : entities_to_draw)
+			DrawEntityNode(entity);
 
 		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 			m_SelectedEntity = {};
 
 		// right-click on blank space
-        if (ImGui::BeginPopupContextWindow()) {
+		if (ImGui::BeginPopupContextWindow()) {
 			if (ImGui::MenuItem("Create Empty Entity"))
 				m_Context->CreateEntity("New Entity");
 
 			ImGui::EndPopup();
 		}
-
 	}
 	ImGui::End();
+
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_hovered) {
+		int entity_index = m_MousePicker->ReadPixel(vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
+
+		if (entity_index != -1) 
+			m_SelectedEntity = { (entt::entity)entity_index, m_Context };
+	}
 
 	ImGui::Begin("Properties");
 	if (m_SelectedEntity)
@@ -47,14 +64,16 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender() {
 
 void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	auto& tag = entity.GetComponent<TagComponent>().tag;
+	UUID uuid = entity.GetUUID();
+
+	ImGui::PushID(uuid.get());
 
 	ImGuiTreeNodeFlags flags = ((m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 	bool opened = ImGui::TreeNodeEx(tag.c_str(), flags, tag.c_str());
 
 	if (ImGui::IsItemClicked())
 		m_SelectedEntity = entity;
-
-	// Drag source (перетаскиваем эту entity)
+	
 	if (ImGui::BeginDragDropSource()) {
 		ImGui::SetDragDropPayload("ENTITY_RELATIONSHIP", &entity, sizeof(Entity));
 		ImGui::Text("%s", tag.c_str());
@@ -72,63 +91,30 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		ImGui::EndDragDropTarget();
 	}
 
-	bool entityDeleted = false;
-	if (ImGui::BeginPopupContextItem()) {
-		if (ImGui::MenuItem("Delete Entity"))
-			entityDeleted = true;
+	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+		ImGui::OpenPopup("Entity settings");
 
+	bool entity_deleted = false;
+	if (ImGui::BeginPopup("Entity settings")) {
+		if (ImGui::MenuItem("delete"))
+			entity_deleted = true;
 		ImGui::EndPopup();
 	}
 
 	if (opened) {
-		for (auto child : entity.GetChildren()) {
+		for (auto& child : entity.GetChildren()) {
 			DrawEntityNode(child);
 		}
-
 		ImGui::TreePop();
 	}
 
-	if (entityDeleted) {
+	if (entity_deleted) {
 		m_Context->DestroyEntity(entity);
 		if (m_SelectedEntity == entity)
 			m_SelectedEntity = {};
 	}
-}
 
-template<typename T, typename UIFunction>
-static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction) {
-	const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
-	if (entity.HasComponent<T>()) {
-		auto& component = entity.GetComponent<T>();
-		ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
-
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
-
-		float lineHeight = ImGui::GetFontSize() + ImGui::GetStyle().FramePadding.y * 2.0f;
-		ImGui::Separator();
-		bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
-		ImGui::PopStyleVar();
-		ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
-		if (ImGui::Button("...", ImVec2{ lineHeight, lineHeight })) {
-			ImGui::OpenPopup("Component settings");
-		}
-
-		bool removeComponent = false;
-		if (ImGui::BeginPopup("Component settings")) {
-			if (ImGui::MenuItem("Remove component"))
-				removeComponent = true;
-
-			ImGui::EndPopup();
-		}
-
-		if (open) {
-			uiFunction(component);
-			ImGui::TreePop();
-		}
-
-		if (removeComponent)
-			entity.RemoveComponent<T>();
-	}
+	ImGui::PopID();
 }
 
 void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
@@ -149,32 +135,59 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::OpenPopup("AddComponent");
 
 	if (ImGui::BeginPopup("AddComponent")) {
-		DisplayAddComponentEntry<TransformComponent>("Transform");
-		DisplayAddComponentEntry<SpriteComponent>("SpriteRenderer");
-
+		for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
+			entry.drawAddComponentUIFunc(m_SelectedEntity);
+		}
 		ImGui::EndPopup();
 	}
 
 	ImGui::PopItemWidth();
-	
+
 	entt::registry& registry = m_Context->getRegistry();
 
 	for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
-		if (entry.drawUIFunc) {
-			auto* storage = registry.storage(id);
-			if (storage && storage->contains(entity)) {
-				entry.drawUIFunc(registry, entity);
-			}
-		}
-	}
-}
+		if (!entry.drawUIFunc)
+			continue;
 
-template<typename T>
-void FE2D::SceneHierarchyPanel::DisplayAddComponentEntry(const std::string& entryName) {
-	if (!m_SelectedEntity.HasComponent<T>()) {
-		if (ImGui::MenuItem(entryName.c_str())) {
-			m_SelectedEntity.AddComponent<T>();
-			ImGui::CloseCurrentPopup();
+		auto* storage = registry.storage(id);
+		if (!storage || !storage->contains(entity))
+			continue;
+
+		ImGui::PushID(id);
+
+		constexpr ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
+		ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
+		float lineHeight = ImGui::GetFontSize() + ImGui::GetStyle().FramePadding.y * 2.0f;
+		ImGui::Separator();
+
+		bool open = entry.startTreeFunc(registry, entity);
+
+		ImGui::PopStyleVar();
+
+		ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
+
+		if (ImGui::Button("...", ImVec2{ lineHeight, lineHeight })) {
+			ImGui::OpenPopup("ComponentSettings");
 		}
+
+		bool removeComponent = false;
+		if (ImGui::BeginPopup("ComponentSettings")) {
+			if (ImGui::MenuItem("remove"))
+				removeComponent = true;
+
+			ImGui::EndPopup();
+		}
+
+		if (open) {
+			entry.drawUIFunc(registry, entity, *m_ImGui);
+			ImGui::TreePop();
+		}
+
+		if (removeComponent)
+			entry.removeFunc(registry, entity);
+
+		ImGui::PopID();
 	}
 }

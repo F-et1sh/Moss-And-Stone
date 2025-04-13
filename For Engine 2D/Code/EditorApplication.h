@@ -1,9 +1,5 @@
 #pragma once
-#include <forpch.h>
-
-#include "Window.h"
-#include "SceneHierarchyPanel.h"
-#include "Framebuffer.h"
+#include "Application.h"
 
 namespace FE2D {
 	class FOR_API EditorApplication {
@@ -26,6 +22,10 @@ namespace FE2D {
 		bool m_IsRunning = false;
 
 	private:
+		IMGUI m_ImGui;
+		Camera m_EditorCamera;
+
+	private:
 		bool m_CloseRequest = false;
 		inline void make_close_request()noexcept { m_CloseRequest = true; }
 
@@ -38,10 +38,27 @@ namespace FE2D {
 
 	private:
 
+		void OnGameUpdate();
+		void OnPickerUpdate();
 		void OnImGuiRender();
+		
+		void OnPreviewWindow();
 
 	private:
-		Scene m_Scene;
+		Framebuffer m_GameFramebuffer;
+		bool m_IsGameRunning = false;
+
+	private:
+		bool m_IsPreviewHovered = false;
+		vec2 m_PreviewWindowPosition = vec2();
+		vec2 m_PreviewWindowSize = vec2();
+
+		MousePicker m_MousePicker;
+		Shader m_PickerShader;
+		UniformBuffer m_PickerUBO;
+
+	private:
+		SceneManager m_SceneManager;
 		ResourceManager m_ResourceManager;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};

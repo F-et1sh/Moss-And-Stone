@@ -3,20 +3,22 @@
 namespace FE2D {
 	class FOR_API PathManager {
 	public:
+		PathManager(const PathManager&) = delete;
+		PathManager& operator=(const PathManager&) = delete;
+
 		void init(const char* argv0, bool is_editor);
 
 		static PathManager& Instance() {
-			static PathManager pathManager;
+			static PathManager pathManager;	
 			return pathManager;
 		}
 
 	public:
-
-		constexpr std::filesystem::path get_executable_path()const noexcept {
+		inline const std::filesystem::path get_executable_path()const noexcept {
 			return m_ExecutablePath;
 		}
 		
-		constexpr std::filesystem::path get_assets_path() const noexcept {
+		inline const std::filesystem::path get_assets_path() const noexcept {
 			return m_AssetsPath;
 		}
 
@@ -31,6 +33,10 @@ namespace FE2D {
 		inline const std::filesystem::path get_shaders_path()const noexcept {
 			return this->get_assets_path() / L"Shaders";
 		}
+
+	private:
+		PathManager() = default;
+		~PathManager() = default;
 
 	private:
 		std::filesystem::path m_ExecutablePath;

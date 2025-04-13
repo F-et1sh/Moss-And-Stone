@@ -27,6 +27,6 @@ namespace FE2D {
 		FE2D::dynamic_array<mat4, matrices_size> matrices;
 		FE2D::dynamic_array<vec4, matrices_size> texture_offsets;
 
-		vec2 cursor_pos;
+		vec2 cursor_pos = vec2();
 	};
 }

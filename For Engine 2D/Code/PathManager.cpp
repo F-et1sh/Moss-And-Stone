@@ -13,10 +13,10 @@ void FE2D::PathManager::init(const char* argv0, bool is_editor) {
 			parent_path(). // exit from the platform folder
 			parent_path(); // exit from the configuration folder
 
-		const static std::wstring assets_folder_name = L"Files";
+		const static std::filesystem::path assets_folder_name = L"Files";
 
-		const std::wstring editor_assets_folder_path = solution_path / assets_folder_name;
-		const std::wstring application_assets_folder_path = m_ExecutablePath / assets_folder_name;
+		const std::filesystem::path editor_assets_folder_path = solution_path / assets_folder_name;
+		const std::filesystem::path application_assets_folder_path = m_ExecutablePath / assets_folder_name;
 
 		if (is_editor) {
 			m_AssetsPath = editor_assets_folder_path;

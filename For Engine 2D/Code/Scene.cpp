@@ -5,6 +5,8 @@ void FE2D::Scene::Release() {
 	for (auto& system : m_Systems) {
 		system->Release();
 	}
+	m_EntityMap.clear();
+	m_Registry.clear();
 }
 
 void FE2D::Scene::Initialize(Window* window, ResourceManager* resourceManager) {
@@ -17,36 +19,67 @@ void FE2D::Scene::Initialize(Window* window, ResourceManager* resourceManager) {
 		system->setContext(window, resourceManager, this);
 		system->Initialize();
 	}
+
+	m_Camera.BindToWindow(window);
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {
 	Entity entity = { m_Registry.create(), this };
-	entity.AddComponent<TransformComponent>();
+	UUID uuid = entity.AddComponent<IDComponent>().id;
 	entity.AddComponent<TagComponent>(name.empty() ? "New Entity" : name);
+	entity.AddComponent<TransformComponent>();
 	entity.AddComponent<RelationshipComponent>();
+
+	m_EntityMap.emplace(uuid, entity);
+
 	return entity;
 }
 
 void FE2D::Scene::DestroyEntity(Entity entity) {
+	if (entity.HasParent())
+		entity.GetParent().RemoveChild(entity.GetUUID());
+
+	for (auto child : entity.GetChildren()) {
+		entity.RemoveChild(child.GetUUID());
+
+		m_EntityMap.erase(child.GetUUID());
+		m_Registry.destroy(child);
+	}
+
+	m_EntityMap.erase(entity.GetUUID());
 	m_Registry.destroy(entity);
 }
 
-void FE2D::Scene::StartGame() {
-	
+void FE2D::Scene::EmplaceEntity(Entity entity) {
+	m_EntityMap.emplace(entity.GetUUID(), entity);
 }
 
-void FE2D::Scene::EndGame()
-{
-}
+void FE2D::Scene::Update() {
+	bool camera_found = false;
 
-void FE2D::Scene::UpdateGame() {
+	auto view = m_Registry.view<TransformComponent, CameraComponent>();
+	view.each([&](auto entity, auto& transform, auto& camera) {
+		m_Camera.setPosition(transform.position);
+
+		camera_found = true;
+		});
+
+	if (!camera_found)
+		SAY("WARNING : No camera found in the Scene");
+
 	for (auto& system : m_Systems) {
 		system->Update();
 	}
 }
 
-void FE2D::Scene::RenderGame() {
+void FE2D::Scene::Render() {
 	for (auto& system : m_Systems) {
 		system->Render();
+	}
+}
+
+void FE2D::Scene::RenderPickable(Shader& shader, UniformBuffer& ubo) {
+	for (auto& system : m_Systems) {
+		system->RenderPickable(shader, ubo);
 	}
 }

@@ -1,11 +1,11 @@
 #pragma once
 
 namespace FE2D {
-    class FOR_API Framebuffer {
+    class FOR_API MousePicker {
     public:
-        Framebuffer() = default;
-        ~Framebuffer() = default;
-    public:
+        MousePicker() = default;
+        ~MousePicker() = default;
+
         inline void Delete()noexcept;
         inline void Initialize(const vec2& resolution)noexcept;
         inline void Bind()const noexcept;
@@ -16,6 +16,8 @@ namespace FE2D {
         inline const unsigned int depth_buffer_reference()const noexcept { return m_DepthBuffer; }
 
         inline const vec2 get_texture_size()const noexcept { return vec2(m_Width, m_Height); }
+
+        int ReadPixel(const vec2& mouse_pos);
 
         inline operator unsigned int& () noexcept { return m_Reference; }
         inline operator unsigned int* () noexcept { return &m_Reference; }
@@ -28,5 +30,3 @@ namespace FE2D {
         unsigned int m_Height = 0;
     };
 }
-
-#pragma once

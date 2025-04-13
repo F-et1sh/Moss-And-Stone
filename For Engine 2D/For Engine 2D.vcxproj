@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Code\ComponentFactory.cpp" />
     <ClCompile Include="Code\ComponentRegistrar.cpp" />
+    <ClCompile Include="Code\ComponentSpecial.cpp" />
     <ClCompile Include="Code\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Code\Animation.cpp" />
     <ClCompile Include="Code\AnimationState.cpp" />
@@ -46,8 +47,10 @@
     <ClCompile Include="Code\ResourceLoader.cpp" />
     <ClCompile Include="Code\ResourceManager.cpp" />
     <ClCompile Include="Code\ResourceModule.cpp" />
+    <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Code\SceneSerializer.cpp" />
     <ClCompile Include="Code\Serializable.cpp" />
+    <ClCompile Include="Code\MousePicker.cpp" />
     <ClCompile Include="Code\SystemBase.cpp" />
     <ClCompile Include="Code\Test.cpp" />
     <ClCompile Include="Code\UI_Button.cpp" />
@@ -77,6 +80,7 @@
     <ClCompile Include="Code\Texture.cpp" />
     <ClCompile Include="Code\TextureAtlas.cpp" />
     <ClCompile Include="Code\UniformBuffer.cpp" />
+    <ClCompile Include="Code\UUID.cpp" />
     <ClCompile Include="Code\VertexArray.cpp" />
     <ClCompile Include="Code\VertexBuffer.cpp" />
     <ClCompile Include="Code\Window.cpp" />
@@ -126,6 +130,8 @@
   <ItemGroup>
     <ClInclude Include="Code\ComponentFactory.h" />
     <ClInclude Include="Code\ComponentRegistrar.h" />
+    <ClInclude Include="Code\ComponentSpecial.h" />
+    <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\SceneHierarchyPanel.h" />
     <ClInclude Include="Code\Application.h" />
     <ClInclude Include="Code\Button.h" />
@@ -146,6 +152,7 @@
     <ClInclude Include="Code\ResourceLoader.h" />
     <ClInclude Include="Code\ResourceManager.h" />
     <ClInclude Include="Code\ResourceModule.h" />
+    <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\SceneSerializer.h" />
     <ClInclude Include="Code\Serializable.h" />
     <ClInclude Include="Code\SystemBase.h" />
@@ -183,6 +190,7 @@
     <ClInclude Include="Code\Text.h" />
     <ClInclude Include="Code\TextureAtlas.h" />
     <ClInclude Include="Code\UniformBuffer.h" />
+    <ClInclude Include="Code\UUID.h" />
     <ClInclude Include="Code\VertexArray.h" />
     <ClInclude Include="Code\VertexBuffer.h" />
     <ClInclude Include="Code\Window.h" />

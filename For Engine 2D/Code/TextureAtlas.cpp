@@ -32,16 +32,10 @@ void FE2D::TextureAtlas::Initialize(const vec2& load_size) {
 }
 
 void FE2D::TextureAtlas::AddTexture(Texture& load_texture) {
-	if (!m_Reference) {
-		SAY("ERROR : Failed to Add a Texture to Texture Atlas\nTexture Atlas is not Initialized");
-		return;
-	}
-	if (!load_texture.is_Initialized()) {
-		SAY("ERROR : Failed to Add a Texture to Texture Atlas\nTexture is not Initialized");
-		return;
-	}
-	const auto it = m_LoadedTextures.find(&load_texture);
+	FOR_ASSERT(m_Reference, "Failed to Add a Texture to Texture Atlas\nTexture Atlas is not Initialized");
+	FOR_ASSERT(load_texture.is_Initialized(), "Failed to Add a Texture to Texture Atlas\nTexture is not Initialized");
 
+	const auto it = m_LoadedTextures.find(&load_texture);
 	if (it != m_LoadedTextures.end())
 		return;
 
@@ -80,21 +74,24 @@ void FE2D::TextureAtlas::emplace_texture(Texture& load_texture) {
 }
 
 void FE2D::TextureAtlas::recalculate_atlasOffset(Texture& load_texture) {
-	unsigned int width = load_texture.getSize().x;
-	unsigned int height = load_texture.getSize().y;
-	unsigned int offset = 0; // doesn't using for now
+	const unsigned int width = load_texture.getSize().x;
+	const unsigned int height = load_texture.getSize().y;
 
-	if (maxHeight < height) maxHeight = height;
-	if (m_AtlasOffset.x + width + offset <= m_AtlasSize.x) m_AtlasOffset.x += width;
-	else {
+	if (m_AtlasOffset.x + width > m_AtlasSize.x) {
 		m_AtlasOffset.x = 0;
-		if (m_AtlasOffset.x + width + offset <= m_AtlasSize.x &&
-			m_AtlasOffset.y + height + offset <= m_AtlasSize.y) {
-			m_AtlasOffset.y += maxHeight;
-			maxHeight = 0;
-		}
-		else
-			FOR_RUNTIME_ERROR("ERROR : Texture Atlas is Overfull\nTexture Atlas Size : " +
-				std::to_string(m_AtlasSize.x) + " " + std::to_string(m_AtlasSize.y));
+		m_AtlasOffset.y += maxHeight;
+		maxHeight = 0;
 	}
+
+	if (m_AtlasOffset.y + height > m_AtlasSize.y) {
+		FOR_RUNTIME_ERROR(
+			"ERROR : Texture Atlas is Overfull\nTexture Atlas Size : " +
+			std::to_string(m_AtlasSize.x) + " x " + std::to_string(m_AtlasSize.y) +
+			"\nFailed to fit Texture : " + std::to_string(width) + " x " + std::to_string(height));
+	}
+
+	if (height > maxHeight)
+		maxHeight = height;
+
+	m_AtlasOffset.x += width;
 }

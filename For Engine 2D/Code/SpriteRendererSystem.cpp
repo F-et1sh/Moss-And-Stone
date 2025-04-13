@@ -42,51 +42,44 @@ void FE2D::SpriteRendererSystem::Initialize() {
 	m_TextureAtlas.Initialize(TEXTURE_ATLAS_SIZE);
 }
 
-void FE2D::SpriteRendererSystem::setCamera(Camera* camera) {
-	m_Camera = camera;
-}
-
 void FE2D::SpriteRendererSystem::Handle(TransformComponent& transform, SpriteComponent& sprite) {
-	mat4 matrix = mat4(1.0f);
 
+	mat4 matrix = transform;
+	
 	matrix = scale(matrix, vec3(
-		sprite.m_FlipX ? -1 : 1,  // Flipping X
-		sprite.m_FlipY ? -1 : 1,  // Flipping Y
+		sprite.flip_x ? -1 : 1,  // Flipping X
+		sprite.flip_y ? -1 : 1,  // Flipping Y
 		1));
 
 	matrix = scale(matrix, vec3(
-		sprite.m_TextureCoords.z, // Size X
-		sprite.m_TextureCoords.w, // Size Y
+		sprite.texture_coords.z, // Size X
+		sprite.texture_coords.w, // Size Y
 		1));
-
-	matrix *= (mat4)transform;
 
 	m_Matrices.add(matrix);
 
-	Texture* texture = m_ResourceManager->getResource<Texture>(sprite.m_TextureIndex);
-	if (!texture->is_Initialized()) {
-		m_AtlasOffsets.add(vec4());
-		return;
-	}
+	Texture& texture = m_ResourceManager->getResource<Texture>(sprite.texture_index);
 
-	m_TextureAtlas.AddTexture(*texture);
+	m_TextureAtlas.AddTexture(texture);
 
 	vec4 atlas_offset = vec4(
-		m_TextureAtlas.getTextureCoords(texture)				  // Texture Altas Offset
+		m_TextureAtlas.getTextureCoords(&texture)				// Texture Altas Offset
 		+
-		vec2(sprite.m_TextureCoords.x, sprite.m_TextureCoords.y), // Sprite Altas Offset
-		vec2(sprite.m_TextureCoords.z, sprite.m_TextureCoords.w)  // Sprite Size
+		vec2(sprite.texture_coords.x, sprite.texture_coords.y), // Sprite Altas Offset
+		vec2(sprite.texture_coords.z, sprite.texture_coords.w)  // Sprite Size
 	);
 
 	m_AtlasOffsets.add(atlas_offset);
 }
 
 void FE2D::SpriteRendererSystem::Update() {
-	// Nothing here
+
 }
 
 void FE2D::SpriteRendererSystem::Render() {
 	entt::registry& registry = this->m_Scene->getRegistry();
+
+	size_t count = 0;
 
 	auto view = registry.group<TransformComponent, SpriteComponent>();
 	for (auto e : view) {
@@ -94,9 +87,80 @@ void FE2D::SpriteRendererSystem::Render() {
 		auto& sprite = registry.get<SpriteComponent>(e);
 
 		this->Handle(transform, sprite);
+
+		count++;
+
+		if (count == SPRITE_LIMIT) {
+			this->DrawSprites();
+			count = 0;
+		}
 	}
 
-	this->DrawSprites();
+	if (count != 0)
+		this->DrawSprites();
+}
+
+void FE2D::SpriteRendererSystem::RenderPickable(Shader& shader, UniformBuffer& ubo) {
+	m_EntityHandles.set_capacity(SPRITE_LIMIT);
+
+	size_t count = 0;
+
+	entt::registry& registry = this->m_Scene->getRegistry();
+
+	auto view = registry.group<TransformComponent, SpriteComponent>();
+	for (auto e : view) {
+		auto& transform = registry.get<TransformComponent>(e);
+		auto& sprite = registry.get<SpriteComponent>(e);
+
+		mat4 matrix = transform;
+
+		matrix = scale(matrix, vec3(
+			sprite.flip_x ? -1 : 1,  // Flipping X
+			sprite.flip_y ? -1 : 1,  // Flipping Y
+			1));
+
+		matrix = scale(matrix, vec3(
+			sprite.texture_coords.z, // Size X
+			sprite.texture_coords.w, // Size Y
+			1));
+
+		m_EntityHandles.add(vec4(e, 0, 0, 0));
+		m_Matrices.add(matrix);
+
+		count++;
+
+		if (count == SPRITE_LIMIT) {
+			this->DrawPickable(shader, ubo);
+			count = 0;
+		}
+	}
+
+	if (count != 0)
+		this->DrawPickable(shader, ubo);
+}
+
+void FE2D::SpriteRendererSystem::DrawPickable(Shader& shader, UniformBuffer& ubo) {
+	if (m_Matrices.empty())
+		return;
+
+	shader.Use();
+
+	shader.setUniformMat4("u_Camera", m_Scene->getCamera());
+
+	constexpr size_t _matrices = sizeof(mat4) * SPRITE_LIMIT;
+	constexpr size_t _entity_handles = sizeof(int) * SPRITE_LIMIT;
+
+	ubo.bufferSubData(0		   , _matrices		, m_Matrices	 .reference());
+	ubo.bufferSubData(_matrices, _entity_handles, m_EntityHandles.reference());
+
+	m_VertexArray.Bind();
+	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_Matrices.size());
+	m_VertexArray.Unbind();
+
+	shader.Unbind();
+
+	m_Matrices.reset();
+	m_EntityHandles.reset();
 }
 
 void FE2D::SpriteRendererSystem::DrawSprites() {
@@ -105,11 +169,7 @@ void FE2D::SpriteRendererSystem::DrawSprites() {
 
 	m_Shader.Use();
 
-	if (!m_Camera)
-		m_Shader.setUniformMat4("u_Camera", glm::ortho(-1920.0f / 2, 1920.0f / 2, -1080.0f / 2, 1080.0f / 2));
-	else
-		m_Shader.setUniformMat4("u_Camera", *m_Camera);
-
+	m_Shader.setUniformMat4("u_Camera", m_Scene->getCamera());
 
 	m_TextureAtlas.bind();
 

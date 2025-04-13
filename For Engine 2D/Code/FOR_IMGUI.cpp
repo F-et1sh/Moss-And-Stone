@@ -1,28 +1,34 @@
 #include "forpch.h"
 #include "FOR_IMGUI.h"
 
+#include "Components.h"
+
 void FE2D::IMGUI::Release() {
     if (ImGui::GetCurrentContext()) {
-
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
 
         ImGui::DestroyContext();
     }
-    m_IsInitialized = false;
+
+    if (m_Window)
+        m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
 }
 
-void FE2D::IMGUI::setResourceManager(ResourceManager* resource_manager) noexcept {
-    if (!resource_manager)
-        FOR_RUNTIME_ERROR("Failed to Initialize ImGui\nResource Manager reference was nullptr");
-    m_ResourceManager = resource_manager;
-}
-
-void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
+void FE2D::IMGUI::Initialize(Window* window_reference, ResourceManager* resource_manager) {
     Release();
 
     if (!window_reference)
         FOR_RUNTIME_ERROR("Failed to Initialize ImGui\nWindow reference was nullptr");
+    m_Window = window_reference;
+    
+    m_EventIndex = window_reference->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
+        m_CtrlWasPressed = false; // mouse position will be shifted after window resizing and you need reset values
+        });
+
+    if (!resource_manager)
+        FOR_RUNTIME_ERROR("Failed to Initialize ImGui\nResource Manager reference was nullptr");
+    m_ResourceManager = resource_manager;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -66,7 +72,7 @@ void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 	
-	if (!ImGui_ImplGlfw_InitForOpenGL(window_reference, true))
+	if (!ImGui_ImplGlfw_InitForOpenGL(window_reference->reference(), true))
 		FOR_RUNTIME_ERROR("ERROR : Failed to Initialize ImGui\nImplGlfw_InitForOpenGL");
 	
 	if (!ImGui_ImplOpenGL3_Init(GLSL_VERSION))
@@ -83,8 +89,6 @@ void FE2D::IMGUI::Initialize(GLFWwindow* window_reference) {
             "\nPixel Size : " << DEFAULT_PIXEL_SIZE <<
             "\nImGui : " << e.what());
     }
-
-    m_IsInitialized = true;
 }
 
 inline void FE2D::IMGUI::BeginFrame() {
@@ -110,6 +114,7 @@ inline void FE2D::IMGUI::EndFrame() {
 inline void FE2D::IMGUI::StartDockSpace() {
     // Flags to make the window invisible
     ImGuiWindowFlags windowFlags =
+        ImGuiWindowFlags_MenuBar |
         ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
         ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
         ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
@@ -216,55 +221,194 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
     ImGui::PopID();
 }
 
-void FE2D::IMGUI::SelectTexture(const std::string& label, size_t& index) {
-    try {
-        const size_t texture_hash_code = typeid(Texture).hash_code();
-        const auto& resource_array = m_ResourceManager->m_ResourceCache.get_resource_array().at(texture_hash_code);
+std::optional<std::pair<size_t, Texture&>> FE2D::IMGUI::SelectTexture() {
+    static const size_t texture_hash_code = typeid(Texture).hash_code();
+    auto& texture_array = m_ResourceManager->m_ResourceCache.get_resource_array().at(texture_hash_code);
 
-        constexpr int item_size = 64;
+    std::optional<std::pair<size_t, Texture&>> result = std::nullopt;
 
-        ImGui::Begin(label.c_str());
+    for (auto& pair : texture_array) {
 
-        int columnCount = int(ImGui::GetContentRegionAvail().x / item_size);
-        if (columnCount < 1)
-            columnCount = 1;
+        const size_t texture_index = pair.first; // texture unique index
 
-        ImGui::Columns(columnCount, nullptr, false);
+        ImGui::PushID(texture_index);
 
-        for (const auto& resource : resource_array) {
+        Texture& texture = *static_cast<Texture*>(pair.second);
 
-            size_t res_index = resource.first;
-            Texture* texture = static_cast<Texture*>(resource.second);
+        bool chosen = ImGui::ImageButton("Choose Texture", texture.reference(), ImVec2(texture.getSize().x/10, texture.getSize().y/10), ImVec2(0, 1), ImVec2(1, 0));
 
-            if (!texture->is_Initialized())
-                continue;
+        ImGui::PopID();
 
-            // selectable image of the texture
-            ImGui::ImageButton(std::to_string(res_index).c_str(),
-                texture->reference(),
-                { item_size, item_size }, ImVec2(0, 1), ImVec2(1, 0));
+        if (chosen)
+            result = std::pair<size_t, Texture&>(texture_index, texture);
+    }
 
-            // click to select the resource
-            if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-                index = res_index; // set the index
+    return result;
+}
+
+void IMGUI::TransformControl(TransformComponent& transform) {
+    mat4 mvp_matrix = (mat4)*m_Camera * (mat4)transform;
+    vec4 clip_space_pos = mvp_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    vec3 ndc_pos = vec3(clip_space_pos.x, clip_space_pos.y, clip_space_pos.z) / clip_space_pos.w;
+
+    float x_window = ((ndc_pos.x + 1) / 2) * m_PreviewWindowViewport.z + m_PreviewWindowViewport.x;
+    float y_window = ((ndc_pos.y + 1) / 2) * m_PreviewWindowViewport.w + m_PreviewWindowViewport.y;
+
+    vec2 pos = vec2(m_PreviewWindowPosition.x + x_window, y_window - m_PreviewWindowPosition.y);
+
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+        if (m_IsDraggingX) m_IsDraggingX = false;
+        if (m_IsDraggingY) m_IsDraggingY = false;
+        if (m_IsDraggingRect) m_IsDraggingRect = false;
+    }
+    
+    vec2 start = vec2(pos.x, m_Camera->getVisionSize().y - pos.y);
+
+    vec2 x_end = start + vec2(50, 0 );
+    vec2 y_end = start - vec2(0 , 50);
+
+    constexpr vec4 x_color = vec4(1.00f, 0.25f, 0.25f, 0.75f);
+    constexpr vec4 y_color = vec4(0.25f, 0.25f, 1.00f, 0.75f);
+    
+    constexpr vec2 rect_size = vec2(15, -15);
+    constexpr vec4 rect_color = vec4(0.15f, 0.75f, 0.15f, 0.75f);
+
+    float viewport_scale_x = m_Camera->getVisionSize().x / m_PreviewWindowViewport.z;
+    float viewport_scale_y = m_Camera->getVisionSize().y / m_PreviewWindowViewport.w;
+
+    if (!m_IsDraggingRect) {
+        if (!m_IsDraggingY && DrawGizmoArrow(start, x_end, x_color, m_IsDraggingX)) {
+            vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
+
+            if (ImGui::GetIO().KeyCtrl) {
+                if (!m_CtrlWasPressed) {
+                    m_CtrlWasPressed = true;
+                    m_InitialMousePosition = vec2(ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+                    m_InitialTransformPosition = transform.position;
+                }
+
+                vec2 mouseOffset = vec2(ImGui::GetIO().MousePos.x - m_InitialMousePosition.x, -(ImGui::GetIO().MousePos.y - m_InitialMousePosition.y));
+                transform.position.x = m_InitialTransformPosition.x + round((mouseOffset.x * viewport_scale_x) / 16) * 16;
+            }
+            else {
+                transform.position.x += delta.x * viewport_scale_x;
+                m_CtrlWasPressed = false;
             }
 
-            ImGui::NextColumn();
+            m_IsDraggingX = true;
         }
+        if (!m_IsDraggingX && DrawGizmoArrow(start, y_end, y_color, m_IsDraggingY)) {
+            vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
 
-        ImGui::Columns(1);
+            if (ImGui::GetIO().KeyCtrl) {
+                if (!m_CtrlWasPressed) {
+                    m_CtrlWasPressed = true;
+                    m_InitialMousePosition = vec2(ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+                    m_InitialTransformPosition = transform.position;
+                }
 
-        ImGui::End();
+                vec2 mouseOffset = vec2(ImGui::GetIO().MousePos.x - m_InitialMousePosition.x, -(ImGui::GetIO().MousePos.y - m_InitialMousePosition.y));
+                transform.position.y = m_InitialTransformPosition.y + round((mouseOffset.y * viewport_scale_y) / 16) * 16;
+            }
+            else {
+                transform.position.y += delta.y * viewport_scale_y;
+                m_CtrlWasPressed = false;
+            }
 
-        if (index == 0)
-            return;
-
-        Texture* texture = static_cast<Texture*>(resource_array.at(index));
-        if (texture) {
-            ImGui::Image(texture->reference(), { item_size, item_size }, ImVec2(0, 1), ImVec2(1, 0));
+            m_IsDraggingY = true;
         }
     }
-    catch (const std::exception& e) {
-        SAY("ERROR : Failed to select a texture in FOR_IMGUI\nException : " << e.what());
+    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRect(start, rect_size, rect_color, m_IsDraggingRect)) {
+        vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
+
+        if (ImGui::GetIO().KeyCtrl) {
+            if (!m_CtrlWasPressed) {
+                m_CtrlWasPressed = true;
+                m_InitialMousePosition = vec2(ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+                m_InitialTransformPosition = transform.position;
+            }
+
+            vec2 mouseOffset = vec2(ImGui::GetIO().MousePos.x - m_InitialMousePosition.x, -(ImGui::GetIO().MousePos.y - m_InitialMousePosition.y));
+            transform.position = m_InitialTransformPosition + round((mouseOffset * vec2(viewport_scale_x, viewport_scale_y)) / vec2(16)) * vec2(16);
+        }
+        else {
+            transform.position += delta * vec2(viewport_scale_x, viewport_scale_y);
+            m_CtrlWasPressed = false;
+        }
+
+        m_IsDraggingRect = true;
     }
+}
+
+bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw) {
+    ImGuiIO& io = ImGui::GetIO();
+
+    ImVec2 point_a(from.x, from.y);
+    ImVec2 point_b(to.x, to.y);
+
+    constexpr float thickness = 2.0f;
+    ImVec2 minBB(min(point_a.x, point_b.x) - thickness, min(point_a.y, point_b.y) - thickness);
+    ImVec2 maxBB(max(point_a.x, point_b.x) + thickness, max(point_a.y, point_b.y) + thickness);
+
+    bool hovered = ImGui::IsMouseHoveringRect(minBB, maxBB, false);
+
+    bool held = hovered && ImGui::IsMouseDown(ImGuiMouseButton_Left);
+
+    ImU32 arrow_color = 0;
+
+    const ImU32 drag_color  = IM_COL32(color.r * 255, color.g * 255, color.b *   5, color.a * 255);
+    const ImU32 hover_color = IM_COL32(color.r * 200, color.g * 200, color.b * 200, color.a * 255);
+    const ImU32 base_color  = IM_COL32(color.r * 255, color.g * 255, color.b * 255, color.a * 255);
+
+    if (is_dragging)  arrow_color = drag_color;
+    else if (hovered) arrow_color = hover_color;
+    else              arrow_color = base_color;
+
+    draw->AddLine(point_a, point_b, arrow_color);
+    
+    vec2 dir = normalize(to - from);
+    vec2 perp = vec2(-dir.y, dir.x);
+    
+    constexpr float size = 12.0f;
+    
+    ImVec2 tip1 = ImVec2(point_b.x - dir.x * size + perp.x * size * 0.5f, point_b.y - dir.y * size + perp.y * size * 0.5f);
+    ImVec2 tip2 = ImVec2(point_b.x - dir.x * size - perp.x * size * 0.5f, point_b.y - dir.y * size - perp.y * size * 0.5f);
+    draw->AddTriangleFilled(point_b, tip1, tip2, arrow_color);
+    
+    if (is_dragging)
+        return true;
+
+    return held;
+}
+
+bool IMGUI::DrawGizmoRect(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw) {
+    ImGuiIO& io = ImGui::GetIO();
+
+    ImVec2 rect_min(position.x, position.y);
+    ImVec2 rect_max(position.x + size.x, position.y + size.y);
+    
+    const float thickness = size.x;
+    ImVec2 minBB(rect_min.x - thickness, rect_min.y - thickness);
+    ImVec2 maxBB(rect_max.x + thickness, rect_max.y + thickness);
+
+    bool hovered = ImGui::IsMouseHoveringRect(minBB, maxBB, false);
+    bool held = hovered && ImGui::IsMouseDown(ImGuiMouseButton_Left);
+    
+    ImU32 rect_color = 0;
+
+    const ImU32 drag_color  = IM_COL32(color.r * 255, color.g * 255, color.b *   5, color.a * 255);
+    const ImU32 hover_color = IM_COL32(color.r * 200, color.g * 200, color.b * 200, color.a * 255);
+    const ImU32 base_color  = IM_COL32(color.r * 255, color.g * 255, color.b * 255, color.a * 255);
+
+    if (is_dragging)  rect_color = drag_color;
+    else if (hovered) rect_color = hover_color;
+    else              rect_color = base_color;
+
+    draw->AddRectFilled(rect_min, rect_max, rect_color);
+
+    if (is_dragging)
+        return true;
+
+    return held;
 }

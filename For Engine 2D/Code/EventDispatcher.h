@@ -17,7 +17,7 @@ namespace FE2D {
             return m_NextIndex++; // Increase then return the Next Index
         }
 
-        inline const bool unsubscribe(const Event::EventType& type, const ListenerID& id) {
+        inline const bool unsubscribe(const Event::EventType& type, ListenerID id) {
             auto it = m_Listeners.find(type);
             if (it == m_Listeners.end()) return false;
             it->second.erase(id);

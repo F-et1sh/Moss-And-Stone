@@ -7,9 +7,11 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 
+#include "Components.h"
+
 namespace FE2D {
 	static constexpr size_t SPRITE_LIMIT = 256; // Limit of Sprites per one drawcall
-	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096, 4096); // Initial Size of Texture Atlas
+	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096*3, 4096*3); // Initial Size of Texture Atlas
 }
 
 namespace FE2D {
@@ -20,19 +22,20 @@ namespace FE2D {
 
 		void Release()override;
 		void Initialize()override;
-
-		void setCamera(Camera* camera);
-		void Handle(TransformComponent& transform, SpriteComponent& sprite);
 		
 		void Update()override;
 		void Render()override;
 
+		void RenderPickable(Shader& shader, UniformBuffer& ubo)override;
+
 	private:
+		void DrawPickable(Shader& shader, UniformBuffer& ubo);
+
+	private:
+		void Handle(TransformComponent& transform, SpriteComponent& sprite);
 		void DrawSprites();
 
 	private:
-		Camera* m_Camera = nullptr;
-
 		Shader m_Shader;
 		UniformBuffer m_UniformBuffer;
 
@@ -43,5 +46,8 @@ namespace FE2D {
 	private:
 		FE2D::dynamic_array<mat4, SPRITE_LIMIT> m_Matrices;
 		FE2D::dynamic_array<vec4, SPRITE_LIMIT> m_AtlasOffsets;
+
+	private:
+		FE2D::dynamic_array<vec4> m_EntityHandles;
 	};
 }

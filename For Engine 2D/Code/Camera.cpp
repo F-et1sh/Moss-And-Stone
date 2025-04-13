@@ -7,11 +7,20 @@ void FE2D::Camera::BindToWindow(Window* window) {
 
 	this->reset_pointers(); // reset if this camera is already bound
 
-	window->SubscribeOnEvent(Event::EventType::WindowResized, [this](const Event& e) {
+	m_EventIndex = window->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
 		const WindowResized* event = static_cast<const WindowResized*>(&e);
-		if (event)
-			m_VisionSize = event->size;
+		m_VisionSize = event->size;
 		});
 
 	m_VisionSize = window->getResolution(); // set the vision size primarily
+
+	m_Window = window;
+}
+
+inline void FE2D::Camera::UnbindWindow() noexcept {
+	if (!m_Window)
+		return;
+
+	m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
+	m_Window = nullptr;
 }

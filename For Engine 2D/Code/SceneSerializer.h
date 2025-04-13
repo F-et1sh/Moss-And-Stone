@@ -33,24 +33,39 @@ namespace FE2D {
     public:
         template<typename T, std::enable_if<!std::is_same<T, std::wstring>::value, int>::type = 0>
         static void load_value(T& value, const json& j, const std::string& name) {
-            value = j.at(name).get<T>();
+            if (!j.contains(name))
+                return;
+
+            value = j[name].get<T>();
         }
 
         static void load_value(std::wstring& value, const json& j, const std::string& name) {
-            std::string load_value = j.at(name).get<std::string>();
+            if (!j.contains(name))
+                return;
+
+            std::string load_value = j[name].get<std::string>();
             value = FE2D::string_to_wstring(load_value);
         }
 
         static void load_vec2(vec2& value, const json& j, const std::string& name) {
-            auto load_value = j.at(name);
+            if (!j.contains(name))
+                return;
+
+            auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>() };
         }
         static void load_vec3(vec3& value, const json& j, const std::string& name) {
-            auto load_value = j.at(name);
+            if (!j.contains(name))
+                return;
+
+            auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>(), load_value[2].get<float>() };
         }
         static void load_vec4(vec4& value, const json& j, const std::string& name) {
-            auto load_value = j.at(name);
+            if (!j.contains(name))
+                return;
+
+            auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>(), load_value[2].get<float>(), load_value[3].get<float>() };
         }
 	private:

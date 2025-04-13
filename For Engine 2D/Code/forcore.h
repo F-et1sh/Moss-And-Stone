@@ -2,10 +2,14 @@
 
 namespace FE2D {
 
-#ifdef FORENGINE2D_EXPORTS
-#define FOR_API __declspec(dllexport)
+#ifdef _WIN32
+    #ifdef FORENGINE2D_EXPORTS
+        #define FOR_API __declspec(dllexport)
+    #else
+        #define FOR_API __declspec(dllimport)
+    #endif
 #else
-#define FOR_API __declspec(dllimport)
+    #define FOR_API
 #endif
 
 #define FOR_NODISCARD [[nodiscard]]

@@ -8,7 +8,7 @@ constexpr int SUCCESSFUL_EXIT = 0;
 constexpr int FAILED_EXIT = -1;
 
 int main(int argc, char* argv[]) {
-	setlocale(0, "Russian");
+	//setlocale(0, "Russian");
 
 	std::unique_ptr<FE2D::Application> app = std::make_unique<FE2D::Application>();
 	try {

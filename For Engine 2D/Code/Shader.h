@@ -13,7 +13,6 @@ namespace FE2D {
 			FRAGMENT = 0x8B30
 		};
 	public:
-		// Delete the Shader Program and UBOs
 		void Release();
 
 		// Initialize the shader program with one path for both shaders ( vertex and fragment )

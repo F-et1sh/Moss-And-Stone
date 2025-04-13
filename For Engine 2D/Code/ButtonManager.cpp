@@ -65,7 +65,7 @@ void FE2D::ButtonManager::onMouseMoved(const Event& e) {
 	m_CursorPosition = vec2(mouseMoved->position.x - m_WindowResolution.x / 2,
 		                   -mouseMoved->position.y + m_WindowResolution.y / 2);
 	
-	m_CursorPosition /= m_WindowResolution / m_CameraReference->m_VisionSize; // Translate the Cursor Position by the Camera
+	m_CursorPosition /= m_WindowResolution / m_CameraReference->getVisionSize(); // Translate the Cursor Position by the Camera
 
 	bool taken = false; // if the cursor is clicked some button
 
@@ -75,8 +75,8 @@ void FE2D::ButtonManager::onMouseMoved(const Event& e) {
 			continue;
 		}
 
-		vec2 button_half_size = abs(button->m_Size) / vec2(2);				       // Get the Halh Size of the Button
-		vec2 button_position = button->m_Position - m_CameraReference->m_Position; // Shift the Button by the Camera
+		vec2 button_half_size = abs(button->m_Size) / vec2(2);				          // Get the Halh Size of the Button
+		vec2 button_position = button->m_Position - m_CameraReference->getPosition(); // Shift the Button by the Camera
 
 		if (m_CursorPosition.x >= button_position.x - button_half_size.x && // Check for Out of left
 			m_CursorPosition.x <= button_position.x + button_half_size.x && // Check for Out of bottom

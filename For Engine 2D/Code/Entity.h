@@ -27,6 +27,12 @@ namespace FE2D {
 		}
 
 		template<typename T>
+		const T& GetComponent()const {
+			FOR_ASSERT(HasComponent<T>(), "Entity does not have component");
+			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+		}
+
+		template<typename T>
 		bool HasComponent()const {
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
@@ -37,77 +43,19 @@ namespace FE2D {
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
 
-		void SetParent(Entity newParent) {
-			if (!newParent.HasComponent<RelationshipComponent>())
-				newParent.AddComponent<RelationshipComponent>();
+		void SetParent(Entity newParent);
+		Entity GetParent();
+		bool HasParent();
+		void RemoveParent();
 
-			auto& relationship = GetComponent<RelationshipComponent>();
+		void AddChild();
+		void AddChild(Entity child);
+		std::vector<Entity> GetChildren();
+		void RemoveChild(UUID child);
 
-			if (HasParent()) {
-				auto& oldParentRel = GetParent().GetComponent<RelationshipComponent>();
-				oldParentRel.children.erase(
-					std::remove(oldParentRel.children.begin(), oldParentRel.children.end(), m_EntityHandle),
-					oldParentRel.children.end()
-				);
-			}
-
-			relationship.parent = newParent;
-
-			newParent.GetComponent<RelationshipComponent>().children.emplace_back(m_EntityHandle);
-		}
-
-		Entity GetParent() {
-			FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-			return { m_Scene->m_Registry.get<RelationshipComponent>(m_EntityHandle).parent, m_Scene };
-		}
-
-		bool HasParent() {
-			FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-			return m_Scene->m_Registry.get<RelationshipComponent>(m_EntityHandle).parent != entt::null;
-		}
-
-		void RemoveParent() {
-			FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-			FOR_ASSERT(HasParent(), "Entity does not have parent");
-
-			auto& relationship = GetComponent<RelationshipComponent>();
-
-			Entity parentEntity = GetParent();
-			auto& parentRel = parentEntity.GetComponent<RelationshipComponent>();
-			parentRel.children.erase(
-				std::remove(parentRel.children.begin(), parentRel.children.end(), m_EntityHandle),
-				parentRel.children.end()
-			);
-
-			relationship.parent = entt::null;
-		}
-
-		void AddChild() {
-			FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-
-			Entity child = this->m_Scene->CreateEntity("New Child");
-			child.SetParent(*this);
-
-			m_Scene->m_Registry.get<RelationshipComponent>(m_EntityHandle).children.push_back(child);
-		}
-
-		void AddChild(Entity child) {
-			FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-
-			child.SetParent(*this);
-		}
-
-		std::vector<Entity> GetChildren() {
-			FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-
-			const auto& source = m_Scene->m_Registry.get<RelationshipComponent>(m_EntityHandle).children;
-			std::vector<Entity> children;
-			children.reserve(source.size());
-
-			for (entt::entity child : source) 
-				children.emplace_back(child, m_Scene);
-
-			return children;
+		UUID GetUUID()const {
+			FOR_ASSERT(HasComponent<IDComponent>(), "Entity does not have IDComponent");
+			return GetComponent<IDComponent>().id;
 		}
 
 		operator bool()const noexcept { return m_EntityHandle != entt::null; }

@@ -9,14 +9,22 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 	}
 
 	json j_scene;
-	j_scene["Entities"] = j_scene.array();
+
+
+	json j_sceneInfo;
+	j_sceneInfo["SceneIndex"] = m_Scene->getIndex();
+
+	j_scene["SceneInfo"] = j_sceneInfo;
+
+
+	j_scene["Entities"] = json::array();
 
 	entt::registry& registry = m_Scene->getRegistry();
 
-	registry.view<TagComponent>().each([&](auto entity, auto& tagComponent) {
+	registry.view<IDComponent>().each([&](auto entity, auto& tagComponent) {
 
 		json j;
-		j["Components"] = j.array();
+		j["Components"] = json::array();
 
 		for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
 			if (!entry.serializeFunc)
@@ -35,7 +43,11 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 
 		});
 
+#ifdef _DEBUG
 	file << j_scene.dump(4); // 4 - to make the file more readable
+#else
+	file << j_scene;
+#endif
 
 	file.close();
 
@@ -53,9 +65,9 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
     file >> j_scene;
     file.close();
 
-    entt::registry& registry = m_Scene->getRegistry();
+	m_Scene->Release();
 
-    registry.clear();
+    entt::registry& registry = m_Scene->getRegistry();
 
     for (auto& j_entity : j_scene["Entities"]) {
         entt::entity entity = registry.create();
@@ -65,10 +77,15 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 				if (!entry.emplaceFunc || !entry.deserializeFunc)
 					continue;
 
+				if (!j_component.contains(entry.getNameFunc()))
+					continue;
+
 				entry.emplaceFunc(registry, entity);
 				entry.deserializeFunc(registry, entity, j_component);
 			}
         }
+
+		m_Scene->EmplaceEntity({ entity, m_Scene });
     }
 
     return true;

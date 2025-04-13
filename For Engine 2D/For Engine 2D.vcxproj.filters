@@ -169,17 +169,11 @@
     <Filter Include="Code\Graphics\UI\Button\UI Button">
       <UniqueIdentifier>{c0a8a3a5-5414-4154-9148-0efe41226bf3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Resource Management\ResourceModule %28 inherit %29">
-      <UniqueIdentifier>{b3b45ea8-0420-4fcc-8ac9-4e9715e49d25}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\IMGUI">
       <UniqueIdentifier>{a3600644-a960-4071-8afa-34417029786a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Resource Management\Serializable %28 Inherit %29">
       <UniqueIdentifier>{52c52bfc-ff8f-488e-afb4-6d154435f01b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Resource Management\ResourceCache">
-      <UniqueIdentifier>{9c797905-7e9d-4fd1-b01a-e28072c82dd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Application">
       <UniqueIdentifier>{6781ea4a-1c3d-4486-99bc-60c09aa70c34}</UniqueIdentifier>
@@ -213,9 +207,6 @@
     </Filter>
     <Filter Include="Dependencies\ImGui">
       <UniqueIdentifier>{b6c63c4f-059d-4d73-8441-f63bd2796ad0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Resource Management\ResourceLoader">
-      <UniqueIdentifier>{314be5c5-773c-4562-9e95-6d830a0818f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Graphics\Framebuffer">
       <UniqueIdentifier>{5820a0e9-ba74-4a6d-a989-7bf9874520df}</UniqueIdentifier>
@@ -276,6 +267,27 @@
     </Filter>
     <Filter Include="Code\ECS\Component\Component Registrar">
       <UniqueIdentifier>{8e02a377-25ea-4715-a653-7d61802613fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UUID">
+      <UniqueIdentifier>{adf67035-153b-49ae-a064-9a3328598fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component\Component Special">
+      <UniqueIdentifier>{576f62d2-600d-4bc9-b088-20408cd75a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Scene Management\Scene Manager">
+      <UniqueIdentifier>{3ede6442-1a1a-4f26-84eb-e2587b100aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resource Cache">
+      <UniqueIdentifier>{9c797905-7e9d-4fd1-b01a-e28072c82dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resource Loader">
+      <UniqueIdentifier>{314be5c5-773c-4562-9e95-6d830a0818f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resource Module %28 inherit %29">
+      <UniqueIdentifier>{b3b45ea8-0420-4fcc-8ac9-4e9715e49d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Mouse Picker">
+      <UniqueIdentifier>{00398a1d-eda1-4f38-bf54-8af98ad4fb36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -385,10 +397,10 @@
       <Filter>Code\Scene Management\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Code\ResourceCache.cpp">
-      <Filter>Code\Resource Management\ResourceCache</Filter>
+      <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClCompile>
     <ClCompile Include="Code\ResourceModule.cpp">
-      <Filter>Code\Resource Management\ResourceModule %28 inherit %29</Filter>
+      <Filter>Code\Resource Management\Resource Module %28 inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\SceneHierarchyPanel.cpp">
       <Filter>Code\Scene Management\SceneHierarchyPanel</Filter>
@@ -418,7 +430,7 @@
       <Filter>Code\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Code\ResourceLoader.cpp">
-      <Filter>Code\Resource Management\ResourceLoader</Filter>
+      <Filter>Code\Resource Management\Resource Loader</Filter>
     </ClCompile>
     <ClCompile Include="Code\Application.cpp">
       <Filter>Code\Application\Default</Filter>
@@ -467,6 +479,18 @@
     </ClCompile>
     <ClCompile Include="Code\ComponentRegistrar.cpp">
       <Filter>Code\ECS\Component\Component Registrar</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UUID.cpp">
+      <Filter>Code\UUID</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ComponentSpecial.cpp">
+      <Filter>Code\ECS\Component\Component Special</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\SceneManager.cpp">
+      <Filter>Code\Scene Management\Scene Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\MousePicker.cpp">
+      <Filter>Code\Graphics\Mouse Picker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -594,10 +618,10 @@
       <Filter>Code\Scene Management\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Code\ResourceCache.h">
-      <Filter>Code\Resource Management\ResourceCache</Filter>
+      <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClInclude>
     <ClInclude Include="Code\ResourceModule.h">
-      <Filter>Code\Resource Management\ResourceModule %28 inherit %29</Filter>
+      <Filter>Code\Resource Management\Resource Module %28 inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\SceneHierarchyPanel.h">
       <Filter>Code\Scene Management\SceneHierarchyPanel</Filter>
@@ -633,7 +657,7 @@
       <Filter>Code\Dear ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Code\ResourceLoader.h">
-      <Filter>Code\Resource Management\ResourceLoader</Filter>
+      <Filter>Code\Resource Management\Resource Loader</Filter>
     </ClInclude>
     <ClInclude Include="Code\Application.h">
       <Filter>Code\Application\Default</Filter>
@@ -682,6 +706,18 @@
     </ClInclude>
     <ClInclude Include="Code\ComponentRegistrar.h">
       <Filter>Code\ECS\Component\Component Registrar</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UUID.h">
+      <Filter>Code\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ComponentSpecial.h">
+      <Filter>Code\ECS\Component\Component Special</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\SceneManager.h">
+      <Filter>Code\Scene Management\Scene Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\MousePicker.h">
+      <Filter>Code\Graphics\Mouse Picker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

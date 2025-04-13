@@ -1,28 +1,21 @@
 #pragma once
-
-namespace FE2D {
-    struct FOR_API ISerializableComponent {
-        virtual json Serialize()const { return {}; }
-        virtual void Deserialize(const json& j) {}
-
-        virtual ~ISerializableComponent() = default;
-    };
-
-    struct FOR_API IDrawableUIComponent {
-        virtual void DrawUI() = 0;
-
-        virtual ~IDrawableUIComponent() = default;
-    };
-}
+#include "Entity.h"
+#include "ComponentSpecial.h"
 
 namespace FE2D {
     using ComponentTypeID = entt::id_type;
 
     struct FOR_API ComponentEntry {
-        std::function<json(entt::registry&, entt::entity)> serializeFunc;
+        std::function<json(entt::registry&, entt::entity)>              serializeFunc;
         std::function<void(entt::registry&, entt::entity, const json&)> deserializeFunc;
-        std::function<void(entt::registry&, entt::entity)> drawUIFunc;
-        std::function<void(entt::registry&, entt::entity)> emplaceFunc;
+
+        std::function<const std::string_view&()>                        getNameFunc;
+
+        std::function<bool(entt::registry&, entt::entity)>              startTreeFunc;
+        std::function<void(entt::registry&, entt::entity, IMGUI&)>      drawUIFunc;
+        std::function<void(entt::registry&, entt::entity)>              removeFunc;
+        std::function<void(entt::registry&, entt::entity)>              emplaceFunc;
+        std::function<void(Entity&)>                                    drawAddComponentUIFunc;
 
         ComponentEntry() = default;
         ~ComponentEntry() = default;
@@ -57,20 +50,51 @@ namespace FE2D {
                     comp.Deserialize(j.at(pretty_name));
                     };
             }
+            else {
+                entry.serializeFunc = [pretty_name](entt::registry& reg, entt::entity e) {
+                    json j;
+                    j[pretty_name] = json();
+                    return j;
+                    };
+
+                entry.deserializeFunc = [pretty_name](entt::registry& reg, entt::entity e, const json& j) {};
+            }
 
             if constexpr (std::is_base_of_v<IDrawableUIComponent, T>) {
-                entry.drawUIFunc = [](entt::registry& reg, entt::entity e) {
+                entry.startTreeFunc = [pretty_name](entt::registry& reg, entt::entity e) {
+                    constexpr ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
+                    return ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, pretty_name.data());
+                    };
+
+                entry.drawUIFunc = [pretty_name](entt::registry& reg, entt::entity e, IMGUI& imgui) {
                     auto& comp = reg.get<T>(e);
-                    comp.DrawUI();
+                    comp.DrawUI(imgui);
+                    };
+
+                entry.removeFunc = [](entt::registry& reg, entt::entity e) {
+                    if (reg.valid(e) && reg.all_of<T>(e))
+                        reg.remove<T>(e);
                     };
             }
 
             if constexpr (std::is_default_constructible_v<T>) {
                 entry.emplaceFunc = [](entt::registry& reg, entt::entity e) {
                     if (!reg.all_of<T>(e)) 
-                        reg.emplace<T>(e);
+                        reg.emplace_or_replace<T>(e);
                     };
             }
+
+            entry.drawAddComponentUIFunc = [pretty_name](Entity& entity) {
+                if (entity.HasComponent<T>())
+                    return;
+
+                if (ImGui::MenuItem(pretty_name.data())) {
+                    entity.AddComponent<T>();
+                    ImGui::CloseCurrentPopup();
+                }
+                };
+
+            entry.getNameFunc = [pretty_name]() { return pretty_name; };
 
             auto hash = entt::type_id<T>().hash();
             m_RegistredComponents[hash] = std::move(entry);

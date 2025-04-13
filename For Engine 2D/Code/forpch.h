@@ -28,6 +28,7 @@
 #include <array>
 #include <vector>
 #include <stack>
+#include <random>
 
 // OpenGL 4.6
 #include <GL/glew.h>
@@ -79,8 +80,8 @@ using namespace glm;
 #include "FOR_IMGUI.h"
 
 // ECS
-#include "Components.h"
 #include "Entity.h"
+#include "ComponentFactory.h"
 
 // Resource Management
 #include "ResourceManager.h"

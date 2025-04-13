@@ -48,7 +48,7 @@ namespace FE2D {
 
 		// this function never returns nullptr
 		template<typename T>
-		T* getResource(size_t index){
+		T& getResource(size_t index) {
 			static_assert(std::is_base_of<Resource, T>::value, "ERROR : T must be derived from Resource");
 
 			const size_t hash_code = typeid(T).hash_code();
@@ -57,7 +57,7 @@ namespace FE2D {
 
 			auto it = localCache.find(index);
 			if (it != localCache.end()) {
-				return it->second;
+				return *it->second;
 			}
 
 			// here you can use static_cast because T is definitely derived from Resource
@@ -65,7 +65,7 @@ namespace FE2D {
 			
 			if (resource) {
 				localCache[hash_code] = resource;
-				return resource;
+				return *resource;
 			}
 
 			const auto& metadata = m_ResourceCache.get_metadata(hash_code, index);
@@ -80,7 +80,7 @@ namespace FE2D {
 				// here you can use static_cast because T is definitely derived from Resource
 				resource = static_cast<T*>(m_ResourceCache.get_resource(hash_code, index));
 				if (resource)
-					return resource;
+					return *resource;
 
 				SAY("ERROR : Failed to get a resource. Resource still missing after loading attempt");
 				return this->fallbackResource<T>();
@@ -95,7 +95,7 @@ namespace FE2D {
 		void load_resource(const std::filesystem::path& file_path);
 
 		template<typename T>
-		T* fallbackResource() {
+		T& fallbackResource() {
 			static_assert(std::is_base_of<Resource, T>::value, "ERROR : T must be derived from Resource");
 			
 			auto& stored = m_ResourceCache.get_resource_array();
@@ -106,7 +106,7 @@ namespace FE2D {
 			if (it == stored.end() || it->second.empty())
 				FOR_RUNTIME_ERROR("Failed to fallback\nNo loaded resources of type " + std::string(typeid(T).name()));
 			// here you can use static_cast because T is definitely derived from Resource
-			return static_cast<T*>(it->second.begin()->second);
+			return *static_cast<T*>(it->second.begin()->second);
 		}
 	public:
 		void ClearCache() { m_ResourceCache.clear(); }
