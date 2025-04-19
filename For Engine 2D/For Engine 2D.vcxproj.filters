@@ -289,6 +289,9 @@
     <Filter Include="Code\Graphics\Mouse Picker">
       <UniqueIdentifier>{00398a1d-eda1-4f38-bf54-8af98ad4fb36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Graphics\Render Context">
+      <UniqueIdentifier>{0302a746-c43b-4939-974c-19e643fb91c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -491,6 +494,9 @@
     </ClCompile>
     <ClCompile Include="Code\MousePicker.cpp">
       <Filter>Code\Graphics\Mouse Picker</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderContext.cpp">
+      <Filter>Code\Graphics\Render Context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -718,6 +724,9 @@
     </ClInclude>
     <ClInclude Include="Code\MousePicker.h">
       <Filter>Code\Graphics\Mouse Picker</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\RenderContext.h">
+      <Filter>Code\Graphics\Render Context</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

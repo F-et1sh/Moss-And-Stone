@@ -9,18 +9,18 @@ void FE2D::Scene::Release() {
 	m_Registry.clear();
 }
 
-void FE2D::Scene::Initialize(Window* window, ResourceManager* resourceManager) {
+void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
 
 	m_Systems.emplace_back(std::make_unique<SpriteRendererSystem>());
 	// add here
 	// ..
 
 	for (auto& system : m_Systems) {
-		system->setContext(window, resourceManager, this);
+		system->setContext(window, render_context, resource_manager, *this);
 		system->Initialize();
 	}
 
-	m_Camera.BindToWindow(window);
+	m_RenderContext = &render_context;
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {
@@ -54,7 +54,11 @@ void FE2D::Scene::EmplaceEntity(Entity entity) {
 	m_EntityMap.emplace(entity.GetUUID(), entity);
 }
 
-void FE2D::Scene::Update() {
+void FE2D::Scene::End()
+{
+}
+
+void FE2D::Scene::Start() {
 	bool camera_found = false;
 
 	auto view = m_Registry.view<TransformComponent, CameraComponent>();
@@ -67,6 +71,10 @@ void FE2D::Scene::Update() {
 	if (!camera_found)
 		SAY("WARNING : No camera found in the Scene");
 
+	m_RenderContext->BindCamera(m_Camera);
+}
+
+void FE2D::Scene::Update() {
 	for (auto& system : m_Systems) {
 		system->Update();
 	}
@@ -78,8 +86,8 @@ void FE2D::Scene::Render() {
 	}
 }
 
-void FE2D::Scene::RenderPickable(Shader& shader, UniformBuffer& ubo) {
+void FE2D::Scene::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
 	for (auto& system : m_Systems) {
-		system->RenderPickable(shader, ubo);
+		system->RenderPickable(render_context, mouse_picker);
 	}
 }

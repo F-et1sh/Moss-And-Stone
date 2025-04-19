@@ -19,6 +19,9 @@ namespace FE2D {
 
         int ReadPixel(const vec2& mouse_pos);
 
+        Shader& getShader()noexcept { return m_Shader; }
+        UniformBuffer& getUniformBuffer()noexcept { return m_UniformBuffer; }
+
         inline operator unsigned int& () noexcept { return m_Reference; }
         inline operator unsigned int* () noexcept { return &m_Reference; }
     private:
@@ -28,5 +31,9 @@ namespace FE2D {
     private:
         unsigned int m_Width = 0;
         unsigned int m_Height = 0;
+
+    private:
+        Shader m_Shader;
+        UniformBuffer m_UniformBuffer;
     };
 }

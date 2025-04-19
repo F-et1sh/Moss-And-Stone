@@ -2,6 +2,9 @@
 #include "MousePicker.h"
 
 inline void FE2D::MousePicker::Delete() noexcept {
+    m_UniformBuffer.release();
+    m_Shader.Release();
+
     this->Unbind();
 
     glDeleteRenderbuffers(1, &m_DepthBuffer);
@@ -85,6 +88,16 @@ inline void FE2D::MousePicker::Initialize(const vec2& resolution) noexcept {
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    m_Shader.Initialize(FOR_PATH.get_shaders_path() / L"Picker Default" / L"PickerDefault");
+    m_UniformBuffer.create();
+    m_UniformBuffer.bindBlock(0);
+
+    constexpr size_t entity_count = 256;
+    constexpr size_t matrix_size = sizeof(mat4);
+    constexpr size_t entity_hanle = sizeof(vec4); // use vec4 instead of just int because of alignas of std140
+
+    m_UniformBuffer.bufferData(entity_count * (matrix_size + entity_hanle), nullptr, GL_DYNAMIC_DRAW);
 }
 
 inline void FE2D::MousePicker::Bind() const noexcept {

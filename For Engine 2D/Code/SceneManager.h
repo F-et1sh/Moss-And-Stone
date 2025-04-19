@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "MousePicker.h"
 
 namespace FE2D {
 	using SceneIndex = size_t;
@@ -12,21 +13,17 @@ namespace FE2D {
 		~SceneManager() = default;
 
 		void Release();
-		void Initialize(Window* window, ResourceManager* resourceManager);
+		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
 
 		void Update();
 
-		inline void RenderPickable(Shader& shader, UniformBuffer& ubo);
+		inline void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker);
 		
 		void SaveCurrentScene();
 
 	public:
-		inline void setCamera(Camera* editor_camera)noexcept { return m_CurrentScene.setCamera(editor_camera); }
-		inline Camera& getCamera()noexcept { return m_CurrentScene.getCamera(); }
-		
-	public:
-		inline void StartGameSession()noexcept { m_IsRunning = true; m_CurrentScene.setCamera(nullptr); }
-		inline void EndGameSession()noexcept { m_IsRunning = false; }
+		inline void StartGameSession()noexcept { m_IsRunning = true; m_CurrentScene.Start(); }
+		inline void EndGameSession()noexcept { m_IsRunning = false; m_CurrentScene.End(); }
 
 	private:
 		bool m_IsRunning = false;
@@ -39,6 +36,7 @@ namespace FE2D {
 		std::unordered_map<SceneIndex, std::filesystem::path> m_ScenePaths;
 
 	private:
+		RenderContext* m_RenderContext = nullptr;
 		Window* m_Window = nullptr;
 		ResourceManager* m_ResourceManager = nullptr;
 

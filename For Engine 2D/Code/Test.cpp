@@ -39,8 +39,6 @@ void FE2D::Test::init() {
 	
 	atlas.Initialize(vec2(4096, 4096*3));
 	atlas.AddTexture(texture);
-
-	camera.BindToWindow(&this->window);
 }
 
 static double a = 0.0;
@@ -71,7 +69,7 @@ void FE2D::Test::loop() {
 		ubo.bufferSubData(16                 , 64*matrices_size, &matrices[0]);
 		ubo.bufferSubData(16+64*matrices_size, 16*matrices_size, &texture_offsets[0]);
 
-		shader.setUniformMat4("u_Camera", camera);
+		shader.setUniformMat4("u_Camera", mat4(1.0f)); // stub
 
 		vao.Bind();
 		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, matrices_size);

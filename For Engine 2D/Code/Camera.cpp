@@ -1,26 +1,11 @@
 #include "forpch.h"
 #include "Camera.h"
 
-void FE2D::Camera::BindToWindow(Window* window) {
-	if (!window)
+void FE2D::Camera::UpdateView() {
+	if (!m_IsChanged)
 		return;
 
-	this->reset_pointers(); // reset if this camera is already bound
+	m_View = translate(mat4(1.0f), vec3(m_Position, 0.0f));
 
-	m_EventIndex = window->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
-		const WindowResized* event = static_cast<const WindowResized*>(&e);
-		m_VisionSize = event->size;
-		});
-
-	m_VisionSize = window->getResolution(); // set the vision size primarily
-
-	m_Window = window;
-}
-
-inline void FE2D::Camera::UnbindWindow() noexcept {
-	if (!m_Window)
-		return;
-
-	m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
-	m_Window = nullptr;
+	m_IsChanged = false;
 }

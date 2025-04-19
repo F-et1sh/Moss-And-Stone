@@ -1,5 +1,6 @@
 #pragma once
 #include "TextureAtlas.h"
+#include "Window.h"
 
 namespace FE2D {
 	class FOR_API Test {

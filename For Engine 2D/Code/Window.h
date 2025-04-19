@@ -24,7 +24,7 @@ namespace FE2D {
 		Window() = default;
 		~Window() = default;
 
-		Window(const vec2& window_size, const std::string& window_name, size_t monitor) {
+		Window(const vec2& window_size, const std::string& window_name, int monitor) {
 			this->Initialize(window_size, window_name, monitor);
 		}
 
@@ -32,7 +32,7 @@ namespace FE2D {
 		void Release();
 
 		// Initialize OpenGL stuff and Create new Window
-		void Initialize(const vec2& window_size, const std::string& window_name, size_t monitor);
+		void Initialize(const vec2& window_size, const std::string& window_name, int monitor);
 
 #pragma region Screen Update
 	public:
@@ -146,5 +146,7 @@ namespace FE2D {
 	private:
 		GLFWwindow* m_Window = nullptr;
 		GLFWmonitor** m_Monitors = nullptr;
+
+		friend class RenderContext;
 	};
 }

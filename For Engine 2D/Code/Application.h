@@ -2,6 +2,7 @@
 #include <forpch.h>
 
 #include "Window.h"
+#include "RenderContext.h"
 #include "SceneHierarchyPanel.h"
 #include "Framebuffer.h"
 #include "MousePicker.h"
@@ -18,7 +19,7 @@ namespace FE2D {
 		void Initialize(
 			const vec2& window_resolution = vec2(800, 600),
 			const std::string_view& window_name = "For Default Application",
-			const size_t& monitor = -1);
+			int monitor = -1);
 		void Loop();
 
 	public:
@@ -26,6 +27,7 @@ namespace FE2D {
 		inline void EndGameSession()noexcept { m_SceneManager.EndGameSession(); }
 
 	private:
+		RenderContext m_RenderContext;
 		Window m_Window;
 
 	private:

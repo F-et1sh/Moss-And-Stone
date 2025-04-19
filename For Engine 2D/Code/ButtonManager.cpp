@@ -65,7 +65,8 @@ void FE2D::ButtonManager::onMouseMoved(const Event& e) {
 	m_CursorPosition = vec2(mouseMoved->position.x - m_WindowResolution.x / 2,
 		                   -mouseMoved->position.y + m_WindowResolution.y / 2);
 	
-	m_CursorPosition /= m_WindowResolution / m_CameraReference->getVisionSize(); // Translate the Cursor Position by the Camera
+	// LEGACY CODE : stub
+	m_CursorPosition /= m_WindowResolution / m_WindowResolution; // Translate the Cursor Position by the Camera
 
 	bool taken = false; // if the cursor is clicked some button
 

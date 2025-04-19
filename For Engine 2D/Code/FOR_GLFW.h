@@ -11,6 +11,7 @@ namespace FE2D {
 
 		static inline void MakeContextCurrent(GLFWwindow* window)noexcept;
 		static inline void setViewport(const size_t x, const size_t y, const size_t width, const size_t height)noexcept;
+		static inline void setViewport(const vec4& viewport)noexcept;
 		enum class DEPTH_FUNC {
 			ALWAYS   = GL_ALWAYS,	// The depth test always passes.
 			NEVER    = GL_NEVER,	// The depth test never passes.

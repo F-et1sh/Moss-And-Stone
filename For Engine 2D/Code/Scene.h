@@ -1,7 +1,7 @@
 #pragma once
-#include "SceneSerializer.h"
-#include "RenderManager.h"
+#include "RenderContext.h"
 
+#include "SceneSerializer.h"
 #include "SpriteRendererSystem.h"
 
 namespace FE2D {
@@ -13,7 +13,7 @@ namespace FE2D {
 		~Scene() = default;
 
 		void Release();
-		void Initialize(Window* window, ResourceManager* resourceManager);
+		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
 
 	public:
 
@@ -26,10 +26,13 @@ namespace FE2D {
 
 	public:
 
+		void End();
+		void Start();
+
 		void Update();
 		void Render();
 
-		void RenderPickable(Shader& shader, UniformBuffer& ubo);
+		void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker);
 
 	public:
 		inline Entity& GetEntityByUUID(UUID uuid) { return m_EntityMap[uuid]; }
@@ -43,23 +46,12 @@ namespace FE2D {
 	private:
 		std::unordered_map<UUID, Entity> m_EntityMap;
 
-	public:
-		inline void setCamera(Camera* editor_camera)noexcept {
-			m_EditorCamera = editor_camera;
-		}
-		inline Camera& getCamera()noexcept {
-			if (m_EditorCamera)
-				return *m_EditorCamera;
-			else
-				return m_Camera;
-		}
-
 	private:
-		Camera* m_EditorCamera = nullptr;
+		RenderContext* m_RenderContext = nullptr;
 		Camera m_Camera;
 
 	private:
-		size_t m_Index = 0;
+		size_t m_Index = 0; // scene index
 
 	private:
 		entt::registry m_Registry;

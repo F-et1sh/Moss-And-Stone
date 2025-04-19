@@ -1,6 +1,9 @@
 #include "forpch.h"
 #include "SpriteRendererSystem.h"
 
+#include "RenderContext.h"
+#include "MousePicker.h"
+
 void FE2D::SpriteRendererSystem::Release() {
 	m_Shader.Release();
 	m_UniformBuffer.release();
@@ -16,7 +19,7 @@ void FE2D::SpriteRendererSystem::Initialize() {
 
 	m_UniformBuffer.create();
 	m_UniformBuffer.bufferData((sizeof(mat4) + sizeof(vec4)) * SPRITE_LIMIT + sizeof(vec4), nullptr, GL_DYNAMIC_DRAW);
-	m_UniformBuffer.bindBlock(0);
+	m_UniformBuffer.bindBlock(1);
 
 	m_VertexArray.Create();
 	m_VertexArray.Bind();
@@ -100,7 +103,7 @@ void FE2D::SpriteRendererSystem::Render() {
 		this->DrawSprites();
 }
 
-void FE2D::SpriteRendererSystem::RenderPickable(Shader& shader, UniformBuffer& ubo) {
+void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
 	m_EntityHandles.set_capacity(SPRITE_LIMIT);
 
 	size_t count = 0;
@@ -124,31 +127,31 @@ void FE2D::SpriteRendererSystem::RenderPickable(Shader& shader, UniformBuffer& u
 			sprite.texture_coords.w, // Size Y
 			1));
 
-		m_EntityHandles.add(vec4(e, 0, 0, 0));
+		m_EntityHandles.add(vec4(e, e, e, e));
 		m_Matrices.add(matrix);
 
 		count++;
 
 		if (count == SPRITE_LIMIT) {
-			this->DrawPickable(shader, ubo);
+			this->DrawPickable(render_context, mouse_picker.getShader(), mouse_picker.getUniformBuffer());
 			count = 0;
 		}
 	}
 
 	if (count != 0)
-		this->DrawPickable(shader, ubo);
+		this->DrawPickable(render_context, mouse_picker.getShader(), mouse_picker.getUniformBuffer());
 }
 
-void FE2D::SpriteRendererSystem::DrawPickable(Shader& shader, UniformBuffer& ubo) {
+void FE2D::SpriteRendererSystem::DrawPickable(RenderContext& render_context, Shader& shader, UniformBuffer& ubo) {
 	if (m_Matrices.empty())
 		return;
 
 	shader.Use();
 
-	shader.setUniformMat4("u_Camera", m_Scene->getCamera());
+	shader.setUniformMat4("u_ViewProj", render_context.getViewProjection());
 
 	constexpr size_t _matrices = sizeof(mat4) * SPRITE_LIMIT;
-	constexpr size_t _entity_handles = sizeof(int) * SPRITE_LIMIT;
+	constexpr size_t _entity_handles = sizeof(vec4) * SPRITE_LIMIT;
 
 	ubo.bufferSubData(0		   , _matrices		, m_Matrices	 .reference());
 	ubo.bufferSubData(_matrices, _entity_handles, m_EntityHandles.reference());
@@ -169,7 +172,7 @@ void FE2D::SpriteRendererSystem::DrawSprites() {
 
 	m_Shader.Use();
 
-	m_Shader.setUniformMat4("u_Camera", m_Scene->getCamera());
+	m_Shader.setUniformMat4("u_ViewProj", m_RenderContext->getViewProjection());
 
 	m_TextureAtlas.bind();
 

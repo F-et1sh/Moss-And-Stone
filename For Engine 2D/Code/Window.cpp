@@ -10,20 +10,18 @@ void FE2D::Window::Release() {
 	m_Monitors = nullptr;
 }
 
-void FE2D::Window::Initialize(const vec2& window_size, const std::string& window_name, size_t monitor) {
+void FE2D::Window::Initialize(const vec2& window_size, const std::string& window_name, int monitor) {
 	/* Find the Monitors */
 	int monitors_count = 0;
 	m_Monitors = glfwGetMonitors(&monitors_count);
 	
 	/* Monitor ID Setting */
-	if (monitor == -1) m_CurrentMonitor = -1;
-	else if (monitor < monitors_count) m_CurrentMonitor = monitor;
-	else {
-		FOR_RUNTIME_ERROR("Wrong monitor ID : " + std::to_string(monitor) + 
-			"\nExists only : " + std::to_string(monitors_count) + 
-			"\nFailed to Create GLFW Window");
+	GLFWmonitor* glfwMonitor = nullptr;
+	if (monitor >= 0 && monitor < monitors_count) {
+		glfwMonitor = m_Monitors[monitor];
+		m_CurrentMonitor = monitor;
 	}
-	
+ 	
 	/* Set the Resolution */
 	if (window_size.x <= 0 && window_size.y <= 0) {
 		this->FindResolution();
@@ -31,7 +29,7 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 	else m_Resolution = window_size;
 	
 	/* Create a Window */
-	m_Window = glfwCreateWindow(m_Resolution.x, m_Resolution.y, window_name.c_str(), (m_CurrentMonitor == -1) ? NULL : m_Monitors[m_CurrentMonitor], NULL);
+	m_Window = glfwCreateWindow(m_Resolution.x, m_Resolution.y, window_name.c_str(), glfwMonitor, nullptr);
 	if (!m_Window) {
 		FOR_RUNTIME_ERROR("Failed to Create GLFW Window");
 	}
@@ -60,14 +58,11 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 	/* Apply Callbacks at First */
 	this->ApplyCallbacks();
 
-	/* Viewport for the Window */
-	GLFW::setViewport(0, 0, m_Resolution.x, m_Resolution.y);
-
 	/* Subscribe on Events */
 	{
 		/* Subscribe on Window Focus Event */
 		/* If the Window is not Focused Enable V-Syn | Make Context Current | Apply GLFW Callbacks */
-		this->SubscribeOnEvent(Event::EventType::WindowFocus, [this](const Event& e) {
+		this->SubscribeOnEvent(Event::EventType::WindowFocus, [&](const Event& e) {
 			GLFW::SwapInterval(this->m_VSyn);
 			GLFW::MakeContextCurrent(this->m_Window);
 
@@ -75,17 +70,14 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 			});
 
 		/* Subscribe on Window Lost Focus Event */
-		this->SubscribeOnEvent(Event::EventType::WindowLostFocus, [this](const Event& e) {
+		this->SubscribeOnEvent(Event::EventType::WindowLostFocus, [&](const Event& e) {
 			GLFW::SwapInterval(FOR_LOW_OPERATION_MODE);
 			});
 
 		/* Subscribe on Window Resized Event */
-		this->SubscribeOnEvent(Event::EventType::WindowResized, [this](const Event& e) {
+		this->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
 			const WindowResized* resized = static_cast<const WindowResized*>(&e);
 			this->m_Resolution = resized->size;
-
-			/* Set the Viewport */
-			GLFW::setViewport(0, 0, m_Resolution.x, m_Resolution.y);
 			});
 	}
 

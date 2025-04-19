@@ -23,6 +23,10 @@ inline void FE2D::GLFW::setViewport(const size_t x, const size_t y, const size_t
     glViewport(x, y, width, height);
 }
 
+inline void FE2D::GLFW::setViewport(const vec4& viewport) noexcept {
+    glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
+}
+
 inline void FE2D::GLFW::EnableDepthTest(const DEPTH_FUNC func) noexcept {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(static_cast<size_t>(func));

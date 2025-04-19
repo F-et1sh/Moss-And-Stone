@@ -26,10 +26,10 @@ namespace FE2D {
 		void Update()override;
 		void Render()override;
 
-		void RenderPickable(Shader& shader, UniformBuffer& ubo)override;
+		void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker)override;
 
 	private:
-		void DrawPickable(Shader& shader, UniformBuffer& ubo);
+		void DrawPickable(RenderContext& render_context, Shader& shader, UniformBuffer& ubo);
 
 	private:
 		void Handle(TransformComponent& transform, SpriteComponent& sprite);

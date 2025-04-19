@@ -11,19 +11,17 @@ namespace FE2D {
 		void Initialize(
 			const vec2& window_resolution = vec2(800, 600),
 			const std::string_view& window_name = "For Default Application",
-			size_t monitor = -1);
+			int monitor = -1);
 		void Loop();
 
 	private:
-		void OnMainMenuBar();
-
-	private:
 		Window m_Window;
+		RenderContext m_RenderContext;
+		
 		bool m_IsRunning = false;
 
 	private:
 		IMGUI m_ImGui;
-		Camera m_EditorCamera;
 
 	private:
 		bool m_CloseRequest = false;
@@ -39,23 +37,25 @@ namespace FE2D {
 	private:
 
 		void OnGameUpdate();
+
+		void OnMainMenuBar();
 		void OnPickerUpdate();
 		void OnImGuiRender();
 		
 		void OnPreviewWindow();
 
 	private:
+		Camera m_EditorCamera;
+
 		Framebuffer m_GameFramebuffer;
 		bool m_IsGameRunning = false;
 
 	private:
 		bool m_IsPreviewHovered = false;
-		vec2 m_PreviewWindowPosition = vec2();
-		vec2 m_PreviewWindowSize = vec2();
+		// mouse position in bounds of preview window
+		vec2 m_PreviewMousePosition = vec2();
 
 		MousePicker m_MousePicker;
-		Shader m_PickerShader;
-		UniformBuffer m_PickerUBO;
 
 	private:
 		SceneManager m_SceneManager;

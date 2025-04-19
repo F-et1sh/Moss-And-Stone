@@ -13,7 +13,7 @@ void FE2D::SceneHierarchyPanel::setContext(Scene* context, IMGUI* imgui, MousePi
 	m_MousePicker = mouse_picker;
 }
 
-void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered) {
+void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec2& preview_mouse_position) {
 	ImGui::Begin("Scene Hierarchy");
 
 	if (m_Context) {
@@ -49,8 +49,8 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered) {
 	}
 	ImGui::End();
 
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_hovered) {
-		int entity_index = m_MousePicker->ReadPixel(vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
+	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_hovered) {
+		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
 		if (entity_index != -1) 
 			m_SelectedEntity = { (entt::entity)entity_index, m_Context };
@@ -100,6 +100,9 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 			entity_deleted = true;
 		ImGui::EndPopup();
 	}
+
+	if (m_SelectedEntity == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
+		entity_deleted = true;
 
 	if (opened) {
 		for (auto& child : entity.GetChildren()) {

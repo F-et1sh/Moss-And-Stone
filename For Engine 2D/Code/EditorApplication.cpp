@@ -2,13 +2,13 @@
 #include "EditorApplication.h"
 
 void FE2D::EditorApplication::Release() {
-	m_PickerShader.Release();
 	m_MousePicker.Delete();
 
 	m_GameFramebuffer.Delete();
 
 	m_SceneManager.Release();
 
+	m_RenderContext.Release();
 	m_Window.Release();
 	m_ResourceManager.Release();
 
@@ -16,10 +16,12 @@ void FE2D::EditorApplication::Release() {
 	GLFW::Release();
 }
 
-void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const std::string_view& window_name, size_t monitor) {
+void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const std::string_view& window_name, int monitor) {
 	GLFW::Initialize();
 
 	m_Window.Initialize(window_resolution, window_name.data(), monitor);
+	m_RenderContext.Initialize();
+	m_RenderContext.BindCamera(m_EditorCamera);
 
 	m_Window.setVSyn(true);
 	m_Window.setAutoClose(false);
@@ -28,7 +30,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 	m_Window.SubscribeOnEvent(Event::EventType::WindowFocus, [&](const Event& e) {
 		// Reinitialize ImGui after window gained
 		try {
-			m_ImGui.Initialize(&this->m_Window, &m_ResourceManager);
+			m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager);
 		}
 		catch (const std::exception& e) {
 			SAY("Failed to Reinitilize ImGui after window focus\n" << e.what());
@@ -36,25 +38,19 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 		}
 	);
 
-	m_ImGui.Initialize(&m_Window, &m_ResourceManager);
+	m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager);
 
 	m_ResourceManager.Initialize();
 
-	m_IsRunning = true;
-
-	m_SceneManager.Initialize(&m_Window, &m_ResourceManager);
+	m_SceneManager.Initialize(m_Window, m_RenderContext, m_ResourceManager);
+	
 	m_SceneHierarchyPanel.setContext(&m_SceneManager.getCurrentScene(), &m_ImGui, &m_MousePicker);
 
-	m_EditorCamera.setVisionSize(m_Window.getResolution());
-	m_SceneManager.setCamera(&m_EditorCamera);
-
-	m_GameFramebuffer.Initialize(m_Window.getResolution());
-	m_MousePicker.Initialize(m_Window.getResolution());
-
-	m_PickerShader.Initialize(FOR_PATH.get_shaders_path() / L"Picker Default" / L"PickerDefault");
-	m_PickerUBO.create();
-	m_PickerUBO.bindBlock(1);
-	m_PickerUBO.bufferData(256 * (64 + 16), nullptr, GL_DYNAMIC_DRAW);
+	const vec2 game_resolution = vec2(m_RenderContext.getViewport().z, m_RenderContext.getViewport().w);
+	m_GameFramebuffer.Initialize(game_resolution);
+	m_MousePicker.Initialize(game_resolution);
+	
+	m_IsRunning = true;
 }
 
 void FE2D::EditorApplication::Loop() {
@@ -63,7 +59,7 @@ void FE2D::EditorApplication::Loop() {
 
 		m_Window.ClearColor(vec4(0.12f, 0.12f, 0.12f, 1.0f));
 		m_Window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		this->OnGameUpdate();
 
 		if (m_IsPreviewHovered)
@@ -136,8 +132,6 @@ void FE2D::EditorApplication::OnGameUpdate() {
 	m_Window.ClearColor(vec4(0.12f, 0.12f, 0.12f, 1.0f));
 	m_Window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glViewport(0, 0, m_Window.getResolution().x, m_Window.getResolution().y);
-
 	m_SceneManager.Update();
 
 	m_GameFramebuffer.Unbind();
@@ -146,21 +140,12 @@ void FE2D::EditorApplication::OnGameUpdate() {
 void FE2D::EditorApplication::OnPickerUpdate() {
 	m_MousePicker.Bind();
 
-	m_Window.ClearColor(vec4(0));
-	m_Window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_Window.ClearScreen(GL_DEPTH_BUFFER_BIT);
 
-	const size_t width = m_PreviewWindowSize.x;
-	const size_t height = m_PreviewWindowSize.x / (m_Window.getResolution().x / m_Window.getResolution().y);
-
-	const size_t x = m_PreviewWindowPosition.x;
-	const size_t y = m_PreviewWindowPosition.y + m_Window.getResolution().y - (m_PreviewWindowSize.y / 2) - (height / 2);
-
-	glViewport(x, y, width, height);
-
-	int zero = -1;
-	glClearBufferiv(GL_COLOR, 0, &zero);
+	int background[] = { -1, -1, -1, -1 };
+	glClearBufferiv(GL_COLOR, 0, background);
 	
-	m_SceneManager.RenderPickable(m_PickerShader, m_PickerUBO);
+	m_SceneManager.RenderPickable(m_RenderContext, m_MousePicker);
 		
 	m_MousePicker.Unbind();
 }
@@ -177,7 +162,7 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	this->OnPreviewWindow();
 
-	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered);
+	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition);
 
 	m_ImGui.EndFrame();
 }
@@ -185,33 +170,40 @@ void FE2D::EditorApplication::OnImGuiRender() {
 void FE2D::EditorApplication::OnPreviewWindow() {
 	ImGui::Begin("Preview");
 
-	m_IsPreviewHovered = ImGui::IsWindowHovered();
-	m_PreviewWindowPosition = vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
-	m_PreviewWindowSize = vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
-
-	const size_t width = ImGui::GetWindowWidth();
-	const size_t height = ImGui::GetWindowWidth() / (m_Window.getResolution().x / m_Window.getResolution().y);
-
-	const size_t x = 0;
-	const size_t y = m_Window.getResolution().y - (ImGui::GetWindowHeight() / 2) - (height / 2);
-
-	m_ImGui.PreviewWindowViewport(x, y, width, height);
-	m_ImGui.PreviewWindowPosition(m_PreviewWindowPosition);
-	m_ImGui.PreviewWindowSize(m_PreviewWindowSize);
-
-	m_ImGui.setCamera(m_SceneManager.getCamera());
-
 	ImGui::SameLine(ImGui::GetWindowWidth() / 2, 0); // draw the button in the middle of this window
 
 	if (ImGui::Button(m_IsGameRunning ? "Stop" : "Start")) {
-		m_IsGameRunning ? m_SceneManager.EndGameSession(), m_SceneManager.setCamera(&m_EditorCamera)
-						: m_SceneManager.StartGameSession();
+		if (m_IsGameRunning) {
+			m_SceneManager.EndGameSession();
+
+			m_RenderContext.BindCamera(m_EditorCamera);
+		}
+		else m_SceneManager.StartGameSession();
+
 		m_IsGameRunning = !m_IsGameRunning;
 	}
 
-	ImGui::Image(m_GameFramebuffer.texture_reference(), ImVec2(m_GameFramebuffer.get_texture_size().x, 
-															   m_GameFramebuffer.get_texture_size().y), ImVec2(0, 1),
-																									    ImVec2(1, 0));
+	const float aspect = (float)m_GameFramebuffer.get_texture_size().y / m_GameFramebuffer.get_texture_size().x;
+	float width = ImGui::GetWindowWidth();
+	float height = width * aspect;
+
+	m_IsPreviewHovered = ImGui::IsWindowHovered();
+
+	// to move the image down
+	constexpr float offset_y = -20.0f;
+
+	ImGui::SetCursorScreenPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + ((ImGui::GetWindowHeight() - height) / 2) - offset_y));
+
+	m_PreviewMousePosition.x = ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x;
+	m_PreviewMousePosition.y = height - ((ImGui::GetWindowHeight() - ImGui::GetCursorScreenPos().y) - (ImGui::GetWindowHeight() - ImGui::GetMousePos().y));
+
+	m_PreviewMousePosition /= vec2(width, height);
+	m_PreviewMousePosition *= LOGICAL_RESOLUTION;
+
+	m_ImGui.PreviewWindowPosition(vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y));
+	m_ImGui.PreviewWindowSize(vec2(width, height));
+	
+	ImGui::Image(m_GameFramebuffer.texture_reference(), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
 
 	ImGui::End();
 }

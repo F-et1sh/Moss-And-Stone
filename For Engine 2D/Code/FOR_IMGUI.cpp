@@ -2,6 +2,7 @@
 #include "FOR_IMGUI.h"
 
 #include "Components.h"
+#include "Window.h"
 
 void FE2D::IMGUI::Release() {
     if (ImGui::GetCurrentContext()) {
@@ -13,22 +14,22 @@ void FE2D::IMGUI::Release() {
 
     if (m_Window)
         m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
+
+    m_Window = nullptr;
+	m_ResourceManager = nullptr;
+    m_RenderContext = nullptr;
 }
 
-void FE2D::IMGUI::Initialize(Window* window_reference, ResourceManager* resource_manager) {
+void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
     Release();
 
-    if (!window_reference)
-        FOR_RUNTIME_ERROR("Failed to Initialize ImGui\nWindow reference was nullptr");
-    m_Window = window_reference;
+    m_Window = &window;
+    m_RenderContext = &render_context;
+    m_ResourceManager = &resource_manager;
     
-    m_EventIndex = window_reference->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
+    m_EventIndex = m_Window->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
         m_CtrlWasPressed = false; // mouse position will be shifted after window resizing and you need reset values
         });
-
-    if (!resource_manager)
-        FOR_RUNTIME_ERROR("Failed to Initialize ImGui\nResource Manager reference was nullptr");
-    m_ResourceManager = resource_manager;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -72,7 +73,7 @@ void FE2D::IMGUI::Initialize(Window* window_reference, ResourceManager* resource
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 	
-	if (!ImGui_ImplGlfw_InitForOpenGL(window_reference->reference(), true))
+	if (!ImGui_ImplGlfw_InitForOpenGL(m_Window->reference(), true))
 		FOR_RUNTIME_ERROR("ERROR : Failed to Initialize ImGui\nImplGlfw_InitForOpenGL");
 	
 	if (!ImGui_ImplOpenGL3_Init(GLSL_VERSION))
@@ -247,15 +248,17 @@ std::optional<std::pair<size_t, Texture&>> FE2D::IMGUI::SelectTexture() {
 }
 
 void IMGUI::TransformControl(TransformComponent& transform) {
-    mat4 mvp_matrix = (mat4)*m_Camera * (mat4)transform;
-    vec4 clip_space_pos = mvp_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    m_IsAnyGizmoHovered = false;
 
+    mat4 mvp_matrix = m_RenderContext->getViewProjection() * (mat4)transform;
+    vec4 clip_space_pos = mvp_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    
     vec3 ndc_pos = vec3(clip_space_pos.x, clip_space_pos.y, clip_space_pos.z) / clip_space_pos.w;
 
-    float x_window = ((ndc_pos.x + 1) / 2) * m_PreviewWindowViewport.z + m_PreviewWindowViewport.x;
-    float y_window = ((ndc_pos.y + 1) / 2) * m_PreviewWindowViewport.w + m_PreviewWindowViewport.y;
+    float x_window = ((ndc_pos.x + 1) / 2) * m_PreviewWindowSize.x;
+    float y_window = ((ndc_pos.y + 1) / 2) * m_PreviewWindowSize.y;
 
-    vec2 pos = vec2(m_PreviewWindowPosition.x + x_window, y_window - m_PreviewWindowPosition.y);
+    vec2 pos = vec2(m_PreviewWindowPosition.x + x_window, (m_PreviewWindowPosition.y + ImGui::GetIO().DisplaySize.y / 2) - y_window + (m_PreviewWindowSize.y / 2));
 
     if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
         if (m_IsDraggingX) m_IsDraggingX = false;
@@ -263,7 +266,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
         if (m_IsDraggingRect) m_IsDraggingRect = false;
     }
     
-    vec2 start = vec2(pos.x, m_Camera->getVisionSize().y - pos.y);
+    vec2 start = vec2(pos.x, pos.y);
 
     vec2 x_end = start + vec2(50, 0 );
     vec2 y_end = start - vec2(0 , 50);
@@ -271,11 +274,15 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     constexpr vec4 x_color = vec4(1.00f, 0.25f, 0.25f, 0.75f);
     constexpr vec4 y_color = vec4(0.25f, 0.25f, 1.00f, 0.75f);
     
+    vec2 rect_start = start + vec2(1, 0); // this needed to fix one pixel aka visual bug, which cause of rect_size - vec2(15, -15)
     constexpr vec2 rect_size = vec2(15, -15);
     constexpr vec4 rect_color = vec4(0.15f, 0.75f, 0.15f, 0.75f);
 
-    float viewport_scale_x = m_Camera->getVisionSize().x / m_PreviewWindowViewport.z;
-    float viewport_scale_y = m_Camera->getVisionSize().y / m_PreviewWindowViewport.w;
+    float viewport_scale_x = LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x;
+    float viewport_scale_y = LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y;
+
+    // step with pressed CTRL
+    constexpr vec2 step_size = vec2(16);
 
     if (!m_IsDraggingRect) {
         if (!m_IsDraggingY && DrawGizmoArrow(start, x_end, x_color, m_IsDraggingX)) {
@@ -289,7 +296,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
                 }
 
                 vec2 mouseOffset = vec2(ImGui::GetIO().MousePos.x - m_InitialMousePosition.x, -(ImGui::GetIO().MousePos.y - m_InitialMousePosition.y));
-                transform.position.x = m_InitialTransformPosition.x + round((mouseOffset.x * viewport_scale_x) / 16) * 16;
+                transform.position.x = m_InitialTransformPosition.x + round((mouseOffset.x * viewport_scale_x) / step_size.x) * step_size.x;
             }
             else {
                 transform.position.x += delta.x * viewport_scale_x;
@@ -309,7 +316,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
                 }
 
                 vec2 mouseOffset = vec2(ImGui::GetIO().MousePos.x - m_InitialMousePosition.x, -(ImGui::GetIO().MousePos.y - m_InitialMousePosition.y));
-                transform.position.y = m_InitialTransformPosition.y + round((mouseOffset.y * viewport_scale_y) / 16) * 16;
+                transform.position.y = m_InitialTransformPosition.y + round((mouseOffset.y * viewport_scale_y) / step_size.y) * step_size.y;
             }
             else {
                 transform.position.y += delta.y * viewport_scale_y;
@@ -319,7 +326,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
             m_IsDraggingY = true;
         }
     }
-    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRect(start, rect_size, rect_color, m_IsDraggingRect)) {
+    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRect(rect_start, rect_size, rect_color, m_IsDraggingRect)) {
         vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
 
         if (ImGui::GetIO().KeyCtrl) {
@@ -330,7 +337,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
             }
 
             vec2 mouseOffset = vec2(ImGui::GetIO().MousePos.x - m_InitialMousePosition.x, -(ImGui::GetIO().MousePos.y - m_InitialMousePosition.y));
-            transform.position = m_InitialTransformPosition + round((mouseOffset * vec2(viewport_scale_x, viewport_scale_y)) / vec2(16)) * vec2(16);
+            transform.position = m_InitialTransformPosition + round((mouseOffset * vec2(viewport_scale_x, viewport_scale_y)) / step_size) * step_size;
         }
         else {
             transform.position += delta * vec2(viewport_scale_x, viewport_scale_y);
@@ -352,6 +359,7 @@ bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, 
     ImVec2 maxBB(max(point_a.x, point_b.x) + thickness, max(point_a.y, point_b.y) + thickness);
 
     bool hovered = ImGui::IsMouseHoveringRect(minBB, maxBB, false);
+    if (hovered) m_IsAnyGizmoHovered = true;
 
     bool held = hovered && ImGui::IsMouseDown(ImGuiMouseButton_Left);
 
@@ -393,8 +401,10 @@ bool IMGUI::DrawGizmoRect(const vec2& position, const vec2& size, const vec4& co
     ImVec2 maxBB(rect_max.x + thickness, rect_max.y + thickness);
 
     bool hovered = ImGui::IsMouseHoveringRect(minBB, maxBB, false);
+    if (hovered) m_IsAnyGizmoHovered = true;
+
     bool held = hovered && ImGui::IsMouseDown(ImGuiMouseButton_Left);
-    
+
     ImU32 rect_color = 0;
 
     const ImU32 drag_color  = IM_COL32(color.r * 255, color.g * 255, color.b *   5, color.a * 255);

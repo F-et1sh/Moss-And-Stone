@@ -2,18 +2,18 @@
 #include "SceneManager.h"
 
 void FE2D::SceneManager::Release() {
+	m_RenderContext = nullptr;
+	m_Window = nullptr;
+	m_ResourceManager = nullptr;
+
 	m_CurrentScene.Release();
 	m_ScenePaths.clear();
 }
 
-void FE2D::SceneManager::Initialize(Window* window, ResourceManager* resourceManager) {
-	if (!window)
-		FOR_RUNTIME_ERROR("Failed to Initialize SceneManager. Window was nullptr");
-	if (!resourceManager)
-		FOR_RUNTIME_ERROR("Failed to Initialize SceneManager. ResourceManager was nullptr");
-
-	m_Window = window;
-	m_ResourceManager = resourceManager;
+void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
+	m_Window = &window;
+	m_RenderContext = &render_context;
+	m_ResourceManager = &resource_manager;
 
 	LoadAvailableScenes();
 	
@@ -22,7 +22,7 @@ void FE2D::SceneManager::Initialize(Window* window, ResourceManager* resourceMan
 
 		if (m_ScenePaths.empty()) {
 			SAY("WARNING : There is no loaded scene. Creating new scene");
-			m_CurrentScene.Initialize(window, resourceManager);
+			m_CurrentScene.Initialize(window, render_context, resource_manager);
 		}
 		else {
 			// first loaded scene index
@@ -32,8 +32,8 @@ void FE2D::SceneManager::Initialize(Window* window, ResourceManager* resourceMan
 	}
 }
 
-inline void FE2D::SceneManager::RenderPickable(Shader& shader, UniformBuffer& ubo) {
-	m_CurrentScene.RenderPickable(shader, ubo);
+inline void FE2D::SceneManager::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
+	m_CurrentScene.RenderPickable(render_context, mouse_picker);
 }
 
 void FE2D::SceneManager::Update() {
@@ -106,7 +106,7 @@ bool FE2D::SceneManager::LoadScene(SceneIndex index) {
 	SceneSerializer ser(&m_CurrentScene);
 	ser.Deserialize(it->second);
 
-	m_CurrentScene.Initialize(m_Window, m_ResourceManager);
+	m_CurrentScene.Initialize(*m_Window, *m_RenderContext, *m_ResourceManager);
 
 	return true;
 }

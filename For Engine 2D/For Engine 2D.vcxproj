@@ -22,6 +22,7 @@
     <ClCompile Include="Code\ComponentFactory.cpp" />
     <ClCompile Include="Code\ComponentRegistrar.cpp" />
     <ClCompile Include="Code\ComponentSpecial.cpp" />
+    <ClCompile Include="Code\RenderContext.cpp" />
     <ClCompile Include="Code\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Code\Animation.cpp" />
     <ClCompile Include="Code\AnimationState.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Code\ComponentRegistrar.h" />
     <ClInclude Include="Code\ComponentSpecial.h" />
     <ClInclude Include="Code\MousePicker.h" />
+    <ClInclude Include="Code\RenderContext.h" />
     <ClInclude Include="Code\SceneHierarchyPanel.h" />
     <ClInclude Include="Code\Application.h" />
     <ClInclude Include="Code\Button.h" />
