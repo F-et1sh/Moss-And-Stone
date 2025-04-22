@@ -1,14 +1,20 @@
 #pragma once
 
 namespace FE2D {
-	class FOR_API Scene; // forward declaration
+    /* forward declarations */
+    class FOR_API Scene;
+    class FOR_API Entity;
 
 	class FOR_API SceneSerializer {
 	public:
 		SceneSerializer(Scene* scene) : m_Scene(scene) {}
 
 		bool Serialize(const std::filesystem::path& filepath);
-		bool Deserialize(const std::filesystem::path& filepath);
+        bool Deserialize(const std::filesystem::path& filepath);
+
+    private:
+        void SerializeEntity(json& j, Entity entity);
+        void SerializeSceneInfo(json& j);
 
 	public:
         template<typename T, std::enable_if<!std::is_same<T, std::wstring>::value, int>::type = 0>

@@ -24,6 +24,7 @@ namespace FE2D {
 
 		inline void PreviewWindowPosition(const vec2& position)noexcept { m_PreviewWindowPosition = position; }
 		inline void PreviewWindowSize(const vec2& size)noexcept { m_PreviewWindowSize = size; }
+		inline void PreviewImagePosition(const vec2& position)noexcept { m_PreviewImagePosition = position; }
 
 		void StartDockSpace();
 
@@ -59,6 +60,7 @@ namespace FE2D {
 
 		vec2 m_PreviewWindowPosition = vec2();
 		vec2 m_PreviewWindowSize = vec2();
+		vec2 m_PreviewImagePosition = vec2();
 
 	private:
 		ResourceManager* m_ResourceManager = nullptr;

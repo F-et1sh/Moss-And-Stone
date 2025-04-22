@@ -138,59 +138,51 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::OpenPopup("AddComponent");
 
 	if (ImGui::BeginPopup("AddComponent")) {
-		for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
-			entry.drawAddComponentUIFunc(m_SelectedEntity);
-		}
+		DisplayAddComponentEntry<TransformComponent>("Transform");
+		DisplayAddComponentEntry<SpriteComponent>("SpriteRenderer");
+		DisplayAddComponentEntry<CameraComponent>("Camera");
+
 		ImGui::EndPopup();
 	}
 
 	ImGui::PopItemWidth();
 
-	entt::registry& registry = m_Context->getRegistry();
+	DrawComponent<TransformComponent>("Transform", entity, [&](auto& component) {
+		m_ImGui->DragVector2("Position", component.position);
+		ImGui::Spacing();
+		m_ImGui->DragInt("Layer", component.layer);
+		ImGui::Spacing();
+		m_ImGui->CheckBox("Auto-Sotring", component.auto_sort);
+		ImGui::Spacing();
+		m_ImGui->DragVector2("Scale", component.scale);
+		ImGui::Spacing();
+		m_ImGui->DragFloat("Rotation", component.rotation);
+		ImGui::Spacing();
+		m_ImGui->DragVector2("Origin", component.origin);
 
-	for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
-		if (!entry.drawUIFunc)
-			continue;
+		m_ImGui->TransformControl(component);
+		});
 
-		auto* storage = registry.storage(id);
-		if (!storage || !storage->contains(entity))
-			continue;
+	DrawComponent<SpriteComponent>("SpriteRenderer", entity, [&](auto& component) {
+		// TODO : rewrite texture selection
 
-		ImGui::PushID(id);
+		auto texture_optional = m_ImGui->SelectTexture();
+		if (texture_optional.has_value()) {
+			Texture& texture = texture_optional.value().second;
 
-		constexpr ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
-		ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
+			component.texture_coords.x = 0;
+			component.texture_coords.y = 0;
+			component.texture_coords.z = texture.getSize().x;
+			component.texture_coords.w = texture.getSize().y;
 
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
-		float lineHeight = ImGui::GetFontSize() + ImGui::GetStyle().FramePadding.y * 2.0f;
-		ImGui::Separator();
-
-		bool open = entry.startTreeFunc(registry, entity);
-
-		ImGui::PopStyleVar();
-
-		ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
-
-		if (ImGui::Button("...", ImVec2{ lineHeight, lineHeight })) {
-			ImGui::OpenPopup("ComponentSettings");
+			component.texture_index = texture_optional.value().first;
 		}
 
-		bool removeComponent = false;
-		if (ImGui::BeginPopup("ComponentSettings")) {
-			if (ImGui::MenuItem("remove"))
-				removeComponent = true;
+		m_ImGui->CheckBox("Flip X", component.flip_x);
+		m_ImGui->CheckBox("Flip Y", component.flip_y);
+		});
 
-			ImGui::EndPopup();
-		}
-
-		if (open) {
-			entry.drawUIFunc(registry, entity, *m_ImGui);
-			ImGui::TreePop();
-		}
-
-		if (removeComponent)
-			entry.removeFunc(registry, entity);
-
-		ImGui::PopID();
-	}
+	DrawComponent<CameraComponent>("Camera", entity, [&](auto& component) {
+		ImGui::ColorEdit4("Clear Color", (float*)&component.clear_color);
+		});
 }

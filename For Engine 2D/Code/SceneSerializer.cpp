@@ -10,37 +10,19 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 
 	json j_scene;
 
-
-	json j_sceneInfo;
-	j_sceneInfo["SceneIndex"] = m_Scene->getIndex();
-
-	j_scene["SceneInfo"] = j_sceneInfo;
-
+	SerializeSceneInfo(j_scene["SceneInfo"]);
 
 	j_scene["Entities"] = json::array();
 
 	entt::registry& registry = m_Scene->getRegistry();
 
-	registry.view<IDComponent>().each([&](auto entity, auto& tagComponent) {
+	registry.view<IDComponent>().each([&](auto entity, auto& uuid) {
+		Entity load_entity = { entity, m_Scene };
+		
+		json j_entity;
+		SerializeEntity(j_entity, load_entity);
 
-		json j;
-		j["Components"] = json::array();
-
-		for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
-			if (!entry.serializeFunc)
-				continue;
-
-			auto* storage = registry.storage(id);
-			if (storage && storage->contains(entity)) {
-				json j_component;
-				j_component = entry.serializeFunc(registry, entity);
-				
-				j["Components"].push_back(j_component);
-			}
-		}
-
-		j_scene["Entities"].push_back(j);
-
+		j_scene["Entities"].push_back(j_entity);
 		});
 
 #ifdef _DEBUG
@@ -70,23 +52,150 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
     entt::registry& registry = m_Scene->getRegistry();
 
     for (auto& j_entity : j_scene["Entities"]) {
-        entt::entity entity = registry.create();
+		uint64_t uuid = 0;
+		SceneSerializer::load_value(uuid, j_entity, "UUID");
 
-        for (auto& j_component : j_entity["Components"]) {
-			for (auto& [id, entry] : ComponentFactory::Instance().getRegistredComponents()) {
-				if (!entry.emplaceFunc || !entry.deserializeFunc)
-					continue;
+		std::string name;
+		json tagComponent = j_entity["TagComponent"];
+		SceneSerializer::load_value(name, tagComponent, "tag");
 
-				if (!j_component.contains(entry.getNameFunc()))
-					continue;
+		if (!uuid || name.empty()) {
+			SAY("WARNING : Failed to deserialize an entity" << 
+				"\nUUID : " << uuid << 
+				"\nName : " << name.c_str());
+			continue;
+		}
 
-				entry.emplaceFunc(registry, entity);
-				entry.deserializeFunc(registry, entity, j_component);
+		// on initialization every entity already have :
+		// - IDComponent
+		// - TagComponent
+		// - TransformComponent
+		// - RelationshipComponent
+		Entity deserializedEntity = m_Scene->CreateEntityWithUUID(UUID(uuid), name);
+
+		if (j_entity.contains("TransformComponent")) {
+			TransformComponent& component = deserializedEntity.GetComponent<TransformComponent>(); // entities always have TransformComponent
+
+			json j_component = j_entity["TransformComponent"];
+
+			SceneSerializer::load_vec2(component.position, j_component, "position");
+			SceneSerializer::load_value(component.layer, j_component, "layer");
+			SceneSerializer::load_value(component.auto_sort, j_component, "auto_sort");
+			SceneSerializer::load_vec2(component.scale, j_component, "scale");
+			SceneSerializer::load_value(component.rotation, j_component, "rotation");
+			SceneSerializer::load_vec2(component.origin, j_component, "origin");
+		}
+
+		if (j_entity.contains("SpriteComponent")) {
+			SpriteComponent& component = deserializedEntity.AddComponent<SpriteComponent>();
+
+			json j_component = j_entity["SpriteComponent"];
+
+			SceneSerializer::load_vec4(component.texture_coords, j_component, "texture_coords");
+			SceneSerializer::load_value(component.texture_index, j_component, "texture_index");
+			SceneSerializer::load_value(component.flip_x, j_component, "flip_x");
+			SceneSerializer::load_value(component.flip_y, j_component, "flip_y");
+		}
+
+		if (j_entity.contains("RelationshipComponent")) {
+			RelationshipComponent& component = deserializedEntity.GetComponent<RelationshipComponent>(); // entities always have RelationshipComponent
+
+			json j_component = j_entity["RelationshipComponent"];
+
+			if (j_component.contains("parent")) {
+				std::uint64_t temp_id;
+				SceneSerializer::load_value(temp_id, j_component, "parent");
+				component.parent = UUID(temp_id);
 			}
-        }
 
-		m_Scene->EmplaceEntity({ entity, m_Scene });
+			if (j_component.contains("children")) {
+				component.children.clear();
+				component.children.reserve(j_component["children"].size());
+				for (const auto& j_child : j_component["children"]) {
+					component.children.emplace_back(UUID(j_child.get<std::uint64_t>()));
+				}
+			}
+		}
+
+		if (j_entity.contains("CameraComponent")) {
+			CameraComponent& component = deserializedEntity.AddComponent<CameraComponent>();
+
+			json j_component = j_entity["CameraComponent"];
+
+			SceneSerializer::load_vec4(component.clear_color, j_component, "clear_color");
+		}
     }
 
     return true;
+}
+
+void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
+	FOR_ASSERT(entity.HasComponent<IDComponent>(), "Cannot serialize an entity without IDComponent");
+
+	uint64_t uuid = entity.GetComponent<IDComponent>().id.get();
+	SceneSerializer::save_value(uuid, j, "UUID");
+
+	if (entity.HasComponent<TagComponent>()) {
+		auto& component = entity.GetComponent<TagComponent>();
+		
+		json j_component;
+		SceneSerializer::save_value(component.tag, j_component, "tag");
+
+		j["TagComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<TransformComponent>()) {
+		auto& component = entity.GetComponent<TransformComponent>();
+
+		json j_component;
+		SceneSerializer::save_vec2(component.position, j_component, "position");
+		SceneSerializer::save_value(component.layer, j_component, "layer");
+		SceneSerializer::save_value(component.auto_sort, j_component, "auto_sort");
+		SceneSerializer::save_vec2(component.scale, j_component, "scale");
+		SceneSerializer::save_value(component.rotation, j_component, "rotation");
+		SceneSerializer::save_vec2(component.origin, j_component, "origin");
+
+		j["TransformComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<SpriteComponent>()) {
+		auto& component = entity.GetComponent<SpriteComponent>();
+
+		json j_component;
+		SceneSerializer::save_vec4(component.texture_coords, j_component, "texture_coords");
+		SceneSerializer::save_value(component.texture_index, j_component, "texture_index");
+		SceneSerializer::save_value(component.flip_x, j_component, "flip_x");
+		SceneSerializer::save_value(component.flip_y, j_component, "flip_y");
+
+		j["SpriteComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<RelationshipComponent>()) {
+		auto& component = entity.GetComponent<RelationshipComponent>();
+
+		json j_component;
+		SceneSerializer::save_value(component.parent.get(), j_component, "parent");
+
+		json children_array = json::array();
+		for (const auto& child : component.children) {
+			children_array.push_back(child.get());
+		}
+		j_component["children"] = std::move(children_array);
+
+		j["RelationshipComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<CameraComponent>()) {
+		auto& component = entity.GetComponent<CameraComponent>();
+
+		json j_component;
+		SceneSerializer::save_vec4(component.clear_color, j_component, "clear_color");
+
+		j["CameraComponent"] = j_component;
+	}
+}
+
+void FE2D::SceneSerializer::SerializeSceneInfo(json& j) {
+	j["SceneIndex"] = m_Scene->getIndex();
+	// ..
 }

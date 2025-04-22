@@ -18,6 +18,7 @@ namespace FE2D {
 	public:
 
 		Entity CreateEntity(const std::string& name = "");
+		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = "");
 		void DestroyEntity(Entity entity);
 
 		void EmplaceEntity(Entity entity);

@@ -35,6 +35,18 @@ Entity FE2D::Scene::CreateEntity(const std::string& name) {
 	return entity;
 }
 
+Entity FE2D::Scene::CreateEntityWithUUID(UUID uuid, const std::string& name) {
+	Entity entity = { m_Registry.create(), this };
+	entity.AddComponent<IDComponent>(uuid);
+	entity.AddComponent<TagComponent>(name.empty() ? "New Entity" : name);
+	entity.AddComponent<TransformComponent>();
+	entity.AddComponent<RelationshipComponent>();
+
+	m_EntityMap.emplace(uuid, entity);
+
+	return entity;
+}
+
 void FE2D::Scene::DestroyEntity(Entity entity) {
 	if (entity.HasParent())
 		entity.GetParent().RemoveChild(entity.GetUUID());

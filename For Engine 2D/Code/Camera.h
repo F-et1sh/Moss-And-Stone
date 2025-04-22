@@ -17,8 +17,15 @@ namespace FE2D {
 			m_IsChanged = true;
 		}
 
+		inline float getZoom()const noexcept { return m_Zoom; }
+		void setZoom(float zoom)noexcept {
+			m_Zoom = zoom;
+			m_IsChanged = true;
+		}
+
 	private:
 		vec2 m_Position = vec2();
+		float m_Zoom = 1;
 
 	private:
 		void UpdateView();

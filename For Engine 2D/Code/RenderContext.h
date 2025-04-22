@@ -15,6 +15,7 @@ namespace FE2D {
 		void Initialize(Window& window);
 
 		void BindCamera(Camera& camera) noexcept { m_Camera = &camera; }
+		Camera* getCamera()const noexcept { return m_Camera; }
 
 		inline const vec2& getResolution()const noexcept { return m_Resolution; }
 

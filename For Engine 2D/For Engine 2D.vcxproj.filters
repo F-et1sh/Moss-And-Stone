@@ -244,9 +244,6 @@
     <Filter Include="Code\ECS\System">
       <UniqueIdentifier>{3d91933a-0774-4c10-9941-924698d3e7a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Component">
-      <UniqueIdentifier>{7ca032b8-3497-4a85-aa23-c3fbf51fcbb2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\System\System Base">
       <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
     </Filter>
@@ -259,20 +256,8 @@
     <Filter Include="Code\Scene Management\Scene Serializer">
       <UniqueIdentifier>{c96ab60f-4881-48b4-b103-bc2181a82a7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Component\Components">
-      <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component\Component Factory">
-      <UniqueIdentifier>{c227adda-6aab-4138-b315-2d3ce1027330}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component\Component Registrar">
-      <UniqueIdentifier>{8e02a377-25ea-4715-a653-7d61802613fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\UUID">
       <UniqueIdentifier>{adf67035-153b-49ae-a064-9a3328598fe0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component\Component Special">
-      <UniqueIdentifier>{576f62d2-600d-4bc9-b088-20408cd75a03}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Scene Management\Scene Manager">
       <UniqueIdentifier>{3ede6442-1a1a-4f26-84eb-e2587b100aa8}</UniqueIdentifier>
@@ -291,6 +276,9 @@
     </Filter>
     <Filter Include="Code\Graphics\Render Context">
       <UniqueIdentifier>{0302a746-c43b-4939-974c-19e643fb91c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component">
+      <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -475,19 +463,10 @@
       <Filter>Code\Scene Management\Scene Serializer</Filter>
     </ClCompile>
     <ClCompile Include="Code\Components.cpp">
-      <Filter>Code\ECS\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ComponentFactory.cpp">
-      <Filter>Code\ECS\Component\Component Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ComponentRegistrar.cpp">
-      <Filter>Code\ECS\Component\Component Registrar</Filter>
+      <Filter>Code\ECS\Component</Filter>
     </ClCompile>
     <ClCompile Include="Code\UUID.cpp">
       <Filter>Code\UUID</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ComponentSpecial.cpp">
-      <Filter>Code\ECS\Component\Component Special</Filter>
     </ClCompile>
     <ClCompile Include="Code\SceneManager.cpp">
       <Filter>Code\Scene Management\Scene Manager</Filter>
@@ -705,19 +684,10 @@
       <Filter>Code\Scene Management\Scene Serializer</Filter>
     </ClInclude>
     <ClInclude Include="Code\Components.h">
-      <Filter>Code\ECS\Component\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ComponentFactory.h">
-      <Filter>Code\ECS\Component\Component Factory</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ComponentRegistrar.h">
-      <Filter>Code\ECS\Component\Component Registrar</Filter>
+      <Filter>Code\ECS\Component</Filter>
     </ClInclude>
     <ClInclude Include="Code\UUID.h">
       <Filter>Code\UUID</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ComponentSpecial.h">
-      <Filter>Code\ECS\Component\Component Special</Filter>
     </ClInclude>
     <ClInclude Include="Code\SceneManager.h">
       <Filter>Code\Scene Management\Scene Manager</Filter>

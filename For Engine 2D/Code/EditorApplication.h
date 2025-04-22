@@ -44,6 +44,9 @@ namespace FE2D {
 		
 		void OnPreviewWindow();
 
+		// update editor camera moving
+		void UpdateCameraMoving();
+
 	private:
 		Camera m_EditorCamera;
 

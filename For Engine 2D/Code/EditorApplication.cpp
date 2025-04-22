@@ -38,6 +38,18 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 		}
 	);
 
+	m_Window.SubscribeOnEvent(Event::EventType::MouseWheelScrolled, [&](const Event& e) {
+		if (!m_IsPreviewHovered)
+			return;
+
+		const MouseWheelScrolled* wheel = static_cast<const MouseWheelScrolled*>(&e);
+
+		constexpr float scroll_speed = 0.1f;
+		float zoom_factor = 1.0f - wheel->offset.y * scroll_speed;
+
+		m_EditorCamera.setZoom(m_EditorCamera.getZoom() * zoom_factor);
+		});
+
 	m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager);
 
 	m_ResourceManager.Initialize();
@@ -59,6 +71,8 @@ void FE2D::EditorApplication::Loop() {
 
 		m_Window.ClearColor(vec4(0.12f, 0.12f, 0.12f, 1.0f));
 		m_Window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		this->UpdateCameraMoving();
 
 		this->OnGameUpdate();
 
@@ -192,7 +206,7 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 	// to move the image down
 	constexpr float offset_y = -20.0f;
 
-	ImGui::SetCursorScreenPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + ((ImGui::GetWindowHeight() - height) / 2) - offset_y));
+	ImGui::SetCursorScreenPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + ((width - height) / 2) - offset_y));
 
 	m_PreviewMousePosition.x = ImGui::GetMousePos().x - ImGui::GetCursorScreenPos().x;
 	m_PreviewMousePosition.y = height - ((ImGui::GetWindowHeight() - ImGui::GetCursorScreenPos().y) - (ImGui::GetWindowHeight() - ImGui::GetMousePos().y));
@@ -202,8 +216,25 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 
 	m_ImGui.PreviewWindowPosition(vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y));
 	m_ImGui.PreviewWindowSize(vec2(width, height));
+	m_ImGui.PreviewImagePosition(vec2(ImGui::GetCursorScreenPos().x, (ImGui::GetIO().DisplaySize.y / 2) - ImGui::GetCursorScreenPos().y + 1)); // add 1 to the Y-axis to resolve a visual bug
 	
 	ImGui::Image(m_GameFramebuffer.texture_reference(), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
 
 	ImGui::End();
+}
+
+void FE2D::EditorApplication::UpdateCameraMoving() {
+	vec2 direction = vec2(0.0f);
+
+	const float move_speed = 666 * m_Window.getDeltaTime() * m_EditorCamera.getZoom();
+
+	if (glfwGetKey(m_Window.reference(), GLFW_KEY_RIGHT) == GLFW_PRESS) direction.x += 1.0f;
+	if (glfwGetKey(m_Window.reference(), GLFW_KEY_LEFT ) == GLFW_PRESS) direction.x -= 1.0f;
+	if (glfwGetKey(m_Window.reference(), GLFW_KEY_UP   ) == GLFW_PRESS) direction.y += 1.0f;
+	if (glfwGetKey(m_Window.reference(), GLFW_KEY_DOWN ) == GLFW_PRESS) direction.y -= 1.0f;
+
+	if (glm::length(direction) > 0.0f)
+		direction = normalize(direction);
+
+	m_EditorCamera.setPosition(m_EditorCamera.getPosition() - (direction * move_speed));
 }

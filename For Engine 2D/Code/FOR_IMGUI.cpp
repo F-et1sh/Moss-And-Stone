@@ -255,10 +255,12 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     
     vec3 ndc_pos = vec3(clip_space_pos.x, clip_space_pos.y, clip_space_pos.z) / clip_space_pos.w;
 
-    float x_window = ((ndc_pos.x + 1) / 2) * m_PreviewWindowSize.x;
-    float y_window = ((ndc_pos.y + 1) / 2) * m_PreviewWindowSize.y;
+    vec2 image_world_pos = vec2(m_PreviewImagePosition.x, (ImGui::GetIO().DisplaySize.y / 2) - m_PreviewImagePosition.y);
 
-    vec2 pos = vec2(m_PreviewWindowPosition.x + x_window, (m_PreviewWindowPosition.y + ImGui::GetIO().DisplaySize.y / 2) - y_window + (m_PreviewWindowSize.y / 2));
+    vec2 pos = image_world_pos + vec2(
+        ((ndc_pos.x + 1.0f) * 0.5f) * m_PreviewWindowSize.x,
+        ((1.0f - ndc_pos.y) * 0.5f) * m_PreviewWindowSize.y
+    );
 
     if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
         if (m_IsDraggingX) m_IsDraggingX = false;
@@ -278,14 +280,24 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     constexpr vec2 rect_size = vec2(15, -15);
     constexpr vec4 rect_color = vec4(0.15f, 0.75f, 0.15f, 0.75f);
 
-    float viewport_scale_x = LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x;
-    float viewport_scale_y = LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y;
+    const float camera_zoom = m_RenderContext->getCamera()->getZoom();
+    float viewport_scale_x = (LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x) * camera_zoom;
+    float viewport_scale_y = (LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y) * camera_zoom;
 
     // step with pressed CTRL
     constexpr vec2 step_size = vec2(16);
 
+    vec4 clip = vec4(vec2(m_PreviewWindowPosition.x, (ImGui::GetIO().DisplaySize.y / 2) - m_PreviewImagePosition.y), m_PreviewWindowSize);
+    ImVec2 clip_min = ImVec2(clip.x, clip.y);
+
+    ImVec2 clip_max = ImVec2(clip.x + clip.z,
+                             clip.y + clip.w);
+
+    ImDrawList* draw = ImGui::GetForegroundDrawList();
+    draw->PushClipRect(clip_min, clip_max, true);
+
     if (!m_IsDraggingRect) {
-        if (!m_IsDraggingY && DrawGizmoArrow(start, x_end, x_color, m_IsDraggingX)) {
+        if (!m_IsDraggingY && DrawGizmoArrow(start, x_end, x_color, m_IsDraggingX, draw)) {
             vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
 
             if (ImGui::GetIO().KeyCtrl) {
@@ -305,7 +317,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
 
             m_IsDraggingX = true;
         }
-        if (!m_IsDraggingX && DrawGizmoArrow(start, y_end, y_color, m_IsDraggingY)) {
+        if (!m_IsDraggingX && DrawGizmoArrow(start, y_end, y_color, m_IsDraggingY, draw)) {
             vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
 
             if (ImGui::GetIO().KeyCtrl) {
@@ -326,7 +338,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
             m_IsDraggingY = true;
         }
     }
-    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRect(rect_start, rect_size, rect_color, m_IsDraggingRect)) {
+    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRect(rect_start, rect_size, rect_color, m_IsDraggingRect, draw)) {
         vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
 
         if (ImGui::GetIO().KeyCtrl) {

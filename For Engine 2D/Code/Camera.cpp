@@ -2,10 +2,11 @@
 #include "Camera.h"
 
 void FE2D::Camera::UpdateView() {
-	if (!m_IsChanged)
-		return;
+    if (!m_IsChanged)
+        return;
 
-	m_View = translate(mat4(1.0f), vec3(m_Position, 0.0f));
+    m_View = scale(mat4(1.0f), vec3(vec2(1.0f / m_Zoom), 1.0f));
+    m_View = translate(m_View, vec3(m_Position, 0.0f));
 
-	m_IsChanged = false;
+    m_IsChanged = false;
 }
