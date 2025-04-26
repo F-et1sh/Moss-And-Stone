@@ -15,18 +15,20 @@ namespace FE2D {
 }
 
 namespace FE2D {
+
+	class FOR_API MousePicker;
+
 	class FOR_API SpriteRendererSystem : public SystemBase {
 	public:
 		SpriteRendererSystem() = default;
-		~SpriteRendererSystem() = default;
+		~SpriteRendererSystem() { this->Release(); }
 
-		void Release()override;
-		void Initialize()override;
-		
-		void Update()override;
-		void Render()override;
+		void Release();
+		void Initialize();
 
-		void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker)override;
+		void Render();
+
+		void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker);
 
 	private:
 		void DrawPickable(RenderContext& render_context, Shader& shader, UniformBuffer& ubo);

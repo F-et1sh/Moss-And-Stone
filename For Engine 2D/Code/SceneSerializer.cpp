@@ -124,6 +124,29 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 
 			SceneSerializer::load_vec4(component.clear_color, j_component, "clear_color");
 		}
+
+		if (j_entity.contains("PlayerComponent")) {
+			PlayerComponent& component = deserializedEntity.AddComponent<PlayerComponent>();
+
+			json j_component = j_entity["PlayerComponent"];
+
+			 // ..
+		}
+
+		if (j_entity.contains("VelocityComponent")) {
+			VelocityComponent& component = deserializedEntity.AddComponent<VelocityComponent>();
+
+			json j_component = j_entity["VelocityComponent"];
+			SceneSerializer::load_vec2(component.velocity, j_component, "velocity");
+		}
+
+		if (j_entity.contains("ColliderComponent")) {
+			ColliderComponent& component = deserializedEntity.AddComponent<ColliderComponent>();
+
+			json j_component = j_entity["ColliderComponent"];
+			SceneSerializer::load_vec2(component.position, j_component, "position");
+			SceneSerializer::load_vec2(component.size, j_component, "size");
+		}
     }
 
     return true;
@@ -192,6 +215,34 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		SceneSerializer::save_vec4(component.clear_color, j_component, "clear_color");
 
 		j["CameraComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<PlayerComponent>()) {
+		auto& component = entity.GetComponent<PlayerComponent>();
+
+		json j_component;
+		// ..
+
+		j["PlayerComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<VelocityComponent>()) {
+		auto& component = entity.GetComponent<VelocityComponent>();
+
+		json j_component;
+		SceneSerializer::save_vec2(component.velocity, j_component, "velocity");
+
+		j["VelocityComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<ColliderComponent>()) {
+		auto& component = entity.GetComponent<ColliderComponent>();
+
+		json j_component;
+		SceneSerializer::save_vec2(component.position, j_component, "position");
+		SceneSerializer::save_vec2(component.size, j_component, "size");
+
+		j["ColliderComponent"] = j_component;
 	}
 }
 

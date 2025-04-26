@@ -4,6 +4,7 @@
 namespace FE2D {
 	/* forward declarations */
 	class FOR_API TransformComponent;
+	class FOR_API ColliderComponent;
 	class FOR_API Camera;
 	class FOR_API Window;
 	class FOR_API RenderContext;
@@ -36,9 +37,17 @@ namespace FE2D {
 		std::optional<std::pair<size_t, Texture&>> SelectTexture();
 
 		void TransformControl(TransformComponent& transform);
+		void ColliderControl(TransformComponent& transform, ColliderComponent& collider);
+
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
 
 	private:
+		vec2 GetWorldPosition(TransformComponent& transform);
+		ImDrawList* GetPreviewWindowDrawList();
+
+		bool IsAnyTransformGizmoDragging()const noexcept { return m_IsDraggingX || m_IsDraggingY || m_IsDraggingRect; }
+		bool IsAnyColliderGizmoDragging()const noexcept { return m_IsDraggingColliderLeft || m_IsDraggingColliderRight || m_IsDraggingColliderTop || m_IsDraggingColliderBottom; }
+
 		bool DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
 		bool DrawGizmoRect(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
 
@@ -48,11 +57,18 @@ namespace FE2D {
 		
 		RenderContext* m_RenderContext = nullptr;
 
+		bool m_IsAnyGizmoHovered = false;
+
+	private:
+		bool m_IsDraggingColliderLeft = false;
+		bool m_IsDraggingColliderRight = false;
+		bool m_IsDraggingColliderTop = false;
+		bool m_IsDraggingColliderBottom = false;
+
+	private:
 		bool m_IsDraggingX = false;
 		bool m_IsDraggingY = false;
 		bool m_IsDraggingRect = false;
-
-		bool m_IsAnyGizmoHovered = false;
 
 		bool m_CtrlWasPressed = false;
 		vec2 m_InitialMousePosition = vec2();

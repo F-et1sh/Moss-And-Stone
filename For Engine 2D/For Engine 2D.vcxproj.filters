@@ -40,21 +40,6 @@
     <Filter Include="Code\Graphics\Pipline\Shader">
       <UniqueIdentifier>{e6cad576-5e1f-4c46-8439-e03cbe3ae2ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Animation">
-      <UniqueIdentifier>{bb38a648-d9d8-40bf-8533-a174f184c808}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animation\Animation">
-      <UniqueIdentifier>{97ad3c0b-9cd1-4009-8a96-91c17cdbacfd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animation\Sprite Animator">
-      <UniqueIdentifier>{c1924e58-3a71-4965-8ff2-d776c7ace829}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animation\Blend Tree">
-      <UniqueIdentifier>{9b333d0c-94b4-4f9b-88f5-e69a561d63f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animation\Animation State">
-      <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Dynamic Array">
       <UniqueIdentifier>{b99e1a61-fe05-405c-9fbb-ac3cf1d44e03}</UniqueIdentifier>
     </Filter>
@@ -247,12 +232,6 @@
     <Filter Include="Code\ECS\System\System Base">
       <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Systems">
-      <UniqueIdentifier>{693dd1f0-6557-4114-afc5-c13cf3ae6321}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\System\Systems\SpriteRenderer">
-      <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Scene Management\Scene Serializer">
       <UniqueIdentifier>{c96ab60f-4881-48b4-b103-bc2181a82a7d}</UniqueIdentifier>
     </Filter>
@@ -279,6 +258,33 @@
     </Filter>
     <Filter Include="Code\ECS\Component">
       <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\SpriteRenderer">
+      <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\PlayerController">
+      <UniqueIdentifier>{667b2651-361d-4d2d-8e1f-369b5d6f0b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Physics">
+      <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animator">
+      <UniqueIdentifier>{bb38a648-d9d8-40bf-8533-a174f184c808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animator\Animation">
+      <UniqueIdentifier>{97ad3c0b-9cd1-4009-8a96-91c17cdbacfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animator\Sprite Animator">
+      <UniqueIdentifier>{c1924e58-3a71-4965-8ff2-d776c7ace829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animator\Blend Tree">
+      <UniqueIdentifier>{9b333d0c-94b4-4f9b-88f5-e69a561d63f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Animator\Animation State">
+      <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Animation">
+      <UniqueIdentifier>{9063ff2c-256d-48d4-a7a6-aa6c7a1e0daf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -310,7 +316,7 @@
       <Filter>Code\Graphics\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Code\Animator.cpp">
-      <Filter>Code\Graphics\Animation\Sprite Animator</Filter>
+      <Filter>Code\Graphics\Animator\Sprite Animator</Filter>
     </ClCompile>
     <ClCompile Include="Code\VertexArray.cpp">
       <Filter>Code\Graphics\VAO &amp; VBO\Vertex Array</Filter>
@@ -343,13 +349,13 @@
       <Filter>Code\Text %28 rewrite %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\BlendTree.cpp">
-      <Filter>Code\Graphics\Animation\Blend Tree</Filter>
+      <Filter>Code\Graphics\Animator\Blend Tree</Filter>
     </ClCompile>
     <ClCompile Include="Code\AnimationState.cpp">
-      <Filter>Code\Graphics\Animation\Animation State</Filter>
+      <Filter>Code\Graphics\Animator\Animation State</Filter>
     </ClCompile>
     <ClCompile Include="Code\Animation.cpp">
-      <Filter>Code\Graphics\Animation\Animation</Filter>
+      <Filter>Code\Graphics\Animator\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Code\forchar.cpp">
       <Filter>Code\Graphics\Text Render\forchar</Filter>
@@ -454,7 +460,7 @@
       <Filter>Code\ECS\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Code\SpriteRendererSystem.cpp">
-      <Filter>Code\ECS\System\Systems\SpriteRenderer</Filter>
+      <Filter>Code\ECS\System\SpriteRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Code\SystemBase.cpp">
       <Filter>Code\ECS\System\System Base</Filter>
@@ -476,6 +482,15 @@
     </ClCompile>
     <ClCompile Include="Code\RenderContext.cpp">
       <Filter>Code\Graphics\Render Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\PlayerControllerSystem.cpp">
+      <Filter>Code\ECS\System\PlayerController</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\PhysicsSystem.cpp">
+      <Filter>Code\ECS\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\AnimationSystem.cpp">
+      <Filter>Code\ECS\System\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,16 +540,16 @@
       <Filter>Code\Graphics\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Code\Animation.h">
-      <Filter>Code\Graphics\Animation\Animation</Filter>
+      <Filter>Code\Graphics\Animator\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Code\Animator.h">
-      <Filter>Code\Graphics\Animation\Sprite Animator</Filter>
+      <Filter>Code\Graphics\Animator\Sprite Animator</Filter>
     </ClInclude>
     <ClInclude Include="Code\BlendTree.h">
-      <Filter>Code\Graphics\Animation\Blend Tree</Filter>
+      <Filter>Code\Graphics\Animator\Blend Tree</Filter>
     </ClInclude>
     <ClInclude Include="Code\AnimationState.h">
-      <Filter>Code\Graphics\Animation\Animation State</Filter>
+      <Filter>Code\Graphics\Animator\Animation State</Filter>
     </ClInclude>
     <ClInclude Include="Code\VertexArray.h">
       <Filter>Code\Graphics\VAO &amp; VBO\Vertex Array</Filter>
@@ -675,7 +690,7 @@
       <Filter>Code\ECS\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Code\SpriteRendererSystem.h">
-      <Filter>Code\ECS\System\Systems\SpriteRenderer</Filter>
+      <Filter>Code\ECS\System\SpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Code\SystemBase.h">
       <Filter>Code\ECS\System\System Base</Filter>
@@ -697,6 +712,15 @@
     </ClInclude>
     <ClInclude Include="Code\RenderContext.h">
       <Filter>Code\Graphics\Render Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\PlayerControllerSystem.h">
+      <Filter>Code\ECS\System\PlayerController</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\PhysicsSystem.h">
+      <Filter>Code\ECS\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\AnimationSystem.h">
+      <Filter>Code\ECS\System\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -741,8 +765,5 @@
     <Text Include="EnTT\EnTT_License.txt">
       <Filter>Dependencies\Licenses</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

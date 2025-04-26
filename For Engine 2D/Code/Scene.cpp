@@ -2,25 +2,20 @@
 #include "Scene.h"
 
 void FE2D::Scene::Release() {
-	for (auto& system : m_Systems) {
-		system->Release();
-	}
 	m_EntityMap.clear();
 	m_Registry.clear();
 }
 
 void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
 
-	m_Systems.emplace_back(std::make_unique<SpriteRendererSystem>());
-	// add here
-	// ..
-
-	for (auto& system : m_Systems) {
-		system->setContext(window, render_context, resource_manager, *this);
-		system->Initialize();
-	}
-
+	m_Window = &window;
 	m_RenderContext = &render_context;
+	m_ResourceManager = &resource_manager;
+
+	m_SpriteRendererSystem = this->CreateSystem<SpriteRendererSystem>();
+	m_PlayerControllerSystem = this->CreateSystem<PlayerControllerSystem>();
+	m_PhysicsSystem = this->CreateSystem<PhysicsSystem>();
+	m_AnimationSystem = this->CreateSystem<AnimationSystem>();
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {
@@ -87,19 +82,22 @@ void FE2D::Scene::Start() {
 }
 
 void FE2D::Scene::Update() {
-	for (auto& system : m_Systems) {
-		system->Update();
-	}
+
+	/* Input */
+	m_PlayerControllerSystem->Update();
+	
+	/* Calculations */
+	m_PhysicsSystem->Update();
+	
+	/* Output */
+	m_AnimationSystem->Update();
+
 }
 
 void FE2D::Scene::Render() {
-	for (auto& system : m_Systems) {
-		system->Render();
-	}
+	m_SpriteRendererSystem->Render();
 }
 
 void FE2D::Scene::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
-	for (auto& system : m_Systems) {
-		system->RenderPickable(render_context, mouse_picker);
-	}
+	m_SpriteRendererSystem->RenderPickable(render_context, mouse_picker);
 }

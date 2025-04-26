@@ -32,5 +32,3 @@ int main(int argc, char* argv[]) {
 
 	return SUCCESSFUL_EXIT;
 }
-
-// FPS : if you feel, that FPS is low, check for systems. They use SystemBase as a base class to inherit. You can remove vtable and FPS will grow up

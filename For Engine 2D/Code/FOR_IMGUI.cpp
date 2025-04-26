@@ -247,12 +247,10 @@ std::optional<std::pair<size_t, Texture&>> FE2D::IMGUI::SelectTexture() {
     return result;
 }
 
-void IMGUI::TransformControl(TransformComponent& transform) {
-    m_IsAnyGizmoHovered = false;
-
+vec2 FE2D::IMGUI::GetWorldPosition(TransformComponent& transform) {
     mat4 mvp_matrix = m_RenderContext->getViewProjection() * (mat4)transform;
     vec4 clip_space_pos = mvp_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    
+
     vec3 ndc_pos = vec3(clip_space_pos.x, clip_space_pos.y, clip_space_pos.z) / clip_space_pos.w;
 
     vec2 image_world_pos = vec2(m_PreviewImagePosition.x, (ImGui::GetIO().DisplaySize.y / 2) - m_PreviewImagePosition.y);
@@ -262,11 +260,35 @@ void IMGUI::TransformControl(TransformComponent& transform) {
         ((1.0f - ndc_pos.y) * 0.5f) * m_PreviewWindowSize.y
     );
 
+    return pos;
+}
+
+ImDrawList* FE2D::IMGUI::GetPreviewWindowDrawList() {
+    vec4 clip = vec4(vec2(m_PreviewWindowPosition.x, (ImGui::GetIO().DisplaySize.y / 2) - m_PreviewImagePosition.y), m_PreviewWindowSize);
+    ImVec2 clip_min = ImVec2(clip.x, clip.y);
+
+    ImVec2 clip_max = ImVec2(clip.x + clip.z,
+        clip.y + clip.w);
+
+    ImDrawList* draw = ImGui::GetForegroundDrawList();
+    draw->PushClipRect(clip_min, clip_max, true);
+
+    return draw;
+}
+
+void IMGUI::TransformControl(TransformComponent& transform) {
+    if (IsAnyColliderGizmoDragging())
+        return;
+
+    m_IsAnyGizmoHovered = false;
+
     if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
         if (m_IsDraggingX) m_IsDraggingX = false;
         if (m_IsDraggingY) m_IsDraggingY = false;
         if (m_IsDraggingRect) m_IsDraggingRect = false;
     }
+
+    vec2 pos = this->GetWorldPosition(transform);
     
     vec2 start = vec2(pos.x, pos.y);
 
@@ -276,7 +298,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     constexpr vec4 x_color = vec4(1.00f, 0.25f, 0.25f, 0.75f);
     constexpr vec4 y_color = vec4(0.25f, 0.25f, 1.00f, 0.75f);
     
-    vec2 rect_start = start + vec2(1, 0); // this needed to fix one pixel aka visual bug, which cause of rect_size - vec2(15, -15)
+    vec2 rect_start = start + vec2(1, 0); // this needed to fix a visual bug
     constexpr vec2 rect_size = vec2(15, -15);
     constexpr vec4 rect_color = vec4(0.15f, 0.75f, 0.15f, 0.75f);
 
@@ -287,14 +309,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     // step with pressed CTRL
     constexpr vec2 step_size = vec2(16);
 
-    vec4 clip = vec4(vec2(m_PreviewWindowPosition.x, (ImGui::GetIO().DisplaySize.y / 2) - m_PreviewImagePosition.y), m_PreviewWindowSize);
-    ImVec2 clip_min = ImVec2(clip.x, clip.y);
-
-    ImVec2 clip_max = ImVec2(clip.x + clip.z,
-                             clip.y + clip.w);
-
-    ImDrawList* draw = ImGui::GetForegroundDrawList();
-    draw->PushClipRect(clip_min, clip_max, true);
+    auto draw = this->GetPreviewWindowDrawList();
 
     if (!m_IsDraggingRect) {
         if (!m_IsDraggingY && DrawGizmoArrow(start, x_end, x_color, m_IsDraggingX, draw)) {
@@ -360,6 +375,46 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     }
 }
 
+void FE2D::IMGUI::ColliderControl(TransformComponent& transform, ColliderComponent& collider) {
+    if (IsAnyTransformGizmoDragging())
+        return;
+
+    m_IsAnyGizmoHovered = false;
+
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+        if (m_IsDraggingColliderLeft) m_IsDraggingColliderLeft = false;
+		if (m_IsDraggingColliderRight) m_IsDraggingColliderRight = false;
+		if (m_IsDraggingColliderTop) m_IsDraggingColliderTop = false;
+		if (m_IsDraggingColliderBottom) m_IsDraggingColliderBottom = false;
+    }
+
+    vec2 pos = this->GetWorldPosition(transform);
+    pos += collider.position;
+    
+    constexpr float line_width = 3;
+
+    vec2 left_pos = pos;
+
+	vec2 vertical_line_size   = vec2(line_width, collider.size.y);
+	vec2 horizontal_line_size = vec2(collider.size.x, line_width);
+
+    auto draw = this->GetPreviewWindowDrawList();
+
+    constexpr vec4 color = vec4(0.4f, 0.7f, 0.5f, 1.0f);
+
+    const float camera_zoom = m_RenderContext->getCamera()->getZoom();
+    vec2 viewport_scale = (LOGICAL_RESOLUTION / m_PreviewWindowSize) * camera_zoom;
+
+    // left
+    if (DrawGizmoRect(left_pos, vertical_line_size, color, m_IsDraggingColliderLeft, draw)) {
+        vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
+
+        collider.position.x += delta.x * viewport_scale.x;
+
+        m_IsDraggingColliderLeft = true;
+    }
+}
+
 bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw) {
     ImGuiIO& io = ImGui::GetIO();
 
@@ -408,9 +463,9 @@ bool IMGUI::DrawGizmoRect(const vec2& position, const vec2& size, const vec4& co
     ImVec2 rect_min(position.x, position.y);
     ImVec2 rect_max(position.x + size.x, position.y + size.y);
     
-    const float thickness = size.x;
-    ImVec2 minBB(rect_min.x - thickness, rect_min.y - thickness);
-    ImVec2 maxBB(rect_max.x + thickness, rect_max.y + thickness);
+    const vec2 thickness = abs(size);
+    ImVec2 minBB(rect_min.x - thickness.x, rect_min.y - thickness.y);
+    ImVec2 maxBB(rect_max.x + thickness.x, rect_max.y + thickness.y);
 
     bool hovered = ImGui::IsMouseHoveringRect(minBB, maxBB, false);
     if (hovered) m_IsAnyGizmoHovered = true;

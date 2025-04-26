@@ -75,17 +75,13 @@ void FE2D::SpriteRendererSystem::Handle(TransformComponent& transform, SpriteCom
 	m_AtlasOffsets.add(atlas_offset);
 }
 
-void FE2D::SpriteRendererSystem::Update() {
-
-}
-
 void FE2D::SpriteRendererSystem::Render() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 
 	size_t count = 0;
 
-	auto view = registry.group<TransformComponent, SpriteComponent>();
-	for (auto e : view) {
+	auto group = registry.group<SpriteComponent>(entt::get<TransformComponent>);
+	for (auto e : group) {
 		auto& transform = registry.get<TransformComponent>(e);
 		auto& sprite = registry.get<SpriteComponent>(e);
 
@@ -110,7 +106,7 @@ void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, M
 
 	entt::registry& registry = this->m_Scene->getRegistry();
 
-	auto view = registry.group<TransformComponent, SpriteComponent>();
+	auto view = registry.group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto e : view) {
 		auto& transform = registry.get<TransformComponent>(e);
 		auto& sprite = registry.get<SpriteComponent>(e);

@@ -141,6 +141,9 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<TransformComponent>("Transform");
 		DisplayAddComponentEntry<SpriteComponent>("SpriteRenderer");
 		DisplayAddComponentEntry<CameraComponent>("Camera");
+		DisplayAddComponentEntry<PlayerComponent>("PlayerController");
+		DisplayAddComponentEntry<VelocityComponent>("Velocity");
+		DisplayAddComponentEntry<ColliderComponent>("Collider");
 
 		ImGui::EndPopup();
 	}
@@ -184,5 +187,21 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 	DrawComponent<CameraComponent>("Camera", entity, [&](auto& component) {
 		ImGui::ColorEdit4("Clear Color", (float*)&component.clear_color);
+		});
+
+	DrawComponent<PlayerComponent>("PlayerController", entity, [&](auto& component) {
+		// ..
+		});
+
+	DrawComponent<VelocityComponent>("Velocity", entity, [&](auto& component) {
+		m_ImGui->DragVector2("Velocity", component.velocity);
+		});
+
+	DrawComponent<ColliderComponent>("Collider", entity, [&](auto& component) {
+		m_ImGui->DragVector2("Position", component.position);
+		ImGui::Spacing();
+		m_ImGui->DragVector2("Size", component.size);
+
+		//m_ImGui->ColliderControl(entity.GetComponent<TransformComponent>(), component);
 		});
 }

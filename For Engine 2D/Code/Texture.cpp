@@ -97,14 +97,14 @@ inline void FE2D::Texture::setIsLinear(const bool linear) noexcept {
 
 json FE2D::Texture::Serialize() const {
 	json j;
-	Serializable::save_value(m_IsLinear, j, "IsLinear" );
-	Serializable::save_vec2	(m_Size	   , j, "Size"     );
-	Serializable::save_value(m_Channels, j, "Channels" );
+	SceneSerializer::save_value(m_IsLinear, j, "IsLinear");
+	SceneSerializer::save_vec2 (m_Size	  , j, "Size"    );
+	SceneSerializer::save_value(m_Channels, j, "Channels");
 	return j;
 }
 
 void FE2D::Texture::Deserialize(const json& j) {
-	Serializable::load_value(m_IsLinear, j, "IsLinear");
-	Serializable::load_vec2 (m_Size	   , j, "Size"    );
-	Serializable::load_value(m_Channels, j, "Channels");
+	SceneSerializer::load_value(m_IsLinear, j, "IsLinear");
+	SceneSerializer::load_vec2 (m_Size	  , j, "Size"	 );
+	SceneSerializer::load_value(m_Channels, j, "Channels");
 }

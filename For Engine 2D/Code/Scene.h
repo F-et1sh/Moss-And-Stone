@@ -2,7 +2,12 @@
 #include "RenderContext.h"
 
 #include "SceneSerializer.h"
+
+/* Included Systems */
 #include "SpriteRendererSystem.h"
+#include "PlayerControllerSystem.h"
+#include "PhysicsSystem.h"
+#include "AnimationSystem.h" 
 
 namespace FE2D {
 	class FOR_API Entity;
@@ -42,13 +47,27 @@ namespace FE2D {
 		inline size_t getIndex()const noexcept { return m_Index; }
 
 	private:
-		std::vector<std::unique_ptr<SystemBase>> m_Systems;
+		template<typename T, std::enable_if<std::is_base_of_v<SystemBase, T>, int>::type = 0>
+		std::unique_ptr<T> CreateSystem() {
+			std::unique_ptr<T> system = std::make_unique<T>();
+			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this);
+			system->Initialize();
+			return system;
+		}
+
+	private:
+		std::unique_ptr<SpriteRendererSystem> m_SpriteRendererSystem;
+		std::unique_ptr<PlayerControllerSystem> m_PlayerControllerSystem;
+		std::unique_ptr<PhysicsSystem> m_PhysicsSystem;
+		std::unique_ptr<AnimationSystem> m_AnimationSystem;
 
 	private:
 		std::unordered_map<UUID, Entity> m_EntityMap;
 
 	private:
+		Window* m_Window = nullptr;
 		RenderContext* m_RenderContext = nullptr;
+		ResourceManager* m_ResourceManager = nullptr;
 		Camera m_Camera;
 
 	private:

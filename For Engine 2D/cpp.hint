@@ -1,5 +1,0 @@
-// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
-// such as names of functions and macros.
-// For more information see https://go.microsoft.com/fwlink/?linkid=865984
-#define FOR_COMPONENT_REGISTER(type, name) static FE2D::ComponentRegistrar<type> type##_register(name);
-#define FOR_COMPONENT_REGISTER(T) static FE2D::ComponentRegistrar<T> T##_register();

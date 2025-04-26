@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\AnimationSystem.cpp" />
+    <ClCompile Include="Code\PhysicsSystem.cpp" />
+    <ClCompile Include="Code\PlayerControllerSystem.cpp" />
     <ClCompile Include="Code\RenderContext.cpp" />
     <ClCompile Include="Code\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Code\Animation.cpp" />
@@ -126,7 +129,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\AnimationSystem.h" />
     <ClInclude Include="Code\MousePicker.h" />
+    <ClInclude Include="Code\PhysicsSystem.h" />
+    <ClInclude Include="Code\PlayerControllerSystem.h" />
     <ClInclude Include="Code\RenderContext.h" />
     <ClInclude Include="Code\SceneHierarchyPanel.h" />
     <ClInclude Include="Code\Application.h" />
@@ -256,9 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="EnTT\EnTT_License.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

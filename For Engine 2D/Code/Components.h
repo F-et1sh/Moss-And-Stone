@@ -100,4 +100,41 @@ namespace FE2D {
         ~CameraComponent() = default;
         CameraComponent(const CameraComponent&) = default;
     };
+
+    struct FOR_API PlayerComponent {
+        float a = 0.0f;
+
+        PlayerComponent() = default;
+        ~PlayerComponent() = default;
+        PlayerComponent(const PlayerComponent&) = default;
+    };
+
+    struct FOR_API VelocityComponent {
+        vec2 velocity = vec2();
+
+        VelocityComponent() = default;
+        ~VelocityComponent() = default;
+        VelocityComponent(const VelocityComponent&) = default;
+    };
+
+    struct FOR_API ColliderComponent {
+        // position of the collider is local
+        // ensure that you're using TransformComponent::position with ColliderComponent::position
+        vec2 position = vec2(0, 0);
+        vec2 size = vec2(50, 50);
+
+        ColliderComponent() = default;
+        ~ColliderComponent() = default;
+        ColliderComponent(const ColliderComponent&) = default;
+    };
+    
+    struct FOR_API AnimatorComponent {
+        std::vector<size_t> animations;
+        size_t current_animation = 0;
+        float time = 0.0f;
+
+        AnimatorComponent() = default;
+        ~AnimatorComponent() = default;
+        AnimatorComponent(const AnimatorComponent&) = default;
+    };
 }

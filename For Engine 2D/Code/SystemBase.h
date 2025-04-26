@@ -6,7 +6,6 @@ namespace FE2D {
 	class FOR_API Shader;
 	class FOR_API UniformBuffer;
 	class FOR_API RenderContext;
-	class FOR_API MousePicker;
 
 	class FOR_API SystemBase {
 	public:
@@ -18,14 +17,6 @@ namespace FE2D {
 			m_ResourceManager = &resource_manager;
 			m_Scene = &scene;
 		}
-
-		virtual void Release() = 0;
-		virtual void Initialize() = 0;
-
-		virtual void Update() = 0;
-		virtual void Render() = 0;
-
-		virtual void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {}
 
 	protected:
 		Window* m_Window = nullptr;
