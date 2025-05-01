@@ -79,7 +79,7 @@ void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, Reso
 	if (!ImGui_ImplOpenGL3_Init(GLSL_VERSION))
         FOR_RUNTIME_ERROR("ERROR : Failed to Initialize ImGui\nImplOpenGL3_Init");
 
-    const auto font_path = FOR_PATH.get_executable_path() / "open_sans.ttf";
+    const auto font_path = FOR_PATH.get_executable_path() / DEFAULT_FONT;
     try {
         const std::string string_path = FE2D::wstring_to_string(font_path.wstring());
         io.Fonts->AddFontFromFileTTF(string_path.c_str(), DEFAULT_PIXEL_SIZE);
@@ -224,7 +224,7 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
 
 std::optional<std::pair<size_t, Texture&>> FE2D::IMGUI::SelectTexture() {
     static const size_t texture_hash_code = typeid(Texture).hash_code();
-    auto& texture_array = m_ResourceManager->m_ResourceCache.get_resource_array().at(texture_hash_code);
+    auto& texture_array = m_ResourceManager->getCache().get_resource_array().at(texture_hash_code);
 
     std::optional<std::pair<size_t, Texture&>> result = std::nullopt;
 

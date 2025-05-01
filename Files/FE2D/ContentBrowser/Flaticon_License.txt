@@ -1,0 +1,32 @@
+COPYING: Flaticon Content License Summary
+
+This project may include visual assets (icons, images) sourced from Flaticon (www.flaticon.com).
+
+These assets are used under the terms of one or both of the following licenses:
+
+1. Flaticon License
+   - Non-commercial or editorial use with mandatory attribution.
+   - Free use allowed if proper credit is given to Flaticon and the original author.
+   - Commercial use without attribution is permitted only with a valid Premium Subscription.
+   - Editorial-only assets must not be used for commercial purposes.
+
+2. Merchandising License
+   - Allows use in commercial products intended for resale.
+   - Attribution is not required.
+   - License is non-transferable, non-sublicensable, and limited to 100,000 reproductions.
+   - Prohibited uses: resale of assets as standalone files, use in design generators or AI systems, NFT if icon is a main element.
+
+Common Restrictions:
+   - No redistribution, resale, or sublicensing of the original or modified assets.
+   - No use in logos or trademarks unless significantly modified.
+   - No use in defamatory, harmful, or unlawful content.
+   - All uses must comply with applicable law in your jurisdiction.
+
+Violation of these terms terminates all rights under the license and requires deletion of all copies of the content.
+
+For more information, please visit https://www.flaticon.com/license
+
+End of the license.
+
+This project uses icons from Flaticon temporarily and exclusively within the FE2D Editor (a private tool).
+The final product (games made using the For Engine 2D) does not include or redistribute any Flaticon assets.

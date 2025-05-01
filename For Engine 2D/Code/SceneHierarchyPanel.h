@@ -4,6 +4,8 @@
 // Based on Hazel ( The Cherno ) - Apache License 2.0
 
 namespace FE2D {
+	class FOR_API ContentBrowser;
+
 	class FOR_API SceneHierarchyPanel {
 	public:
 		SceneHierarchyPanel(Scene* context) :
@@ -11,12 +13,13 @@ namespace FE2D {
 		SceneHierarchyPanel() = default;
 		~SceneHierarchyPanel() = default;
 
-		void setContext(Scene* context, IMGUI* imgui, MousePicker* mouse_picker);
+		void setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker, ContentBrowser& content_browser);
 
 		void OnImGuiRender(bool is_preview_hovered, const vec2& preview_mouse_position);
 
-		Entity getSelectedEntity() const { return m_SelectedEntity; }
-		inline void setSelectedEntity(Entity entity)noexcept { m_SelectedEntity = entity; }
+		inline Entity getSelected() const noexcept;
+		inline void setSelected(Entity entity)noexcept;
+		inline void resetSelected()noexcept;
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
@@ -61,19 +64,24 @@ namespace FE2D {
 		
 		template<typename T>
 		void DisplayAddComponentEntry(const std::string& entry_name) {
-			if (m_SelectedEntity.HasComponent<T>())
+			if (m_Selected.HasComponent<T>())
 				return;
 
 			if (ImGui::MenuItem(entry_name.c_str())) {
-				m_SelectedEntity.AddComponent<T>();
+				m_Selected.AddComponent<T>();
 				ImGui::CloseCurrentPopup();
 			}
 		}
 	private:
 		Scene* m_Context = nullptr;
-		Entity m_SelectedEntity;
+		Entity m_Selected;
 
 		IMGUI* m_ImGui = nullptr;
 		MousePicker* m_MousePicker = nullptr;
+
+		ContentBrowser* m_ContentBrowser = nullptr;
+
+	private:
+		friend class FOR_API ContentBrowser;
 	};
 }

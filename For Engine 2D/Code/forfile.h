@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cstdint>
 #include <stdexcept>
+#include <cstdarg>
 
 namespace FE2D {
     inline static const std::wstring OpenFileDialog() {

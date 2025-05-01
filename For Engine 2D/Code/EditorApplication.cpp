@@ -56,7 +56,8 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 
 	m_SceneManager.Initialize(m_Window, m_RenderContext, m_ResourceManager);
 	
-	m_SceneHierarchyPanel.setContext(&m_SceneManager.getCurrentScene(), &m_ImGui, &m_MousePicker);
+	m_SceneHierarchyPanel.setContext(m_SceneManager.getCurrentScene(), m_ImGui, m_MousePicker, m_ContentBrowser);
+	m_ContentBrowser.Initialize(m_Window, m_ResourceManager, m_ImGui, m_SceneHierarchyPanel);
 
 	const vec2 game_resolution = vec2(m_RenderContext.getViewport().z, m_RenderContext.getViewport().w);
 	m_GameFramebuffer.Initialize(game_resolution);
@@ -106,7 +107,7 @@ void FE2D::EditorApplication::OnMainMenuBar() {
 	ImGui::EndMainMenuBar();
 }
 
-void FE2D::EditorApplication::close_request() {
+void FE2D::EditorApplication::OnCloseRequest() {
 	ImGui::OpenPopup("Save Changes?");
 
 	if (ImGui::BeginPopupModal("Save Changes?", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -167,8 +168,8 @@ void FE2D::EditorApplication::OnPickerUpdate() {
 void FE2D::EditorApplication::OnImGuiRender() {
 	m_ImGui.BeginFrame();
 
-	if (m_CloseRequest)
-		this->close_request();
+	if (m_CloseRequest)					  this->OnCloseRequest();
+	if (m_ContentBrowser.m_DeleteRequest) this->m_ContentBrowser.OnDeleteRequest();
 
 	m_ImGui.StartDockSpace();
 
@@ -177,14 +178,17 @@ void FE2D::EditorApplication::OnImGuiRender() {
 	this->OnPreviewWindow();
 
 	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition);
+	m_ContentBrowser.OnImGuiRender();
 
 	m_ImGui.EndFrame();
 }
 
 void FE2D::EditorApplication::OnPreviewWindow() {
-	ImGui::Begin("Preview");
+	ImGui::Begin("Preview", nullptr, m_ImGui.IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	ImGui::SameLine(ImGui::GetWindowWidth() / 2, 0); // draw the button in the middle of this window
+
+	ImGui::PushItemFlag(ImGuiItemFlags_NoNav, true);
 
 	if (ImGui::Button(m_IsGameRunning ? "Stop" : "Start")) {
 		if (m_IsGameRunning) {
@@ -197,14 +201,17 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 		m_IsGameRunning = !m_IsGameRunning;
 	}
 
+	ImGui::PopItemFlag();
+
 	const float aspect = (float)m_GameFramebuffer.get_texture_size().y / m_GameFramebuffer.get_texture_size().x;
 	float width = ImGui::GetWindowWidth();
 	float height = width * aspect;
 
 	m_IsPreviewHovered = ImGui::IsWindowHovered();
+	m_IsPreviewFocused = ImGui::IsWindowFocused();
 
 	// to move the image down
-	constexpr float offset_y = -20.0f;
+	constexpr float offset_y = 0.0f;
 
 	ImGui::SetCursorScreenPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + ((width - height) / 2) - offset_y));
 
@@ -224,14 +231,17 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 }
 
 void FE2D::EditorApplication::UpdateCameraMoving() {
+	if (!m_IsPreviewFocused)
+		return;
+
 	vec2 direction = vec2(0.0f);
 
 	const float move_speed = 666 * m_Window.getDeltaTime() * m_EditorCamera.getZoom();
 
-	if (glfwGetKey(m_Window.reference(), GLFW_KEY_RIGHT) == GLFW_PRESS) direction.x += 1.0f;
-	if (glfwGetKey(m_Window.reference(), GLFW_KEY_LEFT ) == GLFW_PRESS) direction.x -= 1.0f;
-	if (glfwGetKey(m_Window.reference(), GLFW_KEY_UP   ) == GLFW_PRESS) direction.y += 1.0f;
-	if (glfwGetKey(m_Window.reference(), GLFW_KEY_DOWN ) == GLFW_PRESS) direction.y -= 1.0f;
+	if (ImGui::IsKeyDown(ImGuiKey_RightArrow)) direction.x += 1.0f;
+	if (ImGui::IsKeyDown(ImGuiKey_LeftArrow )) direction.x -= 1.0f;
+	if (ImGui::IsKeyDown(ImGuiKey_UpArrow   )) direction.y += 1.0f;
+	if (ImGui::IsKeyDown(ImGuiKey_DownArrow )) direction.y -= 1.0f;
 
 	if (glm::length(direction) > 0.0f)
 		direction = normalize(direction);

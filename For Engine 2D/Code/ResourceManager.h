@@ -1,6 +1,6 @@
 #pragma once
 #include "ResourceModule.h"
-#include "Resource.h"
+#include "IResource.h"
 
 #include "ResourceLoader.h"
 #include "ResourceCache.h"
@@ -23,9 +23,9 @@ namespace FE2D {
 		enum class ScanMode { FILES, FOLDERS, BOTH };
 
 		static const std::vector<std::filesystem::path> scan_folder(
-																	const std::filesystem::path& folder_path, 
-																	ScanMode mode, 
-																	size_t start_capacity = 32);
+			const std::filesystem::path& folder_path,
+			ScanMode mode,
+			size_t start_capacity = 32);
 	public:
 		void Release();
 		void Initialize();
@@ -42,29 +42,46 @@ namespace FE2D {
 	public:
 		void SaveResources();
 	public:
-		inline std::wstring get_extension(const std::filesystem::path& file_path)const {
-			return m_ResourceLoader.get_extension(file_path);
+		inline std::wstring get_extension(const std::filesystem::path& file_path)const noexcept { return m_ResourceLoader.get_extension(file_path); }
+	public:
+
+	public:
+		template<typename T>
+		void removeResource(size_t index) {
+			FOR_ASSERT((std::is_base_of_v<IResource, T>), "T must be derived from Resource");
+			
+			const size_t hash_code = typeid(T).hash_code();
+			m_ResourceCache.remove_resource(hash_code, index);
 		}
 
-		// this function never returns nullptr
+		void removeResource(size_t hash_code, size_t index) {
+			m_ResourceCache.remove_resource(hash_code, index);
+		}
+	public:
+		// this function might be slow. Be careful
+		// std::pair<size_t, size_t> - are type (typeid(T).hash_code) and resource index
+		std::pair<size_t, size_t> getInfoByPath(const std::filesystem::path& path)const;
+
+	public:
 		template<typename T>
 		T& getResource(size_t index) {
-			static_assert(std::is_base_of<Resource, T>::value, "ERROR : T must be derived from Resource");
+			FOR_ASSERT((std::is_base_of_v<IResource, T>), "T must be derived from Resource");
 
 			const size_t hash_code = typeid(T).hash_code();
 
-			static thread_local std::unordered_map<size_t, T*> localCache;
+			// resource index | resource pointer
+			static thread_local std::unordered_map<size_t, IResource*> localCache;
 
 			auto it = localCache.find(index);
 			if (it != localCache.end()) {
-				return *it->second;
+				return *static_cast<T*>(it->second);
 			}
 
 			// here you can use static_cast because T is definitely derived from Resource
 			T* resource = static_cast<T*>(m_ResourceCache.get_resource(hash_code, index));
-			
+
 			if (resource) {
-				localCache[hash_code] = resource;
+				localCache.emplace(index, resource);
 				return *resource;
 			}
 
@@ -75,12 +92,14 @@ namespace FE2D {
 			try {
 				std::filesystem::path res_path = metadata.value();
 				res_path.replace_extension(); // clear .fs extension
-				this->load_resource(FOR_PATH.get_resources_path() / res_path);
-				
+				this->load_resource(res_path);
+
 				// here you can use static_cast because T is definitely derived from Resource
 				resource = static_cast<T*>(m_ResourceCache.get_resource(hash_code, index));
-				if (resource)
+				if (resource) {
+					localCache.emplace(index, resource);
 					return *resource;
+				}
 
 				SAY("ERROR : Failed to get a resource. Resource still missing after loading attempt");
 				return this->fallbackResource<T>();
@@ -91,13 +110,13 @@ namespace FE2D {
 			}
 		}
 
-	public:
-		void load_resource(const std::filesystem::path& file_path);
+		IResource* getResource(size_t hash_code, size_t index);
 
+	private:
 		template<typename T>
 		T& fallbackResource() {
-			static_assert(std::is_base_of<Resource, T>::value, "ERROR : T must be derived from Resource");
-			
+			FOR_ASSERT((std::is_base_of_v<IResource, T>), "T must be derived from Resource");
+
 			auto& stored = m_ResourceCache.get_resource_array();
 
 			const size_t hash_code = typeid(T).hash_code();
@@ -108,10 +127,37 @@ namespace FE2D {
 			// here you can use static_cast because T is definitely derived from Resource
 			return *static_cast<T*>(it->second.begin()->second);
 		}
-	public:
-		void ClearCache() { m_ResourceCache.clear(); }
 
+		IResource* fallbackResource(size_t hash_code);
+
+	private:
+		void load_resource(const std::filesystem::path& file_path);
+		
+		template<typename T>
+		void handle_loading(const std::filesystem::path& file_path) {
+			auto resource_info = m_ResourceLoader.load_resource<T>(file_path);
+
+			IResource* resource = resource_info.first;
+			const size_t hash_code = typeid(T).hash_code();
+			const size_t res_index = resource_info.second;
+
+			if (!resource) {
+				SAY("Failed to Initialize a resource\nPath : " << file_path);
+				return;
+			}
+
+			std::filesystem::path metadata_path = file_path.wstring() + L".fs";
+
+			m_ResourceCache.set_resource(resource, hash_code, res_index);
+			m_ResourceCache.set_metadata(metadata_path, hash_code, res_index);
+		}
 	public:
+		inline void ClearCache() { m_ResourceCache.clear(); }
+
+		ResourceLoader& getLoader()noexcept { return m_ResourceLoader; }
+		ResourceCache& getCache()noexcept { return m_ResourceCache; }
+
+	private:
 		ResourceLoader m_ResourceLoader = ResourceLoader(this);
 		ResourceCache  m_ResourceCache  = ResourceCache (this);
 	};

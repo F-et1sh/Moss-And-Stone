@@ -91,7 +91,6 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 
 			json j_component = j_entity["SpriteComponent"];
 
-			SceneSerializer::load_vec4(component.texture_coords, j_component, "texture_coords");
 			SceneSerializer::load_value(component.texture_index, j_component, "texture_index");
 			SceneSerializer::load_value(component.flip_x, j_component, "flip_x");
 			SceneSerializer::load_value(component.flip_y, j_component, "flip_y");
@@ -147,6 +146,17 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 			SceneSerializer::load_vec2(component.position, j_component, "position");
 			SceneSerializer::load_vec2(component.size, j_component, "size");
 		}
+
+		if (j_entity.contains("AnimatorComponent")) {
+			AnimatorComponent& component = deserializedEntity.AddComponent<AnimatorComponent>();
+
+			json j_component = j_entity["AnimatorComponent"];
+			SceneSerializer::load_value(component.current_animation, j_component, "current_animation");
+			SceneSerializer::load_value(component.time, j_component, "time");
+			SceneSerializer::load_vector(component.animations, j_component, "animations", [](size_t& e, const json& j){
+				e = j.get<size_t>();
+				});
+		}
     }
 
     return true;
@@ -185,7 +195,6 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		auto& component = entity.GetComponent<SpriteComponent>();
 
 		json j_component;
-		SceneSerializer::save_vec4(component.texture_coords, j_component, "texture_coords");
 		SceneSerializer::save_value(component.texture_index, j_component, "texture_index");
 		SceneSerializer::save_value(component.flip_x, j_component, "flip_x");
 		SceneSerializer::save_value(component.flip_y, j_component, "flip_y");
@@ -243,6 +252,19 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		SceneSerializer::save_vec2(component.size, j_component, "size");
 
 		j["ColliderComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<AnimatorComponent>()) {
+		auto& component = entity.GetComponent<AnimatorComponent>();
+
+		json j_component;
+		SceneSerializer::save_value(component.current_animation, j_component, "current_animation");
+		SceneSerializer::save_value(component.time, j_component, "time");
+		SceneSerializer::save_vector(component.animations, j_component, "animations", [](const size_t& e, json& j){
+			j = e;
+			});
+
+		j["AnimatorComponent"] = j_component;
 	}
 }
 

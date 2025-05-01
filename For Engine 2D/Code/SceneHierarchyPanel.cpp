@@ -1,20 +1,24 @@
 #include "forpch.h"
 #include "SceneHierarchyPanel.h"
 
+#include "ContentBrowser.h"
+
 // This needed to disable a security warning on std::strncpy()
 #ifdef _MSVC_LANG
 	#define _CRT_SECURE_NO_WARNINGS
 #endif
 
-void FE2D::SceneHierarchyPanel::setContext(Scene* context, IMGUI* imgui, MousePicker* mouse_picker) {
-	m_Context = context;
-	m_SelectedEntity = {};
-	m_ImGui = imgui;
-	m_MousePicker = mouse_picker;
+void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker, ContentBrowser& content_browser) {
+	m_Context = &context;
+	m_ImGui = &imgui;
+	m_MousePicker = &mouse_picker;
+	m_ContentBrowser = &content_browser;
+
+	this->resetSelected();
 }
 
 void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec2& preview_mouse_position) {
-	ImGui::Begin("Scene Hierarchy");
+	ImGui::Begin("Scene Hierarchy", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	if (m_Context) {
 		const auto& view = m_Context->getRegistry().view<IDComponent>();
@@ -37,7 +41,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec
 			DrawEntityNode(entity);
 
 		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			m_SelectedEntity = {};
+			this->resetSelected();
 
 		// right-click on blank space
 		if (ImGui::BeginPopupContextWindow()) {
@@ -52,14 +56,31 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec
 	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_hovered) {
 		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
-		if (entity_index != -1) 
-			m_SelectedEntity = { (entt::entity)entity_index, m_Context };
+		if (entity_index != -1) {
+			this->setSelected({ (entt::entity)entity_index, m_Context });
+		}
+		else {
+			this->resetSelected();
+		}
 	}
 
-	ImGui::Begin("Properties");
-	if (m_SelectedEntity)
-		DrawComponents(m_SelectedEntity);
+	ImGui::Begin("Properties", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
+	if (this->getSelected())
+		DrawComponents(this->getSelected());
 	ImGui::End();
+}
+
+inline Entity FE2D::SceneHierarchyPanel::getSelected() const noexcept {
+	return m_Selected;
+}
+
+inline void FE2D::SceneHierarchyPanel::setSelected(Entity entity) noexcept {
+	m_ContentBrowser->resetSelected();
+	m_Selected = entity;
+}
+
+inline void FE2D::SceneHierarchyPanel::resetSelected() noexcept {
+	m_Selected = {};
 }
 
 void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
@@ -68,11 +89,12 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 
 	ImGui::PushID(uuid.get());
 
-	ImGuiTreeNodeFlags flags = ((m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+	ImGuiTreeNodeFlags flags = ((this->getSelected() == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 	bool opened = ImGui::TreeNodeEx(tag.c_str(), flags, tag.c_str());
 
-	if (ImGui::IsItemClicked())
-		m_SelectedEntity = entity;
+	if (ImGui::IsItemClicked()) {
+		this->setSelected(entity);
+	}
 	
 	if (ImGui::BeginDragDropSource()) {
 		ImGui::SetDragDropPayload("ENTITY_RELATIONSHIP", &entity, sizeof(Entity));
@@ -101,7 +123,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		ImGui::EndPopup();
 	}
 
-	if (m_SelectedEntity == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
+	if (this->getSelected() == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
 		entity_deleted = true;
 
 	if (opened) {
@@ -113,8 +135,8 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 
 	if (entity_deleted) {
 		m_Context->DestroyEntity(entity);
-		if (m_SelectedEntity == entity)
-			m_SelectedEntity = {};
+		if (this->getSelected() == entity)
+			this->resetSelected();
 	}
 
 	ImGui::PopID();
@@ -144,6 +166,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<PlayerComponent>("PlayerController");
 		DisplayAddComponentEntry<VelocityComponent>("Velocity");
 		DisplayAddComponentEntry<ColliderComponent>("Collider");
+		DisplayAddComponentEntry<AnimatorComponent>("Animator");
 
 		ImGui::EndPopup();
 	}
@@ -171,13 +194,6 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 		auto texture_optional = m_ImGui->SelectTexture();
 		if (texture_optional.has_value()) {
-			Texture& texture = texture_optional.value().second;
-
-			component.texture_coords.x = 0;
-			component.texture_coords.y = 0;
-			component.texture_coords.z = texture.getSize().x;
-			component.texture_coords.w = texture.getSize().y;
-
 			component.texture_index = texture_optional.value().first;
 		}
 
@@ -203,5 +219,22 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		m_ImGui->DragVector2("Size", component.size);
 
 		//m_ImGui->ColliderControl(entity.GetComponent<TransformComponent>(), component);
+		});
+
+	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
+		//ImGui::DragScalar("Current Animation", ImGuiDataType_U64, (unsigned long long*)&component.current_animation, 1.0f, 0, component.animations.size());
+		ImGui::DragFloat("Current Time", &component.time);
+
+		const size_t max = component.animations.size();
+		const float speed = 1.0f / (max * 10);
+
+		for (size_t i = 0; i < max; i++) {
+			ImGui::DragScalar(std::string("Animation " + std::to_string(i + 1)).c_str(), ImGuiDataType_U64, &component.animations[i], speed, 0, &max);
+		}
+
+		if (ImGui::Button("Add Animation")) {
+			size_t new_anim = component.animations.back() + 1;
+			component.animations.push_back(new_anim);
+		}
 		});
 }

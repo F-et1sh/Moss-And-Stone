@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\AnimationSystem.cpp" />
+    <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\PlayerControllerSystem.cpp" />
     <ClCompile Include="Code\RenderContext.cpp" />
@@ -43,7 +44,7 @@
     <ClCompile Include="Code\RendererFactory.cpp" />
     <ClCompile Include="Code\RendererRegistrar.cpp" />
     <ClCompile Include="Code\RenderManager.cpp" />
-    <ClCompile Include="Code\Resource.cpp" />
+    <ClCompile Include="Code\IResource.cpp" />
     <ClCompile Include="Code\ResourceCache.cpp" />
     <ClCompile Include="Code\ResourceLoader.cpp" />
     <ClCompile Include="Code\ResourceManager.cpp" />
@@ -130,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\AnimationSystem.h" />
+    <ClInclude Include="Code\ContentBrowser.h" />
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />
     <ClInclude Include="Code\PlayerControllerSystem.h" />
@@ -149,7 +151,7 @@
     <ClInclude Include="Code\RendererFactory.h" />
     <ClInclude Include="Code\RendererRegistrar.h" />
     <ClInclude Include="Code\RenderManager.h" />
-    <ClInclude Include="Code\Resource.h" />
+    <ClInclude Include="Code\IResource.h" />
     <ClInclude Include="Code\ResourceCache.h" />
     <ClInclude Include="Code\ResourceLoader.h" />
     <ClInclude Include="Code\ResourceManager.h" />
@@ -248,7 +250,7 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Fonts\OpenSans_Licence.txt" />
+    <CopyFileToFolders Include="Fonts\OpenSans_License.txt" />
     <CopyFileToFolders Include="FreeType\FreeType_LICENSES.txt" />
     <CopyFileToFolders Include="glm-master\glm_copying.txt" />
     <CopyFileToFolders Include="imgui\imgui_LICENSE.txt" />
@@ -261,6 +263,7 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="..\Files\FE2D\ContentBrowser\Flaticon_License.txt" />
     <Text Include="EnTT\EnTT_License.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -59,7 +59,7 @@ void FE2D::ResourceManager::Initialize() {
 }
 
 void FE2D::ResourceManager::load_available_resources() {
-    auto files = scan_folder(FOR_PATH.get_resources_path(), ScanMode::FILES);
+    auto files = scan_folder(FOR_PATH.get_assets_path(), ScanMode::FILES);
     for (const auto& path : files) {
         try {
             this->load_resource(path);
@@ -71,7 +71,7 @@ void FE2D::ResourceManager::load_available_resources() {
 }
 
 void FE2D::ResourceManager::load_available_metadata() {
-    auto files = scan_folder(FOR_PATH.get_resources_path(), ScanMode::FILES);
+    auto files = scan_folder(FOR_PATH.get_assets_path(), ScanMode::FILES);
     for (const auto& path : files) {
         try {
             if (path.extension() != L".fs")
@@ -87,18 +87,16 @@ void FE2D::ResourceManager::load_available_metadata() {
 
             std::filesystem::path res_path = path;
             res_path.replace_extension(); // clear .fs extension
-            res_path = std::filesystem::relative(res_path, FOR_PATH.get_resources_path());
+
+            std::filesystem::path ext = ResourceLoader::get_extension(res_path);
 
             const size_t res_index = j["Resource Index"];
-            const size_t hash_code = m_ResourceLoader.get_hash_code(res_path);
+            const size_t hash_code = m_ResourceLoader.get_hash_code(ext);
 
             if (!hash_code)
                 continue;
 
-            std::filesystem::path metadata_path = path;
-            metadata_path = std::filesystem::relative(metadata_path, FOR_PATH.get_resources_path());
-
-            m_ResourceCache.set_metadata(metadata_path, hash_code, res_index);
+            m_ResourceCache.set_metadata(path, hash_code, res_index);
         }
         catch (const std::exception& e) {
             SAY("WARNING : Failed to load metadata\nPath : " << path << "\nException : " << e.what());
@@ -110,7 +108,7 @@ void FE2D::ResourceManager::SaveResources() {
     for (const auto& resource_array : m_ResourceCache.get_resource_array()) {
         for (const auto& resource : resource_array.second) {
             
-            Resource* res = resource.second;
+            IResource* res = resource.second;
             const size_t res_hash_code = typeid(*res).hash_code();
             const size_t res_index = resource.first;
 
@@ -121,7 +119,7 @@ void FE2D::ResourceManager::SaveResources() {
                 continue;
             }
 
-            std::ofstream file(FOR_PATH.get_resources_path() / metadata.value());
+            std::ofstream file(metadata.value());
             if (!file.good()) {
                 SAY("WARNING : Failed to serialize a resource\nFailed to open the file");
                 continue;
@@ -138,6 +136,87 @@ void FE2D::ResourceManager::SaveResources() {
     }
 }
 
+std::pair<size_t, size_t> FE2D::ResourceManager::getInfoByPath(const std::filesystem::path& path) const {
+    auto& metadata_array = m_ResourceCache.get_metadata_array();
+
+    static thread_local std::unordered_map<std::filesystem::path, std::pair<size_t, size_t>> localCache;
+
+    auto it = localCache.find(path);
+    if (it != localCache.end()) {
+        return it->second;
+    }
+
+    for (auto& metadata_type_array : metadata_array) {
+        for (auto& metadata : metadata_type_array.second) {
+
+            size_t hash_code = metadata_type_array.first;
+            size_t index = metadata.first;
+            std::filesystem::path res_path = metadata.second;
+            res_path.replace_extension(); // clear .fs extension
+            
+            if (res_path == path) {
+                std::pair<size_t, size_t> pair = { hash_code, index };
+
+                localCache.emplace(path, pair);
+                return pair;
+            }
+        }
+    }
+
+    return {};
+}
+
+IResource* FE2D::ResourceManager::getResource(size_t hash_code, size_t index) {
+    // resource index | resource pointer
+    static thread_local std::unordered_map<size_t, IResource*> localCache;
+
+    auto it = localCache.find(index);
+    if (it != localCache.end()) {
+        return it->second;
+    }
+
+    // here you can use static_cast because T is definitely derived from Resource
+    IResource* resource = m_ResourceCache.get_resource(hash_code, index);
+
+    if (resource) {
+        localCache.emplace(index, resource);
+        return resource;
+    }
+
+    const auto& metadata = m_ResourceCache.get_metadata(hash_code, index);
+    if (!metadata.has_value())
+        return this->fallbackResource(hash_code);
+
+    try {
+        std::filesystem::path res_path = metadata.value();
+        res_path.replace_extension(); // clear .fs extension
+        this->load_resource(res_path);
+
+        // here you can use static_cast because T is definitely derived from Resource
+        if (resource = m_ResourceCache.get_resource(hash_code, index)) {
+            localCache.emplace(index, resource);
+            return resource;
+        }
+
+        SAY("ERROR : Failed to get a resource. Resource still missing after loading attempt");
+        return this->fallbackResource(hash_code);
+    }
+    catch (const std::exception& e) {
+        SAY("ERROR : Failed to get a resource. Using the first loaded\nException : " << e.what());
+        return this->fallbackResource(hash_code);
+    }
+}
+
+IResource* FE2D::ResourceManager::fallbackResource(size_t hash_code) {
+    auto& stored = m_ResourceCache.get_resource_array();
+
+    auto it = stored.find(hash_code);
+    if (it == stored.end() || it->second.empty())
+        FOR_RUNTIME_ERROR("Failed to fallback\nNo loaded resources");
+    // here you can use static_cast because T is definitely derived from Resource
+    return it->second.begin()->second;
+}
+
 void FE2D::ResourceManager::load_resource(const std::filesystem::path& file_path) {
     if (!std::filesystem::is_regular_file(file_path)) {
         SAY("WARNING : Failed to load a resource\nIt's not a file or doesn't exist\nPath : " << file_path);
@@ -145,22 +224,11 @@ void FE2D::ResourceManager::load_resource(const std::filesystem::path& file_path
     }
 
     if (ResourceLoader::texture_supported_extensions.contains(file_path.extension())) {
-        auto resource_info = m_ResourceLoader.load_resource<Texture>(file_path);
+        this->handle_loading<Texture>(file_path);
+    }
 
-        Resource* resource = resource_info.first;
-        const size_t hash_code = typeid(Texture).hash_code();
-        const size_t res_index = resource_info.second;
-
-        if (!resource) {
-            SAY("Failed to Initialize a resource\nPath : " << file_path.wstring());
-            return;
-        }
-
-        std::filesystem::path metadata_path = file_path.wstring() + L".fs";
-        metadata_path = std::filesystem::relative(metadata_path, FOR_PATH.get_resources_path());
-
-        m_ResourceCache.set_resource(resource, hash_code, res_index);
-        m_ResourceCache.set_metadata(metadata_path, hash_code, res_index);
+    if (ResourceLoader::animation_supported_extensions.contains(file_path.extension())) {
+        this->handle_loading<Animation>(file_path);
     }
 
     if (ResourceLoader::audio_supported_extensions.contains(file_path.extension())) {

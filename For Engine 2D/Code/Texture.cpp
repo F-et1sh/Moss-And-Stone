@@ -15,12 +15,12 @@ void FE2D::Texture::Release() {
 	m_IsLinear = false;
 }
 
-bool FE2D::Texture::LoadFromFile(const std::wstring& file_path) {
+bool FE2D::Texture::LoadFromFile(const std::filesystem::path& file_path) {
 	this->Release();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	glGenTextures(1, &m_Reference);
+	glCreateTextures(GL_TEXTURE_2D, 1, &m_Reference);
 	glBindTexture(GL_TEXTURE_2D, m_Reference);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -32,10 +32,8 @@ bool FE2D::Texture::LoadFromFile(const std::wstring& file_path) {
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true);
 
-	const std::filesystem::path path = file_path;
-
 	// Load file to memory
-	void* data = stbi_load(path.string().c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+	void* data = stbi_load(file_path.string().c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
 	nrChannels = STBI_rgb_alpha;
 
 	if (!data) {
@@ -85,9 +83,15 @@ bool FE2D::Texture::LoadFromFile(const std::wstring& file_path) {
 	return true;
 }
 
+void FE2D::Texture::OnEditorDraw(IMGUI& imgui) {
+	imgui.CheckBox("Is Linear", m_IsLinear);
+
+	setIsLinear(m_IsLinear);
+}
+
 void FE2D::Texture::bind() const noexcept{ glBindTexture(GL_TEXTURE_2D, m_Reference); }
 
-inline void FE2D::Texture::setIsLinear(const bool linear) noexcept {
+inline void FE2D::Texture::setIsLinear(bool linear) noexcept {
 	m_IsLinear = linear;
 	glBindTexture(GL_TEXTURE_2D, m_Reference);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_IsLinear ? GL_LINEAR : GL_NEAREST);
@@ -98,13 +102,11 @@ inline void FE2D::Texture::setIsLinear(const bool linear) noexcept {
 json FE2D::Texture::Serialize() const {
 	json j;
 	SceneSerializer::save_value(m_IsLinear, j, "IsLinear");
-	SceneSerializer::save_vec2 (m_Size	  , j, "Size"    );
-	SceneSerializer::save_value(m_Channels, j, "Channels");
 	return j;
 }
 
 void FE2D::Texture::Deserialize(const json& j) {
 	SceneSerializer::load_value(m_IsLinear, j, "IsLinear");
-	SceneSerializer::load_vec2 (m_Size	  , j, "Size"	 );
-	SceneSerializer::load_value(m_Channels, j, "Channels");
+	
+	setIsLinear(m_IsLinear);
 }

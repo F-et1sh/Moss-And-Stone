@@ -1,6 +1,16 @@
 {
     "Entities": [
         {
+            "AnimatorComponent": {
+                "animations": [
+                    2,
+                    2,
+                    3,
+                    4
+                ],
+                "current_animation": 0,
+                "time": 138.0
+            },
             "ColliderComponent": {
                 "position": [
                     0.0,
@@ -19,12 +29,6 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture_coords": [
-                    0.0,
-                    0.0,
-                    640.0,
-                    640.0
-                ],
                 "texture_index": 10276131151548319646
             },
             "TagComponent": {
@@ -63,12 +67,6 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture_coords": [
-                    0.0,
-                    0.0,
-                    1500.0,
-                    1000.0
-                ],
                 "texture_index": 7760034572860002612
             },
             "TagComponent": {
@@ -101,12 +99,6 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture_coords": [
-                    0.0,
-                    0.0,
-                    1500.0,
-                    1000.0
-                ],
                 "texture_index": 11428700421532334987
             },
             "TagComponent": {
@@ -139,12 +131,6 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture_coords": [
-                    0.0,
-                    0.0,
-                    750.0,
-                    1125.0
-                ],
                 "texture_index": 3696367563744719835
             },
             "TagComponent": {
@@ -242,12 +228,6 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture_coords": [
-                    0.0,
-                    0.0,
-                    1080.0,
-                    9137.0
-                ],
                 "texture_index": 7098954256517043458
             },
             "TagComponent": {
@@ -280,12 +260,6 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture_coords": [
-                    0.0,
-                    0.0,
-                    1080.0,
-                    9137.0
-                ],
                 "texture_index": 7098954256517043458
             },
             "TagComponent": {

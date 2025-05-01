@@ -46,32 +46,20 @@ void FE2D::SpriteRendererSystem::Initialize() {
 }
 
 void FE2D::SpriteRendererSystem::Handle(TransformComponent& transform, SpriteComponent& sprite) {
-
 	mat4 matrix = transform;
 	
+	Texture& texture = m_ResourceManager->getResource<Texture>(sprite.texture_index);
+	m_TextureAtlas.AddTexture(texture);
+
 	matrix = scale(matrix, vec3(
 		sprite.flip_x ? -1 : 1,  // Flipping X
 		sprite.flip_y ? -1 : 1,  // Flipping Y
 		1));
 
-	matrix = scale(matrix, vec3(
-		sprite.texture_coords.z, // Size X
-		sprite.texture_coords.w, // Size Y
-		1));
-
+	matrix = scale(matrix, vec3(texture.getSize(), 1.0f));
 	m_Matrices.add(matrix);
 
-	Texture& texture = m_ResourceManager->getResource<Texture>(sprite.texture_index);
-
-	m_TextureAtlas.AddTexture(texture);
-
-	vec4 atlas_offset = vec4(
-		m_TextureAtlas.getTextureCoords(&texture)				// Texture Altas Offset
-		+
-		vec2(sprite.texture_coords.x, sprite.texture_coords.y), // Sprite Altas Offset
-		vec2(sprite.texture_coords.z, sprite.texture_coords.w)  // Sprite Size
-	);
-
+	vec4 atlas_offset = vec4(m_TextureAtlas.getTextureCoords(&texture), texture.getSize());
 	m_AtlasOffsets.add(atlas_offset);
 }
 
@@ -118,10 +106,9 @@ void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, M
 			sprite.flip_y ? -1 : 1,  // Flipping Y
 			1));
 
-		matrix = scale(matrix, vec3(
-			sprite.texture_coords.z, // Size X
-			sprite.texture_coords.w, // Size Y
-			1));
+		Texture& texture = m_ResourceManager->getResource<Texture>(sprite.texture_index);
+
+		matrix = scale(matrix, vec3(texture.getSize(), 1.0f));
 
 		m_EntityHandles.add(vec4(e, e, e, e));
 		m_Matrices.add(matrix);

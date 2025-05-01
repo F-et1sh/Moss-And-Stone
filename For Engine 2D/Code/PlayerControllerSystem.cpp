@@ -12,10 +12,16 @@ void FE2D::PlayerControllerSystem::Initialize()
 void FE2D::PlayerControllerSystem::Update() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 
-	auto group = registry.group<PlayerComponent>(entt::get<TransformComponent, VelocityComponent>);
+	auto group = registry.group<PlayerComponent>(entt::get<TransformComponent>);
 	for (auto e : group) {
-		auto& transform = registry.get<TransformComponent>(e);
-		auto& player = registry.get<PlayerComponent>(e);
+		Entity entity = { e, m_Scene };
+
+		auto& transform = entity.GetComponent<TransformComponent>();
+		auto& player = entity.GetComponent<PlayerComponent>();
+
+		if (!entity.HasComponent<VelocityComponent>())
+			return; // TODO : Work here
+
 		auto& velocity = registry.get<VelocityComponent>(e);
 
 		vec2 dir = vec2();

@@ -67,9 +67,6 @@
     <Filter Include="Code\Graphics\Texturing\Texture Atlas">
       <UniqueIdentifier>{4a81d7e0-db1f-4d25-9e15-c304cfe6b896}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Texturing\Texture">
-      <UniqueIdentifier>{840d3e6c-c8d5-4ed2-a02c-68c4020bf781}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\File">
       <UniqueIdentifier>{0d627577-6119-4e9d-863d-ecf91a88f764}</UniqueIdentifier>
     </Filter>
@@ -271,9 +268,6 @@
     <Filter Include="Code\Graphics\Animator">
       <UniqueIdentifier>{bb38a648-d9d8-40bf-8533-a174f184c808}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Animator\Animation">
-      <UniqueIdentifier>{97ad3c0b-9cd1-4009-8a96-91c17cdbacfd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Graphics\Animator\Sprite Animator">
       <UniqueIdentifier>{c1924e58-3a71-4965-8ff2-d776c7ace829}</UniqueIdentifier>
     </Filter>
@@ -285,6 +279,18 @@
     </Filter>
     <Filter Include="Code\ECS\System\Animation">
       <UniqueIdentifier>{9063ff2c-256d-48d4-a7a6-aa6c7a1e0daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resources">
+      <UniqueIdentifier>{5c0c09ef-5625-4b1c-827b-90ddd6f9c137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resources\Animation">
+      <UniqueIdentifier>{97ad3c0b-9cd1-4009-8a96-91c17cdbacfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Resources\Texture">
+      <UniqueIdentifier>{840d3e6c-c8d5-4ed2-a02c-68c4020bf781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Resource Management\Content Browser">
+      <UniqueIdentifier>{0e9479cf-be90-4ea2-ab0d-501aab5e2ab1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -325,7 +331,7 @@
       <Filter>Code\Graphics\VAO &amp; VBO\Vertex Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Code\Texture.cpp">
-      <Filter>Code\Graphics\Texturing\Texture</Filter>
+      <Filter>Code\Resource Management\Resources\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Code\Window.cpp">
       <Filter>Code\Window</Filter>
@@ -355,7 +361,7 @@
       <Filter>Code\Graphics\Animator\Animation State</Filter>
     </ClCompile>
     <ClCompile Include="Code\Animation.cpp">
-      <Filter>Code\Graphics\Animator\Animation</Filter>
+      <Filter>Code\Resource Management\Resources\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Code\forchar.cpp">
       <Filter>Code\Graphics\Text Render\forchar</Filter>
@@ -384,7 +390,7 @@
     <ClCompile Include="Code\ResourceManager.cpp">
       <Filter>Code\Resource Management\Resource Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Resource.cpp">
+    <ClCompile Include="Code\IResource.cpp">
       <Filter>Code\Resource Management\Resource %28 Inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\Serializable.cpp">
@@ -492,6 +498,9 @@
     <ClCompile Include="Code\AnimationSystem.cpp">
       <Filter>Code\ECS\System\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Code\ContentBrowser.cpp">
+      <Filter>Code\Resource Management\Content Browser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\forpch.h">
@@ -540,7 +549,7 @@
       <Filter>Code\Graphics\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Code\Animation.h">
-      <Filter>Code\Graphics\Animator\Animation</Filter>
+      <Filter>Code\Resource Management\Resources\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Code\Animator.h">
       <Filter>Code\Graphics\Animator\Sprite Animator</Filter>
@@ -561,7 +570,7 @@
       <Filter>Code\Graphics\Objects\Rectangle</Filter>
     </ClInclude>
     <ClInclude Include="Code\Texture.h">
-      <Filter>Code\Graphics\Texturing\Texture</Filter>
+      <Filter>Code\Resource Management\Resources\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Code\forfile.h">
       <Filter>Code\File</Filter>
@@ -608,7 +617,7 @@
     <ClInclude Include="Code\ResourceManager.h">
       <Filter>Code\Resource Management\Resource Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Resource.h">
+    <ClInclude Include="Code\IResource.h">
       <Filter>Code\Resource Management\Resource %28 Inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\Serializable.h">
@@ -722,6 +731,9 @@
     <ClInclude Include="Code\AnimationSystem.h">
       <Filter>Code\ECS\System\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Code\ContentBrowser.h">
+      <Filter>Code\Resource Management\Content Browser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="FreeType\lib x64\freetype.dll">
@@ -751,7 +763,7 @@
     <CopyFileToFolders Include="OpenAL\OpenAL_COPYING.txt">
       <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Fonts\OpenSans_Licence.txt">
+    <CopyFileToFolders Include="Fonts\OpenSans_License.txt">
       <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="sndfile\sndfile_COPYING.txt">
@@ -759,6 +771,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fonts\open_sans.ttf">
       <Filter>Dependencies\Fonts</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\Files\FE2D\ContentBrowser\Flaticon_License.txt">
+      <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

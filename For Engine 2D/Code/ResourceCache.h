@@ -9,9 +9,7 @@ namespace FE2D {
 		~ResourceCache() = default;
 	private:
 		// pointer of resource
-		using _Resource = Resource*;
-		// relative path of resource
-		// starts from FOR_PATH.get_resources_path()
+		using _Resource = IResource*;
 		using _Metadata = std::filesystem::path;
 
 		// typeid(T).hash_code
@@ -32,17 +30,25 @@ namespace FE2D {
 			return m_StoredMetadata;
 		}
 
+		const std::unordered_map<_TypeIndex, _StoredResourceArray>& get_resource_array()const {
+			return m_StoredResources;
+		}
+		const std::unordered_map<_TypeIndex, _StoredMetadataArray>& get_metadata_array()const {
+			return m_StoredMetadata;
+		}
+
 		void set_resource(_Resource resource, _TypeIndex hash_code, _ItemIndex index) {
 			m_StoredResources[hash_code].emplace(index, resource);
 		}
-
 		void set_metadata(const _Metadata& metadata, _TypeIndex hash_code, _ItemIndex index) {
 			m_StoredMetadata[hash_code].emplace(index, metadata);
 		}
 
 		_Resource get_resource(_TypeIndex hash_code, _ItemIndex index);
-		
 		std::optional<_Metadata> get_metadata(_TypeIndex hash_code, _ItemIndex index);
+
+		void remove_resource(_TypeIndex hash_code, _ItemIndex index);
+		void remove_metadata(_TypeIndex hash_code, _ItemIndex index);
 
 		void clear() {
 			m_StoredResources.clear();

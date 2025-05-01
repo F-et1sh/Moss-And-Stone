@@ -17,9 +17,23 @@ namespace FE2D {
         void SerializeSceneInfo(json& j);
 
 	public:
-        template<typename T, std::enable_if<!std::is_same<T, std::wstring>::value, int>::type = 0>
+        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>>
         static void save_value(const T& value, json& j, const std::string& name) {
             j[name] = value;
+        }
+
+        template <typename T>
+        static void save_vector(const std::vector<T>& data, json& j, const std::string& name, const std::function<void(const std::remove_cvref_t<T>& e, json& j)>& func) {
+            size_t size = data.size();
+            j[name] = json::array();
+
+            for (size_t i = 0; i < size; i++) {
+                json e;
+
+                func(data[i], e);
+
+                j[name].emplace_back(e);
+            }
         }
 
         static void save_value(const std::wstring& value, json& j, const std::string& name) {
@@ -37,12 +51,34 @@ namespace FE2D {
             j[name] = { value.x, value.y, value.z, value.w };
         }
     public:
-        template<typename T, std::enable_if<!std::is_same<T, std::wstring>::value, int>::type = 0>
+        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>>
         static void load_value(T& value, const json& j, const std::string& name) {
             if (!j.contains(name))
                 return;
 
             value = j[name].get<T>();
+        }
+
+        template <typename T>
+        static void load_vector(std::vector<T>& data, json& j, const std::string& name, const std::function<void(std::remove_cvref_t<T>& e, const json& j)>& func) {
+            if (!j.contains(name))
+                return;
+
+            if (!j[name].is_array())
+                return;
+
+            json array = j[name];
+            size_t size = array.size();
+            
+            data.reserve(size);
+
+            for (size_t i = 0; i < size; i++) {
+                T e;
+                
+                func(e, array[i]);
+
+                data.emplace_back(e);
+            }
         }
 
         static void load_value(std::wstring& value, const json& j, const std::string& name) {

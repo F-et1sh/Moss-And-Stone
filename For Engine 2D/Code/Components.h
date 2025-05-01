@@ -70,11 +70,7 @@ namespace FE2D {
 	};
 
     struct FOR_API SpriteComponent {
-
-        vec4 texture_coords = vec4();
-
         size_t texture_index = 0;
-
         bool flip_x = false;
         bool flip_y = false;
 
@@ -102,7 +98,7 @@ namespace FE2D {
     };
 
     struct FOR_API PlayerComponent {
-        float a = 0.0f;
+        float a = 0.0f; // temp value to compile the project
 
         PlayerComponent() = default;
         ~PlayerComponent() = default;

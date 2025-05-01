@@ -29,7 +29,7 @@ namespace FE2D {
 
 		// this must be called only in OnImGuiRender() function
 		// to make a close request use make_close_request()
-		void close_request();
+		void OnCloseRequest();
 	private:
 
 		void Save();
@@ -55,6 +55,7 @@ namespace FE2D {
 
 	private:
 		bool m_IsPreviewHovered = false;
+		bool m_IsPreviewFocused = false;
 		// mouse position in bounds of preview window
 		vec2 m_PreviewMousePosition = vec2();
 
@@ -62,7 +63,9 @@ namespace FE2D {
 
 	private:
 		SceneManager m_SceneManager;
-		ResourceManager m_ResourceManager;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+
+		ResourceManager m_ResourceManager;
+		ContentBrowser m_ContentBrowser;
 	};
 }

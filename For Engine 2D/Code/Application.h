@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "RenderContext.h"
 #include "SceneHierarchyPanel.h"
+#include "ContentBrowser.h"
 #include "Framebuffer.h"
 #include "MousePicker.h"
 

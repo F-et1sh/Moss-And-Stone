@@ -89,7 +89,7 @@ void FE2D::Scene::Update() {
 	/* Calculations */
 	m_PhysicsSystem->Update();
 	
-	/* Output */
+	/* Post-Calculations */
 	m_AnimationSystem->Update();
 
 }
