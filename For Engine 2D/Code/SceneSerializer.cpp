@@ -91,7 +91,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 
 			json j_component = j_entity["SpriteComponent"];
 
-			SceneSerializer::load_value(component.texture_index, j_component, "texture_index");
+			SceneSerializer::load_resource_id(component.texture, j_component, "texture");
 			SceneSerializer::load_value(component.flip_x, j_component, "flip_x");
 			SceneSerializer::load_value(component.flip_y, j_component, "flip_y");
 		}
@@ -195,7 +195,7 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		auto& component = entity.GetComponent<SpriteComponent>();
 
 		json j_component;
-		SceneSerializer::save_value(component.texture_index, j_component, "texture_index");
+		SceneSerializer::save_resource_id(component.texture, j_component, "texture");
 		SceneSerializer::save_value(component.flip_x, j_component, "flip_x");
 		SceneSerializer::save_value(component.flip_y, j_component, "flip_y");
 

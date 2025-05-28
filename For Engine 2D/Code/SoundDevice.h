@@ -1,5 +1,4 @@
 #pragma once
-#include <fordebug.h>
 
 namespace FE2D {
 	class FOR_API SoundDevice {

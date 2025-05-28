@@ -104,4 +104,17 @@ namespace FE2D {
         }
     }
 
+    inline static std::filesystem::path generate_unique_filename(const std::filesystem::path& file_path) {
+        std::filesystem::path path = file_path;
+        std::filesystem::path stem = path.stem();
+        std::filesystem::path extension = path.extension();
+        int count = 1;
+
+        while (std::filesystem::exists(path)) {
+            path.replace_filename(stem.wstring() + L" (" + std::to_wstring(count) + L")" + extension.wstring());
+            count++;
+        }
+
+        return path;
+    }
 }

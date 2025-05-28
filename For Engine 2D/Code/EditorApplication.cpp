@@ -137,7 +137,7 @@ void FE2D::EditorApplication::OnCloseRequest() {
 }
 
 void FE2D::EditorApplication::Save() {
-	m_ResourceManager.SaveResources();
+	m_ResourceManager.save_resources();
 	m_SceneManager.SaveCurrentScene();
 }
 

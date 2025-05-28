@@ -48,7 +48,7 @@ void FE2D::SpriteRendererSystem::Initialize() {
 void FE2D::SpriteRendererSystem::Handle(TransformComponent& transform, SpriteComponent& sprite) {
 	mat4 matrix = transform;
 	
-	Texture& texture = m_ResourceManager->getResource<Texture>(sprite.texture_index);
+	Texture& texture = m_ResourceManager->GetResource(sprite.texture);
 	m_TextureAtlas.AddTexture(texture);
 
 	matrix = scale(matrix, vec3(
@@ -106,7 +106,7 @@ void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, M
 			sprite.flip_y ? -1 : 1,  // Flipping Y
 			1));
 
-		Texture& texture = m_ResourceManager->getResource<Texture>(sprite.texture_index);
+		Texture& texture = m_ResourceManager->GetResource(sprite.texture);
 
 		matrix = scale(matrix, vec3(texture.getSize(), 1.0f));
 

@@ -17,7 +17,12 @@ namespace FE2D {
         void SerializeSceneInfo(json& j);
 
 	public:
-        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>>
+        template<typename T> requires std::is_base_of_v<IResource, T>
+        static void save_resource_id(ResourceID<T> id, json& j, const std::string& name) {
+            j[name] = id.uuid.ToString();
+        }
+
+        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
         static void save_value(const T& value, json& j, const std::string& name) {
             j[name] = value;
         }
@@ -51,7 +56,15 @@ namespace FE2D {
             j[name] = { value.x, value.y, value.z, value.w };
         }
     public:
-        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>>
+        template<typename T> requires std::is_base_of_v<IResource, T>
+        static void load_resource_id(ResourceID<T>& id, const json& j, const std::string& name) {
+            if (!j.contains(name))
+                return;
+
+            id.uuid = FE2D::UUID::FromString(j[name].get<std::string>());
+        }
+
+        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
         static void load_value(T& value, const json& j, const std::string& name) {
             if (!j.contains(name))
                 return;

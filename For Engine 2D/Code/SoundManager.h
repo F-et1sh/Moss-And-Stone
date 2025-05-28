@@ -1,6 +1,4 @@
 #pragma once
-
-#include "forarray.h"
 #include "Sound.h"
 
 namespace FE2D {

@@ -222,29 +222,72 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
     ImGui::PopID();
 }
 
-std::optional<std::pair<size_t, Texture&>> FE2D::IMGUI::SelectTexture() {
-    static const size_t texture_hash_code = typeid(Texture).hash_code();
-    auto& texture_array = m_ResourceManager->getCache().get_resource_array().at(texture_hash_code);
+void FE2D::IMGUI::SelectTexture(FE2D::UUID& load_uuid) {
+    const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
 
-    std::optional<std::pair<size_t, Texture&>> result = std::nullopt;
+    constexpr ImVec2 texture_size = ImVec2(100, 100);
+    constexpr float padding = 10.0f;
 
-    for (auto& pair : texture_array) {
+    FE2D::UUID selected_uuid = load_uuid;
 
-        const size_t texture_index = pair.first; // texture unique index
+    static char search_buffer[128] = "";
+    ImGui::Begin("Texture Selection");
 
-        ImGui::PushID(texture_index);
+    ImGui::InputTextWithHint("##Search", "Search texture...", search_buffer, IM_ARRAYSIZE(search_buffer));
 
-        Texture& texture = *static_cast<Texture*>(pair.second);
+    float window_visible_x = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
 
-        bool chosen = ImGui::ImageButton("Choose Texture", texture.reference(), ImVec2(texture.getSize().x/10, texture.getSize().y/10), ImVec2(0, 1), ImVec2(1, 0));
+    for (const auto& [uuid, resource] : resource_array) {
+        if (auto* texture = dynamic_cast<Texture*>(resource)) {
+            const std::string& name = m_ResourceManager->getCache().get_metadata(uuid).stem().string();
 
-        ImGui::PopID();
+            if (strlen(search_buffer) > 0) {
+                std::string name_lower = name;
+                std::string search_lower = search_buffer;
+                std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower);
+                std::transform(search_lower.begin(), search_lower.end(), search_lower.begin(), ::tolower);
 
-        if (chosen)
-            result = std::pair<size_t, Texture&>(texture_index, texture);
+                if (name_lower.find(search_lower) == std::string::npos)
+                    continue;
+            }
+
+            ImGui::PushID(texture);
+
+            ImVec2 button_size = ImVec2(
+                texture_size.x * (float(texture->getSize().x) / texture->getSize().y),
+                texture_size.y
+            );
+
+            static constexpr ImVec4 selected_bg_color = ImVec4(0, 1, 1, 0.5);
+            static constexpr ImVec4 selected_tint_color = ImVec4(0, 0.5, 0.5, 1);
+
+            ImVec4 bg_color = ImVec4(0, 0, 0, 0);
+            ImVec4 tint_color = ImVec4(1, 1, 1, 1);
+
+            if (uuid == selected_uuid) {
+                bg_color = selected_bg_color;
+                tint_color = selected_tint_color;
+            }
+
+            if (ImGui::ImageButton("##Texture", texture->reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color))
+                selected_uuid = uuid;
+
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("%s", name.c_str());
+
+            float last_button_x = ImGui::GetItemRectMax().x;
+            float next_button_x = last_button_x + padding + button_size.x;
+
+            if (next_button_x < window_visible_x)
+                ImGui::SameLine();
+
+            ImGui::PopID();
+        }
     }
 
-    return result;
+    ImGui::End();
+
+    load_uuid = selected_uuid;
 }
 
 vec2 FE2D::IMGUI::GetWorldPosition(TransformComponent& transform) {

@@ -21,12 +21,12 @@ void FE2D::AnimationSystem::Update() {
 		if (animator.animations.empty())
 			continue;
 		
-		const size_t anim_index = animator.animations[animator.current_animation];
-		Animation& animation = m_ResourceManager->getResource<Animation>(anim_index);
+		//const size_t anim_index = animator.animations[animator.current_animation];
+		//Animation& animation = m_ResourceManager->getResource<Animation>(anim_index);
 
-		sprite.texture_index = animation.getFrameTexture((size_t)animator.time);
+		//sprite.texture_index = animation.getFrameTexture((size_t)animator.time);
 
-		animator.time += m_Window->getDeltaTime();
+		//animator.time += m_Window->getDeltaTime();
 	}
 }
 

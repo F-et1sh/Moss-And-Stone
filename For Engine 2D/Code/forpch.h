@@ -65,13 +65,11 @@ using json = nlohmann::json;
 using namespace glm;
 
 // For
-#include <forcore.h>
-#include <forarray.h>
-#include <fordebug.h>
-#include <fordebuggui.h>
-#include <forsettings.h>
-#include <forconvert.h>
-#include <forfile.h>
+#include <forcore.hpp>
+#include <forarray.hpp>
+#include <fortraits.hpp>
+#include <forconvert.hpp>
+#include <forfile.hpp>
 
 // GLFW
 #include "FOR_GLFW.h"
@@ -85,10 +83,5 @@ using namespace glm;
 
 // Resource Management
 #include "ResourceManager.h"
-#include "PathManager.h"
-
-// Render Managment
-#include "RenderManager.h"
-#include "RendererRegistrar.h"
 
 using namespace FE2D;

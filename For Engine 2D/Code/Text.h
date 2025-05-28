@@ -1,5 +1,4 @@
 #pragma once
-#include <forsettings.h>
 
 namespace FE2D {
 	struct FOR_API Text {
@@ -33,7 +32,7 @@ namespace FE2D {
 
 	public:
 		// Text as std::wstring
-		std::wstring m_String = FOR_DEFAULT_TEXT;
+		std::wstring m_String = L"Default Text";
 
 	public:
 		// Text Position

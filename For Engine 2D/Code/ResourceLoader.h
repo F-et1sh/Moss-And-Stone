@@ -1,71 +1,86 @@
 #pragma once
-#include "IResource.h"
 
 namespace FE2D {
-	// ResourceLoader - it's a module of ResourceManager
-	// It can serialize/deserialize .fs ( .fs - ForSave ) files and load resources from source
-	class FOR_API ResourceLoader : public ResourceModule<ResourceLoader> {
+	class FOR_API ResourceLoader : public IResourceModule {
 	public:
-		ResourceLoader(ResourceManager* load_resourceManager) {
-			setResourceManager(load_resourceManager);
+		ResourceLoader(ResourceManager& resource_manager) {
+			setResourceManager(resource_manager);
 		}
 		~ResourceLoader() = default;
-	public:
-		static std::filesystem::path get_extension(const std::filesystem::path& file_path);
-		static size_t get_hash_code(const std::filesystem::path& ext);
+
 		static bool is_supported(const std::filesystem::path& ext);
+		
+		void LoadResource(const std::filesystem::path& full_path);
+		void LoadMetadata(const std::filesystem::path& full_path);
+		void LoadFallback(const std::filesystem::path& filename);
 
-	public:
-		static std::filesystem::path generate_unique_filename(const std::filesystem::path& file_path);
-	public:
-		template<typename T>
-		static void CreateResource(const std::filesystem::path& file_path) {
-			FOR_ASSERT((std::is_base_of_v<IResource, T>), "Failed to create a resource\nT must be devired by Resource");
+		void CreateResource(const std::filesystem::path& full_path);
+		void CreateMetadata(const std::filesystem::path& full_path, FE2D::UUID uuid);
 
-			if (std::filesystem::is_directory(file_path))
-				return;
-
-			std::filesystem::path path = ResourceLoader::generate_unique_filename(file_path);
-			
-			std::ofstream file(path);
-			if (!file.good()) {
-				SAY("ERROR : Failed to create a resource\nPath : " << path);
-				return;
-			}
-
+	private:
+		template<typename T> requires std::is_base_of_v<IResource, T>
+		IResource* load_fallback(const std::filesystem::path& filename) {
 			IResource* resource = new T();
-			file << resource->Serialize();
+			auto path = FOR_PATH.get_fallbacks_path() / filename;
+			if (!resource->LoadFromFile(path)) {
+				delete resource;
+				resource = nullptr;
+				FOR_RUNTIME_ERROR(("WARNING : Failed to create fallback for" + std::string(typeid(T).name()) + "\nPath : " + path.string()));
+			}
+			
+			this->fallback_resource(typeid(T).hash_code(), resource);
 
-			file.close();
+			return resource;
 		}
-	public:
-		// returns std::pair with pointer of your resource - T*
-		// and size_t - index of the resource
-		template<typename T>
-		static std::pair<T*, size_t> load_resource(const std::filesystem::path& file_path) {
-			static_assert(std::is_base_of<IResource, T>::value, "ERROR : T must be derived from Resource");
 
-			T* resource = new T();
-			if (!resource->LoadFromFile(file_path))
-				return { nullptr, 0 };
-
-			size_t resource_index = 0;
-
-			std::ifstream file(file_path.wstring() + L".fs");
-			if (!file.good()) {
-				resource_index = std::hash<std::filesystem::path>{}(file_path) ^ std::hash<const char*>{}(typeid(T).name());
+		template<typename T> requires std::is_base_of_v<IResource, T>
+		IResource* load_resource(const std::filesystem::path& full_path) {
+			IResource* resource = new T();
+			if (!resource->LoadFromFile(full_path)) {
+				delete resource;
+				resource = nullptr;
+				SAY("WARNING : Failed to load a resource\nPath : " << full_path);
 			}
-			else {
+
+			FE2D::UUID uuid = FE2D::UUID(0);
+
+			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
+
+			std::ifstream file(metadata_full_path);
+			if (file.good()) {
 				json j;
-
 				file >> j;
-				file.close();
 
-				resource_index		= j["Resource Index"];
-				resource->Deserialize(j["Resource Data"]);
+				if (j.contains("DATA") && j.contains("UUID")) {
+					if (resource)
+						resource->Deserialize(j["DATA"]);
+					uuid = FE2D::UUID(j["UUID"].get<std::string>());
+				}
+				else {
+					SAY("WARNING : There is no DATA or UUID in metadata\nPath : " << metadata_full_path);
+					uuid = FE2D::UUID(); // generate new UUID
+				}
 			}
+			else
+				uuid = FE2D::UUID(); // generate new UUID
 
-			return { resource, resource_index };
+			auto metadata_path = std::filesystem::relative(metadata_full_path, FOR_PATH.get_assets_path());
+			this->cache_resource(uuid, resource, metadata_path);
+
+			return resource;
+		}
+
+		void cache_resource(FE2D::UUID uuid, IResource* resource, const std::filesystem::path& relative_path);
+		void fallback_resource(size_t hash_code, IResource* resource);
+
+		template<typename T> requires std::is_base_of_v<IResource, T>
+		void create_resource(const std::filesystem::path& full_path) {
+			IResource* resource = new T();
+			FE2D::UUID uuid = FE2D::UUID(); // generate new UUID
+
+			resource->CreateSource(full_path);
+			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
+			this->CreateMetadata(metadata_full_path, uuid);
 		}
 
 	public:

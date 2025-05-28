@@ -90,7 +90,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,7 +111,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,7 +153,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FE2D Editor\Code;$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

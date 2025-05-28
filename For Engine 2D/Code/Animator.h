@@ -1,11 +1,5 @@
 #pragma once
 
-#include "Animation.h"
-#include "AnimationState.h"
-#include <forarray.h>
-#include <functional>
-#include "BlendTree.h"
-
 namespace FE2D {
 	class FOR_API Animator {
 	public:

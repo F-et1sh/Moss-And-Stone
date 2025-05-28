@@ -35,7 +35,7 @@ public:
 	void DragFloat  (const std::string& label, float& value , float columnWidth = 100.0f);
 	void DragVector2(const std::string& label, vec2 & values, float resetValue = 0.0f, float columnWidth = 100.0f);
 	
-	std::optional<std::pair<size_t, Texture&>> SelectTexture();
+	void SelectTexture(FE2D::UUID& load_uuid);
 
 	void TransformControl(TransformComponent& transform);
 	void ColliderControl(TransformComponent& transform, ColliderComponent& collider);

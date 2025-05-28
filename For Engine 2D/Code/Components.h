@@ -70,7 +70,8 @@ namespace FE2D {
 	};
 
     struct FOR_API SpriteComponent {
-        size_t texture_index = 0;
+        ResourceID<Texture> texture;
+
         bool flip_x = false;
         bool flip_y = false;
 
@@ -80,8 +81,8 @@ namespace FE2D {
     };
 
     struct FOR_API RelationshipComponent {
-        UUID parent = UUID(0);
-        std::vector<UUID> children;
+        FE2D::UUID parent = FE2D::UUID(0);
+        std::vector<FE2D::UUID> children;
 
         RelationshipComponent() = default;
         ~RelationshipComponent() = default;

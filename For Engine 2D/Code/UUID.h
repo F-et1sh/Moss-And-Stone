@@ -4,6 +4,8 @@ namespace FE2D {
     class FOR_API UUID {
     public:
         UUID() : m_UUID(Generate()) {}
+        ~UUID() = default;
+
         UUID(uint64_t uuid) : m_UUID(uuid) {}
         UUID(const std::string& str) { m_UUID = std::stoull(str); }
 

@@ -43,12 +43,6 @@
     <Filter Include="Code\Dynamic Array">
       <UniqueIdentifier>{b99e1a61-fe05-405c-9fbb-ac3cf1d44e03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Debug">
-      <UniqueIdentifier>{862895b7-9d90-4ddb-aae9-155c32694645}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Debug\For Debug GUI">
-      <UniqueIdentifier>{d4be8948-b582-4404-9eaa-28d2ca5729a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Graphics\Text Render">
       <UniqueIdentifier>{185714d3-f412-45cf-a7da-9064fb85cd4c}</UniqueIdentifier>
     </Filter>
@@ -87,9 +81,6 @@
     </Filter>
     <Filter Include="Code\Graphics\Mesh2D">
       <UniqueIdentifier>{3bd0d8e3-85e1-4fab-95de-6721a3f806c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Settings">
-      <UniqueIdentifier>{a93b151a-8a13-4301-9417-a4eeb574a065}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Graphics\Objects">
       <UniqueIdentifier>{6c4ea22b-2117-48a3-b481-b42f4cc3b175}</UniqueIdentifier>
@@ -292,6 +283,12 @@
     <Filter Include="Code\Resource Management\Content Browser">
       <UniqueIdentifier>{0e9479cf-be90-4ea2-ab0d-501aab5e2ab1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Resource Management\ResourceID">
+      <UniqueIdentifier>{896dbe9c-662d-40b6-b457-03faea8077d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Traits">
+      <UniqueIdentifier>{57b75957-2ca8-4bc0-b105-f3cacd1c09da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -314,9 +311,6 @@
     </ClCompile>
     <ClCompile Include="Code\Shader.cpp">
       <Filter>Code\Graphics\Pipline\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\fordebuggui.cpp">
-      <Filter>Code\Debug\For Debug GUI</Filter>
     </ClCompile>
     <ClCompile Include="Code\Camera.cpp">
       <Filter>Code\Graphics\Camera</Filter>
@@ -398,9 +392,6 @@
     </ClCompile>
     <ClCompile Include="Code\Scene.cpp">
       <Filter>Code\Scene Management\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ResourceCache.cpp">
-      <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClCompile>
     <ClCompile Include="Code\ResourceModule.cpp">
       <Filter>Code\Resource Management\Resource Module %28 inherit %29</Filter>
@@ -501,6 +492,12 @@
     <ClCompile Include="Code\ContentBrowser.cpp">
       <Filter>Code\Resource Management\Content Browser</Filter>
     </ClCompile>
+    <ClCompile Include="Code\ResourceID.cpp">
+      <Filter>Code\Resource Management\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceCache.cpp">
+      <Filter>Code\Resource Management\Resource Cache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\forpch.h">
@@ -512,17 +509,8 @@
     <ClInclude Include="Code\Sound.h">
       <Filter>Code\Audio\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="Code\forcore.h">
+    <ClInclude Include="Code\forcore.hpp">
       <Filter>Code\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\fordebug.h">
-      <Filter>Code\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\forsettings.h">
-      <Filter>Code\Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\forarray.h">
-      <Filter>Code\Dynamic Array</Filter>
     </ClInclude>
     <ClInclude Include="Code\forchar.h">
       <Filter>Code\Graphics\Text Render\forchar</Filter>
@@ -541,9 +529,6 @@
     </ClInclude>
     <ClInclude Include="Code\Shader.h">
       <Filter>Code\Graphics\Pipline\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\fordebuggui.h">
-      <Filter>Code\Debug\For Debug GUI</Filter>
     </ClInclude>
     <ClInclude Include="Code\Camera.h">
       <Filter>Code\Graphics\Camera</Filter>
@@ -572,10 +557,7 @@
     <ClInclude Include="Code\Texture.h">
       <Filter>Code\Resource Management\Resources\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Code\forfile.h">
-      <Filter>Code\File</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\forconvert.h">
+    <ClInclude Include="Code\forconvert.hpp">
       <Filter>Code\Convert</Filter>
     </ClInclude>
     <ClInclude Include="Code\Window.h">
@@ -625,9 +607,6 @@
     </ClInclude>
     <ClInclude Include="Code\Scene.h">
       <Filter>Code\Scene Management\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ResourceCache.h">
-      <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClInclude>
     <ClInclude Include="Code\ResourceModule.h">
       <Filter>Code\Resource Management\Resource Module %28 inherit %29</Filter>
@@ -734,6 +713,21 @@
     <ClInclude Include="Code\ContentBrowser.h">
       <Filter>Code\Resource Management\Content Browser</Filter>
     </ClInclude>
+    <ClInclude Include="Code\ResourceID.h">
+      <Filter>Code\Resource Management\ResourceID</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forarray.hpp">
+      <Filter>Code\Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\fortraits.hpp">
+      <Filter>Code\Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forfile.hpp">
+      <Filter>Code\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ResourceCache.h">
+      <Filter>Code\Resource Management\Resource Cache</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="FreeType\lib x64\freetype.dll">
@@ -773,6 +767,9 @@
       <Filter>Dependencies\Fonts</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\Files\FE2D\ContentBrowser\Flaticon_License.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="json\nlohmann-json_LICENSE.MIT">
       <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
   </ItemGroup>

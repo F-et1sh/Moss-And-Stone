@@ -190,12 +190,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<SpriteComponent>("SpriteRenderer", entity, [&](auto& component) {
-		// TODO : rewrite texture selection
-
-		auto texture_optional = m_ImGui->SelectTexture();
-		if (texture_optional.has_value()) {
-			component.texture_index = texture_optional.value().first;
-		}
+		m_ImGui->SelectTexture(component.texture.uuid);
 
 		m_ImGui->CheckBox("Flip X", component.flip_x);
 		m_ImGui->CheckBox("Flip Y", component.flip_y);

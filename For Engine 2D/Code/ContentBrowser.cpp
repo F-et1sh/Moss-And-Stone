@@ -28,11 +28,10 @@ void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_
         const KeyPressed* event = static_cast<const KeyPressed*>(&e);
 
         if (event->ctrl && event->key == GLFW_KEY_S) { // CTRL + R
-            m_ResourceManager->SaveResources();
+            m_ResourceManager->save_resources();
             m_ResourceManager->load_available_metadata();
         }
         });
-
 
     const std::filesystem::path base_path = FOR_PATH.get_assets_path() / L"FE2D" / L"ContentBrowser";
     this->LoadContentImage(m_DirectoryImage, base_path / L"folder_icon.png");
@@ -64,8 +63,11 @@ void FE2D::ContentBrowser::OnImGuiRender() {
         // right-click on blank space
         if (ImGui::BeginPopupContextWindow()) {
             if (ImGui::MenuItem("Create Animation")) {
-                ResourceLoader::CreateResource<Animation>(m_CurrentDirectory / L"New Animation.fa");
-                m_ResourceManager->load_available_resources();
+                const std::filesystem::path resource_path = FE2D::generate_unique_filename(m_CurrentDirectory / L"New Animation.fa");
+                const std::filesystem::path metadata_path = resource_path.wstring() + L".fs";
+                m_ResourceManager->getLoader().CreateResource(resource_path);
+                m_ResourceManager->getLoader().LoadMetadata(metadata_path);
+
             }
 
             ImGui::EndPopup();
@@ -86,7 +88,7 @@ void FE2D::ContentBrowser::OnPanelDraw() {
     for (auto& directory : std::filesystem::directory_iterator(m_CurrentDirectory)) {
         const auto& path = directory.path();
         const std::string filename_string = path.filename().string();
-        const std::filesystem::path ext = ResourceLoader::get_extension(path);
+        const std::filesystem::path ext = path.extension();
 
         if (directory.is_directory()) { // folder drawing
             this->DrawDirectory(path);
@@ -139,18 +141,15 @@ void FE2D::ContentBrowser::DrawDirectory(const std::filesystem::path& path) {
 void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
     const std::string filename_string = path.filename().string();
 
-    const auto& info = m_ResourceManager->getInfoByPath(path);
-
-    size_t type_hash_code = info.first;
-    size_t resource_index = info.second;
+    const FE2D::UUID uuid = m_ResourceManager->GetResourceByPath(path);
 
     size_t texture_index = m_EmptyImage.reference();
     ImVec2 texture_size = TEXTURE_SIZE(m_EmptyImage);
 
-    std::filesystem::path ext = ResourceLoader::get_extension(path);
+    std::filesystem::path ext = path.extension();
 
     if (ResourceLoader::texture_supported_extensions.contains(ext)) {
-        Texture& texture = m_ResourceManager->getResource<Texture>(resource_index);
+        Texture& texture = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
         texture_index = texture.reference();
         texture_size = TEXTURE_SIZE(texture);
     }
@@ -169,15 +168,15 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
         texture_index,
         texture_size, ImVec2(0, 1), ImVec2(1, 0), m_SelectedPath == path ? color : ImVec4(0, 0, 0, 0), color);
 
-    if (type_hash_code == 0)
+    if (uuid == 0)
         return;
 
     // click to open the folder
     if (ImGui::IsItemHovered() &&
         ImGui::IsMouseClicked(0)) {
 
-        auto resource = m_ResourceManager->getResource(type_hash_code, resource_index);
-        this->setSelected(resource, path);
+        auto resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
+        this->setSelected(static_cast<IResource*>(&resource), path);
     }
 }
 
@@ -211,21 +210,21 @@ void FE2D::ContentBrowser::OnDeleteRequest() {
                 auto resource_paths = m_ResourceManager->scan_folder(path, ResourceManager::ScanMode::FILES);
                 
                 for (const auto& res_path : resource_paths) {
-                    const auto& info = m_ResourceManager->getInfoByPath(res_path);
+                    /*const auto& info = m_ResourceManager->getInfoByPath(res_path);
 
                     size_t type_hash_code = info.first;
                     size_t resource_index = info.second;
 
-                    m_ResourceManager->removeResource(info.first, info.second);
+                    m_ResourceManager->removeResource(info.first, info.second);*/
                 }
             }
             else {
-                const auto& info = m_ResourceManager->getInfoByPath(path);
+                /*const auto& info = m_ResourceManager->getInfoByPath(path);
 
                 size_t type_hash_code = info.first;
                 size_t resource_index = info.second;
 
-                m_ResourceManager->removeResource(info.first, info.second);
+                m_ResourceManager->removeResource(info.first, info.second);*/
             }
             
             this->resetSelected();

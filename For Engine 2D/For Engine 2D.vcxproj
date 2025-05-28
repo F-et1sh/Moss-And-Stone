@@ -24,6 +24,8 @@
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\PlayerControllerSystem.cpp" />
     <ClCompile Include="Code\RenderContext.cpp" />
+    <ClCompile Include="Code\ResourceCache.cpp" />
+    <ClCompile Include="Code\ResourceID.cpp" />
     <ClCompile Include="Code\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Code\Animation.cpp" />
     <ClCompile Include="Code\AnimationState.cpp" />
@@ -45,7 +47,6 @@
     <ClCompile Include="Code\RendererRegistrar.cpp" />
     <ClCompile Include="Code\RenderManager.cpp" />
     <ClCompile Include="Code\IResource.cpp" />
-    <ClCompile Include="Code\ResourceCache.cpp" />
     <ClCompile Include="Code\ResourceLoader.cpp" />
     <ClCompile Include="Code\ResourceManager.cpp" />
     <ClCompile Include="Code\ResourceModule.cpp" />
@@ -60,7 +61,6 @@
     <ClCompile Include="Code\EventDispatcher.cpp" />
     <ClCompile Include="Code\EventTypes.cpp" />
     <ClCompile Include="Code\forchar.cpp" />
-    <ClCompile Include="Code\fordebuggui.cpp" />
     <ClCompile Include="Code\Font.cpp" />
     <ClCompile Include="Code\forpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -132,10 +132,15 @@
   <ItemGroup>
     <ClInclude Include="Code\AnimationSystem.h" />
     <ClInclude Include="Code\ContentBrowser.h" />
+    <ClInclude Include="Code\forarray.hpp" />
+    <ClInclude Include="Code\forfile.hpp" />
+    <ClInclude Include="Code\fortraits.hpp" />
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />
     <ClInclude Include="Code\PlayerControllerSystem.h" />
     <ClInclude Include="Code\RenderContext.h" />
+    <ClInclude Include="Code\ResourceCache.h" />
+    <ClInclude Include="Code\ResourceID.h" />
     <ClInclude Include="Code\SceneHierarchyPanel.h" />
     <ClInclude Include="Code\Application.h" />
     <ClInclude Include="Code\Button.h" />
@@ -152,7 +157,6 @@
     <ClInclude Include="Code\RendererRegistrar.h" />
     <ClInclude Include="Code\RenderManager.h" />
     <ClInclude Include="Code\IResource.h" />
-    <ClInclude Include="Code\ResourceCache.h" />
     <ClInclude Include="Code\ResourceLoader.h" />
     <ClInclude Include="Code\ResourceManager.h" />
     <ClInclude Include="Code\ResourceModule.h" />
@@ -165,8 +169,7 @@
     <ClInclude Include="Code\Event.h" />
     <ClInclude Include="Code\EventDispatcher.h" />
     <ClInclude Include="Code\EventTypes.h" />
-    <ClInclude Include="Code\forconvert.h" />
-    <ClInclude Include="Code\forfile.h" />
+    <ClInclude Include="Code\forconvert.hpp" />
     <ClInclude Include="Code\GizmoBox.h" />
     <ClInclude Include="Code\FOR_GLFW.h" />
     <ClInclude Include="Code\Mesh2D.h" />
@@ -179,13 +182,9 @@
     <ClInclude Include="Code\Animator.h" />
     <ClInclude Include="Code\BlendTree.h" />
     <ClInclude Include="Code\Camera.h" />
-    <ClInclude Include="Code\fordebuggui.h" />
     <ClInclude Include="Code\Font.h" />
-    <ClInclude Include="Code\forarray.h" />
     <ClInclude Include="Code\forchar.h" />
-    <ClInclude Include="Code\fordebug.h" />
-    <ClInclude Include="Code\forsettings.h" />
-    <ClInclude Include="Code\forcore.h" />
+    <ClInclude Include="Code\forcore.hpp" />
     <ClInclude Include="Code\forpch.h" />
     <ClInclude Include="Code\Shader.h" />
     <ClInclude Include="Code\Sound.h" />
@@ -266,6 +265,11 @@
     <CopyFileToFolders Include="..\Files\FE2D\ContentBrowser\Flaticon_License.txt" />
     <Text Include="EnTT\EnTT_License.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="json\nlohmann-json_LICENSE.MIT">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -330,6 +334,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>For Engine 2D</TargetName>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -337,7 +342,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -381,7 +386,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -425,7 +430,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <PrecompiledHeaderFile>forpch.h</PrecompiledHeaderFile>
@@ -468,7 +473,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;FORENGINE2D_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\FreeType\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)For Engine 2D\Code;$(SolutionDir)For Engine 2D\OpenGL\include;$(SolutionDir)For Engine 2D\OpenAL\include;$(SolutionDir)For Engine 2D\sndfile\include;$(SolutionDir)For Engine 2D\imgui;$(SolutionDir)For Engine 2D\EnTT\include;$(SolutionDir)For Engine 2D\glm-master\glm;$(SolutionDir)For Engine 2D\json\include;$(SolutionDir)For Engine 2D\FreeType\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <IntrinsicFunctions>true</IntrinsicFunctions>

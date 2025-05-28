@@ -1,5 +1,5 @@
 #pragma once
-#include <forcore.h>
+#include <forcore.hpp>
 #include "UniformBuffer.h"
 
 namespace FE2D {

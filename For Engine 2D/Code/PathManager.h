@@ -30,6 +30,10 @@ namespace FE2D {
 			return this->get_assets_path() / L"Resources";
 		}
 
+		inline const std::filesystem::path get_fallbacks_path()const noexcept {
+			return this->get_assets_path() / L"FE2D" / L"Fallbacks";
+		}
+
 		inline const std::filesystem::path get_shaders_path()const noexcept {
 			return this->get_assets_path() / L"Shaders";
 		}

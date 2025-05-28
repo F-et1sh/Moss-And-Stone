@@ -16,19 +16,19 @@ int main(int argc, char* argv[]) {
 	try {
 		FOR_PATH.init(argv[0], true); // instance of the PathManager
 		editor_app->Initialize(WINDOW_RESOLUTION, WINDOW_NAME, WINDOW_MONITOR);
+		editor_app->Loop();
+		editor_app->Release();
 	}
 	catch (const std::exception& e) {
 
 		SAY(e.what());
 
 		std::ofstream file("output.txt");
-		file << "ERROR : Failed to Initlaize Editor Application\n" << e.what();
+		file << e.what();
 		file.close();
 
 		return FAILED_EXIT;
 	}
-	editor_app->Loop();
-	editor_app->Release();
 
 	return SUCCESSFUL_EXIT;
 }
