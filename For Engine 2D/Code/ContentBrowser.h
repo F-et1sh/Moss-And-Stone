@@ -20,24 +20,24 @@ namespace FE2D {
 		~ContentBrowser() = default;
 	public:
 		void Release();
-		void Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui, SceneHierarchyPanel& scene_hierarchy_panel);
+		void Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui);
 
 		void OnDeleteRequest();
 		void OnImGuiRender();
+
 	private:
 		void OnEditorDraw();
 		void OnPanelDraw();
-	private:
+	
 		void DrawDirectory(const std::filesystem::path& path);
 		void DrawFile(const std::filesystem::path& path);
-	private:
+	
 		void LoadContentImage(Texture& texture, const std::filesystem::path& path);
-	private:
+	
 		inline IResource* getSelected()const noexcept {
 			return m_Selected;
 		}
 		inline void setSelected(IResource* resource, const std::filesystem::path& path)noexcept {
-			m_SceneHierarchyPanel->resetSelected();
 			m_Selected = resource;
 			m_SelectedPath = path;
 		}
@@ -45,7 +45,7 @@ namespace FE2D {
 			m_Selected = nullptr;
 			m_SelectedPath = "";
 		}
-	private:
+	
 		inline const std::filesystem::path& getDeletingPath()const noexcept { 
 			return m_DeletingPath; 
 		}
@@ -57,11 +57,11 @@ namespace FE2D {
 			m_DeletingPath = ""; 
 			m_DeleteRequest = false; 
 		}
-	private:
+	
 		Texture m_DirectoryImage;
 		Texture m_EmptyImage;
 		Texture m_AnimationImage;
-	private:
+	
 		std::filesystem::path m_RootDirectory;    // path to the assets folder
 		std::filesystem::path m_CurrentDirectory; // current opened directory
 
@@ -69,20 +69,18 @@ namespace FE2D {
 	private:
 		Window* m_Window = nullptr;
 		size_t m_EventIndex = 0; // to unsubscribe the event
-	private:
+	
 		ResourceManager* m_ResourceManager = nullptr;
-	private:
+	
 		IResource* m_Selected = nullptr;
 		std::filesystem::path m_SelectedPath;
-	private:
+	
 		std::filesystem::path m_DeletingPath;
 	public:
 		bool m_DeleteRequest = false;
 	private:
 		IMGUI* m_ImGui = nullptr;
-		SceneHierarchyPanel* m_SceneHierarchyPanel = nullptr;
 
-	private:
 		friend class FOR_API SceneHierarchyPanel;
 	};
 }

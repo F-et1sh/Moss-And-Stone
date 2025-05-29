@@ -33,7 +33,7 @@ namespace FE2D {
 		inline bool getLooped()const noexcept { return m_IsLooped; }
 
     private:
-		std::vector<FE2D::UUID> m_Frames;
+		std::vector<ResourceID<Texture>> m_Frames;
 		bool m_IsLooped = false;
 
 		Status m_Status = Status::STOPPED;

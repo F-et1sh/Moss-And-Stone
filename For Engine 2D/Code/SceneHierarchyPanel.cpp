@@ -8,11 +8,10 @@
 	#define _CRT_SECURE_NO_WARNINGS
 #endif
 
-void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker, ContentBrowser& content_browser) {
+void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker) {
 	m_Context = &context;
 	m_ImGui = &imgui;
 	m_MousePicker = &mouse_picker;
-	m_ContentBrowser = &content_browser;
 
 	this->resetSelected();
 }
@@ -40,9 +39,6 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec
 		for (auto& entity : entities_to_draw)
 			DrawEntityNode(entity);
 
-		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			this->resetSelected();
-
 		// right-click on blank space
 		if (ImGui::BeginPopupContextWindow()) {
 			if (ImGui::MenuItem("Create Empty Entity"))
@@ -56,31 +52,14 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec
 	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_hovered) {
 		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
-		if (entity_index != -1) {
-			this->setSelected({ (entt::entity)entity_index, m_Context });
-		}
-		else {
-			this->resetSelected();
-		}
+		if (entity_index != -1) this->setSelected({ (entt::entity)entity_index, m_Context });
+		else					this->resetSelected();
 	}
 
 	ImGui::Begin("Properties", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 	if (this->getSelected())
 		DrawComponents(this->getSelected());
 	ImGui::End();
-}
-
-inline Entity FE2D::SceneHierarchyPanel::getSelected() const noexcept {
-	return m_Selected;
-}
-
-inline void FE2D::SceneHierarchyPanel::setSelected(Entity entity) noexcept {
-	m_ContentBrowser->resetSelected();
-	m_Selected = entity;
-}
-
-inline void FE2D::SceneHierarchyPanel::resetSelected() noexcept {
-	m_Selected = {};
 }
 
 void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
@@ -92,10 +71,6 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	ImGuiTreeNodeFlags flags = ((this->getSelected() == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 	bool opened = ImGui::TreeNodeEx(tag.c_str(), flags, tag.c_str());
 
-	if (ImGui::IsItemClicked()) {
-		this->setSelected(entity);
-	}
-	
 	if (ImGui::BeginDragDropSource()) {
 		ImGui::SetDragDropPayload("ENTITY_RELATIONSHIP", &entity, sizeof(Entity));
 		ImGui::Text("%s", tag.c_str());
@@ -106,19 +81,21 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_RELATIONSHIP")) {
 			Entity droppedEntity = *(Entity*)payload->Data;
 
-			if (droppedEntity != entity) {
+			if (droppedEntity != entity)
 				droppedEntity.SetParent(entity);
-			}
 		}
 		ImGui::EndDragDropTarget();
 	}
 
-	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+	if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) 
+		this->setSelected(entity);
+
+	if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		ImGui::OpenPopup("Entity settings");
 
 	bool entity_deleted = false;
 	if (ImGui::BeginPopup("Entity settings")) {
-		if (ImGui::MenuItem("delete"))
+		if (ImGui::MenuItem("Delete"))
 			entity_deleted = true;
 		ImGui::EndPopup();
 	}
@@ -224,12 +201,12 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		const float speed = 1.0f / (max * 10);
 
 		for (size_t i = 0; i < max; i++) {
-			ImGui::DragScalar(std::string("Animation " + std::to_string(i + 1)).c_str(), ImGuiDataType_U64, &component.animations[i], speed, 0, &max);
+			//ImGui::DragScalar(std::string("Animation " + std::to_string(i + 1)).c_str(), ImGuiDataType_U64, &component.animations[i], speed, 0, &max);
 		}
 
 		if (ImGui::Button("Add Animation")) {
-			size_t new_anim = component.animations.back() + 1;
-			component.animations.push_back(new_anim);
+			//size_t new_anim = component.animations.back() + 1;
+			//component.animations.push_back(new_anim);
 		}
 		});
 }

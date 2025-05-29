@@ -27,18 +27,11 @@ namespace FE2D {
             j[name] = value;
         }
 
-        template <typename T>
-        static void save_vector(const std::vector<T>& data, json& j, const std::string& name, const std::function<void(const std::remove_cvref_t<T>& e, json& j)>& func) {
-            size_t size = data.size();
-            j[name] = json::array();
-
-            for (size_t i = 0; i < size; i++) {
-                json e;
-
-                func(data[i], e);
-
-                j[name].emplace_back(e);
-            }
+        template<typename T, typename Func> requires (std::invocable<Func, const T&> && std::convertible_to<std::invoke_result_t<Func, const T&>, json>)
+        static void save_vector(const std::vector<T>& vec, json& j, const std::string& name, Func&& func) {
+            json array = json::array();
+            for (const auto& e : vec) { array.emplace_back(func(e)); }
+            j[name] = array;
         }
 
         static void save_value(const std::wstring& value, json& j, const std::string& name) {
@@ -58,10 +51,9 @@ namespace FE2D {
     public:
         template<typename T> requires std::is_base_of_v<IResource, T>
         static void load_resource_id(ResourceID<T>& id, const json& j, const std::string& name) {
-            if (!j.contains(name))
-                return;
+            if (!j.contains(name)) return;
 
-            id.uuid = FE2D::UUID::FromString(j[name].get<std::string>());
+            id.uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
         template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
@@ -72,26 +64,14 @@ namespace FE2D {
             value = j[name].get<T>();
         }
 
-        template <typename T>
-        static void load_vector(std::vector<T>& data, json& j, const std::string& name, const std::function<void(std::remove_cvref_t<T>& e, const json& j)>& func) {
-            if (!j.contains(name))
-                return;
-
-            if (!j[name].is_array())
-                return;
-
+        template<typename T, typename Func> requires (std::invocable<Func, const json&> && std::convertible_to<std::invoke_result_t<Func, const json&>, T>)
+        static void load_vector(std::vector<T>& vec, const json& j, const std::string& name, Func&& func) {
+            if (!j.contains(name)) return;
+            if (!j[name].is_array()) return;
             json array = j[name];
-            size_t size = array.size();
-            
-            data.reserve(size);
-
-            for (size_t i = 0; i < size; i++) {
-                T e;
-                
-                func(e, array[i]);
-
-                data.emplace_back(e);
-            }
+            vec.clear();
+            vec.reserve(array.size());
+            for (const json& e : array) { vec.emplace_back(func(e)); }
         }
 
         static void load_value(std::wstring& value, const json& j, const std::string& name) {

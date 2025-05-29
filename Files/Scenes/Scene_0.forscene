@@ -2,78 +2,50 @@
     "Entities": [
         {
             "RelationshipComponent": {
-                "children": [],
-                "parent": 14327454186072781019
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "10479159858824118539"
-            },
-            "TagComponent": {
-                "tag": "2"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    -57311.2578125,
-                    17454.232421875
-                ],
-                "rotation": -89.5999984741211,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 14515598438791040846
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 14327454186072781019
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "10479159858824118539"
-            },
-            "TagComponent": {
-                "tag": "1"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    -57402.25,
-                    21685.302734375
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 3102049006739688256
-        },
-        {
-            "RelationshipComponent": {
                 "children": [
-                    3102049006739688256,
-                    14515598438791040846
+                    4207203499523040343
                 ],
                 "parent": 0
             },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "texture": "17563198816453101582"
+            },
             "TagComponent": {
-                "tag": "Secret Object"
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 6,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    1584.314697265625,
+                    570.1130981445313
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 9621899733141218938
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "texture": "4288880420568704525"
+            },
+            "TagComponent": {
+                "tag": "Grass"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -83,16 +55,16 @@
                     0.0
                 ],
                 "position": [
-                    0.0,
-                    0.0
+                    -795.2217407226563,
+                    -60.68804931640625
                 ],
-                "rotation": 0.0,
+                "rotation": -13.300000190734863,
                 "scale": [
-                    1.0,
-                    1.0
+                    1.25,
+                    1.25
                 ]
             },
-            "UUID": 14327454186072781019
+            "UUID": 2224426407112210398
         },
         {
             "CameraComponent": {
@@ -105,7 +77,7 @@
             },
             "RelationshipComponent": {
                 "children": [],
-                "parent": 0
+                "parent": 9621899733141218938
             },
             "TagComponent": {
                 "tag": "Camera"
@@ -137,39 +109,7 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture": "6655917370631460560"
-            },
-            "TagComponent": {
-                "tag": "Grass"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    -795.2217407226563,
-                    -60.68804931640625
-                ],
-                "rotation": -13.300000190734863,
-                "scale": [
-                    1.25,
-                    1.25
-                ]
-            },
-            "UUID": 2224426407112210398
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "1397293130915238385"
+                "texture": "2974030148704991248"
             },
             "TagComponent": {
                 "tag": "Grass 2"
@@ -194,45 +134,8 @@
             "UUID": 3295017550705280564
         },
         {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "17067968136310666670"
-            },
-            "TagComponent": {
-                "tag": "Grass 3"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -1,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    782.8319702148438,
-                    174.7017822265625
-                ],
-                "rotation": 59.20000076293945,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 9798388523017884794
-        },
-        {
             "AnimatorComponent": {
-                "animations": [
-                    2,
-                    2,
-                    3,
-                    4
-                ],
+                "animations": [],
                 "current_animation": 0,
                 "time": 138.0
             },
@@ -254,7 +157,7 @@
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture": "1660193226589432052"
+                "texture": "17384693802406538980"
             },
             "TagComponent": {
                 "tag": "TATARSTAN CAT"
@@ -283,6 +186,38 @@
                     0.0
                 ]
             }
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "texture": "8745956757200837066"
+            },
+            "TagComponent": {
+                "tag": "Grass 3"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    782.8319702148438,
+                    174.7017822265625
+                ],
+                "rotation": 59.20000076293945,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 9798388523017884794
         }
     ],
     "SceneInfo": {

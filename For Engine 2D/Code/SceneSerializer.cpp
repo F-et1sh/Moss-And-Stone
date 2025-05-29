@@ -153,9 +153,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 			json j_component = j_entity["AnimatorComponent"];
 			SceneSerializer::load_value(component.current_animation, j_component, "current_animation");
 			SceneSerializer::load_value(component.time, j_component, "time");
-			SceneSerializer::load_vector(component.animations, j_component, "animations", [](size_t& e, const json& j){
-				e = j.get<size_t>();
-				});
+			SceneSerializer::load_vector(component.animations, j_component, "animations", [](const json& e) -> ResourceID<Animation> { return ResourceID<Animation>(FE2D::UUID(e.get<std::string>())); });
 		}
     }
 
@@ -260,9 +258,7 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		json j_component;
 		SceneSerializer::save_value(component.current_animation, j_component, "current_animation");
 		SceneSerializer::save_value(component.time, j_component, "time");
-		SceneSerializer::save_vector(component.animations, j_component, "animations", [](const size_t& e, json& j){
-			j = e;
-			});
+		SceneSerializer::save_vector(component.animations, j_component, "animations", [](const ResourceID<Animation>& e) -> json {return e.uuid.ToString(); });
 
 		j["AnimatorComponent"] = j_component;
 	}

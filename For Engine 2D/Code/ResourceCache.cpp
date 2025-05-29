@@ -81,7 +81,7 @@ void FE2D::ResourceCache::clear_metadata() noexcept {
 	m_StoredMetadata.clear();
 }
 
-void FE2D::ResourceCache::clear_fallback() {
+void FE2D::ResourceCache::clear_fallbacks() {
 	for (auto& [hash_code, fallback] : m_StoredFallbacks) {
 		fallback->Release();
 		delete fallback;

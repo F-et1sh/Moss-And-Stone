@@ -9,28 +9,27 @@ void FE2D::ContentBrowser::Release() {
     m_EventIndex = 0;
     m_ResourceManager = nullptr;
     m_ImGui = nullptr;
-    m_SceneHierarchyPanel = nullptr;
 
     m_DirectoryImage.Release();
 
     this->resetSelected();
 }
 
-void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui, SceneHierarchyPanel& scene_hierarchy_panel) {
+void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui) {
     m_ResourceManager = &resource_manager;
     m_Window = &window;
     m_ImGui = &imgui;
-    m_SceneHierarchyPanel = &scene_hierarchy_panel;
 
     this->m_ResourceManager->load_available_resources();
 
     m_EventIndex = m_Window->SubscribeOnEvent(Event::EventType::KeyPressed, [&](const Event& e) {
         const KeyPressed* event = static_cast<const KeyPressed*>(&e);
 
-        if (event->ctrl && event->key == GLFW_KEY_S) { // CTRL + R
+        if (event->ctrl && event->key == GLFW_KEY_S) { // CTRL + S
             m_ResourceManager->save_resources();
             m_ResourceManager->load_available_metadata();
         }
+
         });
 
     const std::filesystem::path base_path = FOR_PATH.get_assets_path() / L"FE2D" / L"ContentBrowser";
@@ -141,7 +140,7 @@ void FE2D::ContentBrowser::DrawDirectory(const std::filesystem::path& path) {
 void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
     const std::string filename_string = path.filename().string();
 
-    const FE2D::UUID uuid = m_ResourceManager->GetResourceByPath(path);
+    const FE2D::UUID uuid = m_ResourceManager->GetResourceByPath(path.wstring() + L".fs");
 
     size_t texture_index = m_EmptyImage.reference();
     ImVec2 texture_size = TEXTURE_SIZE(m_EmptyImage);

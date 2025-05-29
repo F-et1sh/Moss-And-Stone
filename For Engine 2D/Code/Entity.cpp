@@ -5,8 +5,11 @@ FE2D::Entity::Entity(entt::entity handle, Scene* scene) :
 	m_EntityHandle(handle), m_Scene(scene) {}
 
 void FE2D::Entity::SetParent(Entity newParent) {
-	if (!newParent.HasComponent<RelationshipComponent>())
-		newParent.AddComponent<RelationshipComponent>();
+	FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
+
+	auto children = this->GetChildren();
+	if (std::find(children.begin(), children.end(), newParent) != children.end())
+		return;
 
 	auto& relationship = GetComponent<RelationshipComponent>();
 

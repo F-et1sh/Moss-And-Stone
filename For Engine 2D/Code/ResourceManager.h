@@ -40,7 +40,7 @@ namespace FE2D {
 		void load_available_resources();
 
 		// this function scanning all of .fs files from resources folder and uploading all of metadata to cache
-		// If not loaded resource will be called in ResourceManager::getResource() function it will be loaded by info from its metadata
+		// If not loaded resource will be called in ResourceManager::GetResource() function it will be loaded by info from its metadata
 		void load_available_metadata();
 
 		// this function scanning all resources in fallback folder
@@ -67,24 +67,22 @@ namespace FE2D {
 			if (metadata.empty())
 				return this->GetFallbackResource<T>();
 
-			try {
-				std::filesystem::path resource_path = FOR_PATH.get_assets_path() / metadata.wstring();
-				resource_path.replace_extension(); // clear .fs extension
-				this->m_ResourceLoader.LoadResource(resource_path);
-				
-				resource = static_cast<T*>(m_ResourceCache.get_resource(id.uuid));
-				if (resource) {
-					local_cache.emplace(id.uuid, resource);
-					return *resource;
-				}
+			std::filesystem::path resource_path = FOR_PATH.get_assets_path() / metadata.wstring();
+			resource_path.replace_extension(); // clear .fs extension
+			this->m_ResourceLoader.LoadResource(resource_path);
 
-				SAY("ERROR : Failed to get a resource. Resource still missing after loading attempt");
-				return this->GetFallbackResource<T>();
+			resource = static_cast<T*>(m_ResourceCache.get_resource(id.uuid));
+			if (resource) {
+				local_cache.emplace(id.uuid, resource);
+				return *resource;
 			}
-			catch (const std::exception& e) {
-				SAY("ERROR : Failed to get a resource. Using the first loaded\nException : " << e.what());
-				return this->GetFallbackResource<T>();
-			}
+
+			SAY("ERROR : Failed to get a resource. Resource still missing after loading attempt");
+
+			if (this->GetResourceByPath(resource_path) != FE2D::UUID(0))
+				FOR_RUNTIME_ERROR(("Found broken .fs file. Please, fix or delete it\nPath : " + resource_path.string() + ".fs"));
+
+			return this->GetFallbackResource<T>();
 		}
 
 		// this function might be slow. Be careful
@@ -95,7 +93,7 @@ namespace FE2D {
 
 	private:
 		template<typename T> requires std::is_base_of_v<IResource, T>
-		T& GetFallbackResource() {
+		inline T& GetFallbackResource() {
 			static size_t hash_code = typeid(T).hash_code();
 			auto fallback = m_ResourceCache.get_fallback(hash_code);
 			if (fallback)

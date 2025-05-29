@@ -71,12 +71,19 @@ void FE2D::ResourceLoader::CreateMetadata(const std::filesystem::path& full_path
     }
     json j;
 
-    if (auto resource = m_ResourceManager->getCache().get_resource(uuid))
-        j["DATA"] = resource->Serialize();
+    json data;
 
+    if (auto resource = m_ResourceManager->getCache().get_resource(uuid))
+        data = resource->Serialize();
+
+    j["DATA"] = data; // here you anyway MUST create DATA. At least as null
     j["UUID"] = uuid.ToString();
 
-    file << j;
+#ifdef _DEBUG
+    file << j.dump(4);
+#else
+    file << j.dump();
+#endif
 }
 
 void FE2D::ResourceLoader::cache_resource(FE2D::UUID uuid, IResource* resource, const std::filesystem::path& relative_path) {

@@ -24,10 +24,7 @@ bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
 		return false;
 	}
 
-	SceneSerializer::load_vector(m_Frames, j, "Frames", [](FE2D::UUID& e, const json& j) {
-		e = j.get<std::string>();
-		});
-
+	SceneSerializer::load_vector(m_Frames, j, "Frames", [](const json& j) -> FE2D::ResourceID<FE2D::Texture> { return FE2D::ResourceID<FE2D::Texture>(FE2D::UUID(j.get<std::string>())); });
 	m_IsLooped = j["IsLooped"].get<bool>();
 
 	return true;
@@ -45,13 +42,13 @@ void FE2D::Animation::CreateSource(const std::filesystem::path& file_path)const 
 		return;
 	}
 	json j;
-	SceneSerializer::save_vector(m_Frames, j, "Frames", [](const FE2D::UUID& e, json& j) { j = e.ToString(); });
+	SceneSerializer::save_vector(m_Frames, j, "Frames", [](const FE2D::ResourceID<FE2D::Texture>& e) -> json { return e.uuid.ToString(); });
 	j["IsLooped"] = m_IsLooped;
 
 #ifdef _DEBUG
 	file << j.dump(4);
 #else
-	file << j;
+	file << j.dump();
 #endif
 }
 

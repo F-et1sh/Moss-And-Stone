@@ -2,6 +2,8 @@
 #include "SceneSerializer.h"
 #include "UUID.h"
 
+#include "Animation.h"
+
 namespace FE2D {
     struct FOR_API IDComponent {
         FE2D::UUID id;
@@ -126,7 +128,7 @@ namespace FE2D {
     };
     
     struct FOR_API AnimatorComponent {
-        std::vector<size_t> animations;
+        std::vector<ResourceID<Animation>> animations;
         size_t current_animation = 0;
         float time = 0.0f;
 

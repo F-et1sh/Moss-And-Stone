@@ -2,12 +2,25 @@
 #include "Scene.h"
 
 void FE2D::Scene::Release() {
+	for (const auto& pair : m_EntityMap) {
+		Entity e = pair.second;
+
+		if (e.HasComponent<SpriteComponent>()) {
+			m_ResourceManager->RemoveResource(e.GetComponent<SpriteComponent>().texture);
+		}
+		if (e.HasComponent<AnimatorComponent>()) {
+			const auto& animations = e.GetComponent<AnimatorComponent>().animations;
+			for (const auto& a : animations) {
+				m_ResourceManager->RemoveResource(a);
+			}
+		}
+	}
+
 	m_EntityMap.clear();
 	m_Registry.clear();
 }
 
 void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
-
 	m_Window = &window;
 	m_RenderContext = &render_context;
 	m_ResourceManager = &resource_manager;

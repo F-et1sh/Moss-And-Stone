@@ -13,18 +13,18 @@ namespace FE2D {
 		SceneHierarchyPanel() = default;
 		~SceneHierarchyPanel() = default;
 
-		void setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker, ContentBrowser& content_browser);
+		void setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker);
 
 		void OnImGuiRender(bool is_preview_hovered, const vec2& preview_mouse_position);
 
-		inline Entity getSelected() const noexcept;
-		inline void setSelected(Entity entity)noexcept;
-		inline void resetSelected()noexcept;
+		inline Entity getSelected() const noexcept { return this->m_Selected; }
+		inline void setSelected(Entity entity)noexcept { this->m_Selected = entity; }
+		inline void resetSelected()noexcept { this->m_Selected = {}; }
+	
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
-
-	private:
+	
 		template<typename T, typename UIFunction>
 		void DrawComponent(const std::string& name, Entity entity, UIFunction ui_function) {
 			const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
@@ -72,16 +72,14 @@ namespace FE2D {
 				ImGui::CloseCurrentPopup();
 			}
 		}
+
 	private:
 		Scene* m_Context = nullptr;
 		Entity m_Selected;
 
 		IMGUI* m_ImGui = nullptr;
 		MousePicker* m_MousePicker = nullptr;
-
-		ContentBrowser* m_ContentBrowser = nullptr;
-
-	private:
+	
 		friend class FOR_API ContentBrowser;
 	};
 }

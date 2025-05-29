@@ -45,7 +45,9 @@ std::vector<std::filesystem::path> FE2D::ResourceManager::scan_folder(const std:
 }
 
 void FE2D::ResourceManager::Release() {
-    this->save_resources();
+    this->m_ResourceCache.clear_resources();
+    this->m_ResourceCache.clear_metadata();
+    this->m_ResourceCache.clear_fallbacks();
 }
 
 void FE2D::ResourceManager::Initialize() {
@@ -80,22 +82,26 @@ void FE2D::ResourceManager::load_available_metadata() {
 
 void FE2D::ResourceManager::load_fallback_resources() {
     m_ResourceLoader.LoadFallback(L"Texture.png");
+    m_ResourceLoader.LoadFallback(L"Animation.fa");
 }
 
 void FE2D::ResourceManager::save_resources() {
     const auto& metadata_array = m_ResourceCache.get_metadata_array();
     for (const auto& metadata : metadata_array) {
 
-        const FE2D::UUID uuid = metadata.first;
-        const std::filesystem::path& path = FOR_PATH.get_assets_path() / metadata.second;
+        FE2D::UUID uuid = metadata.first;
+        std::filesystem::path path = FOR_PATH.get_assets_path() / metadata.second;
 
         m_ResourceLoader.CreateMetadata(path, uuid);
     }
 }
 
 FE2D::UUID FE2D::ResourceManager::GetResourceByPath(const std::filesystem::path& path) const {
+    std::filesystem::path meta_path = 
+        std::filesystem::relative(path, FOR_PATH.get_assets_path()).wstring() + L".fs";
+
     for (auto metadata : m_ResourceCache.get_metadata_array()) {
-        if (metadata.second == path)
+        if (metadata.second == meta_path)
             return metadata.first;
     }
 

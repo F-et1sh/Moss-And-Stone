@@ -25,7 +25,7 @@ namespace FE2D {
 			if (!resource->LoadFromFile(path)) {
 				delete resource;
 				resource = nullptr;
-				FOR_RUNTIME_ERROR(("WARNING : Failed to create fallback for" + std::string(typeid(T).name()) + "\nPath : " + path.string()));
+				FOR_RUNTIME_ERROR(("WARNING : Failed to create fallback for " + std::string(typeid(T).name()) + "\nPath : " + path.string()));
 			}
 			
 			this->fallback_resource(typeid(T).hash_code(), resource);

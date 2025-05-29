@@ -35,7 +35,7 @@ namespace FE2D {
 
 		void clear_resources();
 		void clear_metadata()noexcept;
-		void clear_fallback();
+		void clear_fallbacks();
 
 	private:
 		std::unordered_map<FE2D::UUID, ResourcePointer> m_StoredResources;

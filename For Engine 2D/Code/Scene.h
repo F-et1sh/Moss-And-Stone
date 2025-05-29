@@ -47,7 +47,7 @@ namespace FE2D {
 		inline size_t getIndex()const noexcept { return m_Index; }
 
 	private:
-		template<typename T, std::enable_if<std::is_base_of_v<SystemBase, T>, int>::type = 0>
+		template<typename T> requires std::is_base_of_v<SystemBase, T>
 		std::unique_ptr<T> CreateSystem() {
 			std::unique_ptr<T> system = std::make_unique<T>();
 			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this);
