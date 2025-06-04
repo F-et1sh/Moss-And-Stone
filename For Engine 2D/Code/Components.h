@@ -74,6 +74,8 @@ namespace FE2D {
     struct FOR_API SpriteComponent {
         ResourceID<Texture> texture;
 
+        vec4 frame = vec4();
+
         bool flip_x = false;
         bool flip_y = false;
 
@@ -129,7 +131,7 @@ namespace FE2D {
     
     struct FOR_API AnimatorComponent {
         std::vector<ResourceID<Animation>> animations;
-        size_t current_animation = 0;
+        ResourceID<Animation> current_animation;
         float time = 0.0f;
 
         AnimatorComponent() = default;

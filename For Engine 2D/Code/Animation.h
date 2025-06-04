@@ -1,41 +1,24 @@
-#pragma once
-#include "IResource.h"
+#pragma once  
+#include "IResource.h"  
 #include "ResourceManager.h"
 
-namespace FE2D {
-	class FOR_API Animation : public IResource {
-	public:
-		enum class Status {
-			STOPPED,
-			PAUSED,
-			PLAYING,
-		};
-	public:
-		Animation() = default;
-		~Animation() = default;
+namespace FE2D {  
+	class FOR_API Animation : public IResource {  
+	public:  
+		FOR_CLASS_DEFAULT(Animation)  
 
-		void Release()override;
-		bool LoadFromFile(const std::filesystem::path& file_path)override;
-		void CreateSource(const std::filesystem::path& file_path)const override;
+		void Release()override;  
+		bool LoadFromFile(const std::filesystem::path& file_path)override;  
 
-        void OnEditorDraw(IMGUI& imgui)override;
+		inline float getMax()const noexcept { return 6; } // TODO..
+		
+		vec4 getFrame(float time)const noexcept;
+		ResourceID<Texture> getTexture(ResourceManager& resource_manager);
 
-		json Serialize()const override;
-		void Deserialize(const json& j)override;
+	private:  
+		std::vector<vec4, boost::fast_pool_allocator<vec4>> m_Frames;
+		ResourceID<Texture> m_TextureID;
 
-		inline void Play ()noexcept { m_Status = Status::PLAYING; }
-		inline void Pause()noexcept { m_Status = Status::PAUSED ; }
-		inline void Stop ()noexcept { m_Status = Status::STOPPED; }
-
-		inline size_t getFrameCount()const noexcept { return m_Frames.size(); }
-			   
-		inline void setLooped(bool looped)noexcept { m_IsLooped = looped; }
-		inline bool getLooped()const noexcept { return m_IsLooped; }
-
-    private:
-		std::vector<ResourceID<Texture>> m_Frames;
-		bool m_IsLooped = false;
-
-		Status m_Status = Status::STOPPED;
+		std::filesystem::path m_TexturePath;
 	};
 }

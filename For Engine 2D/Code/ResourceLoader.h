@@ -78,7 +78,7 @@ namespace FE2D {
 			IResource* resource = new T();
 			FE2D::UUID uuid = FE2D::UUID(); // generate new UUID
 
-			resource->CreateSource(full_path);
+			resource->UplopadToFile(full_path);
 			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
 			this->CreateMetadata(metadata_full_path, uuid);
 		}
@@ -88,7 +88,7 @@ namespace FE2D {
 			L".png", L".jpg", L".bmp", L".tga", L".gif", L".hdr", L".pic", L".psd"
 		};
 		inline static const std::unordered_set<std::wstring> animation_supported_extensions = {
-			L".fa",
+			L".json",
 		};
 		inline static const std::unordered_set<std::wstring> audio_supported_extensions = {
 			 L".wav", L".aif", L".aiff", L".au", L".snd", L".raw", L".pcm", L".sf", L".paf", L".svx",

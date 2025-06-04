@@ -1,2 +1,2 @@
-RUNTIME ERROR : Found broken .fs file. Please, fix or delete it
-Path : C:\Users\Пользователь\Desktop\Moss And Stone\Files\Resources\3.png.fs
+RUNTIME ERROR : Failed to get a fallback of resource
+Type : class FE2D::Animation

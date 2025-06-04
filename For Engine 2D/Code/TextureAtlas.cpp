@@ -77,21 +77,24 @@ void FE2D::TextureAtlas::recalculate_atlasOffset(Texture& load_texture) {
 	const unsigned int width = load_texture.getSize().x;
 	const unsigned int height = load_texture.getSize().y;
 
-	if (m_AtlasOffset.x + width > m_AtlasSize.x) {
+	constexpr int padding = 1;
+
+	if (m_AtlasOffset.x + width + padding > m_AtlasSize.x) {
 		m_AtlasOffset.x = 0;
-		m_AtlasOffset.y += maxHeight;
+		m_AtlasOffset.y += maxHeight + padding;
 		maxHeight = 0;
 	}
 
-	if (m_AtlasOffset.y + height > m_AtlasSize.y) {
+	if (m_AtlasOffset.y + height + padding > m_AtlasSize.y) {
 		FOR_RUNTIME_ERROR(
 			"ERROR : Texture Atlas is Overfull\nTexture Atlas Size : " +
 			std::to_string(m_AtlasSize.x) + " x " + std::to_string(m_AtlasSize.y) +
-			"\nFailed to fit Texture : " + std::to_string(width) + " x " + std::to_string(height));
+			"\nFailed to fit Texture : " + std::to_string(width) + " x " + std::to_string(height) +
+			"\nPadding : " + std::to_string(padding));
 	}
 
 	if (height > maxHeight)
 		maxHeight = height;
 
-	m_AtlasOffset.x += width;
+	m_AtlasOffset.x += width + padding;
 }

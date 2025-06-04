@@ -82,7 +82,7 @@ void FE2D::ResourceManager::load_available_metadata() {
 
 void FE2D::ResourceManager::load_fallback_resources() {
     m_ResourceLoader.LoadFallback(L"Texture.png");
-    m_ResourceLoader.LoadFallback(L"Animation.fa");
+    m_ResourceLoader.LoadFallback(L"Player_WalkDown.json");
 }
 
 void FE2D::ResourceManager::save_resources() {
@@ -93,6 +93,11 @@ void FE2D::ResourceManager::save_resources() {
         std::filesystem::path path = FOR_PATH.get_assets_path() / metadata.second;
 
         m_ResourceLoader.CreateMetadata(path, uuid);
+        if (auto resource = m_ResourceCache.get_resource(uuid)) {
+            std::filesystem::path resource_path = path;
+            resource_path.replace_extension(); // clear .fs extension
+            resource->UplopadToFile(resource_path);
+        }
     }
 }
 

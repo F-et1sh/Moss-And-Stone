@@ -8,10 +8,10 @@
 #include "Texture.h"
 
 namespace FE2D {
-	constexpr ImVec4 DEFAULT_FILE_COLOR = ImVec4(1, 1, 1, 1);
-	constexpr ImVec4 DEFAULT_DIRECTORY_COLOR = ImVec4(0, 0, 0, 0);
+	constexpr ImVec4 DEFAULT_FILE_COLOR       = ImVec4(1, 1, 1, 1);
+	constexpr ImVec4 DEFAULT_DIRECTORY_COLOR  = ImVec4(0, 0, 0, 0);
 
-	constexpr ImVec4 SELECTED_FILE_COLOR = ImVec4(0, 0.5, 0.5, 1);
+	constexpr ImVec4 SELECTED_FILE_COLOR      = ImVec4(0, 0.5, 0.5, 1);
 	constexpr ImVec4 SELECTED_DIRECTORY_COLOR = ImVec4(0, 1, 1, 0.5);
 
 	class FOR_API ContentBrowser {

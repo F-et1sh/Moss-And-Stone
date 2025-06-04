@@ -33,7 +33,6 @@ namespace FE2D {
 	private:
 
 		void Save();
-		void OnResourceReloading();
 
 	private:
 

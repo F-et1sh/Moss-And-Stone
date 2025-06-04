@@ -1,223 +1,47 @@
 {
     "Entities": [
         {
+            "AnimatorComponent": {
+                "animations": [],
+                "current_animation": "16163099578890043561",
+                "time": 5.758078575134277
+            },
             "RelationshipComponent": {
-                "children": [
-                    4207203499523040343
-                ],
+                "children": [],
                 "parent": 0
             },
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
-                "texture": "17563198816453101582"
+                "frame": [
+                    0.0,
+                    0.0,
+                    42.0,
+                    26.0
+                ],
+                "texture": "3187881290605922199"
             },
             "TagComponent": {
                 "tag": "New Entity"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": 6,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    1584.314697265625,
-                    570.1130981445313
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 9621899733141218938
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "4288880420568704525"
-            },
-            "TagComponent": {
-                "tag": "Grass"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
                 "layer": 0,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    -795.2217407226563,
-                    -60.68804931640625
-                ],
-                "rotation": -13.300000190734863,
-                "scale": [
-                    1.25,
-                    1.25
-                ]
-            },
-            "UUID": 2224426407112210398
-        },
-        {
-            "CameraComponent": {
-                "clear_color": [
-                    0.1672598123550415,
-                    0.1672598123550415,
-                    0.1672598123550415,
-                    1.0
-                ]
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 9621899733141218938
-            },
-            "TagComponent": {
-                "tag": "Camera"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
+                    -3.02366042137146,
+                    86.17333984375
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    1.0,
-                    1.0
+                    25.0,
+                    25.0
                 ]
             },
-            "UUID": 4207203499523040343
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "2974030148704991248"
-            },
-            "TagComponent": {
-                "tag": "Grass 2"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -6,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    -10.595136642456055,
-                    -37.156028747558594
-                ],
-                "rotation": 72.0999984741211,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 3295017550705280564
-        },
-        {
-            "AnimatorComponent": {
-                "animations": [],
-                "current_animation": 0,
-                "time": 138.0
-            },
-            "ColliderComponent": {
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    100.0,
-                    100.0
-                ]
-            },
-            "PlayerComponent": null,
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "17384693802406538980"
-            },
-            "TagComponent": {
-                "tag": "TATARSTAN CAT"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 5,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 12.0,
-                "scale": [
-                    1.5,
-                    1.5
-                ]
-            },
-            "UUID": 2260798193342022114,
-            "VelocityComponent": {
-                "velocity": [
-                    0.0,
-                    0.0
-                ]
-            }
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "texture": "8745956757200837066"
-            },
-            "TagComponent": {
-                "tag": "Grass 3"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -1,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    782.8319702148438,
-                    174.7017822265625
-                ],
-                "rotation": 59.20000076293945,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 9798388523017884794
+            "UUID": 16919753278312126588
         }
     ],
     "SceneInfo": {

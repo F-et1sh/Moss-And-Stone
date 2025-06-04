@@ -25,10 +25,10 @@ void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, Reso
 	m_RenderContext = &render_context;
 	m_ResourceManager = &resource_manager;
 
-	m_SpriteRendererSystem = this->CreateSystem<SpriteRendererSystem>();
+	m_SpriteRendererSystem	 = this->CreateSystem<SpriteRendererSystem>();
 	m_PlayerControllerSystem = this->CreateSystem<PlayerControllerSystem>();
-	m_PhysicsSystem = this->CreateSystem<PhysicsSystem>();
-	m_AnimationSystem = this->CreateSystem<AnimationSystem>();
+	m_PhysicsSystem			 = this->CreateSystem<PhysicsSystem>();
+	m_AnimationSystem		 = this->CreateSystem<AnimationSystem>();
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {

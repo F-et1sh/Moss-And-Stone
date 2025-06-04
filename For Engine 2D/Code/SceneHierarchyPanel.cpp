@@ -90,7 +90,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) 
 		this->setSelected(entity);
 
-	if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		ImGui::OpenPopup("Entity settings");
 
 	bool entity_deleted = false;
@@ -100,7 +100,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		ImGui::EndPopup();
 	}
 
-	if (this->getSelected() == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
+	if (ImGui::IsWindowFocused() && this->getSelected() == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
 		entity_deleted = true;
 
 	if (opened) {
@@ -169,6 +169,9 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 	DrawComponent<SpriteComponent>("SpriteRenderer", entity, [&](auto& component) {
 		m_ImGui->SelectTexture(component.texture.uuid);
 
+		auto& texture = m_ImGui->getResourceManager()->GetResource(component.texture);
+		component.frame = vec4(0, 0, texture.getSize());
+
 		m_ImGui->CheckBox("Flip X", component.flip_x);
 		m_ImGui->CheckBox("Flip Y", component.flip_y);
 		});
@@ -194,19 +197,14 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
-		//ImGui::DragScalar("Current Animation", ImGuiDataType_U64, (unsigned long long*)&component.current_animation, 1.0f, 0, component.animations.size());
 		ImGui::DragFloat("Current Time", &component.time);
 
-		const size_t max = component.animations.size();
-		const float speed = 1.0f / (max * 10);
+		const auto& resource_array = m_ImGui->getResourceManager()->getCache().get_resource_array();
 
-		for (size_t i = 0; i < max; i++) {
-			//ImGui::DragScalar(std::string("Animation " + std::to_string(i + 1)).c_str(), ImGuiDataType_U64, &component.animations[i], speed, 0, &max);
-		}
-
-		if (ImGui::Button("Add Animation")) {
-			//size_t new_anim = component.animations.back() + 1;
-			//component.animations.push_back(new_anim);
+		for (const auto& [uuid, resource] : resource_array) {
+			if (auto* animation = dynamic_cast<Animation*>(resource)) {
+				component.current_animation = ResourceID<Animation>(uuid);
+			}
 		}
 		});
 }

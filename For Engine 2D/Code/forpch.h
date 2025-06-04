@@ -55,6 +55,9 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+// boost-pool
+#include <boost/pool/pool_alloc.hpp>
+
 // EnTT
 #include <entt.hpp>
 

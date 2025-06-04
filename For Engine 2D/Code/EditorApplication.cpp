@@ -74,7 +74,6 @@ void FE2D::EditorApplication::Loop() {
 		m_Window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		this->UpdateCameraMoving();
-		this->OnResourceReloading();
 
 		this->OnGameUpdate();
 
@@ -140,14 +139,6 @@ void FE2D::EditorApplication::OnCloseRequest() {
 void FE2D::EditorApplication::Save() {
 	m_ResourceManager.save_resources();
 	m_SceneManager.SaveCurrentScene();
-}
-
-void FE2D::EditorApplication::OnResourceReloading() {
-	if (ImGui::IsKeyDown(ImGuiKey_ModCtrl) && ImGui::IsKeyDown(ImGuiKey_R)) {
-		m_ResourceManager.Release();
-		m_ResourceManager.Initialize();
-		m_ResourceManager.load_available_resources();
-	}
 }
 
 void FE2D::EditorApplication::OnGameUpdate() {

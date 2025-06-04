@@ -272,6 +272,12 @@ void FE2D::IMGUI::SelectTexture(FE2D::UUID& load_uuid) {
             if (ImGui::ImageButton("##Texture", texture->reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color))
                 selected_uuid = uuid;
 
+            if (ImGui::BeginDragDropSource()) {
+                ImGui::SetDragDropPayload("TEXTURE_UUID", &uuid, sizeof(FE2D::UUID));
+                ImGui::Text("%s", name.c_str());
+                ImGui::EndDragDropSource();
+            }
+
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("%s", name.c_str());
 

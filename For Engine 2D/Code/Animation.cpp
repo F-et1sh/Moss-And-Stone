@@ -2,65 +2,67 @@
 #include "Animation.h"
 
 void FE2D::Animation::Release() {
-	m_Frames.clear();
+    m_Frames.clear();
+    m_TextureID = ResourceID<Texture>(0);
+    m_TexturePath.clear();
 }
 
 bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
-	this->Release();
+    this->Release();
 
-	std::ifstream file(file_path);
-	if (!file.good()) {
-		SAY("ERROR : Failed to open a file of an Animation" << "\nPath : " << file_path);
-		this->Release();
-		return false;
-	}
-	
-	json j;
-	file >> j;
+    // TODO : Duration
 
-	if (!j.contains("Frames") || !j.contains("IsLooped")) {
-		SAY("ERROR : Failed to load an Animation\nBroken file" << "\nPath : " << file_path);
-		this->Release();
-		return false;
-	}
+    std::ifstream file(file_path);
+    if (!file.good()) {
+        SAY("ERROR : Failed to open file");
+        return false;
+    }
 
-	SceneSerializer::load_vector(m_Frames, j, "Frames", [](const json& j) -> FE2D::ResourceID<FE2D::Texture> { return FE2D::ResourceID<FE2D::Texture>(FE2D::UUID(j.get<std::string>())); });
-	m_IsLooped = j["IsLooped"].get<bool>();
+    json j;
+    file >> j;
 
-	return true;
+    if (j.contains("meta") && j["meta"].contains("image")) {
+        m_TexturePath = file_path.parent_path() / j["meta"]["image"].get<std::string>();
+    }
+    else {
+        SAY("ERROR : Broken file\nThere is no \"meta\" or \"meta/image\"");
+        return false;
+    }
+
+    if (!j.contains("frames") || !j["frames"].is_object()) {
+        SAY("ERROR : Broken file\nThere is no \"frames\" or \"frames\" is not object");
+        return false;
+    }
+
+    for (auto& [frame_name, frame_data] : j["frames"].items()) {
+        vec4 frame = vec4();
+
+        json j_frame = frame_data["frame"];
+        frame.x = j_frame["x"].get<int>();
+        frame.y = j_frame["y"].get<int>();
+        frame.z = j_frame["w"].get<int>();
+        frame.w = j_frame["h"].get<int>();
+
+        m_Frames.emplace_back(frame);
+    }
+
+    return true;
 }
 
-void FE2D::Animation::CreateSource(const std::filesystem::path& file_path)const {
-	if (file_path.empty()) {
-		SAY("ERROR : Failed to create a source for an Animation\nEmpty file path");
-		return;
-	}
-	
-	std::ofstream file(file_path);
-	if (!file.good()) {
-		SAY("ERROR : Failed to create a source for an Animation" << "\nPath : " << file_path);
-		return;
-	}
-	json j;
-	SceneSerializer::save_vector(m_Frames, j, "Frames", [](const FE2D::ResourceID<FE2D::Texture>& e) -> json { return e.uuid.ToString(); });
-	j["IsLooped"] = m_IsLooped;
+vec4 FE2D::Animation::getFrame(float time) const noexcept {
+    if (m_Frames.empty())
+        return vec4();
 
-#ifdef _DEBUG
-	file << j.dump(4);
-#else
-	file << j.dump();
-#endif
+    constexpr float dr = 0.1f;
+    size_t index = static_cast<int>(time / dr) % m_Frames.size();
+    return m_Frames[index];
 }
 
-void FE2D::Animation::OnEditorDraw(IMGUI& imgui) {
-	ImGui::Text("Animation");
-	imgui.CheckBox("Is Looped", m_IsLooped);
-}
-
-json FE2D::Animation::Serialize() const {
-	return json();
-}
-
-void FE2D::Animation::Deserialize(const json& j) {
-	// ..
+ResourceID<Texture> FE2D::Animation::getTexture(ResourceManager& resource_manager) {
+    if (m_TextureID.uuid == FE2D::UUID(0)) {
+        auto uuid = resource_manager.GetResourceByPath(m_TexturePath);
+        m_TextureID = ResourceID<Texture>(uuid);
+        return ResourceID<Texture>(uuid);
+    }
+    else return m_TextureID;
 }

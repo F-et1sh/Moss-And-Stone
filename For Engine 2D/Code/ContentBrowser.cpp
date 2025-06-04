@@ -102,7 +102,7 @@ void FE2D::ContentBrowser::OnPanelDraw() {
             ImGui::NextColumn();
         }
 
-        if (ImGui::IsKeyDown(ImGuiKey_Delete) &&
+        if (ImGui::IsWindowFocused() && ImGui::IsKeyDown(ImGuiKey_Delete) &&
             m_SelectedPath == path) {
 
             this->setDeletingPath(path);
@@ -140,7 +140,7 @@ void FE2D::ContentBrowser::DrawDirectory(const std::filesystem::path& path) {
 void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
     const std::string filename_string = path.filename().string();
 
-    const FE2D::UUID uuid = m_ResourceManager->GetResourceByPath(path.wstring() + L".fs");
+    const FE2D::UUID uuid = m_ResourceManager->GetResourceByPath(path);
 
     size_t texture_index = m_EmptyImage.reference();
     ImVec2 texture_size = TEXTURE_SIZE(m_EmptyImage);
@@ -174,7 +174,7 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
     if (ImGui::IsItemHovered() &&
         ImGui::IsMouseClicked(0)) {
 
-        auto resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
+        auto& resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
         this->setSelected(static_cast<IResource*>(&resource), path);
     }
 }

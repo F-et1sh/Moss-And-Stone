@@ -92,6 +92,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 			json j_component = j_entity["SpriteComponent"];
 
 			SceneSerializer::load_resource_id(component.texture, j_component, "texture");
+			SceneSerializer::load_vec4(component.frame, j_component, "frame");
 			SceneSerializer::load_value(component.flip_x, j_component, "flip_x");
 			SceneSerializer::load_value(component.flip_y, j_component, "flip_y");
 		}
@@ -151,7 +152,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 			AnimatorComponent& component = deserializedEntity.AddComponent<AnimatorComponent>();
 
 			json j_component = j_entity["AnimatorComponent"];
-			SceneSerializer::load_value(component.current_animation, j_component, "current_animation");
+			SceneSerializer::load_resource_id(component.current_animation, j_component, "current_animation");
 			SceneSerializer::load_value(component.time, j_component, "time");
 			SceneSerializer::load_vector(component.animations, j_component, "animations", [](const json& e) -> ResourceID<Animation> { return ResourceID<Animation>(FE2D::UUID(e.get<std::string>())); });
 		}
@@ -194,6 +195,7 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 
 		json j_component;
 		SceneSerializer::save_resource_id(component.texture, j_component, "texture");
+		SceneSerializer::save_vec4(component.frame, j_component, "frame");
 		SceneSerializer::save_value(component.flip_x, j_component, "flip_x");
 		SceneSerializer::save_value(component.flip_y, j_component, "flip_y");
 
@@ -256,7 +258,7 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		auto& component = entity.GetComponent<AnimatorComponent>();
 
 		json j_component;
-		SceneSerializer::save_value(component.current_animation, j_component, "current_animation");
+		SceneSerializer::save_resource_id(component.current_animation, j_component, "current_animation");
 		SceneSerializer::save_value(component.time, j_component, "time");
 		SceneSerializer::save_vector(component.animations, j_component, "animations", [](const ResourceID<Animation>& e) -> json {return e.uuid.ToString(); });
 
