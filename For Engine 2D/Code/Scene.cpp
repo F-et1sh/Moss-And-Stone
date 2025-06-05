@@ -103,11 +103,16 @@ void FE2D::Scene::Update() {
 	m_PhysicsSystem->Update();
 	
 	/* Post-Calculations */
-	m_AnimationSystem->Update();
+	
 
 }
 
 void FE2D::Scene::Render() {
+	
+	/* Animation */
+	m_AnimationSystem->Render();
+
+	/* Sprite Renderer */
 	m_SpriteRendererSystem->Render();
 }
 

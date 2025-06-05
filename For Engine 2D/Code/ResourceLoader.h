@@ -25,7 +25,7 @@ namespace FE2D {
 			if (!resource->LoadFromFile(path)) {
 				delete resource;
 				resource = nullptr;
-				FOR_RUNTIME_ERROR(("WARNING : Failed to create fallback for " + std::string(typeid(T).name()) + "\nPath : " + path.string()));
+				FOR_RUNTIME_ERROR(("Failed to create fallback for " + std::string(typeid(T).name()) + "\nPath : " + path.string()));
 			}
 			
 			this->fallback_resource(typeid(T).hash_code(), resource);
@@ -88,7 +88,7 @@ namespace FE2D {
 			L".png", L".jpg", L".bmp", L".tga", L".gif", L".hdr", L".pic", L".psd"
 		};
 		inline static const std::unordered_set<std::wstring> animation_supported_extensions = {
-			L".json",
+			L".fa",
 		};
 		inline static const std::unordered_set<std::wstring> audio_supported_extensions = {
 			 L".wav", L".aif", L".aiff", L".au", L".snd", L".raw", L".pcm", L".sf", L".paf", L".svx",

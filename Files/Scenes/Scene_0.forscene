@@ -3,8 +3,8 @@
         {
             "AnimatorComponent": {
                 "animations": [],
-                "current_animation": "16163099578890043561",
-                "time": 5.758078575134277
+                "current_animation": "17761858592016308651",
+                "time": 3.9996681213378906
             },
             "RelationshipComponent": {
                 "children": [],
@@ -14,12 +14,12 @@
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
+                    21.0,
                     0.0,
-                    0.0,
-                    42.0,
+                    7.0,
                     26.0
                 ],
-                "texture": "3187881290605922199"
+                "texture": "5326511936020937367"
             },
             "TagComponent": {
                 "tag": "New Entity"

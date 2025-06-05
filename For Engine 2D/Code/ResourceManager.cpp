@@ -82,7 +82,7 @@ void FE2D::ResourceManager::load_available_metadata() {
 
 void FE2D::ResourceManager::load_fallback_resources() {
     m_ResourceLoader.LoadFallback(L"Texture.png");
-    m_ResourceLoader.LoadFallback(L"Player_WalkDown.json");
+    m_ResourceLoader.LoadFallback(L"Player_WalkDown.fa");
 }
 
 void FE2D::ResourceManager::save_resources() {

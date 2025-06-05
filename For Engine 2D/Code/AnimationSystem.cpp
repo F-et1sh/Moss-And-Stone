@@ -1,15 +1,15 @@
 #include "forpch.h"
 #include "AnimationSystem.h"
 
-void FE2D::AnimationSystem::Release()
-{
+void FE2D::AnimationSystem::Release() {
+
 }
 
-void FE2D::AnimationSystem::Initialize()
-{
+void FE2D::AnimationSystem::Initialize() {
+
 }
 
-void FE2D::AnimationSystem::Update() {
+void FE2D::AnimationSystem::Render() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 
 	auto group = registry.group<AnimatorComponent>(entt::get<TransformComponent>);
@@ -22,16 +22,17 @@ void FE2D::AnimationSystem::Update() {
 		}
 
 		auto& transform = entity.GetComponent<TransformComponent>();
-		auto& animator  = entity.GetComponent<AnimatorComponent>(); 
-		auto& sprite    = entity.GetComponent<SpriteComponent>();
+		auto& animator = entity.GetComponent<AnimatorComponent>();
+		auto& sprite = entity.GetComponent<SpriteComponent>();
+
+		if (animator.current_animation.uuid == FE2D::UUID(0))
+			continue;
 
 		auto& current_animation = m_ResourceManager->GetResource(animator.current_animation);
 
 		animator.time += m_Window->getDeltaTime();
-		if (animator.time > current_animation.getMax())
-			animator.time = 0;
 
-		sprite.frame = current_animation.getFrame(animator.time);
+		sprite.frame = current_animation.getFrameUV(animator.time);
 		sprite.texture = current_animation.getTexture(*m_ResourceManager);
 	}
 }

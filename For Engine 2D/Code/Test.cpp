@@ -65,7 +65,9 @@ void FE2D::Test::loop() {
 
 		atlas.bind();
 
-		ubo.bufferSubData(0                  , 16              , &atlas.getSize());
+		vec2 atlas_size = atlas.getSize(); // lvalue
+
+		ubo.bufferSubData(0                  , 16              , &atlas_size);
 		ubo.bufferSubData(16                 , 64*matrices_size, &matrices[0]);
 		ubo.bufferSubData(16+64*matrices_size, 16*matrices_size, &texture_offsets[0]);
 

@@ -12,7 +12,7 @@ namespace FE2D {
 		void Release();
 		void Initialize();
 
-		void Update();
+		void Render();
 
 	private:
 

@@ -18,14 +18,13 @@ namespace FE2D {
 
 		// XY - Atlas Offset
 		// ZW - Texture Size
-		inline const vec2& getTextureCoords(Texture* texture) const {
+		inline vec2 getTextureCoords(Texture* texture) const {
 			const auto it = m_LoadedTextures.find(texture);
 			FOR_ASSERT(it != m_LoadedTextures.end(), "Texture not found in atlas");
 			return it->second;
 		}
-		inline const vec2& getSize() const noexcept { return m_AtlasSize; }
-
-		inline const unsigned int& reference() const noexcept { return m_Reference; }
+		inline vec2 getSize() const noexcept { return m_AtlasSize; }
+		inline unsigned int reference() const noexcept { return m_Reference; }
 
 	private:
 		void emplace_texture(Texture& load_texture);

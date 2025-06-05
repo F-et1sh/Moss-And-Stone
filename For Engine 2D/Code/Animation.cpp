@@ -3,14 +3,13 @@
 
 void FE2D::Animation::Release() {
     m_Frames.clear();
+    m_Duration = 0.0f;
     m_TextureID = ResourceID<Texture>(0);
     m_TexturePath.clear();
 }
 
 bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
     this->Release();
-
-    // TODO : Duration
 
     std::ifstream file(file_path);
     if (!file.good()) {
@@ -35,13 +34,17 @@ bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
     }
 
     for (auto& [frame_name, frame_data] : j["frames"].items()) {
-        vec4 frame = vec4();
+        Frame frame;
 
         json j_frame = frame_data["frame"];
-        frame.x = j_frame["x"].get<int>();
-        frame.y = j_frame["y"].get<int>();
-        frame.z = j_frame["w"].get<int>();
-        frame.w = j_frame["h"].get<int>();
+        frame.uv.x = j_frame["x"].get<int>();
+        frame.uv.y = j_frame["y"].get<int>();
+        frame.uv.z = j_frame["w"].get<int>();
+        frame.uv.w = j_frame["h"].get<int>();
+
+        // convert milliseconds to seconds
+        frame.duration = static_cast<float>(frame_data["duration"].get<int>()) / 1000.0f;
+        m_Duration += frame.duration;
 
         m_Frames.emplace_back(frame);
     }
@@ -49,20 +52,26 @@ bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
     return true;
 }
 
-vec4 FE2D::Animation::getFrame(float time) const noexcept {
+vec4 FE2D::Animation::getFrameUV(float time) const noexcept {
     if (m_Frames.empty())
         return vec4();
 
-    constexpr float dr = 0.1f;
-    size_t index = static_cast<int>(time / dr) % m_Frames.size();
-    return m_Frames[index];
+    float time_mod = std::fmod(time, m_Duration);
+
+    float accumulated_time = 0.0f;
+    for (const auto& frame : m_Frames) {
+        accumulated_time += frame.duration;
+        if (time_mod < accumulated_time)
+            return frame.uv;
+    }
+
+    return m_Frames.back().uv;
 }
 
 ResourceID<Texture> FE2D::Animation::getTexture(ResourceManager& resource_manager) {
     if (m_TextureID.uuid == FE2D::UUID(0)) {
         auto uuid = resource_manager.GetResourceByPath(m_TexturePath);
         m_TextureID = ResourceID<Texture>(uuid);
-        return ResourceID<Texture>(uuid);
     }
-    else return m_TextureID;
+    return m_TextureID;
 }

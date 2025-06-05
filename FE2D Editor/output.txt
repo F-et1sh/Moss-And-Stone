@@ -1,2 +1,2 @@
-RUNTIME ERROR : Failed to get a fallback of resource
-Type : class FE2D::Animation
+RUNTIME ERROR : Failed to create fallback for class FE2D::Animation
+Path : C:\Users\Пользователь\Desktop\Moss And Stone\Files\FE2D\Fallbacks\Player_WalkDown.fa
