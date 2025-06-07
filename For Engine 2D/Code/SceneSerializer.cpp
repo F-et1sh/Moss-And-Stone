@@ -149,12 +149,17 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("AnimatorComponent")) {
-			AnimatorComponent& component = deserializedEntity.AddComponent<AnimatorComponent>();
+			CharacterAnimatorComponent& component = deserializedEntity.AddComponent<CharacterAnimatorComponent>();
 
 			json j_component = j_entity["AnimatorComponent"];
 			SceneSerializer::load_resource_id(component.current_animation, j_component, "current_animation");
 			SceneSerializer::load_value(component.time, j_component, "time");
-			SceneSerializer::load_vector(component.animations, j_component, "animations", [](const json& e) -> ResourceID<Animation> { return ResourceID<Animation>(FE2D::UUID(e.get<std::string>())); });
+			SceneSerializer::load_array(component.animations, j_component, "animations", [](const json& j) -> std::pair<std::string, ResourceID<Animation>> {
+				std::pair<std::string, ResourceID<Animation>> pair;
+				pair.first = j["name"].get<std::string>();
+				pair.second = ResourceID<Animation>(FE2D::UUID(j["id"].get<std::string>()));
+				return pair;
+				});
 		}
     }
 
@@ -254,13 +259,18 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		j["ColliderComponent"] = j_component;
 	}
 
-	if (entity.HasComponent<AnimatorComponent>()) {
-		auto& component = entity.GetComponent<AnimatorComponent>();
+	if (entity.HasComponent<CharacterAnimatorComponent>()) {
+		auto& component = entity.GetComponent<CharacterAnimatorComponent>();
 
 		json j_component;
 		SceneSerializer::save_resource_id(component.current_animation, j_component, "current_animation");
 		SceneSerializer::save_value(component.time, j_component, "time");
-		SceneSerializer::save_vector(component.animations, j_component, "animations", [](const ResourceID<Animation>& e) -> json {return e.uuid.ToString(); });
+		SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<std::string, ResourceID<Animation>>& e) -> json { 
+			json j;
+			j["name"] = e.first;
+			j["id"] = e.second.uuid.ToString();
+			return j;
+			});
 
 		j["AnimatorComponent"] = j_component;
 	}

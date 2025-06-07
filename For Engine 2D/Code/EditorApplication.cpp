@@ -177,7 +177,7 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	this->OnPreviewWindow();
 
-	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition);
+	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewFocused, m_PreviewMousePosition);
 	m_ContentBrowser.OnImGuiRender();
 
 	m_ImGui.EndFrame();

@@ -19,10 +19,16 @@ void FE2D::PlayerControllerSystem::Update() {
 		auto& transform = entity.GetComponent<TransformComponent>();
 		auto& player = entity.GetComponent<PlayerComponent>();
 
-		if (!entity.HasComponent<VelocityComponent>())
-			return; // TODO : Work here
+		if (!entity.HasComponent<CharacterAnimatorComponent>()) {
+			SAY("WARNING : Entity has PlayerComponent but hasn't CharacterAnimatorComponent\nEntity : " << entity.GetComponent<TagComponent>().tag.c_str());
+			continue;
+		}
 
-		auto& velocity = registry.get<VelocityComponent>(e);
+		auto& animator = entity.GetComponent<CharacterAnimatorComponent>();
+		if (animator.animations.find("WalkDown") == animator.animations.end()) continue;
+		if (animator.animations.find("LoliWalkDown") == animator.animations.end()) continue;
+
+		auto& velocity = entity.GetComponent<VelocityComponent>();
 
 		vec2 dir = vec2();
 		constexpr float speed = 600;
@@ -32,8 +38,12 @@ void FE2D::PlayerControllerSystem::Update() {
 		if (glfwGetKey(m_Window->reference(), GLFW_KEY_D)) dir += vec2( 1,  0);
 		if (glfwGetKey(m_Window->reference(), GLFW_KEY_A)) dir += vec2(-1,  0);
 
-		if (length(dir) > 0.0f)
+		if (length(dir) != 0.0f) {
 			dir = glm::normalize(dir);
+
+			animator.current_animation = animator.animations.at("WalkDown");
+		}
+		else animator.current_animation = animator.animations.at("LoliWalkDown");
 
 		velocity.velocity = dir * speed;
 	}

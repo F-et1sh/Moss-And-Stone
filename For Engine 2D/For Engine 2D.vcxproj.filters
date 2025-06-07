@@ -7,9 +7,6 @@
     <Filter Include="Code\Pre-Compiled Headers">
       <UniqueIdentifier>{84abf3bc-aa4b-4465-b5fd-34ec183a2856}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics">
-      <UniqueIdentifier>{56c80257-e28d-47cb-a070-e3d5670b0a10}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Audio">
       <UniqueIdentifier>{73982dd7-be77-4efe-bbac-ca137bb8d24f}</UniqueIdentifier>
     </Filter>
@@ -31,35 +28,11 @@
     <Filter Include="Code\Audio\Sound Manager">
       <UniqueIdentifier>{d3a48136-60c0-490c-a4b1-4568d976c3da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Pipline">
-      <UniqueIdentifier>{a540ae77-d36b-4885-9bc6-02eb137a1a75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Pipline\Uniform Buffer">
-      <UniqueIdentifier>{412e76a2-5b84-429f-8530-effeb09d8496}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Pipline\Shader">
-      <UniqueIdentifier>{e6cad576-5e1f-4c46-8439-e03cbe3ae2ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Dynamic Array">
       <UniqueIdentifier>{b99e1a61-fe05-405c-9fbb-ac3cf1d44e03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Text Render">
-      <UniqueIdentifier>{185714d3-f412-45cf-a7da-9064fb85cd4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Text Render\forchar">
-      <UniqueIdentifier>{8cd88f0b-5fd7-4271-84fb-e7f623501a8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Text Render\Font">
-      <UniqueIdentifier>{f04b5dc3-af27-476e-a0bd-64f8b797c742}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{525f6fd6-efc0-4dc4-8150-ab1c51b5dd02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Texturing">
-      <UniqueIdentifier>{c532fc66-9c45-4455-88e9-4cbd518a0419}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Texturing\Texture Atlas">
-      <UniqueIdentifier>{4a81d7e0-db1f-4d25-9e15-c304cfe6b896}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\File">
       <UniqueIdentifier>{0d627577-6119-4e9d-863d-ecf91a88f764}</UniqueIdentifier>
@@ -79,15 +52,6 @@
     <Filter Include="Code\ECS">
       <UniqueIdentifier>{80303011-8640-4d62-9c82-678d2fa6e62f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Mesh2D">
-      <UniqueIdentifier>{3bd0d8e3-85e1-4fab-95de-6721a3f806c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Objects">
-      <UniqueIdentifier>{6c4ea22b-2117-48a3-b481-b42f4cc3b175}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Objects\Rectangle">
-      <UniqueIdentifier>{2725fac7-b98c-4e8b-b742-dd9c06d93d06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Event System">
       <UniqueIdentifier>{3c7ad39d-2090-4dd2-aa14-8ce96e856e7d}</UniqueIdentifier>
     </Filter>
@@ -99,9 +63,6 @@
     </Filter>
     <Filter Include="Code\Event System\Event Types">
       <UniqueIdentifier>{b669a006-274c-45ab-8f08-f98a7993f84a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Camera">
-      <UniqueIdentifier>{8d31b8c4-b70e-4d03-8169-beea29500c1c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Text %28 rewrite %29">
       <UniqueIdentifier>{2731f142-a502-4c00-9857-e054fc7b0ab6}</UniqueIdentifier>
@@ -124,24 +85,6 @@
     <Filter Include="Code\Resource Management\Resource %28 Inherit %29">
       <UniqueIdentifier>{ff9807db-c651-49dc-8bfd-7a88d5072ac7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\UI">
-      <UniqueIdentifier>{0d4540c2-37b1-4e42-adf5-611bf7acc059}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\UI\Gizmo %28 Inherit %29">
-      <UniqueIdentifier>{ec6e965d-4f85-4fbc-b301-0a0a6240d3ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\UI\Button">
-      <UniqueIdentifier>{a8fca404-7d8b-49a2-904a-528a5e8eb925}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\UI\Button\Button %28 Inherit %29">
-      <UniqueIdentifier>{82315a68-a641-491f-a392-4a4260a0aa16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\UI\Button\Button Manager">
-      <UniqueIdentifier>{b69fb750-963a-4ec1-8e96-0e95ff01f721}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\UI\Button\UI Button">
-      <UniqueIdentifier>{c0a8a3a5-5414-4154-9148-0efe41226bf3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\IMGUI">
       <UniqueIdentifier>{a3600644-a960-4071-8afa-34417029786a}</UniqueIdentifier>
     </Filter>
@@ -157,50 +100,14 @@
     <Filter Include="Code\Application\Editor">
       <UniqueIdentifier>{2741fbd3-3426-40e9-ad4d-7b6f7bc08abb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Renderer Management">
-      <UniqueIdentifier>{f39b7212-2f2c-4196-883a-ac4ebe6b2dfc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Render Manager">
-      <UniqueIdentifier>{09935eb3-4242-4da7-b4e1-de1c493f6b47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Renderers">
-      <UniqueIdentifier>{45076a25-b2d5-43bb-95e7-5013f50882d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Renderers\Sprite Renderer">
-      <UniqueIdentifier>{de2cb3ce-c938-482d-9a29-5bb502963775}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Renderers\Rectangle Renderer">
-      <UniqueIdentifier>{94f15aa7-4349-44aa-af6d-c46f20a8106a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Renderer %28 inherit %29">
-      <UniqueIdentifier>{beb24c18-a84c-47ce-b7fe-80de19d97eaf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Resource Management\Path Manager">
       <UniqueIdentifier>{0c8aca53-846d-4980-a4ec-a967618fbcd7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Dependencies\ImGui">
       <UniqueIdentifier>{b6c63c4f-059d-4d73-8441-f63bd2796ad0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Framebuffer">
-      <UniqueIdentifier>{5820a0e9-ba74-4a6d-a989-7bf9874520df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Application\Test">
       <UniqueIdentifier>{0872809c-cac2-4faf-82ab-8c0493387fd6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Renderer Factory">
-      <UniqueIdentifier>{68320dbf-9c55-48f4-9802-068bf511c5a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Renderer Management\Renderer Registrar">
-      <UniqueIdentifier>{6974e382-9935-4393-89d9-d3f8d642f875}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\VAO &amp; VBO">
-      <UniqueIdentifier>{c04a9818-78d1-463c-b44c-c8b65179178d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\VAO &amp; VBO\Vertex Array">
-      <UniqueIdentifier>{8f8f6600-956e-433a-b4f4-5bce8ef50ba3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\VAO &amp; VBO\Vertex Buffer">
-      <UniqueIdentifier>{d02ba574-ff9e-4b87-aaa3-eb3ec7564566}</UniqueIdentifier>
     </Filter>
     <Filter Include="Dependencies\Licenses">
       <UniqueIdentifier>{bd8c0eb8-ce0e-44e5-829b-9cef023a1536}</UniqueIdentifier>
@@ -238,12 +145,6 @@
     <Filter Include="Code\Resource Management\Resource Module %28 inherit %29">
       <UniqueIdentifier>{b3b45ea8-0420-4fcc-8ac9-4e9715e49d25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Graphics\Mouse Picker">
-      <UniqueIdentifier>{00398a1d-eda1-4f38-bf54-8af98ad4fb36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Render Context">
-      <UniqueIdentifier>{0302a746-c43b-4939-974c-19e643fb91c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\Component">
       <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
     </Filter>
@@ -255,18 +156,6 @@
     </Filter>
     <Filter Include="Code\ECS\System\Physics">
       <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animator">
-      <UniqueIdentifier>{bb38a648-d9d8-40bf-8533-a174f184c808}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animator\Sprite Animator">
-      <UniqueIdentifier>{c1924e58-3a71-4965-8ff2-d776c7ace829}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animator\Blend Tree">
-      <UniqueIdentifier>{9b333d0c-94b4-4f9b-88f5-e69a561d63f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Graphics\Animator\Animation State">
-      <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\ECS\System\Animation">
       <UniqueIdentifier>{9063ff2c-256d-48d4-a7a6-aa6c7a1e0daf}</UniqueIdentifier>
@@ -289,6 +178,120 @@
     <Filter Include="Code\Traits">
       <UniqueIdentifier>{57b75957-2ca8-4bc0-b105-f3cacd1c09da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29">
+      <UniqueIdentifier>{56c80257-e28d-47cb-a070-e3d5670b0a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Pipline">
+      <UniqueIdentifier>{a540ae77-d36b-4885-9bc6-02eb137a1a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Pipline\Uniform Buffer">
+      <UniqueIdentifier>{412e76a2-5b84-429f-8530-effeb09d8496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Pipline\Shader">
+      <UniqueIdentifier>{e6cad576-5e1f-4c46-8439-e03cbe3ae2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Text Render">
+      <UniqueIdentifier>{185714d3-f412-45cf-a7da-9064fb85cd4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Text Render\forchar">
+      <UniqueIdentifier>{8cd88f0b-5fd7-4271-84fb-e7f623501a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Text Render\Font">
+      <UniqueIdentifier>{f04b5dc3-af27-476e-a0bd-64f8b797c742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Texturing">
+      <UniqueIdentifier>{c532fc66-9c45-4455-88e9-4cbd518a0419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Texturing\Texture Atlas">
+      <UniqueIdentifier>{4a81d7e0-db1f-4d25-9e15-c304cfe6b896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Mesh2D">
+      <UniqueIdentifier>{3bd0d8e3-85e1-4fab-95de-6721a3f806c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Objects">
+      <UniqueIdentifier>{6c4ea22b-2117-48a3-b481-b42f4cc3b175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Objects\Rectangle">
+      <UniqueIdentifier>{2725fac7-b98c-4e8b-b742-dd9c06d93d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Camera">
+      <UniqueIdentifier>{8d31b8c4-b70e-4d03-8169-beea29500c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\UI">
+      <UniqueIdentifier>{0d4540c2-37b1-4e42-adf5-611bf7acc059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\UI\Gizmo %28 Inherit %29">
+      <UniqueIdentifier>{ec6e965d-4f85-4fbc-b301-0a0a6240d3ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\UI\Button">
+      <UniqueIdentifier>{a8fca404-7d8b-49a2-904a-528a5e8eb925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\UI\Button\Button %28 Inherit %29">
+      <UniqueIdentifier>{82315a68-a641-491f-a392-4a4260a0aa16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\UI\Button\Button Manager">
+      <UniqueIdentifier>{b69fb750-963a-4ec1-8e96-0e95ff01f721}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\UI\Button\UI Button">
+      <UniqueIdentifier>{c0a8a3a5-5414-4154-9148-0efe41226bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management">
+      <UniqueIdentifier>{f39b7212-2f2c-4196-883a-ac4ebe6b2dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Render Manager">
+      <UniqueIdentifier>{09935eb3-4242-4da7-b4e1-de1c493f6b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Renderers">
+      <UniqueIdentifier>{45076a25-b2d5-43bb-95e7-5013f50882d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Renderers\Sprite Renderer">
+      <UniqueIdentifier>{de2cb3ce-c938-482d-9a29-5bb502963775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Renderers\Rectangle Renderer">
+      <UniqueIdentifier>{94f15aa7-4349-44aa-af6d-c46f20a8106a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Renderer %28 inherit %29">
+      <UniqueIdentifier>{beb24c18-a84c-47ce-b7fe-80de19d97eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Renderer Factory">
+      <UniqueIdentifier>{68320dbf-9c55-48f4-9802-068bf511c5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Renderer Management\Renderer Registrar">
+      <UniqueIdentifier>{6974e382-9935-4393-89d9-d3f8d642f875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Framebuffer">
+      <UniqueIdentifier>{5820a0e9-ba74-4a6d-a989-7bf9874520df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\VAO &amp; VBO">
+      <UniqueIdentifier>{c04a9818-78d1-463c-b44c-c8b65179178d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\VAO &amp; VBO\Vertex Array">
+      <UniqueIdentifier>{8f8f6600-956e-433a-b4f4-5bce8ef50ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\VAO &amp; VBO\Vertex Buffer">
+      <UniqueIdentifier>{d02ba574-ff9e-4b87-aaa3-eb3ec7564566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Mouse Picker">
+      <UniqueIdentifier>{00398a1d-eda1-4f38-bf54-8af98ad4fb36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Render Context">
+      <UniqueIdentifier>{0302a746-c43b-4939-974c-19e643fb91c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Animator">
+      <UniqueIdentifier>{bb38a648-d9d8-40bf-8533-a174f184c808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Animator\Sprite Animator">
+      <UniqueIdentifier>{c1924e58-3a71-4965-8ff2-d776c7ace829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Animator\Blend Tree">
+      <UniqueIdentifier>{9b333d0c-94b4-4f9b-88f5-e69a561d63f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics %28 Legacy %29\Animator\Animation State">
+      <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Animation\Nodes">
+      <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -301,28 +304,28 @@
       <Filter>Code\Audio\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Code\Font.cpp">
-      <Filter>Code\Graphics\Text Render\Font</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Text Render\Font</Filter>
     </ClCompile>
     <ClCompile Include="Code\UniformBuffer.cpp">
-      <Filter>Code\Graphics\Pipline\Uniform Buffer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Pipline\Uniform Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Code\SoundManager.cpp">
       <Filter>Code\Audio\Sound Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\Shader.cpp">
-      <Filter>Code\Graphics\Pipline\Shader</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Pipline\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Code\Camera.cpp">
-      <Filter>Code\Graphics\Camera</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Code\Animator.cpp">
-      <Filter>Code\Graphics\Animator\Sprite Animator</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Animator\Sprite Animator</Filter>
     </ClCompile>
     <ClCompile Include="Code\VertexArray.cpp">
-      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Array</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\VAO &amp; VBO\Vertex Array</Filter>
     </ClCompile>
     <ClCompile Include="Code\VertexBuffer.cpp">
-      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Buffer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\VAO &amp; VBO\Vertex Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Code\Texture.cpp">
       <Filter>Code\Resource Management\Resources\Texture</Filter>
@@ -343,43 +346,43 @@
       <Filter>Code\Event System\Event Dispatcher</Filter>
     </ClCompile>
     <ClCompile Include="Code\Rectangle.cpp">
-      <Filter>Code\Graphics\Objects\Rectangle</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Objects\Rectangle</Filter>
     </ClCompile>
     <ClCompile Include="Code\Text.cpp">
       <Filter>Code\Text %28 rewrite %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\BlendTree.cpp">
-      <Filter>Code\Graphics\Animator\Blend Tree</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Animator\Blend Tree</Filter>
     </ClCompile>
     <ClCompile Include="Code\AnimationState.cpp">
-      <Filter>Code\Graphics\Animator\Animation State</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Animator\Animation State</Filter>
     </ClCompile>
     <ClCompile Include="Code\Animation.cpp">
       <Filter>Code\Resource Management\Resources\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Code\forchar.cpp">
-      <Filter>Code\Graphics\Text Render\forchar</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Text Render\forchar</Filter>
     </ClCompile>
     <ClCompile Include="Code\TextureAtlas.cpp">
-      <Filter>Code\Graphics\Texturing\Texture Atlas</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Texturing\Texture Atlas</Filter>
     </ClCompile>
     <ClCompile Include="Code\Button.cpp">
-      <Filter>Code\Graphics\UI\Button\Button %28 Inherit %29</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Button\Button %28 Inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\ButtonManager.cpp">
-      <Filter>Code\Graphics\UI\Button\Button Manager</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Button\Button Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\GizmoBox.cpp">
-      <Filter>Code\Graphics\UI\Gizmo %28 Inherit %29</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Gizmo %28 Inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\Mesh2D.cpp">
-      <Filter>Code\Graphics\Mesh2D</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Mesh2D</Filter>
     </ClCompile>
     <ClCompile Include="Code\UI_Button.cpp">
-      <Filter>Code\Graphics\UI\Button\UI Button</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Button\UI Button</Filter>
     </ClCompile>
     <ClCompile Include="Code\RectangleRenderer.cpp">
-      <Filter>Code\Graphics\Renderer Management\Renderers\Rectangle Renderer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderers\Rectangle Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Code\ResourceManager.cpp">
       <Filter>Code\Resource Management\Resource Manager</Filter>
@@ -433,25 +436,25 @@
       <Filter>Code\Application\Editor</Filter>
     </ClCompile>
     <ClCompile Include="Code\RenderManager.cpp">
-      <Filter>Code\Graphics\Renderer Management\Render Manager</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Render Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\Renderer.cpp">
-      <Filter>Code\Graphics\Renderer Management\Renderer %28 inherit %29</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderer %28 inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\PathManager.cpp">
       <Filter>Code\Resource Management\Path Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\Framebuffer.cpp">
-      <Filter>Code\Graphics\Framebuffer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Framebuffer</Filter>
     </ClCompile>
     <ClCompile Include="Code\Test.cpp">
       <Filter>Code\Application\Test</Filter>
     </ClCompile>
     <ClCompile Include="Code\RendererFactory.cpp">
-      <Filter>Code\Graphics\Renderer Management\Renderer Factory</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderer Factory</Filter>
     </ClCompile>
     <ClCompile Include="Code\RendererRegistrar.cpp">
-      <Filter>Code\Graphics\Renderer Management\Renderer Registrar</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderer Registrar</Filter>
     </ClCompile>
     <ClCompile Include="Code\Entity.cpp">
       <Filter>Code\ECS\Entity</Filter>
@@ -475,10 +478,10 @@
       <Filter>Code\Scene Management\Scene Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\MousePicker.cpp">
-      <Filter>Code\Graphics\Mouse Picker</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Mouse Picker</Filter>
     </ClCompile>
     <ClCompile Include="Code\RenderContext.cpp">
-      <Filter>Code\Graphics\Render Context</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Render Context</Filter>
     </ClCompile>
     <ClCompile Include="Code\PlayerControllerSystem.cpp">
       <Filter>Code\ECS\System\PlayerController</Filter>
@@ -498,6 +501,9 @@
     <ClCompile Include="Code\ResourceCache.cpp">
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClCompile>
+    <ClCompile Include="Code\AnimationStateNodes.cpp">
+      <Filter>Code\ECS\System\Animation\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\forpch.h">
@@ -513,46 +519,46 @@
       <Filter>Code\Core</Filter>
     </ClInclude>
     <ClInclude Include="Code\forchar.h">
-      <Filter>Code\Graphics\Text Render\forchar</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Text Render\forchar</Filter>
     </ClInclude>
     <ClInclude Include="Code\Font.h">
-      <Filter>Code\Graphics\Text Render\Font</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Text Render\Font</Filter>
     </ClInclude>
     <ClInclude Include="Code\Text.h">
       <Filter>Code\Text %28 rewrite %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\UniformBuffer.h">
-      <Filter>Code\Graphics\Pipline\Uniform Buffer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Pipline\Uniform Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Code\SoundManager.h">
       <Filter>Code\Audio\Sound Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\Shader.h">
-      <Filter>Code\Graphics\Pipline\Shader</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Pipline\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Code\Camera.h">
-      <Filter>Code\Graphics\Camera</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Code\Animation.h">
       <Filter>Code\Resource Management\Resources\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Code\Animator.h">
-      <Filter>Code\Graphics\Animator\Sprite Animator</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Animator\Sprite Animator</Filter>
     </ClInclude>
     <ClInclude Include="Code\BlendTree.h">
-      <Filter>Code\Graphics\Animator\Blend Tree</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Animator\Blend Tree</Filter>
     </ClInclude>
     <ClInclude Include="Code\AnimationState.h">
-      <Filter>Code\Graphics\Animator\Animation State</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Animator\Animation State</Filter>
     </ClInclude>
     <ClInclude Include="Code\VertexArray.h">
-      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Array</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\VAO &amp; VBO\Vertex Array</Filter>
     </ClInclude>
     <ClInclude Include="Code\VertexBuffer.h">
-      <Filter>Code\Graphics\VAO &amp; VBO\Vertex Buffer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\VAO &amp; VBO\Vertex Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Code\Rectangle.h">
-      <Filter>Code\Graphics\Objects\Rectangle</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Objects\Rectangle</Filter>
     </ClInclude>
     <ClInclude Include="Code\Texture.h">
       <Filter>Code\Resource Management\Resources\Texture</Filter>
@@ -576,25 +582,25 @@
       <Filter>Code\Event System\Event Types</Filter>
     </ClInclude>
     <ClInclude Include="Code\TextureAtlas.h">
-      <Filter>Code\Graphics\Texturing\Texture Atlas</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Texturing\Texture Atlas</Filter>
     </ClInclude>
     <ClInclude Include="Code\Button.h">
-      <Filter>Code\Graphics\UI\Button\Button %28 Inherit %29</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Button\Button %28 Inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\ButtonManager.h">
-      <Filter>Code\Graphics\UI\Button\Button Manager</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Button\Button Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\GizmoBox.h">
-      <Filter>Code\Graphics\UI\Gizmo %28 Inherit %29</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Gizmo %28 Inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\Mesh2D.h">
-      <Filter>Code\Graphics\Mesh2D</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Mesh2D</Filter>
     </ClInclude>
     <ClInclude Include="Code\UI_Button.h">
-      <Filter>Code\Graphics\UI\Button\UI Button</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\UI\Button\UI Button</Filter>
     </ClInclude>
     <ClInclude Include="Code\RectangleRenderer.h">
-      <Filter>Code\Graphics\Renderer Management\Renderers\Rectangle Renderer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderers\Rectangle Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Code\ResourceManager.h">
       <Filter>Code\Resource Management\Resource Manager</Filter>
@@ -654,25 +660,25 @@
       <Filter>Code\Application\Editor</Filter>
     </ClInclude>
     <ClInclude Include="Code\RenderManager.h">
-      <Filter>Code\Graphics\Renderer Management\Render Manager</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Render Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\Renderer.h">
-      <Filter>Code\Graphics\Renderer Management\Renderer %28 inherit %29</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderer %28 inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\PathManager.h">
       <Filter>Code\Resource Management\Path Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\Framebuffer.h">
-      <Filter>Code\Graphics\Framebuffer</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Framebuffer</Filter>
     </ClInclude>
     <ClInclude Include="Code\Test.h">
       <Filter>Code\Application\Test</Filter>
     </ClInclude>
     <ClInclude Include="Code\RendererFactory.h">
-      <Filter>Code\Graphics\Renderer Management\Renderer Factory</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderer Factory</Filter>
     </ClInclude>
     <ClInclude Include="Code\RendererRegistrar.h">
-      <Filter>Code\Graphics\Renderer Management\Renderer Registrar</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Renderer Management\Renderer Registrar</Filter>
     </ClInclude>
     <ClInclude Include="Code\Entity.h">
       <Filter>Code\ECS\Entity</Filter>
@@ -696,10 +702,10 @@
       <Filter>Code\Scene Management\Scene Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\MousePicker.h">
-      <Filter>Code\Graphics\Mouse Picker</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Mouse Picker</Filter>
     </ClInclude>
     <ClInclude Include="Code\RenderContext.h">
-      <Filter>Code\Graphics\Render Context</Filter>
+      <Filter>Code\Graphics %28 Legacy %29\Render Context</Filter>
     </ClInclude>
     <ClInclude Include="Code\PlayerControllerSystem.h">
       <Filter>Code\ECS\System\PlayerController</Filter>
@@ -727,6 +733,9 @@
     </ClInclude>
     <ClInclude Include="Code\ResourceCache.h">
       <Filter>Code\Resource Management\Resource Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\AnimationStateNodes.h">
+      <Filter>Code\ECS\System\Animation\Nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -222,13 +222,13 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
     ImGui::PopID();
 }
 
-void FE2D::IMGUI::SelectTexture(FE2D::UUID& load_uuid) {
+void FE2D::IMGUI::SelectTexture(ResourceID<Texture>& id) {
     const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
 
     constexpr ImVec2 texture_size = ImVec2(100, 100);
     constexpr float padding = 10.0f;
 
-    FE2D::UUID selected_uuid = load_uuid;
+    FE2D::UUID selected_uuid = id.uuid;
 
     static char search_buffer[128] = "";
     ImGui::Begin("Texture Selection");
@@ -293,7 +293,115 @@ void FE2D::IMGUI::SelectTexture(FE2D::UUID& load_uuid) {
 
     ImGui::End();
 
-    load_uuid = selected_uuid;
+    id.uuid = selected_uuid;
+}
+
+void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
+    const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
+
+    constexpr ImVec2 texture_size = ImVec2(100, 100);
+    constexpr float padding = 10.0f;
+
+    FE2D::UUID selected_uuid = id.uuid;
+
+    static char search_buffer[128] = "";
+    ImGui::Begin("Animation Selection");
+
+    ImGui::InputTextWithHint("##Search", "Search animation...", search_buffer, IM_ARRAYSIZE(search_buffer));
+
+    float window_visible_x = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+
+    for (const auto& [uuid, resource] : resource_array) {
+        if (auto* animation = dynamic_cast<Animation*>(resource)) {
+            const std::string& name = m_ResourceManager->getCache().get_metadata(uuid).stem().string();
+
+            if (strlen(search_buffer) > 0) {
+                std::string name_lower = name;
+                std::string search_lower = search_buffer;
+                std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower);
+                std::transform(search_lower.begin(), search_lower.end(), search_lower.begin(), ::tolower);
+
+                if (name_lower.find(search_lower) == std::string::npos)
+                    continue;
+            }
+
+            ResourceID<Texture> tex_id = animation->getTexture(*m_ResourceManager);
+            auto& texture = m_ResourceManager->GetResource(tex_id);
+            
+            ImGui::PushID(animation);
+
+            ImVec2 button_size = ImVec2(
+                texture_size.x * (float(texture.getSize().x) / texture.getSize().y),
+                texture_size.y
+            );
+
+            static constexpr ImVec4 selected_bg_color = ImVec4(1, 0.7f, 0.2f, 0.5f);
+            static constexpr ImVec4 selected_tint_color = ImVec4(1, 0.6f, 0.2f, 1);
+
+            ImVec4 bg_color = ImVec4(0, 0, 0, 0);
+            ImVec4 tint_color = ImVec4(1, 1, 1, 1);
+
+            if (uuid == selected_uuid) {
+                bg_color = selected_bg_color;
+                tint_color = selected_tint_color;
+            }
+
+            if (ImGui::ImageButton("##Animation", texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color))
+                selected_uuid = uuid;
+
+            if (ImGui::BeginDragDropSource()) {
+                ImGui::SetDragDropPayload("ANIMATION_UUID", &uuid, sizeof(FE2D::UUID));
+                ImGui::Text("%s", name.c_str());
+                ImGui::EndDragDropSource();
+            }
+
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("%s", name.c_str());
+
+            float last_button_x = ImGui::GetItemRectMax().x;
+            float next_button_x = last_button_x + padding + button_size.x;
+
+            if (next_button_x < window_visible_x)
+                ImGui::SameLine();
+
+            ImGui::PopID();
+        }
+    }
+
+    ImGui::End();
+
+    id.uuid = selected_uuid;
+}
+
+void FE2D::IMGUI::DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size) {
+    if (id.uuid == FE2D::UUID(0))
+        return;
+
+    auto& animation = m_ResourceManager->GetResource(id);
+    auto texture_id = animation.getTexture(*m_ResourceManager);
+    auto& texture = m_ResourceManager->GetResource(texture_id);
+
+    vec4 frame_uv = animation.getFrameUV(ImGui::GetTime());
+
+    ImVec2 image_size = ImVec2(
+        sprite_size.x * (float(frame_uv.z) / frame_uv.w),
+        sprite_size.y
+    );
+
+    frame_uv /= vec4(texture.getSize(), texture.getSize());
+
+    ImVec2 uv0(frame_uv.x, frame_uv.w + frame_uv.y);
+    ImVec2 uv1(frame_uv.z + frame_uv.x, frame_uv.y);
+
+    ImGui::Image(texture.reference(), image_size, uv0, uv1);
+}
+
+void FE2D::IMGUI::OnAnimatorEditorPanel(CharacterAnimatorComponent& component) {
+    ImGui::Begin("Animator Editor");
+
+
+
+    ImGui::End();
 }
 
 vec2 FE2D::IMGUI::GetWorldPosition(TransformComponent& transform) {

@@ -84,7 +84,7 @@ namespace FE2D {
 		// Get FPS Showing/Updating Speed
 		inline float getFPS_Speed() { return m_FPS_Speed; }
 	public:
-		inline const size_t& getFPS()noexcept;
+		inline size_t getFPS()noexcept;
 #pragma endregion
 
 #pragma region DeltaTime Counter

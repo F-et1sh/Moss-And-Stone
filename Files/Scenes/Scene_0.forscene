@@ -2,10 +2,20 @@
     "Entities": [
         {
             "AnimatorComponent": {
-                "animations": [],
-                "current_animation": "17761858592016308651",
-                "time": 3.9996681213378906
+                "animations": [
+                    {
+                        "id": "2318356647782040909",
+                        "name": "LoliWalkDown"
+                    },
+                    {
+                        "id": "3627080827995427968",
+                        "name": "WalkDown"
+                    }
+                ],
+                "current_animation": "2318356647782040909",
+                "time": 567.0128173828125
             },
+            "PlayerComponent": null,
             "RelationshipComponent": {
                 "children": [],
                 "parent": 0
@@ -14,12 +24,12 @@
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
-                    21.0,
                     0.0,
-                    7.0,
-                    26.0
+                    0.0,
+                    12.0,
+                    24.0
                 ],
-                "texture": "5326511936020937367"
+                "texture": "2343664769499919225"
             },
             "TagComponent": {
                 "tag": "New Entity"
@@ -32,16 +42,22 @@
                     0.0
                 ],
                 "position": [
-                    -3.02366042137146,
-                    86.17333984375
+                    0.0,
+                    0.0
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    25.0,
-                    25.0
+                    15.0,
+                    15.0
                 ]
             },
-            "UUID": 16919753278312126588
+            "UUID": 16919753278312126588,
+            "VelocityComponent": {
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            }
         }
     ],
     "SceneInfo": {

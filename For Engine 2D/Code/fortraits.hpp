@@ -4,6 +4,10 @@
     T() = default;                           \
     ~T() = default;                          \
 
+#define FOR_CLASS_VIRTUAL(T)                 \
+    T() = default;                           \
+    virtual ~T() = default;                  \
+
 #define FOR_CLASS_NONCOPYABLE(T)             \
     T(const T&) = delete;                    \
     T& operator=(const T&) = delete;         \

@@ -24,7 +24,7 @@ bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
         m_TexturePath = file_path.parent_path() / j["meta"]["image"].get<std::string>();
     }
     else {
-        SAY("ERROR : Broken file\nThere is no \"meta\" or \"meta/image\"");
+        SAY("ERROR : Broken file\nThere is no \"meta\" or \"meta/image\"\nPlease look at checkbox in Aseprite while you export your animation\n\"Output file\" must be on");
         return false;
     }
 

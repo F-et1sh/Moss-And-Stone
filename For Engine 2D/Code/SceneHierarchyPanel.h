@@ -15,7 +15,7 @@ namespace FE2D {
 
 		void setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker);
 
-		void OnImGuiRender(bool is_preview_hovered, const vec2& preview_mouse_position);
+		void OnImGuiRender(bool is_preview_window_focused, const vec2& preview_mouse_position);
 
 		inline Entity getSelected() const noexcept { return this->m_Selected; }
 		inline void setSelected(Entity entity)noexcept { this->m_Selected = entity; }
@@ -23,7 +23,7 @@ namespace FE2D {
 	
 	private:
 		void DrawEntityNode(Entity entity);
-		void DrawComponents(Entity entity);
+		void DrawComponents(Entity entity, bool is_preview_window_focused);
 	
 		template<typename T, typename UIFunction>
 		void DrawComponent(const std::string& name, Entity entity, UIFunction ui_function) {

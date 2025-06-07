@@ -2,6 +2,7 @@
 #include "SystemBase.h"
 
 #include "Animation.h"
+#include "AnimationStateNodes.h"
 
 namespace FE2D {
 	class FOR_API AnimationSystem : public SystemBase {
@@ -15,6 +16,6 @@ namespace FE2D {
 		void Render();
 
 	private:
-
+		
 	};
 }

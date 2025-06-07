@@ -17,7 +17,7 @@ namespace FE2D {
             return m_NextIndex++; // Increase then return the Next Index
         }
 
-        inline const bool unsubscribe(const Event::EventType& type, ListenerID id) {
+        inline bool unsubscribe(const Event::EventType& type, ListenerID id) {
             auto it = m_Listeners.find(type);
             if (it == m_Listeners.end()) return false;
             it->second.erase(id);
@@ -27,7 +27,7 @@ namespace FE2D {
         inline void dispatch(const Event& event)noexcept {
             // do not check for errors here. operator[] will add unexist event type automaticly
             auto& typeListeners = m_Listeners[event.type];
-            // Handle all of events here
+            // handle all of events here
             for (const auto& listener : typeListeners) listener.second(event);
         }
     private:

@@ -307,7 +307,7 @@ inline void FE2D::Window::setVSyn(int vsyn) noexcept {
 
 #pragma region FPS Counter
 
-inline const size_t& FE2D::Window::getFPS()noexcept{
+inline size_t FE2D::Window::getFPS()noexcept{
 	double currentTime = glfwGetTime();
 	m_NbFrames++;
 	if (currentTime - m_LastTime_FPS >= 1.0f / m_FPS_Speed) {

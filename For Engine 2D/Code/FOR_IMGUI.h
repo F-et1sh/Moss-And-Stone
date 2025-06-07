@@ -1,5 +1,7 @@
 #pragma once
 #include "Texture.h"
+#include "Animation.h"
+#include "Components.h"
 
 namespace FE2D {
 /* forward declarations */
@@ -35,7 +37,11 @@ public:
 	void DragFloat  (const std::string& label, float& value , float columnWidth = 100.0f);
 	void DragVector2(const std::string& label, vec2 & values, float resetValue = 0.0f, float columnWidth = 100.0f);
 	
-	void SelectTexture(FE2D::UUID& load_uuid);
+	void SelectTexture(ResourceID<Texture>& id);
+	void SelectAnimation(ResourceID<Animation>& id);
+	void DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size = ImVec2(100, 100));
+
+	void OnAnimatorEditorPanel(CharacterAnimatorComponent& component);
 
 	void TransformControl(TransformComponent& transform);
 	void ColliderControl(TransformComponent& transform, ColliderComponent& collider);

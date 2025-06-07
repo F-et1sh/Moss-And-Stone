@@ -3,6 +3,7 @@
 #include "UUID.h"
 
 #include "Animation.h"
+#include "AnimationStateNodes.h"
 
 namespace FE2D {
     struct FOR_API IDComponent {
@@ -129,13 +130,13 @@ namespace FE2D {
         ColliderComponent(const ColliderComponent&) = default;
     };
     
-    struct FOR_API AnimatorComponent {
-        std::vector<ResourceID<Animation>> animations;
+    struct FOR_API CharacterAnimatorComponent {
         ResourceID<Animation> current_animation;
         float time = 0.0f;
+        bool playing = false;
+        bool loop = true;
 
-        AnimatorComponent() = default;
-        ~AnimatorComponent() = default;
-        AnimatorComponent(const AnimatorComponent&) = default;
+        std::unordered_map<std::string, ResourceID<Animation>> animations;
+        std::vector<IStateNode*> nodes;
     };
 }

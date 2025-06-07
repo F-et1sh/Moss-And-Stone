@@ -27,11 +27,17 @@ namespace FE2D {
             j[name] = value;
         }
 
-        template<typename T, typename Func> requires (std::invocable<Func, const T&> && std::convertible_to<std::invoke_result_t<Func, const T&>, json>)
-        static void save_vector(const std::vector<T>& vec, json& j, const std::string& name, Func&& func) {
-            json array = json::array();
-            for (const auto& e : vec) { array.emplace_back(func(e)); }
-            j[name] = array;
+        template<typename Array, typename Func>
+            requires (
+                std::invocable<Func, typename Array::value_type>&&
+                std::convertible_to<std::invoke_result_t<Func, typename Array::value_type>, json>
+            )
+            static void save_array(const Array& array, json& j, const std::string& name, Func&& func) {
+            json j_array = json::array();
+            for (const auto& e : array) {
+                j_array.emplace_back(func(e));
+            }
+            j[name] = j_array;
         }
 
         static void save_value(const std::wstring& value, json& j, const std::string& name) {
@@ -51,7 +57,7 @@ namespace FE2D {
     public:
         template<typename T> requires std::is_base_of_v<IResource, T>
         static void load_resource_id(ResourceID<T>& id, const json& j, const std::string& name) {
-            if (!j.contains(name) || !j.is_string()) return;
+            if (!j.contains(name)) return;
 
             id.uuid = FE2D::UUID(j[name].get<std::string>());
         }
@@ -64,14 +70,28 @@ namespace FE2D {
             value = j[name].get<T>();
         }
 
-        template<typename T, typename Func> requires (std::invocable<Func, const json&> && std::convertible_to<std::invoke_result_t<Func, const json&>, T>)
-        static void load_vector(std::vector<T>& vec, const json& j, const std::string& name, Func&& func) {
+        template<typename Array, typename Func>
+            requires (
+                std::invocable<Func, const json&>&&
+                std::convertible_to<std::invoke_result_t<Func, const json&>, typename Array::value_type>
+            )
+            static void load_array(Array& array, const json& j, const std::string& name, Func&& func) {
             if (!j.contains(name)) return;
             if (!j[name].is_array()) return;
-            json array = j[name];
-            vec.clear();
-            vec.reserve(array.size());
-            for (const json& e : array) { vec.emplace_back(func(e)); }
+
+            const json& j_array = j[name];
+            array.clear();
+
+            if constexpr (requires(Array arr, typename Array::value_type v) { arr.emplace_back(v); }) {
+                array.reserve(j_array.size());
+                for (const json& e : j_array)
+                    array.emplace_back(func(e));
+            }
+            else if constexpr (requires(Array arr, typename Array::value_type v) { arr.insert(v); }) {
+                for (const json& e : j_array)
+                    array.insert(func(e));
+            }
+            else FOR_ASSERT(true, "Container does not support emplace_back or insert");
         }
 
         static void load_value(std::wstring& value, const json& j, const std::string& name) {

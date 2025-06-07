@@ -16,7 +16,7 @@ namespace FE2D {
 	// ResourceLoader - can serialize/deserialize .fs ( .fs - ForSave ) files and load/create resources
 	// ResourceCache  - contains all of resources in cache, being a 'stupid' container
 	// 
-	// MANDATORY RULE of memory management :
+	// GLOBAL RULE OF MEMORY MANAGEMENT :
 	// Resources are created in ResourceLoader with 'new' and deleted in ResourceCache with 'delete'
 	class FOR_API ResourceManager {
 	public:

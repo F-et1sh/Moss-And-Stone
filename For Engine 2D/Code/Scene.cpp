@@ -8,10 +8,10 @@ void FE2D::Scene::Release() {
 		if (e.HasComponent<SpriteComponent>()) {
 			m_ResourceManager->RemoveResource(e.GetComponent<SpriteComponent>().texture);
 		}
-		if (e.HasComponent<AnimatorComponent>()) {
-			const auto& animations = e.GetComponent<AnimatorComponent>().animations;
-			for (const auto& a : animations) {
-				m_ResourceManager->RemoveResource(a);
+		if (e.HasComponent<CharacterAnimatorComponent>()) {
+			const auto& animations = e.GetComponent<CharacterAnimatorComponent>().animations;
+			for (const auto& pair : animations) {
+				m_ResourceManager->RemoveResource(pair.second);
 			}
 		}
 	}
@@ -103,7 +103,7 @@ void FE2D::Scene::Update() {
 	m_PhysicsSystem->Update();
 	
 	/* Post-Calculations */
-	
+	// ..
 
 }
 

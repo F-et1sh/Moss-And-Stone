@@ -12,17 +12,17 @@ void FE2D::AnimationSystem::Initialize() {
 void FE2D::AnimationSystem::Render() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 
-	auto group = registry.group<AnimatorComponent>(entt::get<TransformComponent>);
+	auto group = registry.group<CharacterAnimatorComponent>(entt::get<TransformComponent>);
 	for (auto e : group) {
 		Entity entity = { e, m_Scene };
 
 		if (!entity.HasComponent<SpriteComponent>()) {
-			SAY("WARNING : Entity has AnimatorComponent but hasn't SpriteComponent\nEntity : " << entity.GetComponent<TagComponent>().tag.c_str());
+			SAY("WARNING : Entity has CharacterAnimatorComponent but hasn't SpriteComponent\nEntity : " << entity.GetComponent<TagComponent>().tag.c_str());
 			continue;
 		}
 
 		auto& transform = entity.GetComponent<TransformComponent>();
-		auto& animator = entity.GetComponent<AnimatorComponent>();
+		auto& animator = entity.GetComponent<CharacterAnimatorComponent>();
 		auto& sprite = entity.GetComponent<SpriteComponent>();
 
 		if (animator.current_animation.uuid == FE2D::UUID(0))

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\AnimationStateNodes.cpp" />
     <ClCompile Include="Code\AnimationSystem.cpp" />
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
@@ -130,6 +131,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\AnimationStateNodes.h" />
     <ClInclude Include="Code\AnimationSystem.h" />
     <ClInclude Include="Code\ContentBrowser.h" />
     <ClInclude Include="Code\forarray.hpp" />

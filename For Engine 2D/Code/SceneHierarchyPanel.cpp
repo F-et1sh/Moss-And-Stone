@@ -16,7 +16,7 @@ void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePi
 	this->resetSelected();
 }
 
-void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec2& preview_mouse_position) {
+void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_focused, const vec2& preview_mouse_position) {
 	ImGui::Begin("Scene Hierarchy", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	if (m_Context) {
@@ -49,7 +49,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec
 	}
 	ImGui::End();
 
-	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_hovered) {
+	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
 		if (entity_index != -1) this->setSelected({ (entt::entity)entity_index, m_Context });
@@ -58,7 +58,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_hovered, const vec
 
 	ImGui::Begin("Properties", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 	if (this->getSelected())
-		DrawComponents(this->getSelected());
+		DrawComponents(this->getSelected(), is_preview_window_focused);
 	ImGui::End();
 }
 
@@ -119,7 +119,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	ImGui::PopID();
 }
 
-void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
+void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity, bool is_preview_window_focused) {
 	if (entity.HasComponent<TagComponent>()) {
 		auto& tag = entity.GetComponent<TagComponent>().tag;
 
@@ -138,12 +138,12 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 	if (ImGui::BeginPopup("AddComponent")) {
 		DisplayAddComponentEntry<TransformComponent>("Transform");
-		DisplayAddComponentEntry<SpriteComponent>("SpriteRenderer");
+		DisplayAddComponentEntry<SpriteComponent>("Sprite Renderer");
 		DisplayAddComponentEntry<CameraComponent>("Camera");
-		DisplayAddComponentEntry<PlayerComponent>("PlayerController");
+		DisplayAddComponentEntry<PlayerComponent>("Player Controller");
 		DisplayAddComponentEntry<VelocityComponent>("Velocity");
 		DisplayAddComponentEntry<ColliderComponent>("Collider");
-		DisplayAddComponentEntry<AnimatorComponent>("Animator");
+		DisplayAddComponentEntry<CharacterAnimatorComponent>("Character Animator");
 
 		ImGui::EndPopup();
 	}
@@ -163,11 +163,11 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::Spacing();
 		m_ImGui->DragVector2("Origin", component.origin);
 
-		m_ImGui->TransformControl(component);
+		if (is_preview_window_focused) m_ImGui->TransformControl(component);
 		});
 
-	DrawComponent<SpriteComponent>("SpriteRenderer", entity, [&](auto& component) {
-		m_ImGui->SelectTexture(component.texture.uuid);
+	DrawComponent<SpriteComponent>("Sprite Renderer", entity, [&](auto& component) {
+		m_ImGui->SelectTexture(component.texture);
 
 		auto& texture = m_ImGui->getResourceManager()->GetResource(component.texture);
 		component.frame = vec4(0, 0, texture.getSize());
@@ -180,7 +180,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::ColorEdit4("Clear Color", (float*)&component.clear_color);
 		});
 
-	DrawComponent<PlayerComponent>("PlayerController", entity, [&](auto& component) {
+	DrawComponent<PlayerComponent>("Player Controller", entity, [&](auto& component) {
 		// ..
 		});
 
@@ -196,15 +196,94 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		//m_ImGui->ColliderControl(entity.GetComponent<TransformComponent>(), component);
 		});
 
-	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
-		ImGui::DragFloat("Current Time", &component.time);
+	DrawComponent<CharacterAnimatorComponent>("Character Animator", entity, [&](auto& component) {
+		m_ImGui->OnAnimatorEditorPanel(component);
 
-		const auto& resource_array = m_ImGui->getResourceManager()->getCache().get_resource_array();
+		static ResourceID<Animation> editing_animation;
+		static std::string editing_name = "";
+		static char name_buffer[128] = "";
 
-		for (const auto& [uuid, resource] : resource_array) {
-			if (auto* animation = dynamic_cast<Animation*>(resource)) {
-				component.current_animation = ResourceID<Animation>(uuid);
+		if (!editing_name.empty()) {
+			ImGui::InputText("Animation Name", name_buffer, sizeof(name_buffer));
+
+			m_ImGui->SelectAnimation(editing_animation);
+			auto it = component.animations.find(editing_name);
+			if (it != component.animations.end()) {
+				component.animations.erase(it);
+				editing_name = name_buffer;
+				if (editing_name.empty()) editing_name = " ";
+				component.animations.emplace(editing_name, editing_animation);
+			}
+
+			if (ImGui::IsKeyDown(ImGuiKey_Delete)) {
+				auto it = component.animations.find(editing_name);
+				if (it != component.animations.end())
+					component.animations.erase(it);
+
+				editing_animation = ResourceID<Animation>();
+				editing_name = "";
+				memset(name_buffer, 0, sizeof(name_buffer));
 			}
 		}
+
+		ImGui::Separator();
+
+		if (ImGui::Button("Add Animation"))
+			component.animations.emplace("New Animation", ResourceID<Animation>(FE2D::UUID(0)));
+
+		constexpr float spacing = 20.0f;
+		constexpr ImVec2 card_size = ImVec2(100, 130);
+		constexpr ImVec4 card_bg_color = ImVec4(0.2f, 0.2f, 0.2f, 1.0f);
+		constexpr ImVec4 card_bg_hovered = ImVec4(0.25f, 0.25f, 0.25f, 1.0f);
+		constexpr ImVec4 card_bg_selected = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);
+
+		ImVec2 pos = ImGui::GetCursorScreenPos();
+		int index = 0;
+
+		bool is_any_card_hovered = false;
+
+		for (auto& [name, anim_id] : component.animations) {
+			ImGui::PushID(index);
+
+			float offset_x = index * (card_size.x + spacing);
+			ImVec2 card_pos = ImVec2(pos.x + offset_x, pos.y);
+			ImGui::SetCursorScreenPos(card_pos);
+
+			ImVec2 cursor = ImGui::GetCursorScreenPos();
+			ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+			ImVec2 card_min = cursor;
+			ImVec2 card_max = ImVec2(cursor.x + card_size.x, cursor.y + card_size.y);
+
+			bool hovered = ImGui::IsMouseHoveringRect(card_min, card_max);
+			if (hovered) is_any_card_hovered = true;
+			bool clicked = hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left);
+
+			if (clicked) {
+				strncpy_s(name_buffer, name.c_str(), sizeof(name_buffer));
+				editing_name = name;
+				editing_animation = anim_id;
+			}
+
+			draw_list->AddRectFilled(
+				card_min, card_max,
+				ImGui::GetColorU32(editing_name == name ? card_bg_selected : (hovered ? card_bg_hovered : card_bg_color)),
+				4.0f
+			);
+
+			ImGui::SetCursorScreenPos(ImVec2(cursor.x + 5, cursor.y + 5));
+			ImGui::Text(name.c_str());
+
+			ImVec2 preview_pos = ImVec2(cursor.x + 5, cursor.y + 25);
+			ImGui::SetCursorScreenPos(preview_pos);
+
+			if (anim_id.uuid != FE2D::UUID(0)) m_ImGui->DrawAnimation(anim_id);
+			else ImGui::Dummy(ImVec2(card_size.x - 10, card_size.x - 10));
+
+			ImGui::PopID();
+			index++;
+		}
+
+		if (!is_any_card_hovered && ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) editing_name.clear();
 		});
 }

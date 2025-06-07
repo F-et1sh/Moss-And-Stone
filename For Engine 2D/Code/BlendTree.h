@@ -26,8 +26,8 @@ namespace FE2D {
 			float shortest_distance = FLT_MAX; // some big value
 			unsigned int current_anim = 0;
 			for (unsigned int i = 0; i < animationPoints.size(); i++) {
-				float load_distance = dot(*current_coord - animationPoints[i].coords,
-					*current_coord - animationPoints[i].coords); // use dot() instead of distance()
+				float load_distance = dot(*current_coord - animationPoints[i].coords, 
+										  *current_coord - animationPoints[i].coords); // use dot() instead of distance()
 				if (shortest_distance > load_distance) {
 					shortest_distance = load_distance;
 					current_anim = i;
