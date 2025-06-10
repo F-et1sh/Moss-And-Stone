@@ -4,7 +4,6 @@
 
 namespace FE2D {
 	using SceneIndex = size_t;
-	
 	constexpr SceneIndex START_SCENE = 0;
 		  
 	class FOR_API SceneManager {
@@ -17,12 +16,17 @@ namespace FE2D {
 
 		void Update();
 
-		inline void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker);
+		inline void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
+			m_CurrentScene.RenderPickable(render_context, mouse_picker);
+		}
+		inline void OnSystemPropertiesWindow() { 
+			m_CurrentScene.OnSystemPropertiesWindow();
+		}
 		
 		void SaveCurrentScene();
 
 	public:
-		inline void StartGameSession()noexcept { m_IsRunning = true; m_CurrentScene.Start(); }
+		inline void StartGameSession() { m_IsRunning = true; m_CurrentScene.Start(); }
 		inline void EndGameSession()noexcept { m_IsRunning = false; m_CurrentScene.End(); }
 
 	private:

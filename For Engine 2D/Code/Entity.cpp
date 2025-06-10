@@ -1,6 +1,8 @@
 #include "forpch.h"
 #include "Entity.h"
 
+#include "Scene.h"
+
 FE2D::Entity::Entity(entt::entity handle, Scene* scene) :
 	m_EntityHandle(handle), m_Scene(scene) {}
 
@@ -87,3 +89,5 @@ void FE2D::Entity::RemoveChild(UUID child) {
 
 	m_Scene->GetEntityByUUID(child).RemoveParent();
 }
+
+inline entt::registry& FE2D::Entity::GetRegistry() const noexcept { return m_Scene->m_Registry; }

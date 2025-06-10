@@ -87,4 +87,7 @@ using namespace glm;
 // Resource Management
 #include "ResourceManager.h"
 
+// Scene Management
+#include "Scene.h"
+
 using namespace FE2D;

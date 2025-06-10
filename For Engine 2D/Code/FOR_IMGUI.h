@@ -41,8 +41,6 @@ public:
 	void SelectAnimation(ResourceID<Animation>& id);
 	void DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size = ImVec2(100, 100));
 
-	void OnAnimatorEditorPanel(CharacterAnimatorComponent& component);
-
 	void TransformControl(TransformComponent& transform);
 	void ColliderControl(TransformComponent& transform, ColliderComponent& collider);
 

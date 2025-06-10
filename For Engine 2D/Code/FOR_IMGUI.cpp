@@ -1,7 +1,7 @@
 #include "forpch.h"
 #include "FOR_IMGUI.h"
 
-#include "Components.h"
+#include "RenderContext.h"
 #include "Window.h"
 
 void FE2D::IMGUI::Release() {
@@ -394,14 +394,6 @@ void FE2D::IMGUI::DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size) {
     ImVec2 uv1(frame_uv.z + frame_uv.x, frame_uv.y);
 
     ImGui::Image(texture.reference(), image_size, uv0, uv1);
-}
-
-void FE2D::IMGUI::OnAnimatorEditorPanel(CharacterAnimatorComponent& component) {
-    ImGui::Begin("Animator Editor");
-
-
-
-    ImGui::End();
 }
 
 vec2 FE2D::IMGUI::GetWorldPosition(TransformComponent& transform) {

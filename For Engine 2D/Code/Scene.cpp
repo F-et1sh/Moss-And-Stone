@@ -59,7 +59,7 @@ void FE2D::Scene::DestroyEntity(Entity entity) {
 	if (entity.HasParent())
 		entity.GetParent().RemoveChild(entity.GetUUID());
 
-	for (auto child : entity.GetChildren()) {
+	for (auto& child : entity.GetChildren()) {
 		entity.RemoveChild(child.GetUUID());
 
 		m_EntityMap.erase(child.GetUUID());
@@ -114,8 +114,17 @@ void FE2D::Scene::Render() {
 
 	/* Sprite Renderer */
 	m_SpriteRendererSystem->Render();
+
+	/* .. */
+	//..
+}
+
+void FE2D::Scene::OnSystemPropertiesWindow() {
+	m_PlayerControllerSystem->OnPropertiesWindow();
+	// ..
 }
 
 void FE2D::Scene::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
 	m_SpriteRendererSystem->RenderPickable(render_context, mouse_picker);
+	// ..
 }

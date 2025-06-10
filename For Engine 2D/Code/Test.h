@@ -1,6 +1,10 @@
 #pragma once
 #include "TextureAtlas.h"
 #include "Window.h"
+#include "Shader.h"
+#include "Camera.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
 
 namespace FE2D {
 	class FOR_API Test {

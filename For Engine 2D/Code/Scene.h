@@ -1,17 +1,15 @@
 #pragma once
-#include "RenderContext.h"
+#include "Entity.h"
 
-#include "SceneSerializer.h"
-
-/* Included Systems */
+#include "ISystemBase.h"
 #include "SpriteRendererSystem.h"
 #include "PlayerControllerSystem.h"
 #include "PhysicsSystem.h"
-#include "AnimationSystem.h" 
+#include "AnimationSystem.h"
+
+#include "RenderContext.h"
 
 namespace FE2D {
-	class FOR_API Entity;
-
 	class FOR_API Scene {
 	public:
 		Scene() = default;
@@ -38,6 +36,7 @@ namespace FE2D {
 		void Update();
 		void Render();
 
+		void OnSystemPropertiesWindow();
 		void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker);
 
 	public:
@@ -47,7 +46,7 @@ namespace FE2D {
 		inline size_t getIndex()const noexcept { return m_Index; }
 
 	private:
-		template<typename T> requires std::is_base_of_v<SystemBase, T>
+		template<typename T> requires std::is_base_of_v<ISystemBase, T>
 		std::unique_ptr<T> CreateSystem() {
 			std::unique_ptr<T> system = std::make_unique<T>();
 			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this);

@@ -1,4 +1,5 @@
 #pragma once
+#include "Shader.h"
 
 namespace FE2D {
     class FOR_API MousePicker {

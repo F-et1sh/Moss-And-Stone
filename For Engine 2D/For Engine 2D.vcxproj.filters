@@ -124,9 +124,6 @@
     <Filter Include="Code\ECS\System">
       <UniqueIdentifier>{3d91933a-0774-4c10-9941-924698d3e7a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\System Base">
-      <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Scene Management\Scene Serializer">
       <UniqueIdentifier>{c96ab60f-4881-48b4-b103-bc2181a82a7d}</UniqueIdentifier>
     </Filter>
@@ -289,8 +286,11 @@
     <Filter Include="Code\Graphics %28 Legacy %29\Animator\Animation State">
       <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Animation\Nodes">
+    <Filter Include="Code\ECS\System\Animation\Nodes %28 Future %29">
       <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\System Base">
+      <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -462,7 +462,7 @@
     <ClCompile Include="Code\SpriteRendererSystem.cpp">
       <Filter>Code\ECS\System\SpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="Code\SystemBase.cpp">
+    <ClCompile Include="Code\ISystemBase.cpp">
       <Filter>Code\ECS\System\System Base</Filter>
     </ClCompile>
     <ClCompile Include="Code\SceneSerializer.cpp">
@@ -502,7 +502,7 @@
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClCompile>
     <ClCompile Include="Code\AnimationStateNodes.cpp">
-      <Filter>Code\ECS\System\Animation\Nodes</Filter>
+      <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -686,7 +686,7 @@
     <ClInclude Include="Code\SpriteRendererSystem.h">
       <Filter>Code\ECS\System\SpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="Code\SystemBase.h">
+    <ClInclude Include="Code\ISystemBase.h">
       <Filter>Code\ECS\System\System Base</Filter>
     </ClInclude>
     <ClInclude Include="Code\SceneSerializer.h">
@@ -735,7 +735,7 @@
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClInclude>
     <ClInclude Include="Code\AnimationStateNodes.h">
-      <Filter>Code\ECS\System\Animation\Nodes</Filter>
+      <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -38,10 +38,14 @@ namespace FE2D {
 
 		void OnGameUpdate();
 
+		// FILE | TOOLS | ETC
 		void OnMainMenuBar();
+		// entity picking by mouse
 		void OnPickerUpdate();
+		// method there you can use ImGui calls
 		void OnImGuiRender();
 		
+		// game preview window
 		void OnPreviewWindow();
 
 		// update editor camera moving

@@ -1,11 +1,11 @@
 #pragma once
-#include "SystemBase.h"
+#include "ISystemBase.h"
 
 #include "Animation.h"
 #include "AnimationStateNodes.h"
 
 namespace FE2D {
-	class FOR_API AnimationSystem : public SystemBase {
+	class FOR_API AnimationSystem : public ISystemBase {
 	public:
 		AnimationSystem() = default;
 		~AnimationSystem() { this->Release(); }

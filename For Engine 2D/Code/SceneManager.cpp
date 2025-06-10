@@ -32,10 +32,6 @@ void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_contex
 	}
 }
 
-inline void FE2D::SceneManager::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
-	m_CurrentScene.RenderPickable(render_context, mouse_picker);
-}
-
 void FE2D::SceneManager::Update() {
 	if (m_IsRunning)
 		m_CurrentScene.Update();

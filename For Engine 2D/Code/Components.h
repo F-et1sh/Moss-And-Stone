@@ -3,7 +3,6 @@
 #include "UUID.h"
 
 #include "Animation.h"
-#include "AnimationStateNodes.h"
 
 namespace FE2D {
     struct FOR_API IDComponent {
@@ -137,6 +136,5 @@ namespace FE2D {
         bool loop = true;
 
         std::unordered_map<std::string, ResourceID<Animation>> animations;
-        std::vector<IStateNode*> nodes;
     };
 }

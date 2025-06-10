@@ -1,10 +1,10 @@
 #pragma once
-#include "SystemBase.h"
+#include "ISystemBase.h"
 
 #include "Window.h"
 
 namespace FE2D {
-	class FOR_API PlayerControllerSystem : public SystemBase {
+	class FOR_API PlayerControllerSystem : public ISystemBase {
 	public:
 		PlayerControllerSystem() = default;
 		~PlayerControllerSystem() { this->Release(); }
@@ -13,8 +13,9 @@ namespace FE2D {
 		void Initialize();
 
 		void Update();
+		void OnPropertiesWindow();
 
 	private:
-
+		Entity m_Player;
 	};
 }

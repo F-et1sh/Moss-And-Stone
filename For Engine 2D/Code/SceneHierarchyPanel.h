@@ -8,8 +8,7 @@ namespace FE2D {
 
 	class FOR_API SceneHierarchyPanel {
 	public:
-		SceneHierarchyPanel(Scene* context) :
-			m_Context(context) { }
+		SceneHierarchyPanel(Scene* context) : m_Context(context) { }
 		SceneHierarchyPanel() = default;
 		~SceneHierarchyPanel() = default;
 

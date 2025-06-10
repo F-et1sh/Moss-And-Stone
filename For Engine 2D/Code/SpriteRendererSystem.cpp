@@ -1,7 +1,6 @@
 #include "forpch.h"
 #include "SpriteRendererSystem.h"
 
-#include "RenderContext.h"
 #include "MousePicker.h"
 
 void FE2D::SpriteRendererSystem::Release() {

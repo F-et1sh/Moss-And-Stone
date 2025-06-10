@@ -1,5 +1,5 @@
 #pragma once
-#include "SystemBase.h"
+#include "ISystemBase.h"
 
 #include "Shader.h"
 #include "TextureAtlas.h"
@@ -18,7 +18,7 @@ namespace FE2D {
 
 	class FOR_API MousePicker;
 
-	class FOR_API SpriteRendererSystem : public SystemBase {
+	class FOR_API SpriteRendererSystem : public ISystemBase {
 	public:
 		SpriteRendererSystem() = default;
 		~SpriteRendererSystem() { this->Release(); }

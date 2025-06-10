@@ -4,16 +4,24 @@
             "AnimatorComponent": {
                 "animations": [
                     {
-                        "id": "2318356647782040909",
-                        "name": "LoliWalkDown"
+                        "id": "7399565066185344581",
+                        "name": "WalkUp"
                     },
                     {
                         "id": "3627080827995427968",
                         "name": "WalkDown"
+                    },
+                    {
+                        "id": "12042032309901078869",
+                        "name": "WalkRightDown"
+                    },
+                    {
+                        "id": "14421252517024473962",
+                        "name": "WalkRightUp"
                     }
                 ],
-                "current_animation": "2318356647782040909",
-                "time": 567.0128173828125
+                "current_animation": "14421252517024473962",
+                "time": 900.9554443359375
             },
             "PlayerComponent": null,
             "RelationshipComponent": {
@@ -24,15 +32,15 @@
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
+                    21.0,
                     0.0,
-                    0.0,
-                    12.0,
-                    24.0
+                    7.0,
+                    26.0
                 ],
-                "texture": "2343664769499919225"
+                "texture": "5170493861806834643"
             },
             "TagComponent": {
-                "tag": "New Entity"
+                "tag": "Player"
             },
             "TransformComponent": {
                 "auto_sort": false,

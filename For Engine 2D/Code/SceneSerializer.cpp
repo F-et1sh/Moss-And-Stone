@@ -1,6 +1,8 @@
 #include "forpch.h"
 #include "SceneSerializer.h"
 
+#include "Scene.h"
+
 bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 	std::ofstream file(filepath);
 	if (!file.good()) {

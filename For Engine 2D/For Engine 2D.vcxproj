@@ -55,7 +55,7 @@
     <ClCompile Include="Code\SceneSerializer.cpp" />
     <ClCompile Include="Code\Serializable.cpp" />
     <ClCompile Include="Code\MousePicker.cpp" />
-    <ClCompile Include="Code\SystemBase.cpp" />
+    <ClCompile Include="Code\ISystemBase.cpp" />
     <ClCompile Include="Code\Test.cpp" />
     <ClCompile Include="Code\UI_Button.cpp" />
     <ClCompile Include="Code\Event.cpp" />
@@ -165,7 +165,7 @@
     <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\SceneSerializer.h" />
     <ClInclude Include="Code\Serializable.h" />
-    <ClInclude Include="Code\SystemBase.h" />
+    <ClInclude Include="Code\ISystemBase.h" />
     <ClInclude Include="Code\Test.h" />
     <ClInclude Include="Code\UI_Button.h" />
     <ClInclude Include="Code\Event.h" />

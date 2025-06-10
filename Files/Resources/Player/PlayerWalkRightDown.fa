@@ -1,0 +1,66 @@
+{ "frames": {
+   "Sprite-0002 0.": {
+    "frame": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Sprite-0002 1.": {
+    "frame": { "x": 7, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Sprite-0002 2.": {
+    "frame": { "x": 14, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Sprite-0002 3.": {
+    "frame": { "x": 21, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Sprite-0002 4.": {
+    "frame": { "x": 28, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Sprite-0002 5.": {
+    "frame": { "x": 35, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-beta16-dev",
+  "image": "PlayerWalkRightDown.png",
+  "format": "RGBA8888",
+  "size": { "w": 42, "h": 26 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

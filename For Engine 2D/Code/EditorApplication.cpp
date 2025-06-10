@@ -173,6 +173,8 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	m_ImGui.StartDockSpace();
 
+	this->m_SceneManager.OnSystemPropertiesWindow();
+
 	this->OnMainMenuBar();
 
 	this->OnPreviewWindow();

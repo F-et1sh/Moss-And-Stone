@@ -1,8 +1,8 @@
 #pragma once
-#include "SystemBase.h"
+#include "ISystemBase.h"
 
 namespace FE2D {
-	class FOR_API PhysicsSystem : public SystemBase {
+	class FOR_API PhysicsSystem : public ISystemBase {
 	public:
 		PhysicsSystem() = default;
 		~PhysicsSystem() { this->Release(); }

@@ -2,6 +2,7 @@
 #include "SceneHierarchyPanel.h"
 
 #include "ContentBrowser.h"
+#include "Scene.h"
 
 // This needed to disable a security warning on std::strncpy()
 #ifdef _MSVC_LANG
@@ -72,17 +73,17 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	bool opened = ImGui::TreeNodeEx(tag.c_str(), flags, tag.c_str());
 
 	if (ImGui::BeginDragDropSource()) {
-		ImGui::SetDragDropPayload("ENTITY_RELATIONSHIP", &entity, sizeof(Entity));
+		ImGui::SetDragDropPayload("ENTITY_DRAGGING", &entity, sizeof(Entity));
 		ImGui::Text("%s", tag.c_str());
 		ImGui::EndDragDropSource();
 	}
 
 	if (ImGui::BeginDragDropTarget()) {
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_RELATIONSHIP")) {
-			Entity droppedEntity = *(Entity*)payload->Data;
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_DRAGGING")) {
+			Entity dropped_entity = *static_cast<Entity*>(payload->Data);
 
-			if (droppedEntity != entity)
-				droppedEntity.SetParent(entity);
+			if (dropped_entity != entity)
+				dropped_entity.SetParent(entity);
 		}
 		ImGui::EndDragDropTarget();
 	}
@@ -197,8 +198,6 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity, bool is_preview_wi
 		});
 
 	DrawComponent<CharacterAnimatorComponent>("Character Animator", entity, [&](auto& component) {
-		m_ImGui->OnAnimatorEditorPanel(component);
-
 		static ResourceID<Animation> editing_animation;
 		static std::string editing_name = "";
 		static char name_buffer[128] = "";
@@ -263,6 +262,8 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity, bool is_preview_wi
 				strncpy_s(name_buffer, name.c_str(), sizeof(name_buffer));
 				editing_name = name;
 				editing_animation = anim_id;
+
+				component.current_animation = anim_id;
 			}
 
 			draw_list->AddRectFilled(
