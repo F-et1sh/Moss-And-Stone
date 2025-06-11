@@ -12,6 +12,9 @@ namespace FE2D {
 		void Release();
 		void Initialize();
 
+		json Serialize()const override;
+		void Deserialize(const json& j)override;
+
 		void Update();
 		void OnPropertiesWindow();
 

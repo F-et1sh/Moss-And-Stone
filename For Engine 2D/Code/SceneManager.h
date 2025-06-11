@@ -16,12 +16,8 @@ namespace FE2D {
 
 		void Update();
 
-		inline void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
-			m_CurrentScene.RenderPickable(render_context, mouse_picker);
-		}
-		inline void OnSystemPropertiesWindow() { 
-			m_CurrentScene.OnSystemPropertiesWindow();
-		}
+		inline void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) { m_CurrentScene.RenderPickable(render_context, mouse_picker); }
+		inline void OnSystemPropertiesWindow() { m_CurrentScene.OnSystemPropertiesWindow(); }
 		
 		void SaveCurrentScene();
 

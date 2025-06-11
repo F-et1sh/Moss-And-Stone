@@ -4,12 +4,12 @@
             "AnimatorComponent": {
                 "animations": [
                     {
-                        "id": "7399565066185344581",
-                        "name": "WalkUp"
-                    },
-                    {
                         "id": "3627080827995427968",
                         "name": "WalkDown"
+                    },
+                    {
+                        "id": "7399565066185344581",
+                        "name": "WalkUp"
                     },
                     {
                         "id": "12042032309901078869",
@@ -20,8 +20,8 @@
                         "name": "WalkRightUp"
                     }
                 ],
-                "current_animation": "14421252517024473962",
-                "time": 900.9554443359375
+                "current_animation": "3627080827995427968",
+                "time": 56.66286087036133
             },
             "PlayerComponent": null,
             "RelationshipComponent": {
@@ -32,12 +32,12 @@
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
-                    21.0,
+                    14.0,
                     0.0,
                     7.0,
                     26.0
                 ],
-                "texture": "5170493861806834643"
+                "texture": "11950549244742537056"
             },
             "TagComponent": {
                 "tag": "Player"
@@ -55,11 +55,11 @@
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    15.0,
-                    15.0
+                    1.0,
+                    1.0
                 ]
             },
-            "UUID": 16919753278312126588,
+            "UUID": 2983152474793087834,
             "VelocityComponent": {
                 "velocity": [
                     0.0,
@@ -69,6 +69,12 @@
         }
     ],
     "SceneInfo": {
-        "SceneIndex": 0
+        "AnimationSystem": null,
+        "PhysicsSystem": null,
+        "PlayerControllerSystem": {
+            "Player": "2983152474793087834"
+        },
+        "SceneIndex": 0,
+        "SpriteRendererSystem": null
     }
 }

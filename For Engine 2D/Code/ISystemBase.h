@@ -18,6 +18,9 @@ namespace FE2D {
 			m_Scene = &scene;
 		}
 
+		virtual json Serialize()const { return json(); }
+		virtual void Deserialize(const json& j) {}
+
 	protected:
 		Window* m_Window = nullptr;
 		RenderContext* m_RenderContext = nullptr;

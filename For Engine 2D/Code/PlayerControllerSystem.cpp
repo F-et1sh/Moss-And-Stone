@@ -9,14 +9,29 @@ void FE2D::PlayerControllerSystem::Initialize()
 {
 }
 
+json FE2D::PlayerControllerSystem::Serialize() const {
+	json j;
+	if (m_Player) j["Player"] = m_Player.GetUUID().ToString();
+	return j;
+}
+
+void FE2D::PlayerControllerSystem::Deserialize(const json& j) {
+	FE2D::UUID player_uuid = FE2D::UUID(j["Player"].get<std::string>());
+	m_Player = m_Scene->GetEntityByUUID(player_uuid);
+}
+
 void FE2D::PlayerControllerSystem::Update() {
 	if (!m_Player) return;
 
+	// TODO : Systems serialization
+	// TODO : Rewrite PlayerController
+	// TODO : Animator serialization
+
 	auto& transform = m_Player.GetComponent<TransformComponent>();
-	auto& sprite = m_Player.GetComponent<SpriteComponent>();
-	auto& player = m_Player.GetComponent<PlayerComponent>();
-	auto& animator = m_Player.GetComponent<CharacterAnimatorComponent>();
-	auto& velocity = m_Player.GetComponent<VelocityComponent>();
+	auto& sprite	= m_Player.GetComponent<SpriteComponent>();
+	auto& player	= m_Player.GetComponent<PlayerComponent>();
+	auto& animator	= m_Player.GetComponent<CharacterAnimatorComponent>();
+	auto& velocity	= m_Player.GetComponent<VelocityComponent>();
 
 	vec2 dir = vec2();
 	constexpr float speed = 600;

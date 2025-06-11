@@ -3,18 +3,18 @@
 
 #include "Scene.h"
 
-bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
-	std::ofstream file(filepath);
+bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& full_path) {
+	std::ofstream file(full_path);
 	if (!file.good()) {
-		SAY("WARNING : Failed to Serialize a scene with JSON\nFile path : " << filepath);
+		SAY("ERROR : Failed to serialize a scene with JSON\nFile path : " << full_path);
 		return false;
 	}
 
-	json j_scene;
+	json j;
 
-	SerializeSceneInfo(j_scene["SceneInfo"]);
+	SerializeSceneInfo(j);
 
-	j_scene["Entities"] = json::array();
+	j["Entities"] = json::array();
 
 	entt::registry& registry = m_Scene->getRegistry();
 
@@ -24,13 +24,13 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 		json j_entity;
 		SerializeEntity(j_entity, load_entity);
 
-		j_scene["Entities"].push_back(j_entity);
+		j["Entities"].push_back(j_entity);
 		});
 
 #ifdef _DEBUG
-	file << j_scene.dump(4); // 4 - to make the file more readable
+	file << j.dump(4); // 4 - to make the file more readable
 #else
-	file << j_scene;
+	file << j.dump();
 #endif
 
 	file.close();
@@ -38,22 +38,20 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 	return true;
 }
 
-bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
-    std::ifstream file(filepath);
+bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) {
+    std::ifstream file(full_path);
     if (!file.good()) {
-        SAY("WARNING : Failed to Deserialize a scene with JSON\nFile path : " << filepath);
+        SAY("ERROR : Failed to deserialize a scene with JSON\nFile path : " << full_path);
         return false;
     }
 
-    json j_scene;
-    file >> j_scene;
+    json j;
+    file >> j;
     file.close();
-
-	m_Scene->Release();
 
     entt::registry& registry = m_Scene->getRegistry();
 
-    for (auto& j_entity : j_scene["Entities"]) {
+    for (auto& j_entity : j["Entities"]) {
 		uint64_t uuid = 0;
 		SceneSerializer::load_value(uuid, j_entity, "UUID");
 
@@ -73,10 +71,10 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		// - TagComponent
 		// - TransformComponent
 		// - RelationshipComponent
-		Entity deserializedEntity = m_Scene->CreateEntityWithUUID(UUID(uuid), name);
+		Entity deserialized_entity = m_Scene->CreateEntityWithUUID(UUID(uuid), name);
 
 		if (j_entity.contains("TransformComponent")) {
-			TransformComponent& component = deserializedEntity.GetComponent<TransformComponent>(); // entities always have TransformComponent
+			TransformComponent& component = deserialized_entity.GetComponent<TransformComponent>(); // entities always have TransformComponent
 
 			json j_component = j_entity["TransformComponent"];
 
@@ -89,7 +87,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("SpriteComponent")) {
-			SpriteComponent& component = deserializedEntity.AddComponent<SpriteComponent>();
+			SpriteComponent& component = deserialized_entity.AddComponent<SpriteComponent>();
 
 			json j_component = j_entity["SpriteComponent"];
 
@@ -100,7 +98,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("RelationshipComponent")) {
-			RelationshipComponent& component = deserializedEntity.GetComponent<RelationshipComponent>(); // entities always have RelationshipComponent
+			RelationshipComponent& component = deserialized_entity.GetComponent<RelationshipComponent>(); // entities always have RelationshipComponent
 
 			json j_component = j_entity["RelationshipComponent"];
 
@@ -120,7 +118,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("CameraComponent")) {
-			CameraComponent& component = deserializedEntity.AddComponent<CameraComponent>();
+			CameraComponent& component = deserialized_entity.AddComponent<CameraComponent>();
 
 			json j_component = j_entity["CameraComponent"];
 
@@ -128,7 +126,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("PlayerComponent")) {
-			PlayerComponent& component = deserializedEntity.AddComponent<PlayerComponent>();
+			PlayerComponent& component = deserialized_entity.AddComponent<PlayerComponent>();
 
 			json j_component = j_entity["PlayerComponent"];
 
@@ -136,14 +134,14 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("VelocityComponent")) {
-			VelocityComponent& component = deserializedEntity.AddComponent<VelocityComponent>();
+			VelocityComponent& component = deserialized_entity.AddComponent<VelocityComponent>();
 
 			json j_component = j_entity["VelocityComponent"];
 			SceneSerializer::load_vec2(component.velocity, j_component, "velocity");
 		}
 
 		if (j_entity.contains("ColliderComponent")) {
-			ColliderComponent& component = deserializedEntity.AddComponent<ColliderComponent>();
+			ColliderComponent& component = deserialized_entity.AddComponent<ColliderComponent>();
 
 			json j_component = j_entity["ColliderComponent"];
 			SceneSerializer::load_vec2(component.position, j_component, "position");
@@ -151,7 +149,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		}
 
 		if (j_entity.contains("AnimatorComponent")) {
-			CharacterAnimatorComponent& component = deserializedEntity.AddComponent<CharacterAnimatorComponent>();
+			CharacterAnimatorComponent& component = deserialized_entity.AddComponent<CharacterAnimatorComponent>();
 
 			json j_component = j_entity["AnimatorComponent"];
 			SceneSerializer::load_resource_id(component.current_animation, j_component, "current_animation");
@@ -164,6 +162,12 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 				});
 		}
     }
+
+	// deserialize scene info after entities
+	if (!DeserializeSceneInfo(j)) {
+		SAY("ERROR : Failed to deserialize scene info\nFile path : " << full_path);
+		return false;
+	}
 
     return true;
 }
@@ -279,6 +283,36 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 }
 
 void FE2D::SceneSerializer::SerializeSceneInfo(json& j) {
-	j["SceneIndex"] = m_Scene->getIndex();
-	// ..
+	json info;
+	info["SceneIndex"]			   = m_Scene->getIndex();
+
+	info["SpriteRendererSystem"]   = m_Scene->m_SpriteRendererSystem  ->Serialize();
+	info["PlayerControllerSystem"] = m_Scene->m_PlayerControllerSystem->Serialize();
+	info["PhysicsSystem"]		   = m_Scene->m_PhysicsSystem		  ->Serialize();
+	info["AnimationSystem"]		   = m_Scene->m_AnimationSystem		  ->Serialize();
+
+	j["SceneInfo"] = info;
+}
+
+bool FE2D::SceneSerializer::DeserializeSceneInfo(const json& j) {
+	if (!j.contains("SceneInfo")) {
+		SAY("ERROR : Failed to deserialize scene info. There is no \"SceneInfo\" in the JSON");
+		return false;
+	}
+
+	json info = j["SceneInfo"];
+
+	if (!info.contains("SceneIndex")) {
+		SAY("ERROR : Failed to deserialize scene info. There is no \"SceneIndex\" in the JSON");
+		return false;
+	}
+
+	SceneSerializer::load_value(m_Scene->m_Index, info, "SceneIndex");
+
+	if (info.contains("SpriteRendererSystem"))      m_Scene->m_SpriteRendererSystem	 ->Deserialize(info["SpriteRendererSystem"]);
+	if (info.contains("PlayerControllerSystem"))    m_Scene->m_PlayerControllerSystem->Deserialize(info["PlayerControllerSystem"]);
+	if (info.contains("PhysicsSystem"))             m_Scene->m_PhysicsSystem		 ->Deserialize(info["PhysicsSystem"]);
+	if (info.contains("AnimationSystem"))           m_Scene->m_AnimationSystem		 ->Deserialize(info["AnimationSystem"]);
+
+	return true;
 }

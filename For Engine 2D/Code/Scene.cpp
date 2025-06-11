@@ -21,8 +21,10 @@ void FE2D::Scene::Release() {
 }
 
 void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
-	m_Window = &window;
-	m_RenderContext = &render_context;
+	this->Release();
+
+	m_Window		  = &window;
+	m_RenderContext	  = &render_context;
 	m_ResourceManager = &resource_manager;
 
 	m_SpriteRendererSystem	 = this->CreateSystem<SpriteRendererSystem>();

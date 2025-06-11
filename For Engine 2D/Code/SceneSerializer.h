@@ -9,12 +9,14 @@ namespace FE2D {
 	public:
 		SceneSerializer(Scene* scene) : m_Scene(scene) {}
 
-		bool Serialize(const std::filesystem::path& filepath);
-        bool Deserialize(const std::filesystem::path& filepath);
+		bool Serialize(const std::filesystem::path& full_path);
+        bool Deserialize(const std::filesystem::path& full_path);
 
     private:
         void SerializeEntity(json& j, Entity entity);
+        
         void SerializeSceneInfo(json& j);
+        bool DeserializeSceneInfo(const json& j);
 
 	public:
         template<typename T> requires std::is_base_of_v<IResource, T>

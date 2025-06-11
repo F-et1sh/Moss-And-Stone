@@ -83,7 +83,7 @@ void FE2D::SceneManager::LoadAvailableScenes() {
 				SAY("WARNING : Duplicate scene index. Using last loaded\nScene Index" << scene_index << "\nPath 1 : " << it->second << "\nPath 2 : " << scene_path);
 			}
 
-			m_ScenePaths.insert_or_assign(scene_index, scene_path);
+			m_ScenePaths.emplace(scene_index, scene_path);
 		}
 		else {
 			SAY("WARNING : Failed to read scene info\nPath : " << scene_path);
@@ -95,14 +95,22 @@ bool FE2D::SceneManager::LoadScene(SceneIndex index) {
 	const auto& it = m_ScenePaths.find(index);
 
 	if (it == m_ScenePaths.end()) {
-		SAY("WARNING : Failed to load a scene. There is no metadata\nIndex : " << index);
+		SAY("ERROR : Failed to load a scene. Bad index\nIndex : " << index);
 		return false;
 	}
-	
-	SceneSerializer ser(&m_CurrentScene);
-	ser.Deserialize(it->second);
 
+	SceneIndex backup_index = m_CurrentScene.getIndex();
+	m_CurrentScene.Release();
 	m_CurrentScene.Initialize(*m_Window, *m_RenderContext, *m_ResourceManager);
+
+	SceneSerializer ser(&m_CurrentScene);
+	if (!ser.Deserialize(it->second)) {
+		SAY("ERROR : Failed to deserialize a scene\nIndex : " << index);
+		
+		this->LoadScene(backup_index);
+		
+		return false;
+	}
 
 	return true;
 }

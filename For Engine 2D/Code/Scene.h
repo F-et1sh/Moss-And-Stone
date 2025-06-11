@@ -15,6 +15,12 @@ namespace FE2D {
 		Scene() = default;
 		~Scene() = default;
 
+		Scene(Scene&&) noexcept = default;
+		Scene& operator=(Scene&&) noexcept = default;
+
+		Scene(const Scene&) = delete;
+		Scene& operator=(const Scene&) = delete;
+
 		void Release();
 		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
 
@@ -76,6 +82,7 @@ namespace FE2D {
 		entt::registry m_Registry;
 
 		friend class Entity;
+		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 	};
 }
