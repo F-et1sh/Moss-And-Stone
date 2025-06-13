@@ -1,0 +1,2 @@
+RUNTIME ERROR : Found broken .fs file. Please, fix or delete it
+Path : C:\Users\Пользователь\Desktop\Moss And Stone\Files\Resources\Player\PlayerWalkRightUp.fa.fs

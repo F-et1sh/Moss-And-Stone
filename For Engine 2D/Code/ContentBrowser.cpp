@@ -50,7 +50,6 @@ void FE2D::ContentBrowser::OnImGuiRender() {
                 const std::filesystem::path metadata_path = resource_path.wstring() + L".fs";
                 m_ResourceManager->getLoader().CreateResource(resource_path);
                 m_ResourceManager->getLoader().LoadMetadata(metadata_path);
-
             }
 
             ImGui::EndPopup();
@@ -151,15 +150,19 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
         texture_index,
         texture_size, ImVec2(0, 1), ImVec2(1, 0), m_SelectedPath == path ? color : ImVec4(0, 0, 0, 0), color);
 
-    if (uuid == 0)
-        return;
+    if (uuid == 0 || !ResourceLoader::texture_supported_extensions.contains(path.extension())) return;
 
     // click to open the folder
-    if (ImGui::IsItemHovered() &&
-        ImGui::IsMouseClicked(0)) {
-
-        auto& resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
-        this->setSelected(static_cast<IResource*>(&resource), path);
+    if (ImGui::IsItemHovered()) {
+        if (ImGui::IsMouseClicked(0)) {
+            auto& resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
+            this->setSelected(static_cast<IResource*>(&resource), path);
+        }
+        if (ImGui::IsMouseDoubleClicked(0)) {
+            static const std::string aseprite_path = "C:\\Program Files\\TorAs\\aseprite.exe";
+            std::string command = "(\"" + aseprite_path + "\" \"" + path.string() + "\")";
+            std::system(command.c_str());
+        }
     }
 }
 

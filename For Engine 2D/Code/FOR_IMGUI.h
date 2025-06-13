@@ -41,7 +41,7 @@ namespace FE2D {
 		void SelectAnimation(ResourceID<Animation>& id);
 		void DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size = ImVec2(100, 100));
 
-		void TransformControl(TransformComponent& transform);
+		void TransformControl(Entity entity);
 		void ColliderControl(TransformComponent& transform, ColliderComponent& collider);
 
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
@@ -59,7 +59,9 @@ namespace FE2D {
 		bool DrawGizmoRect(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
 
 	private:
-		vec2 GetWorldPosition(TransformComponent& transform);
+		vec2 GetWorldPosition(const mat4& matrix);
+		static vec2 extractScale(const glm::mat4& matrix);
+
 		ImDrawList* GetPreviewWindowDrawList();
 
 	private:

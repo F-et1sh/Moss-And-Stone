@@ -27,7 +27,7 @@ namespace FE2D {
 
         int layer = 0;
 
-        // Flag for Auto Sprite Sorting
+        // flag for auto sprite sorting by Y-axis
         bool auto_sort = false;
 
         vec2 scale = vec2(1.0f, 1.0f);

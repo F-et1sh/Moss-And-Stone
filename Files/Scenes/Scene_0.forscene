@@ -1,9 +1,19 @@
 {
     "Entities": [
         {
+            "AnimatorComponent": {
+                "animations": [
+                    {
+                        "id": "11504005120465886007",
+                        "name": "Attack"
+                    }
+                ],
+                "current_animation": "11504005120465886007",
+                "time": 0.0
+            },
             "RelationshipComponent": {
                 "children": [],
-                "parent": 0
+                "parent": 2983152474793087834
             },
             "SpriteComponent": {
                 "flip_x": false,
@@ -11,107 +21,32 @@
                 "frame": [
                     0.0,
                     0.0,
-                    750.0,
-                    1125.0
+                    20.0,
+                    20.0
                 ],
-                "texture": "4288880420568704525"
+                "texture": "5095026631698686117"
             },
             "TagComponent": {
-                "tag": "New Entity"
+                "tag": "Sword"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": -3,
+                "layer": 6,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    -499.5138244628906,
-                    361.62054443359375
+                    12.017674446105957,
+                    0.6005145311355591
                 ],
-                "rotation": -27.700000762939453,
+                "rotation": 30.200000762939453,
                 "scale": [
                     1.0,
                     1.0
                 ]
             },
-            "UUID": 6357800506985784006
-        },
-        {
-            "AnimatorComponent": {
-                "animations": [
-                    {
-                        "id": "3627080827995427968",
-                        "name": "WalkDown"
-                    },
-                    {
-                        "id": "12042032309901078869",
-                        "name": "WalkRightDown"
-                    },
-                    {
-                        "id": "14421252517024473962",
-                        "name": "WalkRightUp"
-                    },
-                    {
-                        "id": "7399565066185344581",
-                        "name": "WalkUp"
-                    }
-                ],
-                "current_animation": "7399565066185344581",
-                "time": 0.0
-            },
-            "CameraComponent": {
-                "clear_color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "PlayerComponent": null,
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    42.0,
-                    26.0
-                ],
-                "texture": "4535877023346598092"
-            },
-            "TagComponent": {
-                "tag": "Player"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    5.0,
-                    5.0
-                ]
-            },
-            "UUID": 2983152474793087834,
-            "VelocityComponent": {
-                "velocity": [
-                    0.0,
-                    0.0
-                ]
-            }
+            "UUID": 4471840042247139185
         },
         {
             "RelationshipComponent": {
@@ -150,6 +85,121 @@
                 ]
             },
             "UUID": 5777455035328335514
+        },
+        {
+            "AnimatorComponent": {
+                "animations": [
+                    {
+                        "id": "6381951605241949636",
+                        "name": "WalkUp"
+                    },
+                    {
+                        "id": "11039116287368755249",
+                        "name": "WalkRightUp"
+                    },
+                    {
+                        "id": "586694841512290349",
+                        "name": "WalkDown"
+                    },
+                    {
+                        "id": "2065295205648881081",
+                        "name": "WalkRightDown"
+                    }
+                ],
+                "current_animation": "2065295205648881081",
+                "time": 0.0
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "PlayerComponent": null,
+            "RelationshipComponent": {
+                "children": [
+                    4471840042247139185
+                ],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    7.0,
+                    26.0
+                ],
+                "texture": "6717621450190303964"
+            },
+            "TagComponent": {
+                "tag": "Player"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    246.0298614501953,
+                    136.36549377441406
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    5.0,
+                    5.0
+                ]
+            },
+            "UUID": 2983152474793087834,
+            "VelocityComponent": {
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    750.0,
+                    1125.0
+                ],
+                "texture": "4288880420568704525"
+            },
+            "TagComponent": {
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -3,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -499.5138244628906,
+                    361.62054443359375
+                ],
+                "rotation": -27.700000762939453,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 6357800506985784006
         }
     ],
     "SceneInfo": {

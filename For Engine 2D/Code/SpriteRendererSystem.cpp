@@ -44,8 +44,12 @@ void FE2D::SpriteRendererSystem::Initialize() {
 	m_TextureAtlas.Initialize(TEXTURE_ATLAS_SIZE);
 }
 
-void FE2D::SpriteRendererSystem::Handle(TransformComponent& transform, SpriteComponent& sprite) {
-	mat4 matrix = transform;
+void FE2D::SpriteRendererSystem::Handle(Entity entity) {
+	auto& transform = entity.GetComponent<TransformComponent>();
+	auto& sprite = entity.GetComponent<SpriteComponent>();
+
+	mat4 matrix = entity.GetGlobalTransform();
+
 	vec2 frame_size = vec2(sprite.frame.z, sprite.frame.w);
 	
 	Texture& texture = m_ResourceManager->GetResource(sprite.texture);
@@ -78,10 +82,9 @@ void FE2D::SpriteRendererSystem::Render() {
 
 	auto group = registry.group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto e : group) {
-		auto& transform = registry.get<TransformComponent>(e);
-		auto& sprite = registry.get<SpriteComponent>(e);
+		Entity entity{e, m_Scene};
 
-		this->Handle(transform, sprite);
+		this->Handle(entity);
 
 		count++;
 

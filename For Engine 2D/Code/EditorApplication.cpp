@@ -80,8 +80,7 @@ void FE2D::EditorApplication::Loop() {
 
 		this->OnGameUpdate();
 
-		if (m_IsPreviewHovered)
-			this->OnPickerUpdate();
+		if (m_IsPreviewHovered) this->OnPickerUpdate();
 
 		this->OnImGuiRender();
 
@@ -180,7 +179,7 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	this->OnPreviewWindow();
 
-	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewFocused, m_IsPreviewHovered, m_PreviewMousePosition);
+	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition);
 	m_ContentBrowser.OnImGuiRender();
 
 	m_ImGui.EndFrame();
@@ -189,27 +188,15 @@ void FE2D::EditorApplication::OnImGuiRender() {
 void FE2D::EditorApplication::OnPreviewWindow() {
 	ImGui::Begin("Preview", nullptr, m_ImGui.IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
-	ImGui::SameLine(ImGui::GetWindowWidth() / 2, 0); // draw the button in the middle of this window
+	ImGui::SameLine(ImGui::GetWindowWidth() / 2, 0); // draw the button in the middle of the window
 
-	ImGui::PushItemFlag(ImGuiItemFlags_NoNav, true);
+	if (ImGui::Button("Launch")) {
+		this->Save();
 
-	if (ImGui::Button(m_IsGameRunning ? "Stop" : "Start")) {
-		if (m_IsGameRunning) {
-			m_SceneManager.EndGameSession();
-
-			m_RenderContext.BindCamera(m_EditorCamera);
-		}
-		else {
-			m_SceneManager.StartGameSession();
-
-			std::filesystem::path exe_path = FOR_PATH.get_executable_path() / L"Moss And Stone.exe";
-			std::string command = "\"" + exe_path.string() + "\"";
-			std::system(command.c_str());
-		}
-		m_IsGameRunning = !m_IsGameRunning;
+		std::filesystem::path exe_path = FOR_PATH.get_executable_path() / L"Moss And Stone.exe";
+		std::string command = "\"" + exe_path.string() + "\"";
+		std::system(command.c_str());
 	}
-
-	ImGui::PopItemFlag();
 
 	const float aspect = (float)m_GameFramebuffer.get_texture_size().y / m_GameFramebuffer.get_texture_size().x;
 	float width = ImGui::GetWindowWidth();

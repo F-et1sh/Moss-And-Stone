@@ -12,7 +12,7 @@ void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePi
 	this->resetSelected();
 }
 
-void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_focused, bool is_preview_window_hovered, const vec2& preview_mouse_position) {
+void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_hovered, const vec2& preview_mouse_position) {
 	ImGui::Begin("Scene Hierarchy", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	if (m_Context) {
@@ -56,7 +56,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_focused, bo
 
 	ImGui::Begin("Properties", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 	if (this->getSelected())
-		DrawComponents(this->getSelected(), is_preview_window_focused);
+		DrawComponents(this->getSelected());
 	ImGui::End();
 }
 
@@ -117,7 +117,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	ImGui::PopID();
 }
 
-void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity, bool is_preview_window_focused) {
+void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 	if (entity.HasComponent<TagComponent>()) {
 		auto& tag = entity.GetComponent<TagComponent>().tag;
 
@@ -161,7 +161,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity, bool is_preview_wi
 		ImGui::Spacing();
 		m_ImGui->DragVector2("Origin", component.origin);
 
-		if (is_preview_window_focused) m_ImGui->TransformControl(component);
+		m_ImGui->TransformControl(entity);
 		});
 
 	DrawComponent<SpriteComponent>("Sprite Renderer", entity, [&](auto& component) {

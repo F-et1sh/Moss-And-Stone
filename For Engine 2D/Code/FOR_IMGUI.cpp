@@ -299,7 +299,7 @@ void FE2D::IMGUI::SelectTexture(ResourceID<Texture>& id) {
 void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
     const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
 
-    constexpr ImVec2 texture_size = ImVec2(100, 100);
+    constexpr ImVec2 sprite_size = ImVec2(100, 100);
     constexpr float padding = 10.0f;
 
     FE2D::UUID selected_uuid = id.uuid;
@@ -330,11 +330,6 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
             
             ImGui::PushID(animation);
 
-            ImVec2 button_size = ImVec2(
-                texture_size.x * (float(texture.getSize().x) / texture.getSize().y),
-                texture_size.y
-            );
-
             static constexpr ImVec4 selected_bg_color = ImVec4(1, 0.7f, 0.2f, 0.5f);
             static constexpr ImVec4 selected_tint_color = ImVec4(1, 0.6f, 0.2f, 1);
 
@@ -346,7 +341,19 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
                 tint_color = selected_tint_color;
             }
 
-            if (ImGui::ImageButton("##Animation", texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color))
+            vec4 frame_uv = animation->getFrameUV(ImGui::GetTime());
+
+            ImVec2 image_size = ImVec2(
+                sprite_size.x * (float(frame_uv.z) / frame_uv.w),
+                sprite_size.y
+            );
+
+            frame_uv /= vec4(texture.getSize(), texture.getSize());
+
+            ImVec2 uv0(frame_uv.x, frame_uv.w + frame_uv.y);
+            ImVec2 uv1(frame_uv.z + frame_uv.x, frame_uv.y);
+
+            if (ImGui::ImageButton("##Animation", texture.reference(), image_size, uv0, uv1, bg_color, tint_color))
                 selected_uuid = uuid;
 
             if (ImGui::BeginDragDropSource()) {
@@ -359,7 +366,7 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
                 ImGui::SetTooltip("%s", name.c_str());
 
             float last_button_x = ImGui::GetItemRectMax().x;
-            float next_button_x = last_button_x + padding + button_size.x;
+            float next_button_x = last_button_x + padding + image_size.x;
 
             if (next_button_x < window_visible_x)
                 ImGui::SameLine();
@@ -374,8 +381,7 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
 }
 
 void FE2D::IMGUI::DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size) {
-    if (id.uuid == FE2D::UUID(0))
-        return;
+    if (id.uuid == FE2D::UUID(0)) return;
 
     auto& animation = m_ResourceManager->GetResource(id);
     auto texture_id = animation.getTexture(*m_ResourceManager);
@@ -396,8 +402,8 @@ void FE2D::IMGUI::DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size) {
     ImGui::Image(texture.reference(), image_size, uv0, uv1);
 }
 
-vec2 FE2D::IMGUI::GetWorldPosition(TransformComponent& transform) {
-    mat4 mvp_matrix = m_RenderContext->getViewProjection() * (mat4)transform;
+vec2 FE2D::IMGUI::GetWorldPosition(const mat4& matrix) {
+    mat4 mvp_matrix = m_RenderContext->getViewProjection() * matrix;
     vec4 clip_space_pos = mvp_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
     vec3 ndc_pos = vec3(clip_space_pos.x, clip_space_pos.y, clip_space_pos.z) / clip_space_pos.w;
@@ -410,6 +416,13 @@ vec2 FE2D::IMGUI::GetWorldPosition(TransformComponent& transform) {
     );
 
     return pos;
+}
+
+vec2 FE2D::IMGUI::extractScale(const glm::mat4& matrix) {
+    vec2 scale;
+    scale.x = length(vec3(matrix[0]));
+    scale.y = length(vec3(matrix[1]));
+    return scale;
 }
 
 ImDrawList* FE2D::IMGUI::GetPreviewWindowDrawList() {
@@ -425,8 +438,11 @@ ImDrawList* FE2D::IMGUI::GetPreviewWindowDrawList() {
     return draw;
 }
 
-void IMGUI::TransformControl(TransformComponent& transform) {
+void IMGUI::TransformControl(Entity entity) {
     if (IsAnyColliderGizmoDragging()) return;
+
+    auto& transform = entity.GetComponent<TransformComponent>();
+    mat4 matrix = entity.GetGlobalTransform();
 
     m_IsAnyGizmoHovered = false;
 
@@ -436,7 +452,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
         if (m_IsDraggingRect) m_IsDraggingRect = false;
     }
 
-    vec2 pos = this->GetWorldPosition(transform);
+    vec2 pos = this->GetWorldPosition(matrix);
     
     vec2 start = vec2(pos.x, pos.y);
 
@@ -451,8 +467,9 @@ void IMGUI::TransformControl(TransformComponent& transform) {
     constexpr vec4 rect_color = vec4(0.15f, 0.75f, 0.15f, 0.75f);
 
     const float camera_zoom = m_RenderContext->getCamera()->getZoom();
-    float viewport_scale_x = (LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x) * camera_zoom;
-    float viewport_scale_y = (LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y) * camera_zoom;
+    vec2 scale = extractScale(matrix);
+    float viewport_scale_x = (LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x) * camera_zoom / scale.x;
+    float viewport_scale_y = (LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y) * camera_zoom / scale.y;
 
     // step with pressed CTRL
     constexpr vec2 step_size = vec2(16);
@@ -524,8 +541,7 @@ void IMGUI::TransformControl(TransformComponent& transform) {
 }
 
 void FE2D::IMGUI::ColliderControl(TransformComponent& transform, ColliderComponent& collider) {
-    if (IsAnyTransformGizmoDragging())
-        return;
+    if (IsAnyTransformGizmoDragging()) return;
 
     m_IsAnyGizmoHovered = false;
 

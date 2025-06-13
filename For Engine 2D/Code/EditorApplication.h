@@ -55,7 +55,6 @@ namespace FE2D {
 		Camera m_EditorCamera;
 
 		Framebuffer m_GameFramebuffer;
-		bool m_IsGameRunning = false;
 
 	private:
 		bool m_IsPreviewHovered = false;

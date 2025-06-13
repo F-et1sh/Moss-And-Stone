@@ -15,8 +15,7 @@ namespace FE2D {
 }
 
 namespace FE2D {
-
-	class FOR_API MousePicker;
+	class FOR_API MousePicker; // forward declaration
 
 	class FOR_API SpriteRendererSystem : public ISystemBase {
 	public:
@@ -34,7 +33,7 @@ namespace FE2D {
 		void DrawPickable(RenderContext& render_context, Shader& shader, UniformBuffer& ubo);
 
 	private:
-		void Handle(TransformComponent& transform, SpriteComponent& sprite);
+		void Handle(Entity entity);
 		void DrawSprites();
 
 	private:

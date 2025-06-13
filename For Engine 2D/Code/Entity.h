@@ -65,7 +65,22 @@ namespace FE2D {
 
 		bool operator==(const Entity& other)const noexcept { return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene; }
 		bool operator!=(const Entity& other)const noexcept { return !(*this == other); }
-	
+	public:
+		inline mat4 GetGlobalTransform() {
+			auto& transform = GetComponent<TransformComponent>();
+			mat4 global_transform = mat4();
+			if (HasParent()) global_transform = GetGlobalTransform(GetParent()) * static_cast<mat4>(transform);
+			else			 global_transform = static_cast<mat4>(transform);
+			return global_transform;
+		}
+		inline static mat4 GetGlobalTransform(Entity entity) {
+			auto& transform = entity.GetComponent<TransformComponent>();
+			mat4 global_transform = mat4();
+			if (entity.HasParent()) global_transform = GetGlobalTransform(entity.GetParent()) * static_cast<mat4>(transform);
+			else					global_transform = static_cast<mat4>(transform);
+			return global_transform;
+		}
+
 	private:
 		inline entt::registry& GetRegistry()const noexcept;
 	private:
