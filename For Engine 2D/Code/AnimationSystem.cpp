@@ -30,8 +30,6 @@ void FE2D::AnimationSystem::Render() {
 
 		auto& current_animation = m_ResourceManager->GetResource(animator.current_animation);
 
-		animator.time += m_Window->getDeltaTime();
-
 		sprite.frame = current_animation.getFrameUV(animator.time);
 		sprite.texture = current_animation.getTexture(*m_ResourceManager);
 	}

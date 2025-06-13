@@ -2,7 +2,8 @@
 #include "Camera.h"
 
 namespace FE2D {
-	constexpr vec2 LOGICAL_RESOLUTION = { 1920, 1080 };
+	// resolution of the game
+	constexpr static inline vec2 LOGICAL_RESOLUTION = { 1920, 1080 };
 
 	class FOR_API RenderContext {
 	public:
@@ -43,7 +44,7 @@ namespace FE2D {
 
 		Window* m_Window = nullptr;
 
-		size_t m_EventIndex = 0;
+		size_t m_EventIndex = 0; // index to delete the event
 
 		friend class Window;
 	};

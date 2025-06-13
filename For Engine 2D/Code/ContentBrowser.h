@@ -67,9 +67,6 @@ namespace FE2D {
 
 		float m_ItemSize = 160.0f; // size of files and folders in the UI window
 	private:
-		Window* m_Window = nullptr;
-		size_t m_EventIndex = 0; // to unsubscribe the event
-	
 		ResourceManager* m_ResourceManager = nullptr;
 	
 		IResource* m_Selected = nullptr;

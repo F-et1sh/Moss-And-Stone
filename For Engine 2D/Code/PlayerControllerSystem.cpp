@@ -1,12 +1,14 @@
 #include "forpch.h"
 #include "PlayerControllerSystem.h"
 
-void FE2D::PlayerControllerSystem::Release()
-{
+#undef max
+
+void FE2D::PlayerControllerSystem::Release() {
+
 }
 
-void FE2D::PlayerControllerSystem::Initialize()
-{
+void FE2D::PlayerControllerSystem::Initialize() {
+	
 }
 
 json FE2D::PlayerControllerSystem::Serialize() const {
@@ -23,53 +25,60 @@ void FE2D::PlayerControllerSystem::Deserialize(const json& j) {
 void FE2D::PlayerControllerSystem::Update() {
 	if (!m_Player) return;
 
-	// TODO : Systems serialization
-	// TODO : Rewrite PlayerController
-	// TODO : Animator serialization
-
 	auto& transform = m_Player.GetComponent<TransformComponent>();
 	auto& sprite	= m_Player.GetComponent<SpriteComponent>();
 	auto& player	= m_Player.GetComponent<PlayerComponent>();
 	auto& animator	= m_Player.GetComponent<CharacterAnimatorComponent>();
 	auto& velocity	= m_Player.GetComponent<VelocityComponent>();
 
-	vec2 dir = vec2();
-	constexpr float speed = 600;
+	vec2 move_direction = vec2();
+	constexpr float speed = 350;
 
-	if (glfwGetKey(m_Window->reference(), GLFW_KEY_W)) dir += vec2(0, 1);
-	if (glfwGetKey(m_Window->reference(), GLFW_KEY_S)) dir += vec2(0, -1);
-	if (glfwGetKey(m_Window->reference(), GLFW_KEY_D)) dir += vec2(1, 0);
-	if (glfwGetKey(m_Window->reference(), GLFW_KEY_A)) dir += vec2(-1, 0);
+	if (glfwGetKey(m_Window->reference(), GLFW_KEY_W)) move_direction += vec2( 0,  1);
+	if (glfwGetKey(m_Window->reference(), GLFW_KEY_S)) move_direction += vec2( 0, -1);
+	if (glfwGetKey(m_Window->reference(), GLFW_KEY_D)) move_direction += vec2( 1,  0);
+	if (glfwGetKey(m_Window->reference(), GLFW_KEY_A)) move_direction += vec2(-1,  0);
 
-	if (length(dir) != 0.0f) {
-		dir = glm::normalize(dir);
-	}
-
-	velocity.velocity = dir * speed;
-
-	if (dir.x > 0) {
-		if (dir.y > 0)
-			animator.current_animation = animator.animations.at("WalkRightUp");
-		else
-			animator.current_animation = animator.animations.at("WalkRightDown");
+	const auto& view_direction = GetViewDirection();
+	switch (view_direction) {
+	case ViewDirections::UP:
+		animator.setCurrentAnimation("WalkUp");
+		break;
+	case ViewDirections::DOWN:
+		animator.setCurrentAnimation("WalkDown");
+		break;
+	case ViewDirections::RIGHT_UP:
+		animator.setCurrentAnimation("WalkRightUp");
 		sprite.flip_x = false;
-	}
-	else if (dir.x < 0) {
-		if (dir.y > 0)
-			animator.current_animation = animator.animations.at("WalkRightUp");
-		else
-			animator.current_animation = animator.animations.at("WalkRightDown");
+		break;
+	case ViewDirections::RIGHT_DOWN:
+		animator.setCurrentAnimation("WalkRightDown");
+		sprite.flip_x = false;
+		break;
+	case ViewDirections::LEFT_UP:
+		animator.setCurrentAnimation("WalkRightUp");
 		sprite.flip_x = true;
+		break;
+	case ViewDirections::LEFT_DOWN:
+		animator.setCurrentAnimation("WalkRightDown");
+		sprite.flip_x = true;
+		break;
+
+	default:
+		break;
 	}
-	else {
-		if (dir.y > 0)
-			animator.current_animation = animator.animations.at("WalkUp");
-		else
-			animator.current_animation = animator.animations.at("WalkDown");
+
+	if (length(move_direction) != 0.0f) {
+
+		move_direction = glm::normalize(move_direction);
+		animator.time += m_Window->getDeltaTime();
 	}
+	else animator.time = 0.0f;
+
+	velocity.velocity = move_direction * speed;
 }
 
-void FE2D::PlayerControllerSystem::OnPropertiesWindow() {
+void FE2D::PlayerControllerSystem::OnPropertiesPanel(IMGUI& imgui) {
 	ImGui::Begin("PlayerController System");
 
 	std::string str = m_Player ? m_Player.GetComponent<TagComponent>().tag : "None";
@@ -77,9 +86,59 @@ void FE2D::PlayerControllerSystem::OnPropertiesWindow() {
 	if (ImGui::BeginDragDropTarget()) {
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_DRAGGING")) {
 			m_Player = *static_cast<Entity*>(payload->Data);
+
+			/* check if needed components are exist in the player */
+			this->CheckComponent<PlayerComponent>();
+			this->CheckComponent<SpriteComponent>();
+			this->CheckComponent<CharacterAnimatorComponent>();
+			this->CheckComponent<VelocityComponent>();
+
+			/* check if needed animations are exitst in the player */
+			auto& animator = m_Player.GetComponent<CharacterAnimatorComponent>();
+			this->CheckAnimation(animator, "WalkUp");
+			this->CheckAnimation(animator, "WalkDown");
+			this->CheckAnimation(animator, "WalkRightUp");
+			this->CheckAnimation(animator, "WalkRightDown");
+
 		}
 		ImGui::EndDragDropTarget();
 	}
 
 	ImGui::End();
+}
+
+FE2D::PlayerControllerSystem::ViewDirections FE2D::PlayerControllerSystem::GetViewDirection() {
+	if constexpr (m_ViewDirections.empty())
+		FOR_RUNTIME_ERROR("Player has no view directions");
+
+	double mouse_x = 0.0f;
+	double mouse_y = 0.0f;
+	
+	glfwGetCursorPos(m_Window->reference(), &mouse_x, &mouse_y);
+
+	vec2 mouse_pos = vec2(mouse_x, mouse_y);
+	
+	mouse_pos /= m_RenderContext->getResolution();
+	
+	mouse_pos.y = 1.0f - mouse_pos.y;
+	
+	mouse_pos -= vec2(0.5f);
+	mouse_pos *= vec2(2);
+	
+	mouse_pos = glm::normalize(mouse_pos);
+
+	float best_dot = -2.0f;
+	size_t result = 0;
+
+	for (size_t i = 0; i < m_ViewDirections.size(); ++i) {
+		vec2 dir = glm::normalize(m_ViewDirections[i].first);
+		float dot_product = glm::dot(mouse_pos, dir);
+
+		if (dot_product > best_dot) {
+			best_dot = dot_product;
+			result = i;
+		}
+	}
+
+	return m_ViewDirections[result].second;
 }

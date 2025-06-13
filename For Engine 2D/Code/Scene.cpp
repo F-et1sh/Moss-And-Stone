@@ -15,7 +15,7 @@ void FE2D::Scene::Release() {
 			}
 		}
 	}
-
+	m_SystemsList.clear();
 	m_EntityMap.clear();
 	m_Registry.clear();
 }
@@ -80,18 +80,19 @@ void FE2D::Scene::End()
 {
 }
 
+// TODO : Rewrite camera logic
+
 void FE2D::Scene::Start() {
 	bool camera_found = false;
 
 	auto view = m_Registry.view<TransformComponent, CameraComponent>();
 	view.each([&](auto entity, auto& transform, auto& camera) {
 		m_Camera.setPosition(transform.position);
-
+		m_CameraEntityUUID = Entity{ entity, this }.GetUUID();
 		camera_found = true;
 		});
 
-	if (!camera_found)
-		SAY("WARNING : No camera found in the Scene");
+	if (!camera_found) SAY("WARNING : No camera found in the Scene");
 
 	m_RenderContext->BindCamera(m_Camera);
 }
@@ -107,6 +108,9 @@ void FE2D::Scene::Update() {
 	/* Post-Calculations */
 	// ..
 
+	vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
+	m_Camera.setPosition(cam_pos);
+
 }
 
 void FE2D::Scene::Render() {
@@ -119,11 +123,6 @@ void FE2D::Scene::Render() {
 
 	/* .. */
 	//..
-}
-
-void FE2D::Scene::OnSystemPropertiesWindow() {
-	m_PlayerControllerSystem->OnPropertiesWindow();
-	// ..
 }
 
 void FE2D::Scene::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {

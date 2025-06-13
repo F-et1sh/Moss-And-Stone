@@ -28,7 +28,7 @@ namespace FE2D {
 		float m_Zoom = 1;
 
 	private:
-		void UpdateView();
+		void UpdateView()noexcept;
 
 	private:
 		bool m_IsChanged = false;

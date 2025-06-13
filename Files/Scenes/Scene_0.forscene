@@ -1,15 +1,49 @@
 {
     "Entities": [
         {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    750.0,
+                    1125.0
+                ],
+                "texture": "4288880420568704525"
+            },
+            "TagComponent": {
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -3,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -499.5138244628906,
+                    361.62054443359375
+                ],
+                "rotation": -27.700000762939453,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 6357800506985784006
+        },
+        {
             "AnimatorComponent": {
                 "animations": [
                     {
                         "id": "3627080827995427968",
                         "name": "WalkDown"
-                    },
-                    {
-                        "id": "7399565066185344581",
-                        "name": "WalkUp"
                     },
                     {
                         "id": "12042032309901078869",
@@ -18,10 +52,22 @@
                     {
                         "id": "14421252517024473962",
                         "name": "WalkRightUp"
+                    },
+                    {
+                        "id": "7399565066185344581",
+                        "name": "WalkUp"
                     }
                 ],
-                "current_animation": "3627080827995427968",
-                "time": 56.66286087036133
+                "current_animation": "7399565066185344581",
+                "time": 0.0
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
             },
             "PlayerComponent": null,
             "RelationshipComponent": {
@@ -32,12 +78,12 @@
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
-                    14.0,
                     0.0,
-                    7.0,
+                    0.0,
+                    42.0,
                     26.0
                 ],
-                "texture": "11950549244742537056"
+                "texture": "4535877023346598092"
             },
             "TagComponent": {
                 "tag": "Player"
@@ -55,8 +101,8 @@
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    1.0,
-                    1.0
+                    5.0,
+                    5.0
                 ]
             },
             "UUID": 2983152474793087834,
@@ -66,6 +112,44 @@
                     0.0
                 ]
             }
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    1500.0,
+                    1000.0
+                ],
+                "texture": "2974030148704991248"
+            },
+            "TagComponent": {
+                "tag": "New Entity2"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -12,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    397.4930725097656,
+                    58.677978515625
+                ],
+                "rotation": 6.5,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 5777455035328335514
         }
     ],
     "SceneInfo": {

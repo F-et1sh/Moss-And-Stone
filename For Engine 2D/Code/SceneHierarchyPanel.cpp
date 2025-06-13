@@ -4,11 +4,6 @@
 #include "ContentBrowser.h"
 #include "Scene.h"
 
-// This needed to disable a security warning on std::strncpy()
-#ifdef _MSVC_LANG
-	#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker) {
 	m_Context = &context;
 	m_ImGui = &imgui;
@@ -17,7 +12,7 @@ void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePi
 	this->resetSelected();
 }
 
-void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_focused, const vec2& preview_mouse_position) {
+void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_focused, bool is_preview_window_hovered, const vec2& preview_mouse_position) {
 	ImGui::Begin("Scene Hierarchy", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	if (m_Context) {
@@ -47,10 +42,12 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_focused, co
 
 			ImGui::EndPopup();
 		}
+
+		for (auto system : m_Context->m_SystemsList) system->OnPropertiesPanel(*m_ImGui);
 	}
 	ImGui::End();
 
-	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_window_hovered) {
 		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
 		if (entity_index != -1) this->setSelected({ (entt::entity)entity_index, m_Context });

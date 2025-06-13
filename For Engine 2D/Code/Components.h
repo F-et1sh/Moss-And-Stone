@@ -132,9 +132,16 @@ namespace FE2D {
     struct FOR_API CharacterAnimatorComponent {
         ResourceID<Animation> current_animation;
         float time = 0.0f;
-        bool playing = false;
-        bool loop = true;
 
         std::unordered_map<std::string, ResourceID<Animation>> animations;
+
+        void setCurrentAnimation(const std::string& name) {
+            auto it = animations.find(name);
+            if (it == animations.end()) {
+                SAY("ERROR : Failed to set current animation in CharacterAnimatorComponent\nThere is no animation " << name.c_str());
+                return;
+            }
+            current_animation = it->second;
+        }
     };
 }

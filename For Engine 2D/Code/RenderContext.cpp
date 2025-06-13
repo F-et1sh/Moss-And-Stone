@@ -49,8 +49,7 @@ void FE2D::RenderContext::SubscribeOnEvents(Window& window) {
 }
 
 void FE2D::RenderContext::UnsubscribeOnEvents() {
-	if (!m_Window)
-		return;
+	if (!m_Window) return;
 
 	m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
 	m_Window = nullptr;

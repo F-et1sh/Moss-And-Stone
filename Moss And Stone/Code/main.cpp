@@ -1,6 +1,6 @@
 #include "Application.h"
 
-constexpr glm::vec2 WINDOW_RESOLUTION = glm::vec2(0, 0);
+constexpr glm::vec2 WINDOW_RESOLUTION = glm::vec2(1920, 1080);
 constexpr std::string_view WINDOW_NAME = "Moss And Stone";
 constexpr size_t WINDOW_MONITOR = -1;
 

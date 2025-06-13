@@ -6,6 +6,7 @@ namespace FE2D {
 	class FOR_API RenderContext;
 	class FOR_API ResourceManager;
 	class FOR_API Scene;
+	class FOR_API IMGUI;
 
 	class FOR_API ISystemBase {
 	public:
@@ -17,6 +18,8 @@ namespace FE2D {
 			m_ResourceManager = &resource_manager;
 			m_Scene = &scene;
 		}
+
+		virtual void OnPropertiesPanel(IMGUI& imgui) {}
 
 		virtual json Serialize()const { return json(); }
 		virtual void Deserialize(const json& j) {}

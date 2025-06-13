@@ -33,9 +33,8 @@ void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_contex
 }
 
 void FE2D::SceneManager::Update() {
-	if (m_IsRunning)
-		m_CurrentScene.Update();
-	m_CurrentScene.Render();
+	if (m_IsRunning) m_CurrentScene.Update();
+					 m_CurrentScene.Render();
 }
 
 void FE2D::SceneManager::SaveCurrentScene() {

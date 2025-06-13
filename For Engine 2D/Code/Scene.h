@@ -42,7 +42,6 @@ namespace FE2D {
 		void Update();
 		void Render();
 
-		void OnSystemPropertiesWindow();
 		void RenderPickable(RenderContext& render_context, MousePicker& mouse_picker);
 
 	public:
@@ -57,14 +56,17 @@ namespace FE2D {
 			std::unique_ptr<T> system = std::make_unique<T>();
 			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this);
 			system->Initialize();
+			m_SystemsList.emplace_back(system.get());
 			return system;
 		}
 
 	private:
-		std::unique_ptr<SpriteRendererSystem> m_SpriteRendererSystem;
+		std::unique_ptr<SpriteRendererSystem>	m_SpriteRendererSystem;
 		std::unique_ptr<PlayerControllerSystem> m_PlayerControllerSystem;
-		std::unique_ptr<PhysicsSystem> m_PhysicsSystem;
-		std::unique_ptr<AnimationSystem> m_AnimationSystem;
+		std::unique_ptr<PhysicsSystem>			m_PhysicsSystem;
+		std::unique_ptr<AnimationSystem>		m_AnimationSystem;
+
+		std::vector<ISystemBase*> m_SystemsList;
 
 	private:
 		std::unordered_map<UUID, Entity> m_EntityMap;
@@ -73,7 +75,10 @@ namespace FE2D {
 		Window* m_Window = nullptr;
 		RenderContext* m_RenderContext = nullptr;
 		ResourceManager* m_ResourceManager = nullptr;
+		IMGUI* m_ImGui = nullptr;
+
 		Camera m_Camera;
+		FE2D::UUID m_CameraEntityUUID = FE2D::UUID(0);
 
 	private:
 		size_t m_Index = 0; // scene index

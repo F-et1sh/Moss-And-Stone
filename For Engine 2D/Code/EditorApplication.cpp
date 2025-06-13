@@ -37,10 +37,13 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 		}
 		}
 	);
-
+	m_Window.SubscribeOnEvent(Event::EventType::KeyPressed, [&](const Event& e) {
+		const KeyPressed& event = *static_cast<const KeyPressed*>(&e);
+		// CTRL + S
+		if (event.ctrl && event.key == GLFW_KEY_S) this->Save();
+		});
 	m_Window.SubscribeOnEvent(Event::EventType::MouseWheelScrolled, [&](const Event& e) {
-		if (!m_IsPreviewHovered)
-			return;
+		if (!m_IsPreviewHovered) return;
 
 		const MouseWheelScrolled* wheel = static_cast<const MouseWheelScrolled*>(&e);
 
@@ -173,13 +176,11 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	m_ImGui.StartDockSpace();
 
-	this->m_SceneManager.OnSystemPropertiesWindow();
-
 	this->OnMainMenuBar();
 
 	this->OnPreviewWindow();
 
-	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewFocused, m_PreviewMousePosition);
+	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewFocused, m_IsPreviewHovered, m_PreviewMousePosition);
 	m_ContentBrowser.OnImGuiRender();
 
 	m_ImGui.EndFrame();
@@ -198,8 +199,13 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 
 			m_RenderContext.BindCamera(m_EditorCamera);
 		}
-		else m_SceneManager.StartGameSession();
+		else {
+			m_SceneManager.StartGameSession();
 
+			std::filesystem::path exe_path = FOR_PATH.get_executable_path() / L"Moss And Stone.exe";
+			std::string command = "\"" + exe_path.string() + "\"";
+			std::system(command.c_str());
+		}
 		m_IsGameRunning = !m_IsGameRunning;
 	}
 
@@ -233,8 +239,7 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 }
 
 void FE2D::EditorApplication::UpdateCameraMoving() {
-	if (!m_IsPreviewFocused)
-		return;
+	if (!m_IsPreviewFocused) return;
 
 	vec2 direction = vec2(0.0f);
 
@@ -248,5 +253,5 @@ void FE2D::EditorApplication::UpdateCameraMoving() {
 	if (glm::length(direction) > 0.0f)
 		direction = normalize(direction);
 
-	m_EditorCamera.setPosition(m_EditorCamera.getPosition() - (direction * move_speed));
+	m_EditorCamera.setPosition(m_EditorCamera.getPosition() + (direction * move_speed));
 }

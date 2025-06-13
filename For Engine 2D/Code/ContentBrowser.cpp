@@ -2,11 +2,6 @@
 #include "ContentBrowser.h"
 
 void FE2D::ContentBrowser::Release() {
-    if (m_Window)
-        m_Window->UnsubscribeOnEvent(Event::EventType::KeyPressed, m_EventIndex);
-
-    m_Window = nullptr;
-    m_EventIndex = 0;
     m_ResourceManager = nullptr;
     m_ImGui = nullptr;
 
@@ -17,20 +12,9 @@ void FE2D::ContentBrowser::Release() {
 
 void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui) {
     m_ResourceManager = &resource_manager;
-    m_Window = &window;
     m_ImGui = &imgui;
 
     this->m_ResourceManager->load_available_resources();
-
-    m_EventIndex = m_Window->SubscribeOnEvent(Event::EventType::KeyPressed, [&](const Event& e) {
-        const KeyPressed* event = static_cast<const KeyPressed*>(&e);
-
-        if (event->ctrl && event->key == GLFW_KEY_S) { // CTRL + S
-            m_ResourceManager->save_resources();
-            m_ResourceManager->load_available_metadata();
-        }
-
-        });
 
     const std::filesystem::path base_path = FOR_PATH.get_assets_path() / L"FE2D" / L"ContentBrowser";
     this->LoadContentImage(m_DirectoryImage, base_path / L"folder_icon.png");

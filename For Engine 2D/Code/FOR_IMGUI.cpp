@@ -426,8 +426,7 @@ ImDrawList* FE2D::IMGUI::GetPreviewWindowDrawList() {
 }
 
 void IMGUI::TransformControl(TransformComponent& transform) {
-    if (IsAnyColliderGizmoDragging())
-        return;
+    if (IsAnyColliderGizmoDragging()) return;
 
     m_IsAnyGizmoHovered = false;
 

@@ -14,7 +14,7 @@ namespace FE2D {
 
 		void setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker);
 
-		void OnImGuiRender(bool is_preview_window_focused, const vec2& preview_mouse_position);
+		void OnImGuiRender(bool is_preview_window_focused, bool is_preview_window_hovered, const vec2& preview_mouse_position);
 
 		inline Entity getSelected() const noexcept { return this->m_Selected; }
 		inline void setSelected(Entity entity)noexcept { this->m_Selected = entity; }
