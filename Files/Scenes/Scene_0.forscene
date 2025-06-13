@@ -1,19 +1,9 @@
 {
     "Entities": [
         {
-            "AnimatorComponent": {
-                "animations": [
-                    {
-                        "id": "11504005120465886007",
-                        "name": "Attack"
-                    }
-                ],
-                "current_animation": "11504005120465886007",
-                "time": 0.0
-            },
             "RelationshipComponent": {
                 "children": [],
-                "parent": 2983152474793087834
+                "parent": 10645030587141216093
             },
             "SpriteComponent": {
                 "flip_x": false,
@@ -21,70 +11,62 @@
                 "frame": [
                     0.0,
                     0.0,
-                    20.0,
-                    20.0
+                    16.0,
+                    16.0
                 ],
-                "texture": "5095026631698686117"
+                "texture": "6178231784002649046"
             },
             "TagComponent": {
-                "tag": "Sword"
+                "tag": "tile01"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": 6,
+                "layer": -5,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    12.017674446105957,
-                    0.6005145311355591
+                    0.0,
+                    0.0
                 ],
-                "rotation": 30.200000762939453,
+                "rotation": 0.0,
                 "scale": [
                     1.0,
                     1.0
                 ]
             },
-            "UUID": 4471840042247139185
+            "UUID": 17783145805184974856
         },
         {
             "RelationshipComponent": {
-                "children": [],
+                "children": [
+                    17783145805184974856,
+                    11300518767558739515
+                ],
                 "parent": 0
             },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    1500.0,
-                    1000.0
-                ],
-                "texture": "2974030148704991248"
-            },
             "TagComponent": {
-                "tag": "New Entity2"
+                "tag": "Ground"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": -12,
+                "layer": 0,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    397.4930725097656,
-                    58.677978515625
+                    0.0,
+                    0.0
                 ],
-                "rotation": 6.5,
+                "rotation": 0.0,
                 "scale": [
                     1.0,
                     1.0
                 ]
             },
-            "UUID": 5777455035328335514
+            "UUID": 10645030587141216093
         },
         {
             "AnimatorComponent": {
@@ -146,13 +128,13 @@
                     0.0
                 ],
                 "position": [
-                    246.0298614501953,
-                    136.36549377441406
+                    -1.1397271156311035,
+                    12.414804458618164
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    5.0,
-                    5.0
+                    1.0,
+                    1.0
                 ]
             },
             "UUID": 2983152474793087834,
@@ -164,9 +146,19 @@
             }
         },
         {
+            "AnimatorComponent": {
+                "animations": [
+                    {
+                        "id": "11504005120465886007",
+                        "name": "Attack"
+                    }
+                ],
+                "current_animation": "11504005120465886007",
+                "time": 0.0
+            },
             "RelationshipComponent": {
                 "children": [],
-                "parent": 0
+                "parent": 2983152474793087834
             },
             "SpriteComponent": {
                 "flip_x": false,
@@ -174,32 +166,108 @@
                 "frame": [
                     0.0,
                     0.0,
-                    750.0,
-                    1125.0
+                    20.0,
+                    20.0
                 ],
-                "texture": "4288880420568704525"
+                "texture": "5095026631698686117"
             },
             "TagComponent": {
-                "tag": "New Entity"
+                "tag": "Sword"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": -3,
+                "layer": 6,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    -499.5138244628906,
-                    361.62054443359375
+                    12.291333198547363,
+                    0.8863720893859863
                 ],
-                "rotation": -27.700000762939453,
+                "rotation": 30.200000762939453,
                 "scale": [
                     1.0,
                     1.0
                 ]
             },
-            "UUID": 6357800506985784006
+            "UUID": 4471840042247139185
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 10645030587141216093
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    16.0,
+                    16.0
+                ],
+                "texture": "11974836725074382672"
+            },
+            "TagComponent": {
+                "tag": "tile02"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -5,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    16.0,
+                    0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 11300518767558739515
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": true,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    80.0,
+                    80.0
+                ],
+                "texture": "3942227103286119618"
+            },
+            "TagComponent": {
+                "tag": "Carter"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    16.972274780273438,
+                    2.858489990234375
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    0.15000000596046448,
+                    0.15000000596046448
+                ]
+            },
+            "UUID": 16630230342371280596
         }
     ],
     "SceneInfo": {

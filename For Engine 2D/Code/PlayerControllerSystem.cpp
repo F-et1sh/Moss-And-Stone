@@ -32,7 +32,7 @@ void FE2D::PlayerControllerSystem::Update() {
 	auto& velocity	= m_Player.GetComponent<VelocityComponent>();
 
 	vec2 move_direction = vec2();
-	constexpr float speed = 350;
+	constexpr float speed = 100;
 
 	if (glfwGetKey(m_Window->reference(), GLFW_KEY_W)) move_direction += vec2( 0,  1);
 	if (glfwGetKey(m_Window->reference(), GLFW_KEY_S)) move_direction += vec2( 0, -1);
@@ -49,19 +49,19 @@ void FE2D::PlayerControllerSystem::Update() {
 		break;
 	case ViewDirections::RIGHT_UP:
 		animator.setCurrentAnimation("WalkRightUp");
-		sprite.flip_x = false;
+		transform.scale.x = fabsf(transform.scale.x);
 		break;
 	case ViewDirections::RIGHT_DOWN:
 		animator.setCurrentAnimation("WalkRightDown");
-		sprite.flip_x = false;
+		transform.scale.x = fabsf(transform.scale.x);
 		break;
 	case ViewDirections::LEFT_UP:
 		animator.setCurrentAnimation("WalkRightUp");
-		sprite.flip_x = true;
+		transform.scale.x = -fabsf(transform.scale.x);
 		break;
 	case ViewDirections::LEFT_DOWN:
 		animator.setCurrentAnimation("WalkRightDown");
-		sprite.flip_x = true;
+		transform.scale.x = -fabsf(transform.scale.x);
 		break;
 
 	default:
@@ -73,7 +73,9 @@ void FE2D::PlayerControllerSystem::Update() {
 		move_direction = glm::normalize(move_direction);
 		animator.time += m_Window->getDeltaTime();
 	}
-	else animator.time = 0.0f;
+	else {
+		animator.time = 0.0f;
+	}
 
 	velocity.velocity = move_direction * speed;
 }
@@ -125,14 +127,14 @@ FE2D::PlayerControllerSystem::ViewDirections FE2D::PlayerControllerSystem::GetVi
 	mouse_pos -= vec2(0.5f);
 	mouse_pos *= vec2(2);
 	
-	mouse_pos = glm::normalize(mouse_pos);
+	mouse_pos = normalize(mouse_pos);
 
 	float best_dot = -2.0f;
 	size_t result = 0;
 
-	for (size_t i = 0; i < m_ViewDirections.size(); ++i) {
-		vec2 dir = glm::normalize(m_ViewDirections[i].first);
-		float dot_product = glm::dot(mouse_pos, dir);
+	for (size_t i = 0; i < m_ViewDirections.size(); i++) {
+		vec2 dir = normalize(m_ViewDirections[i].first);
+		float dot_product = dot(mouse_pos, dir);
 
 		if (dot_product > best_dot) {
 			best_dot = dot_product;

@@ -467,9 +467,11 @@ void IMGUI::TransformControl(Entity entity) {
     constexpr vec4 rect_color = vec4(0.15f, 0.75f, 0.15f, 0.75f);
 
     const float camera_zoom = m_RenderContext->getCamera()->getZoom();
-    vec2 scale = extractScale(matrix);
-    float viewport_scale_x = (LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x) * camera_zoom / scale.x;
-    float viewport_scale_y = (LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y) * camera_zoom / scale.y;
+    vec2 scale = vec2(1, 1);
+    if (entity.HasParent())
+        scale = extractScale(entity.GetParent().GetGlobalTransform());
+    float viewport_scale_x = (LOGICAL_RESOLUTION.x / m_PreviewWindowSize.x) * (1.0f / camera_zoom) / scale.x;
+    float viewport_scale_y = (LOGICAL_RESOLUTION.y / m_PreviewWindowSize.y) * (1.0f / camera_zoom) / scale.y;
 
     // step with pressed CTRL
     constexpr vec2 step_size = vec2(16);

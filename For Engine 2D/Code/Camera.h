@@ -25,7 +25,7 @@ namespace FE2D {
 
 	private:
 		vec2 m_Position = vec2();
-		float m_Zoom = 1;
+		float m_Zoom = 5;
 
 	private:
 		void UpdateView()noexcept;

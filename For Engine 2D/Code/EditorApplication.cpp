@@ -46,9 +46,10 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 		if (!m_IsPreviewHovered) return;
 
 		const MouseWheelScrolled* wheel = static_cast<const MouseWheelScrolled*>(&e);
-
+		
 		constexpr float scroll_speed = 0.1f;
-		float zoom_factor = 1.0f - wheel->offset.y * scroll_speed;
+		float zoom_factor = 1.0f - (wheel->offset.y * scroll_speed);
+		zoom_factor = 1.0f / zoom_factor;
 
 		m_EditorCamera.setZoom(m_EditorCamera.getZoom() * zoom_factor);
 		});
