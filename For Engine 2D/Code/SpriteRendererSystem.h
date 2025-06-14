@@ -15,7 +15,7 @@ namespace FE2D {
 }
 
 namespace FE2D {
-	class FOR_API MousePicker; // forward declaration
+	class MousePicker; // forward declaration
 
 	class FOR_API SpriteRendererSystem : public ISystemBase {
 	public:

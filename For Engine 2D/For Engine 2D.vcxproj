@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Code\AnimationStateNodes.cpp" />
     <ClCompile Include="Code\AnimationSystem.cpp" />
+    <ClCompile Include="Code\ComponentField.cpp" />
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\PlayerControllerSystem.cpp" />
@@ -53,6 +54,9 @@
     <ClCompile Include="Code\ResourceModule.cpp" />
     <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Code\SceneSerializer.cpp" />
+    <ClCompile Include="Code\Script.cpp" />
+    <ClCompile Include="Code\ScriptableEntity.cpp" />
+    <ClCompile Include="Code\ScriptFactory.cpp" />
     <ClCompile Include="Code\Serializable.cpp" />
     <ClCompile Include="Code\MousePicker.cpp" />
     <ClCompile Include="Code\ISystemBase.cpp" />
@@ -133,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="Code\AnimationStateNodes.h" />
     <ClInclude Include="Code\AnimationSystem.h" />
+    <ClInclude Include="Code\ComponentField.h" />
     <ClInclude Include="Code\ContentBrowser.h" />
     <ClInclude Include="Code\forarray.hpp" />
     <ClInclude Include="Code\forfile.hpp" />
@@ -164,6 +169,9 @@
     <ClInclude Include="Code\ResourceModule.h" />
     <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\SceneSerializer.h" />
+    <ClInclude Include="Code\Script.h" />
+    <ClInclude Include="Code\ScriptableEntity.h" />
+    <ClInclude Include="Code\ScriptFactory.h" />
     <ClInclude Include="Code\Serializable.h" />
     <ClInclude Include="Code\ISystemBase.h" />
     <ClInclude Include="Code\Test.h" />

@@ -144,4 +144,11 @@ namespace FE2D {
             current_animation = it->second;
         }
     };
+
+    class ScriptableEntity; // forward declaration
+
+    struct FOR_API NativeScriptComponent {
+        ScriptableEntity* instance = nullptr;
+        std::string script_name = "Script";
+    };
 }

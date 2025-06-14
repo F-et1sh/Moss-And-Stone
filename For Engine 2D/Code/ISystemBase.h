@@ -2,11 +2,11 @@
 
 namespace FE2D {
 	/* forward declaration */
-	class FOR_API Window;
-	class FOR_API RenderContext;
-	class FOR_API ResourceManager;
-	class FOR_API Scene;
-	class FOR_API IMGUI;
+	class Window;
+	class RenderContext;
+	class ResourceManager;
+	class Scene;
+	class IMGUI;
 
 	class FOR_API ISystemBase {
 	public:

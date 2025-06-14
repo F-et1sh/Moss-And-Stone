@@ -4,7 +4,7 @@
 // Based on Hazel ( The Cherno ) - Apache License 2.0
 
 namespace FE2D {
-	class FOR_API Scene; // forward declaration
+	class Scene; // forward declaration
 	
 	class FOR_API Entity {
 	public:

@@ -2,14 +2,15 @@
 #include "Texture.h"
 #include "Animation.h"
 #include "Components.h"
+#include "ComponentField.h"
 
 namespace FE2D {
 	/* forward declarations */
-	class FOR_API TransformComponent;
-	class FOR_API ColliderComponent;
-	class FOR_API Camera;
-	class FOR_API Window;
-	class FOR_API RenderContext;
+	class TransformComponent;
+	class ColliderComponent;
+	class Camera;
+	class Window;
+	class RenderContext;
 
 	class FOR_API IMGUI {
 	public:
@@ -23,8 +24,8 @@ namespace FE2D {
 		void Release();
 		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
 
-		inline void BeginFrame();
-		inline void EndFrame();
+		void BeginFrame();
+		void EndFrame();
 
 		inline void PreviewWindowPosition(const vec2& position)noexcept { m_PreviewWindowPosition = position; }
 		inline void PreviewWindowSize(const vec2& size)noexcept { m_PreviewWindowSize = size; }
@@ -46,6 +47,50 @@ namespace FE2D {
 
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
 
+		template<typename T>
+		inline void ComponentPayload(ComponentField<T>& component_field) {
+			if (component_field.entity) {
+				std::string name = component_field.entity.GetComponent<TagComponent>().tag;
+				ImGui::Button(name.c_str());
+			}
+			else {
+				std::string name = typeid(T).name();
+				ImGui::Button(name.c_str());
+			}
+
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_DRAGGING")) {
+					auto entity = *static_cast<Entity*>(payload->Data);
+					if (entity.HasComponent<T>())
+						component_field.entity = entity;
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::SameLine();
+			ImGui::Text(typeid(T).name());
+		}
+		void EntityPayload(Entity& load_entity) {
+			if (load_entity) {
+				std::string name = load_entity.GetComponent<TagComponent>().tag;
+				ImGui::Button(name.c_str());
+			}
+			else {
+				std::string name = "Entity";
+				ImGui::Button(name.c_str());
+			}
+
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_DRAGGING")) {
+					auto entity = *static_cast<Entity*>(payload->Data);
+					load_entity = entity;
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::SameLine();
+			ImGui::Text("Entity");
+		}
 	public:
 		Window* getWindow()const noexcept { return m_Window; }
 		RenderContext* getRenderContext()const noexcept { return m_RenderContext; }

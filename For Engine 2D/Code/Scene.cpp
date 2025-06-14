@@ -1,6 +1,8 @@
 #include "forpch.h"
 #include "Scene.h"
 
+#include "Script.h"
+
 void FE2D::Scene::Release() {
 	for (const auto& pair : m_EntityMap) {
 		Entity e = pair.second;
@@ -31,6 +33,9 @@ void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, Reso
 	m_PlayerControllerSystem = this->CreateSystem<PlayerControllerSystem>();
 	m_PhysicsSystem			 = this->CreateSystem<PhysicsSystem>();
 	m_AnimationSystem		 = this->CreateSystem<AnimationSystem>();
+
+	auto entity = this->CreateEntity("ScriptableEntity");
+	entity.AddComponent<NativeScriptComponent>().instance = new Script();
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {
@@ -95,6 +100,12 @@ void FE2D::Scene::Start() {
 	if (!camera_found) SAY("WARNING : No camera found in the Scene");
 
 	m_RenderContext->BindCamera(m_Camera);
+
+	auto group = this->m_Registry.group<NativeScriptComponent>();
+	for (auto e : group) {
+		Entity entity = { e, this };
+		entity.GetComponent<NativeScriptComponent>().instance->OnStart();
+	}
 }
 
 void FE2D::Scene::Update() {
@@ -110,11 +121,10 @@ void FE2D::Scene::Update() {
 
 	vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
 	m_Camera.setPosition(cam_pos);
-
 }
 
 void FE2D::Scene::Render() {
-	
+
 	/* Animation */
 	m_AnimationSystem->Render();
 

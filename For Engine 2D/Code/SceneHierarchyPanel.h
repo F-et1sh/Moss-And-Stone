@@ -36,7 +36,12 @@ namespace FE2D {
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 			float lineHeight = ImGui::GetFontSize() + ImGui::GetStyle().FramePadding.y * 2.0f;
 			ImGui::Separator();
-			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
+			
+			std::string tree_node_name = name;
+			if constexpr (std::is_same_v<T, NativeScriptComponent>)
+				tree_node_name += " (" + component.script_name + ")";
+			
+			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, tree_node_name.c_str());
 			ImGui::PopStyleVar();
 			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 			if (ImGui::Button("...", ImVec2{ lineHeight, lineHeight })) {
@@ -62,8 +67,7 @@ namespace FE2D {
 		
 		template<typename T>
 		void DisplayAddComponentEntry(const std::string& entry_name) {
-			if (m_Selected.HasComponent<T>())
-				return;
+			if (m_Selected.HasComponent<T>()) return;
 
 			if (ImGui::MenuItem(entry_name.c_str())) {
 				m_Selected.AddComponent<T>();

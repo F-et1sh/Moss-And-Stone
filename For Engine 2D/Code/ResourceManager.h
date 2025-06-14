@@ -21,7 +21,7 @@ namespace FE2D {
 	class FOR_API ResourceManager {
 	public:
 		ResourceManager() = default;
-		~ResourceManager() = default; // ñall Release() function youself !!
+		~ResourceManager() = default; // ñall Release() youself !!
 
 		static const std::vector<unsigned char> load_file_to_memory(const std::wstring& file_path);
 
@@ -64,8 +64,7 @@ namespace FE2D {
 			}
 
 			auto metadata = m_ResourceCache.get_metadata(id.uuid);
-			if (metadata.empty())
-				return this->GetFallbackResource<T>();
+			if (metadata.empty()) return this->GetFallbackResource<T>();
 
 			std::filesystem::path resource_path = FOR_PATH.get_assets_path() / metadata.wstring();
 			resource_path.replace_extension(); // clear .fs extension
@@ -96,8 +95,7 @@ namespace FE2D {
 		inline T& GetFallbackResource() {
 			static size_t hash_code = typeid(T).hash_code();
 			auto fallback = m_ResourceCache.get_fallback(hash_code);
-			if (fallback)
-				return *static_cast<T*>(fallback);
+			if (fallback) return *static_cast<T*>(fallback);
 			FOR_RUNTIME_ERROR(("Failed to get a fallback of resource\nType : " + std::string(typeid(T).name())));
 		}
 	public:

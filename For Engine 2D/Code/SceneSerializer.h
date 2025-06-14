@@ -2,8 +2,8 @@
 
 namespace FE2D {
     /* forward declarations */
-    class FOR_API Scene;
-    class FOR_API Entity;
+    class Scene;
+    class Entity;
 
 	class FOR_API SceneSerializer {
 	public:

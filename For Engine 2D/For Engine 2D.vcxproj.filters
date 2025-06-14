@@ -292,6 +292,21 @@
     <Filter Include="Code\ECS\System\System Base">
       <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\Scriptable Entity">
+      <UniqueIdentifier>{fa6f0624-686f-4364-bfec-b30fd8f88523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Component Field">
+      <UniqueIdentifier>{f1b09f5c-5095-4e01-bf0c-c0e5224e6459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Script Factory">
+      <UniqueIdentifier>{048d134d-2501-410c-a7e3-354a7511edeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripts">
+      <UniqueIdentifier>{6cac321f-9af3-4177-a2b2-4455a71cbf5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripts\Script">
+      <UniqueIdentifier>{b5bccd6f-e7ed-4004-a1f3-d5d46bdff72c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -503,6 +518,18 @@
     </ClCompile>
     <ClCompile Include="Code\AnimationStateNodes.cpp">
       <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ScriptableEntity.cpp">
+      <Filter>Code\ECS\Scriptable Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ComponentField.cpp">
+      <Filter>Code\ECS\Component Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ScriptFactory.cpp">
+      <Filter>Code\ECS\Script Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Script.cpp">
+      <Filter>Code\ECS\Scripts\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -736,6 +763,18 @@
     </ClInclude>
     <ClInclude Include="Code\AnimationStateNodes.h">
       <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ScriptableEntity.h">
+      <Filter>Code\ECS\Scriptable Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ComponentField.h">
+      <Filter>Code\ECS\Component Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ScriptFactory.h">
+      <Filter>Code\ECS\Script Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Script.h">
+      <Filter>Code\ECS\Scripts\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

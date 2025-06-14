@@ -85,7 +85,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		ImGui::EndDragDropTarget();
 	}
 
-	if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) 
+	if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 		this->setSelected(entity);
 
 	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -142,6 +142,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<VelocityComponent>("Velocity");
 		DisplayAddComponentEntry<ColliderComponent>("Collider");
 		DisplayAddComponentEntry<CharacterAnimatorComponent>("Character Animator");
+		DisplayAddComponentEntry<NativeScriptComponent>("Script");
 
 		ImGui::EndPopup();
 	}
@@ -283,5 +284,9 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		}
 
 		if (!is_any_card_hovered && ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) editing_name.clear();
+		});
+
+	DrawComponent<NativeScriptComponent>("Script", entity, [&](auto& component) {
+		component.instance->OnEditorPanel(*this->m_ImGui);
 		});
 }

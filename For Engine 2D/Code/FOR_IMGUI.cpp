@@ -92,13 +92,13 @@ void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, Reso
     }
 }
 
-inline void FE2D::IMGUI::BeginFrame() {
+void FE2D::IMGUI::BeginFrame() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 }
 
-inline void FE2D::IMGUI::EndFrame() {
+void FE2D::IMGUI::EndFrame() {
     ImGuiIO& io = ImGui::GetIO();
 
     ImGui::Render();
@@ -112,7 +112,7 @@ inline void FE2D::IMGUI::EndFrame() {
     }
 }
 
-inline void FE2D::IMGUI::StartDockSpace() {
+void FE2D::IMGUI::StartDockSpace() {
     // Flags to make the window invisible
     ImGuiWindowFlags windowFlags =
         ImGuiWindowFlags_MenuBar |

@@ -1,7 +1,7 @@
 #pragma once
 
 namespace FE2D {
-    class FOR_API IMGUI; // forward declaration
+    class IMGUI; // forward declaration
 
     class FOR_API IResource {
     public:

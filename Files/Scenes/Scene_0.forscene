@@ -3,51 +3,10 @@
         {
             "RelationshipComponent": {
                 "children": [],
-                "parent": 10645030587141216093
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    16.0,
-                    16.0
-                ],
-                "texture": "6178231784002649046"
-            },
-            "TagComponent": {
-                "tag": "tile01"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -5,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 17783145805184974856
-        },
-        {
-            "RelationshipComponent": {
-                "children": [
-                    17783145805184974856,
-                    11300518767558739515
-                ],
                 "parent": 0
             },
             "TagComponent": {
-                "tag": "Ground"
+                "tag": "ScriptableEntity"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -66,7 +25,7 @@
                     1.0
                 ]
             },
-            "UUID": 10645030587141216093
+            "UUID": 576475876231436127
         },
         {
             "AnimatorComponent": {
@@ -268,6 +227,101 @@
                 ]
             },
             "UUID": 16630230342371280596
+        },
+        {
+            "RelationshipComponent": {
+                "children": [
+                    17783145805184974856,
+                    11300518767558739515
+                ],
+                "parent": 0
+            },
+            "TagComponent": {
+                "tag": "Ground"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 10645030587141216093
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 10645030587141216093
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    16.0,
+                    16.0
+                ],
+                "texture": "6178231784002649046"
+            },
+            "TagComponent": {
+                "tag": "tile01"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -5,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 17783145805184974856
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "TagComponent": {
+                "tag": "ScriptableEntity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 2936736475463939134
         }
     ],
     "SceneInfo": {

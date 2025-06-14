@@ -3,38 +3,37 @@
 namespace FE2D {
 	class FOR_API PathManager {
 	public:
-		PathManager(const PathManager&) = delete;
-		PathManager& operator=(const PathManager&) = delete;
+		FOR_CLASS_NONCOPYABLE(PathManager)
 
 		void init(const char* argv0, bool is_editor);
 
 		static PathManager& Instance() {
-			static PathManager pathManager;	
-			return pathManager;
+			static PathManager path_manager;	
+			return path_manager;
 		}
 
 	public:
-		inline const std::filesystem::path get_executable_path()const noexcept {
+		inline const std::filesystem::path& get_executable_path()const noexcept {
 			return m_ExecutablePath;
 		}
 		
-		inline const std::filesystem::path get_assets_path() const noexcept {
+		inline const std::filesystem::path& get_assets_path() const noexcept {
 			return m_AssetsPath;
 		}
 
-		inline const std::filesystem::path get_scenes_path()const noexcept {
+		inline std::filesystem::path get_scenes_path()const {
 			return this->get_assets_path() / L"Scenes";
 		}
 
-		inline const std::filesystem::path get_resources_path()const noexcept {
+		inline std::filesystem::path get_resources_path()const {
 			return this->get_assets_path() / L"Resources";
 		}
 
-		inline const std::filesystem::path get_fallbacks_path()const noexcept {
+		inline std::filesystem::path get_fallbacks_path()const {
 			return this->get_assets_path() / L"FE2D" / L"Fallbacks";
 		}
 
-		inline const std::filesystem::path get_shaders_path()const noexcept {
+		inline std::filesystem::path get_shaders_path()const {
 			return this->get_assets_path() / L"Shaders";
 		}
 
