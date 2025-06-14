@@ -148,7 +148,7 @@ namespace FE2D {
     class ScriptableEntity; // forward declaration
 
     struct FOR_API NativeScriptComponent {
-        ScriptableEntity* instance = nullptr;
-        std::string script_name = "Script";
+        std::unique_ptr<ScriptableEntity> instance = nullptr;
+        std::string script_name;
     };
 }

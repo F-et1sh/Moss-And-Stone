@@ -57,6 +57,7 @@
     <ClCompile Include="Code\Script.cpp" />
     <ClCompile Include="Code\ScriptableEntity.cpp" />
     <ClCompile Include="Code\ScriptFactory.cpp" />
+    <ClCompile Include="Code\ScriptManagerSystem.cpp" />
     <ClCompile Include="Code\Serializable.cpp" />
     <ClCompile Include="Code\MousePicker.cpp" />
     <ClCompile Include="Code\ISystemBase.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Code\Script.h" />
     <ClInclude Include="Code\ScriptableEntity.h" />
     <ClInclude Include="Code\ScriptFactory.h" />
+    <ClInclude Include="Code\ScriptManagerSystem.h" />
     <ClInclude Include="Code\Serializable.h" />
     <ClInclude Include="Code\ISystemBase.h" />
     <ClInclude Include="Code\Test.h" />

@@ -78,6 +78,6 @@ namespace FE2D {
 	private:
 		IMGUI* m_ImGui = nullptr;
 
-		friend class FOR_API SceneHierarchyPanel;
+		friend class SceneHierarchyPanel;
 	};
 }

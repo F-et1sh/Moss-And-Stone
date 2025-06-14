@@ -1,1 +1,2 @@
+ERROR : Failed to Initlaize Game Application
 [json.exception.type_error.305] cannot use operator[] with a string argument with null

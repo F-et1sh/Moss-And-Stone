@@ -49,6 +49,9 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
     file >> j;
     file.close();
 
+	// deserialize scriptable entities after other entities
+	std::vector<std::pair<json, Entity>> scriptable_entities;
+
     entt::registry& registry = m_Scene->getRegistry();
 
     for (auto& j_entity : j["Entities"]) {
@@ -60,7 +63,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 		SceneSerializer::load_value(name, tagComponent, "tag");
 
 		if (!uuid || name.empty()) {
-			SAY("WARNING : Failed to deserialize an entity" << 
+			SAY("WARNING : Failed to deserialize an entity. UUID or name are not valid" << 
 				"\nUUID : " << uuid << 
 				"\nName : " << name.c_str());
 			continue;
@@ -161,7 +164,19 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 				return pair;
 				});
 		}
+
+		if (j_entity.contains("NativeScriptComponent")) {
+			scriptable_entities.emplace_back(j_entity["NativeScriptComponent"], deserialized_entity);
+		}
     }
+
+	for (auto [j_component, entity] : scriptable_entities) {
+		NativeScriptComponent& component = entity.AddComponent<NativeScriptComponent>();
+
+		SceneSerializer::load_value(component.script_name, j_component, "script_name");
+		component.instance = ScriptFactory::Instance().CreateScript(component.script_name, entity);
+		component.instance->Deserialize(j_component["instance"]);
+	}
 
 	// deserialize scene info after entities
 	if (!DeserializeSceneInfo(j)) {
@@ -279,6 +294,16 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 			});
 
 		j["AnimatorComponent"] = j_component;
+	}
+
+	if (entity.HasComponent<NativeScriptComponent>()) {
+		auto& component = entity.GetComponent<NativeScriptComponent>();
+
+		json j_component;
+		SceneSerializer::save_value(component.script_name, j_component, "script_name");
+		SceneSerializer::save_value(component.instance ? component.instance->Serialize() : json(), j_component, "instance");
+
+		j["NativeScriptComponent"] = j_component;
 	}
 }
 

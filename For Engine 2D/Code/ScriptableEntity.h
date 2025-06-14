@@ -7,12 +7,16 @@ namespace FE2D {
 		ScriptableEntity() = default;
 		virtual ~ScriptableEntity() = default;
 
-		template<typename T>
-		inline T& GetComponent() { return this->GetComponent<T>(); }
+		void setContext(Entity entity)noexcept {
+			this->m_EntityHandle = entity.m_EntityHandle;
+			this->m_Scene = entity.m_Scene;
+		}
 
-		virtual void OnEnd() {}
 		virtual void OnStart() {}
 		virtual void OnUpdate(double deltaTime) {}
+
+		virtual json Serialize()const { return json(); }
+		virtual void Deserialize(const json& j) {}
 
 		virtual void OnEditorPanel(IMGUI& imgui) {}
 	};

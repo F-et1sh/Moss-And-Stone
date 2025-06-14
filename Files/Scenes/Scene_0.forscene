@@ -2,11 +2,14 @@
     "Entities": [
         {
             "RelationshipComponent": {
-                "children": [],
+                "children": [
+                    17783145805184974856,
+                    11300518767558739515
+                ],
                 "parent": 0
             },
             "TagComponent": {
-                "tag": "ScriptableEntity"
+                "tag": "Ground"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -25,45 +28,50 @@
                     1.0
                 ]
             },
-            "UUID": 576475876231436127
+            "UUID": 10645030587141216093
         },
         {
-            "AnimatorComponent": {
-                "animations": [
-                    {
-                        "id": "6381951605241949636",
-                        "name": "WalkUp"
-                    },
-                    {
-                        "id": "11039116287368755249",
-                        "name": "WalkRightUp"
-                    },
-                    {
-                        "id": "586694841512290349",
-                        "name": "WalkDown"
-                    },
-                    {
-                        "id": "2065295205648881081",
-                        "name": "WalkRightDown"
-                    }
-                ],
-                "current_animation": "2065295205648881081",
-                "time": 0.0
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
             },
-            "CameraComponent": {
-                "clear_color": [
+            "SpriteComponent": {
+                "flip_x": true,
+                "flip_y": false,
+                "frame": [
                     0.0,
                     0.0,
+                    80.0,
+                    80.0
+                ],
+                "texture": "3942227103286119618"
+            },
+            "TagComponent": {
+                "tag": "Carter"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
                     0.0,
                     0.0
+                ],
+                "position": [
+                    16.972274780273438,
+                    2.858489990234375
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    0.15000000596046448,
+                    0.15000000596046448
                 ]
             },
-            "PlayerComponent": null,
+            "UUID": 16630230342371280596
+        },
+        {
             "RelationshipComponent": {
-                "children": [
-                    4471840042247139185
-                ],
-                "parent": 0
+                "children": [],
+                "parent": 10645030587141216093
             },
             "SpriteComponent": {
                 "flip_x": false,
@@ -71,24 +79,24 @@
                 "frame": [
                     0.0,
                     0.0,
-                    7.0,
-                    26.0
+                    16.0,
+                    16.0
                 ],
-                "texture": "6717621450190303964"
+                "texture": "11974836725074382672"
             },
             "TagComponent": {
-                "tag": "Player"
+                "tag": "tile02"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": 0,
+                "layer": -5,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    -1.1397271156311035,
-                    12.414804458618164
+                    16.0,
+                    0.0
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -96,13 +104,7 @@
                     1.0
                 ]
             },
-            "UUID": 2983152474793087834,
-            "VelocityComponent": {
-                "velocity": [
-                    0.0,
-                    0.0
-                ]
-            }
+            "UUID": 11300518767558739515
         },
         {
             "AnimatorComponent": {
@@ -153,9 +155,49 @@
             "UUID": 4471840042247139185
         },
         {
+            "AnimatorComponent": {
+                "animations": [
+                    {
+                        "id": "6381951605241949636",
+                        "name": "WalkUp"
+                    },
+                    {
+                        "id": "11039116287368755249",
+                        "name": "WalkRightUp"
+                    },
+                    {
+                        "id": "586694841512290349",
+                        "name": "WalkDown"
+                    },
+                    {
+                        "id": "2065295205648881081",
+                        "name": "WalkRightDown"
+                    }
+                ],
+                "current_animation": "2065295205648881081",
+                "time": 0.0
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "instance": {
+                    "entity": "16630230342371280596",
+                    "transform": "10645030587141216093"
+                },
+                "script_name": "AnotherScript"
+            },
+            "PlayerComponent": null,
             "RelationshipComponent": {
-                "children": [],
-                "parent": 10645030587141216093
+                "children": [
+                    4471840042247139185
+                ],
+                "parent": 0
             },
             "SpriteComponent": {
                 "flip_x": false,
@@ -163,51 +205,13 @@
                 "frame": [
                     0.0,
                     0.0,
-                    16.0,
-                    16.0
+                    7.0,
+                    26.0
                 ],
-                "texture": "11974836725074382672"
+                "texture": "6717621450190303964"
             },
             "TagComponent": {
-                "tag": "tile02"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -5,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    16.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 11300518767558739515
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": true,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    80.0,
-                    80.0
-                ],
-                "texture": "3942227103286119618"
-            },
-            "TagComponent": {
-                "tag": "Carter"
+                "tag": "Player"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -217,38 +221,8 @@
                     0.0
                 ],
                 "position": [
-                    16.972274780273438,
-                    2.858489990234375
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    0.15000000596046448,
-                    0.15000000596046448
-                ]
-            },
-            "UUID": 16630230342371280596
-        },
-        {
-            "RelationshipComponent": {
-                "children": [
-                    17783145805184974856,
-                    11300518767558739515
-                ],
-                "parent": 0
-            },
-            "TagComponent": {
-                "tag": "Ground"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
+                    -1.1397271156311035,
+                    12.414804458618164
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -256,7 +230,13 @@
                     1.0
                 ]
             },
-            "UUID": 10645030587141216093
+            "UUID": 2983152474793087834,
+            "VelocityComponent": {
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            }
         },
         {
             "RelationshipComponent": {
@@ -295,33 +275,6 @@
                 ]
             },
             "UUID": 17783145805184974856
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "TagComponent": {
-                "tag": "ScriptableEntity"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 2936736475463939134
         }
     ],
     "SceneInfo": {

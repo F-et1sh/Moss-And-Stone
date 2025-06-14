@@ -1,12 +1,15 @@
 #include "forpch.h"
 #include "ScriptFactory.h"
 
-ScriptableEntity* FE2D::ScriptFactory::CreateRenderer(const std::string& name) {
+std::unique_ptr<ScriptableEntity> FE2D::ScriptFactory::CreateScript(const std::string& name, Entity entity) {
     std::lock_guard<std::mutex> lock(m_Mutex);
 
     auto it = m_FactoryMap.find(name);
     if (it == m_FactoryMap.end())
         return nullptr;
 
-    return it->second();
+    std::unique_ptr<ScriptableEntity> scriptable_entity = it->second();
+    scriptable_entity->setContext(entity);
+
+    return scriptable_entity;
 }

@@ -5,7 +5,7 @@ namespace FE2D {
 
     class FOR_API ScriptFactory {
     private:
-        using ScriptEntry = std::function<ScriptableEntity* ()>;
+        using ScriptEntry = std::function<std::unique_ptr<ScriptableEntity>()>;
     public:
         FOR_CLASS_NONCOPYABLE(ScriptFactory)
 
@@ -14,12 +14,12 @@ namespace FE2D {
             return script_factory;
         }
 
-        template<typename T>
+        template<typename T> requires std::is_base_of_v<ScriptableEntity, T>
         inline bool RegisterScript(const std::string& name) {
             std::lock_guard<std::mutex> lock(m_Mutex);
 
             if (m_FactoryMap.find(name) == m_FactoryMap.end()) {
-                m_FactoryMap.emplace(name, []()->ScriptableEntity* { return new T(); });
+                m_FactoryMap.emplace(name, []()->std::unique_ptr<ScriptableEntity> { return std::make_unique<T>(); });
                 return true;
             }
 
@@ -28,7 +28,7 @@ namespace FE2D {
         }
 
         inline const auto& GetRegisteredScripts()const noexcept { return m_FactoryMap; }
-        ScriptableEntity* CreateRenderer(const std::string& name);
+        std::unique_ptr<ScriptableEntity> CreateScript(const std::string& name, Entity entity);
 
     private:
         ScriptFactory() = default;

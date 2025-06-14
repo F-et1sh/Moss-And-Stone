@@ -287,6 +287,26 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<NativeScriptComponent>("Script", entity, [&](auto& component) {
-		component.instance->OnEditorPanel(*this->m_ImGui);
+		if (ImGui::Button("Change script"))
+			ImGui::OpenPopup("ScriptList");
+
+		if (ImGui::BeginPopup("ScriptList")) {
+			const auto& scripts = ScriptFactory::Instance().GetRegisteredScripts();
+			for (const auto& pair : scripts) {
+				std::string script_name = pair.first;
+
+				if (ImGui::MenuItem(script_name.c_str())) {
+					component.instance = ScriptFactory::Instance().CreateScript(script_name, entity);
+					component.script_name = script_name;
+				}
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::Separator();
+
+		if (component.instance)
+			component.instance->OnEditorPanel(*this->m_ImGui);
 		});
 }
