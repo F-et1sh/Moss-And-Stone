@@ -24,7 +24,7 @@ namespace FE2D {
 		}
 
 		void OnEditorPanel(IMGUI& imgui)override {
-			SAY("TestScript : Edited");
+			ImGui::Text("TestScript : Editing");
 		}
 	};
 }
