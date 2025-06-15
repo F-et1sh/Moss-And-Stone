@@ -54,7 +54,7 @@
     <ClCompile Include="Code\ResourceModule.cpp" />
     <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Code\SceneSerializer.cpp" />
-    <ClCompile Include="Code\Script.cpp" />
+    <ClCompile Include="Code\TestScript.cpp" />
     <ClCompile Include="Code\ScriptableEntity.cpp" />
     <ClCompile Include="Code\ScriptFactory.cpp" />
     <ClCompile Include="Code\ScriptManagerSystem.cpp" />
@@ -170,7 +170,7 @@
     <ClInclude Include="Code\ResourceModule.h" />
     <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\SceneSerializer.h" />
-    <ClInclude Include="Code\Script.h" />
+    <ClInclude Include="Code\TestScript.h" />
     <ClInclude Include="Code\ScriptableEntity.h" />
     <ClInclude Include="Code\ScriptFactory.h" />
     <ClInclude Include="Code\ScriptManagerSystem.h" />

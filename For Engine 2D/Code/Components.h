@@ -1,7 +1,5 @@
 #pragma once
-#include "SceneSerializer.h"
 #include "UUID.h"
-
 #include "Animation.h"
 
 namespace FE2D {

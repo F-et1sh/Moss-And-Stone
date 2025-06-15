@@ -1,8 +1,6 @@
 #include "forpch.h"
 #include "SceneSerializer.h"
 
-#include "Scene.h"
-
 bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& full_path) {
 	std::ofstream file(full_path);
 	if (!file.good()) {
@@ -174,8 +172,16 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 		NativeScriptComponent& component = entity.AddComponent<NativeScriptComponent>();
 
 		SceneSerializer::load_value(component.script_name, j_component, "script_name");
+		if (!ScriptFactory::Instance().GetRegisteredScripts().contains(component.script_name)) {
+			SAY("WARNING : Failed to deserialize a scriptable entity" << 
+				"\nFailed to find script name in the list. Using empty name" << 
+				"\nName : " << component.script_name.c_str());
+			component.script_name.clear();
+			continue;
+		}
+
 		component.instance = ScriptFactory::Instance().CreateScript(component.script_name, entity);
-		component.instance->Deserialize(j_component["instance"]);
+		component.instance->Deserialize(j_component["script_data"]);
 	}
 
 	// deserialize scene info after entities
@@ -301,7 +307,7 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 
 		json j_component;
 		SceneSerializer::save_value(component.script_name, j_component, "script_name");
-		SceneSerializer::save_value(component.instance ? component.instance->Serialize() : json(), j_component, "instance");
+		SceneSerializer::save_value(component.instance ? component.instance->Serialize() : json(), j_component, "script_data");
 
 		j["NativeScriptComponent"] = j_component;
 	}

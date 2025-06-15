@@ -1,10 +1,8 @@
 #pragma once
+#include "ComponentField.h"
+#include "Scene.h"
 
 namespace FE2D {
-    /* forward declarations */
-    class Scene;
-    class Entity;
-
 	class FOR_API SceneSerializer {
 	public:
 		SceneSerializer(Scene* scene) : m_Scene(scene) {}
@@ -17,8 +15,21 @@ namespace FE2D {
         
         void SerializeSceneInfo(json& j);
         bool DeserializeSceneInfo(const json& j);
+    
+    private:
+        Scene* m_Scene = nullptr;
 
 	public:
+        static void save_entity(Entity entity, json& j, const std::string& name) {
+            if (!entity.HasComponent<IDComponent>()) return;
+            j[name] = entity.GetComponent<IDComponent>().id.ToString();
+        }
+
+        template<typename T>
+        static void save_component_field(ComponentField<T> field, json& j, const std::string& name) {
+            j[name] = field.entity.GetUUID().ToString();
+        }
+
         template<typename T> requires std::is_base_of_v<IResource, T>
         static void save_resource_id(ResourceID<T> id, json& j, const std::string& name) {
             j[name] = id.uuid.ToString();
@@ -57,18 +68,30 @@ namespace FE2D {
             j[name] = { value.x, value.y, value.z, value.w };
         }
     public:
+        static void load_entity(Entity& entity, const json& j, const std::string& name, Scene* scene) {
+            if (!j.contains(name)) return;
+
+            FE2D::UUID uuid = FE2D::UUID(j[name].get<std::string>());
+            entity = scene->GetEntityByUUID(uuid);
+        }
+
+        template<typename T>
+        static void load_component_field(ComponentField<T>& field, const json& j, const std::string& name, Scene* scene) {
+            if (!j.contains(name)) return;
+
+            FE2D::UUID uuid = FE2D::UUID(j[name].get<std::string>());
+            field.entity = scene->GetEntityByUUID(uuid);
+        }
+
         template<typename T> requires std::is_base_of_v<IResource, T>
         static void load_resource_id(ResourceID<T>& id, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
-
             id.uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
         template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
         static void load_value(T& value, const json& j, const std::string& name) {
-            if (!j.contains(name))
-                return;
-
+            if (!j.contains(name)) return;
             value = j[name].get<T>();
         }
 
@@ -97,36 +120,30 @@ namespace FE2D {
         }
 
         static void load_value(std::wstring& value, const json& j, const std::string& name) {
-            if (!j.contains(name))
-                return;
+            if (!j.contains(name)) return;
 
             std::string load_value = j[name].get<std::string>();
             value = FE2D::string_to_wstring(load_value);
         }
 
         static void load_vec2(vec2& value, const json& j, const std::string& name) {
-            if (!j.contains(name))
-                return;
+            if (!j.contains(name)) return;
 
             auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>() };
         }
         static void load_vec3(vec3& value, const json& j, const std::string& name) {
-            if (!j.contains(name))
-                return;
+            if (!j.contains(name)) return;
 
             auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>(), load_value[2].get<float>() };
         }
         static void load_vec4(vec4& value, const json& j, const std::string& name) {
-            if (!j.contains(name))
-                return;
+            if (!j.contains(name)) return;
 
             auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>(), load_value[2].get<float>(), load_value[3].get<float>() };
         }
-	private:
-		Scene* m_Scene = nullptr;
 	};
 
 }

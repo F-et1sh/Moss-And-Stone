@@ -90,5 +90,6 @@ using namespace glm;
 
 // Scene Management
 #include "Scene.h"
+#include "SceneSerializer.h"
 
 using namespace FE2D;

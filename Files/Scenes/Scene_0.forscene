@@ -186,11 +186,8 @@
                 ]
             },
             "NativeScriptComponent": {
-                "instance": {
-                    "entity": "16630230342371280596",
-                    "transform": "10645030587141216093"
-                },
-                "script_name": "AnotherScript"
+                "script_data": null,
+                "script_name": "Test Script"
             },
             "PlayerComponent": null,
             "RelationshipComponent": {

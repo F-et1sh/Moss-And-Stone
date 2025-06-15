@@ -1,9 +1,6 @@
 #include "forpch.h"
 #include "SceneHierarchyPanel.h"
 
-#include "ContentBrowser.h"
-#include "Scene.h"
-
 void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker) {
 	m_Context = &context;
 	m_ImGui = &imgui;
