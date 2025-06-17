@@ -55,9 +55,6 @@
     <Filter Include="Code\Event System">
       <UniqueIdentifier>{3c7ad39d-2090-4dd2-aa14-8ce96e856e7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Event System\Event">
-      <UniqueIdentifier>{68d26f98-24a0-42a5-83d4-2c246e79186c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Event System\Event Dispatcher">
       <UniqueIdentifier>{65c66fd8-7c40-4035-8ffc-c6230d38396a}</UniqueIdentifier>
     </Filter>
@@ -310,6 +307,15 @@
     <Filter Include="Code\ECS\Scripts\Test Script">
       <UniqueIdentifier>{b5bccd6f-e7ed-4004-a1f3-d5d46bdff72c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\Scripts\Player Controller">
+      <UniqueIdentifier>{039b3d26-32c2-4f07-90cd-e594332dcb32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Event System\Event %28 inherit %29">
+      <UniqueIdentifier>{68d26f98-24a0-42a5-83d4-2c246e79186c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Event System\Subscription">
+      <UniqueIdentifier>{b5bac8a7-f1a5-46de-b3ab-065af3b2a789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -357,8 +363,8 @@
     <ClCompile Include="Code\EventTypes.cpp">
       <Filter>Code\Event System\Event Types</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Event.cpp">
-      <Filter>Code\Event System\Event</Filter>
+    <ClCompile Include="Code\IEvent.cpp">
+      <Filter>Code\Event System\Event %28 inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\EventDispatcher.cpp">
       <Filter>Code\Event System\Event Dispatcher</Filter>
@@ -537,6 +543,12 @@
     <ClCompile Include="Code\ScriptManagerSystem.cpp">
       <Filter>Code\ECS\System\ScriptManager</Filter>
     </ClCompile>
+    <ClCompile Include="Code\PlayerController.cpp">
+      <Filter>Code\ECS\Scripts\Player Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EventSubscription.cpp">
+      <Filter>Code\Event System\Subscription</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\forpch.h">
@@ -605,8 +617,8 @@
     <ClInclude Include="Code\FOR_GLFW.h">
       <Filter>Code\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Event.h">
-      <Filter>Code\Event System\Event</Filter>
+    <ClInclude Include="Code\IEvent.h">
+      <Filter>Code\Event System\Event %28 inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\EventDispatcher.h">
       <Filter>Code\Event System\Event Dispatcher</Filter>
@@ -784,6 +796,12 @@
     </ClInclude>
     <ClInclude Include="Code\ScriptManagerSystem.h">
       <Filter>Code\ECS\System\ScriptManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\PlayerController.h">
+      <Filter>Code\ECS\Scripts\Player Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\EventSubscription.h">
+      <Filter>Code\Event System\Subscription</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,9 +3,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Event.h"
 #include "EventTypes.h"
 #include "EventDispatcher.h"
+#include "EventSubscription.h"
 
 // Power of V-Syn While Game is not Maximized
 #define FOR_LOW_OPERATION_MODE 4
@@ -27,7 +27,7 @@ namespace FE2D {
 		Window(const vec2& window_size, const std::string& window_name, int monitor) {
 			this->Initialize(window_size, window_name, monitor);
 		}
-
+		
 		// Close and Delete the Window
 		void Release();
 
@@ -104,26 +104,24 @@ namespace FE2D {
 
 #pragma region Event System
 
-	private:
+	public:
 		EventDispatcher m_EventDispatcher;
 
 	public:
 		// This function will return you listener's index you added
 		// With this index you can unsubscribe on an event
 		// 
-		// @param You can find event type in Event::EventType, and to use it - use the class with the same name
+		// @param You can find event type in EventType, and to use it - use the class with the same name
 		//
 		// @param Second parameter needs std::function<void(const Event&)>
-		inline size_t SubscribeOnEvent(const Event::EventType& type, const EventDispatcher::Listener& listener) {
-			return m_EventDispatcher.subscribe(type, listener);
+		inline void SubscribeOnEvent(EventSubscription& subscription, EventType type, const EventDispatcher::Listener& listener) {
+			subscription.set_context(this, type, m_EventDispatcher.subscribe(type, listener));
 		}
 
-		inline void UnsubscribeOnEvent(const Event::EventType& type, EventDispatcher::ListenerID id) {
+		inline void UnsubscribeFromEvent(EventType type, EventDispatcher::ListenerID id) {
 			m_EventDispatcher.unsubscribe(type, id);
 		}
 		
-	private:
-		size_t m_WindowClose_EventIndex = 0;
 	public:
 		// when the window should close ( for example you press alt+f4 ) it will close
 		void setAutoClose(bool auto_close);
@@ -142,6 +140,12 @@ namespace FE2D {
 		int m_VSyn = 0;
 
 		int m_RefreshRate = 0;
+
+	private:
+		EventSubscription m_Event_AutoClose;
+		EventSubscription m_Event_WindowFocus;
+		EventSubscription m_Event_WindowLostFocus;
+		EventSubscription m_Event_WindowResized;
 
 	private:
 		GLFWwindow* m_Window = nullptr;

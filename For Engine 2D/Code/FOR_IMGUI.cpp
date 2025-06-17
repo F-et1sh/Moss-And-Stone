@@ -11,10 +11,7 @@ void FE2D::IMGUI::Release() {
 
         ImGui::DestroyContext();
     }
-
-    if (m_Window)
-        m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
-
+    
     m_Window = nullptr;
 	m_ResourceManager = nullptr;
     m_RenderContext = nullptr;
@@ -27,7 +24,7 @@ void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, Reso
     m_RenderContext = &render_context;
     m_ResourceManager = &resource_manager;
     
-    m_EventIndex = m_Window->SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
+    m_Window->SubscribeOnEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
         m_CtrlWasPressed = false; // mouse position will be shifted after window resizing and you need reset values
         });
 

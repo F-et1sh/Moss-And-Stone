@@ -10,8 +10,6 @@ namespace FE2D {
 		RenderContext() = default;
 		~RenderContext() = default;
 
-		// if you getting an error on unsubscribing most likely you releasing your window before RenderContext. You should switch them
-		void Release() { this->UnsubscribeOnEvents(); }
 		void Initialize();
 		void Initialize(Window& window);
 
@@ -40,11 +38,9 @@ namespace FE2D {
 
 	private:
 		void SubscribeOnEvents(Window& window);
-		void UnsubscribeOnEvents();
 
 		Window* m_Window = nullptr;
-
-		size_t m_EventIndex = 0; // index to delete the event
+		EventSubscription m_Event_WindowResized;
 
 		friend class Window;
 	};

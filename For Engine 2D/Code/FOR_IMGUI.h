@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Components.h"
 #include "ComponentField.h"
+#include "EventSubscription.h"
 
 namespace FE2D {
 	/* forward declarations */
@@ -111,7 +112,7 @@ namespace FE2D {
 
 	private:
 		Window* m_Window = nullptr;
-		size_t m_EventIndex = 0; // to unsubscribe from WindowResized event
+		EventSubscription m_Event_WindowResized;
 
 		RenderContext* m_RenderContext = nullptr;
 

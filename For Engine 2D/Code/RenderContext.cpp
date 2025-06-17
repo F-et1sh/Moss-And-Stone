@@ -4,8 +4,6 @@
 #include "Window.h"
 
 void FE2D::RenderContext::Initialize() {
-	this->Release();
-
 	this->UpdateWindowResolution(LOGICAL_RESOLUTION);
 	this->UpdateProjection();
 
@@ -13,8 +11,6 @@ void FE2D::RenderContext::Initialize() {
 }
 
 void FE2D::RenderContext::Initialize(Window& window) {
-	this->Release();
-
 	this->UpdateWindowResolution(window.getResolution());
 	this->UpdateProjection();
 
@@ -38,7 +34,7 @@ void FE2D::RenderContext::UpdateProjection() noexcept {
 }
 
 void FE2D::RenderContext::SubscribeOnEvents(Window& window) {
-	m_EventIndex = window.SubscribeOnEvent(Event::EventType::WindowResized, [&](const Event& e) {
+	window.SubscribeOnEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
 		const WindowResized* _event = static_cast<const WindowResized*>(&e);
 		this->UpdateWindowResolution(_event->size);
 		this->UpdateProjection();
@@ -46,11 +42,4 @@ void FE2D::RenderContext::SubscribeOnEvents(Window& window) {
 		this->setViewport(vec4(0, 0, _event->size));
 		});
 	m_Window = &window;
-}
-
-void FE2D::RenderContext::UnsubscribeOnEvents() {
-	if (!m_Window) return;
-
-	m_Window->UnsubscribeOnEvent(Event::EventType::WindowResized, m_EventIndex);
-	m_Window = nullptr;
 }

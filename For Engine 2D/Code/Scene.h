@@ -34,6 +34,7 @@ namespace FE2D {
 		void EmplaceEntity(Entity entity);
 
 		inline entt::registry& getRegistry()noexcept { return m_Registry; }
+		inline Window& getContextWindow()noexcept { return *m_Window; }
 
 	public:
 

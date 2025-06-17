@@ -24,6 +24,7 @@
     <ClCompile Include="Code\ComponentField.cpp" />
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
+    <ClCompile Include="Code\PlayerController.cpp" />
     <ClCompile Include="Code\PlayerControllerSystem.cpp" />
     <ClCompile Include="Code\RenderContext.cpp" />
     <ClCompile Include="Code\ResourceCache.cpp" />
@@ -54,6 +55,7 @@
     <ClCompile Include="Code\ResourceModule.cpp" />
     <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Code\SceneSerializer.cpp" />
+    <ClCompile Include="Code\EventSubscription.cpp" />
     <ClCompile Include="Code\TestScript.cpp" />
     <ClCompile Include="Code\ScriptableEntity.cpp" />
     <ClCompile Include="Code\ScriptFactory.cpp" />
@@ -63,7 +65,7 @@
     <ClCompile Include="Code\ISystemBase.cpp" />
     <ClCompile Include="Code\Test.cpp" />
     <ClCompile Include="Code\UI_Button.cpp" />
-    <ClCompile Include="Code\Event.cpp" />
+    <ClCompile Include="Code\IEvent.cpp" />
     <ClCompile Include="Code\EventDispatcher.cpp" />
     <ClCompile Include="Code\EventTypes.cpp" />
     <ClCompile Include="Code\forchar.cpp" />
@@ -145,6 +147,7 @@
     <ClInclude Include="Code\fortraits.hpp" />
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />
+    <ClInclude Include="Code\PlayerController.h" />
     <ClInclude Include="Code\PlayerControllerSystem.h" />
     <ClInclude Include="Code\RenderContext.h" />
     <ClInclude Include="Code\ResourceCache.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="Code\ResourceModule.h" />
     <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\SceneSerializer.h" />
+    <ClInclude Include="Code\EventSubscription.h" />
     <ClInclude Include="Code\TestScript.h" />
     <ClInclude Include="Code\ScriptableEntity.h" />
     <ClInclude Include="Code\ScriptFactory.h" />
@@ -178,7 +182,7 @@
     <ClInclude Include="Code\ISystemBase.h" />
     <ClInclude Include="Code\Test.h" />
     <ClInclude Include="Code\UI_Button.h" />
-    <ClInclude Include="Code\Event.h" />
+    <ClInclude Include="Code\IEvent.h" />
     <ClInclude Include="Code\EventDispatcher.h" />
     <ClInclude Include="Code\EventTypes.h" />
     <ClInclude Include="Code\forconvert.hpp" />

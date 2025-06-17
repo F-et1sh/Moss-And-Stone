@@ -53,7 +53,6 @@ namespace FE2D {
 
 	private:
 		Camera m_EditorCamera;
-
 		Framebuffer m_GameFramebuffer;
 
 	private:
@@ -70,5 +69,11 @@ namespace FE2D {
 
 		ResourceManager m_ResourceManager;
 		ContentBrowser m_ContentBrowser;
+
+	private:
+		EventSubscription m_Event_WindowClosed;
+		EventSubscription m_Event_WindowFocus;
+		EventSubscription m_Event_KeyPressed;
+		EventSubscription m_Event_MouseWheelScrolled;
 	};
 }

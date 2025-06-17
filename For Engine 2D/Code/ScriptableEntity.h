@@ -7,10 +7,12 @@ namespace FE2D {
 		ScriptableEntity() = default;
 		virtual ~ScriptableEntity() = default;
 
-		void setContext(Entity entity)noexcept {
-			this->m_EntityHandle = entity.m_EntityHandle;
-			this->m_Scene = entity.m_Scene;
+		inline void setContext(Entity entity)noexcept {
+			m_EntityHandle = entity.m_EntityHandle;
+			m_Scene = entity.m_Scene;
 		}
+
+		inline Entity this_entity()const noexcept { return { m_EntityHandle, m_Scene }; }
 
 		virtual void OnStart() {}
 		virtual void OnUpdate(double deltaTime) {}
@@ -19,5 +21,10 @@ namespace FE2D {
 		virtual void Deserialize(const json& j) {}
 
 		virtual void OnEditorPanel(IMGUI& imgui) {}
+	
+	private:
+		
 	};
+#define SAVE_COMPONENT_FIELD(field) SceneSerializer::save_component_field(field, j, #field);
+#define LOAD_COMPONENT_FIELD(field) SceneSerializer::load_component_field(field, j, #field, m_Scene);
 }

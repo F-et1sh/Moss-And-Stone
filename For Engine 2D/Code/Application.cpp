@@ -4,7 +4,6 @@
 void FE2D::Application::Release() {
 	m_SceneManager.Release();
 	m_ResourceManager.Release();
-	m_RenderContext.Release();
 	m_Window.Release();
 	GLFW::Release();
 }
