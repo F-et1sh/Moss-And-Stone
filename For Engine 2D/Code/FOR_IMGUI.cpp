@@ -2,7 +2,7 @@
 #include "FOR_IMGUI.h"
 
 #include "RenderContext.h"
-#include "Window.h"
+
 
 void FE2D::IMGUI::Release() {
     if (ImGui::GetCurrentContext()) {

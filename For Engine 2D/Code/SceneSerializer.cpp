@@ -317,10 +317,9 @@ void FE2D::SceneSerializer::SerializeSceneInfo(json& j) {
 	json info;
 	info["SceneIndex"]			   = m_Scene->getIndex();
 
-	info["SpriteRendererSystem"]   = m_Scene->m_SpriteRendererSystem  ->Serialize();
-	info["PlayerControllerSystem"] = m_Scene->m_PlayerControllerSystem->Serialize();
-	info["PhysicsSystem"]		   = m_Scene->m_PhysicsSystem		  ->Serialize();
-	info["AnimationSystem"]		   = m_Scene->m_AnimationSystem		  ->Serialize();
+	info["SpriteRendererSystem"]   = m_Scene->m_SpriteRendererSystem->Serialize();
+	info["PhysicsSystem"]		   = m_Scene->m_PhysicsSystem		->Serialize();
+	info["AnimationSystem"]		   = m_Scene->m_AnimationSystem		->Serialize();
 
 	j["SceneInfo"] = info;
 }
@@ -340,10 +339,9 @@ bool FE2D::SceneSerializer::DeserializeSceneInfo(const json& j) {
 
 	SceneSerializer::load_value(m_Scene->m_Index, info, "SceneIndex");
 
-	if (info.contains("SpriteRendererSystem"))      m_Scene->m_SpriteRendererSystem	 ->Deserialize(info["SpriteRendererSystem"]);
-	if (info.contains("PlayerControllerSystem"))    m_Scene->m_PlayerControllerSystem->Deserialize(info["PlayerControllerSystem"]);
-	if (info.contains("PhysicsSystem"))             m_Scene->m_PhysicsSystem		 ->Deserialize(info["PhysicsSystem"]);
-	if (info.contains("AnimationSystem"))           m_Scene->m_AnimationSystem		 ->Deserialize(info["AnimationSystem"]);
+	if (info.contains("SpriteRendererSystem"))      m_Scene->m_SpriteRendererSystem->Deserialize(info["SpriteRendererSystem"]);
+	if (info.contains("PhysicsSystem"))             m_Scene->m_PhysicsSystem	   ->Deserialize(info["PhysicsSystem"]);
+	if (info.contains("AnimationSystem"))           m_Scene->m_AnimationSystem	   ->Deserialize(info["AnimationSystem"]);
 
 	return true;
 }

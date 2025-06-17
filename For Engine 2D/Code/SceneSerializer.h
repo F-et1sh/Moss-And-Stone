@@ -21,12 +21,13 @@ namespace FE2D {
 
 	public:
         static void save_entity(Entity entity, json& j, const std::string& name) {
-            if (!entity.HasComponent<IDComponent>()) return;
+            if (!entity) return;
             j[name] = entity.GetComponent<IDComponent>().id.ToString();
         }
 
         template<typename T>
         static void save_component_field(ComponentField<T> field, json& j, const std::string& name) {
+            if (!field.entity) return;
             j[name] = field.entity.GetUUID().ToString();
         }
 

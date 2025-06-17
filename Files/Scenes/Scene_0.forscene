@@ -1,199 +1,12 @@
 {
     "Entities": [
         {
-            "RelationshipComponent": {
-                "children": [
-                    17783145805184974856,
-                    11300518767558739515
-                ],
-                "parent": 0
-            },
-            "TagComponent": {
-                "tag": "Ground"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 10645030587141216093
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": true,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    80.0,
-                    80.0
-                ],
-                "texture": "3942227103286119618"
-            },
-            "TagComponent": {
-                "tag": "Carter"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    16.972274780273438,
-                    2.858489990234375
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    0.15000000596046448,
-                    0.15000000596046448
-                ]
-            },
-            "UUID": 16630230342371280596
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 10645030587141216093
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    16.0,
-                    16.0
-                ],
-                "texture": "11974836725074382672"
-            },
-            "TagComponent": {
-                "tag": "tile02"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -5,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    16.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 11300518767558739515
-        },
-        {
-            "AnimatorComponent": {
-                "animations": [
-                    {
-                        "id": "11504005120465886007",
-                        "name": "Attack"
-                    }
-                ],
-                "current_animation": "11504005120465886007",
-                "time": 0.0
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 2983152474793087834
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    20.0,
-                    20.0
-                ],
-                "texture": "5095026631698686117"
-            },
-            "TagComponent": {
-                "tag": "Sword"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 6,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    12.291333198547363,
-                    0.8863720893859863
-                ],
-                "rotation": 30.200000762939453,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 4471840042247139185
-        },
-        {
-            "AnimatorComponent": {
-                "animations": [
-                    {
-                        "id": "6381951605241949636",
-                        "name": "WalkUp"
-                    },
-                    {
-                        "id": "11039116287368755249",
-                        "name": "WalkRightUp"
-                    },
-                    {
-                        "id": "586694841512290349",
-                        "name": "WalkDown"
-                    },
-                    {
-                        "id": "2065295205648881081",
-                        "name": "WalkRightDown"
-                    }
-                ],
-                "current_animation": "2065295205648881081",
-                "time": 0.0
-            },
-            "CameraComponent": {
-                "clear_color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
             "NativeScriptComponent": {
                 "script_data": null,
-                "script_name": "Test Script"
+                "script_name": "PlayerController"
             },
-            "PlayerComponent": null,
             "RelationshipComponent": {
-                "children": [
-                    4471840042247139185
-                ],
+                "children": [],
                 "parent": 0
             },
             "SpriteComponent": {
@@ -202,13 +15,13 @@
                 "frame": [
                     0.0,
                     0.0,
-                    7.0,
+                    42.0,
                     26.0
                 ],
-                "texture": "6717621450190303964"
+                "texture": "5326511936020937367"
             },
             "TagComponent": {
-                "tag": "Player"
+                "tag": "Artem"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -218,50 +31,6 @@
                     0.0
                 ],
                 "position": [
-                    -1.1397271156311035,
-                    12.414804458618164
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 2983152474793087834,
-            "VelocityComponent": {
-                "velocity": [
-                    0.0,
-                    0.0
-                ]
-            }
-        },
-        {
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 10645030587141216093
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    16.0,
-                    16.0
-                ],
-                "texture": "6178231784002649046"
-            },
-            "TagComponent": {
-                "tag": "tile01"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -5,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
                     0.0,
                     0.0
                 ],
@@ -271,15 +40,12 @@
                     1.0
                 ]
             },
-            "UUID": 17783145805184974856
+            "UUID": 16602346664228839650
         }
     ],
     "SceneInfo": {
         "AnimationSystem": null,
         "PhysicsSystem": null,
-        "PlayerControllerSystem": {
-            "Player": "2983152474793087834"
-        },
         "SceneIndex": 0,
         "SpriteRendererSystem": null
     }

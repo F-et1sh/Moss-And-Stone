@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneHierarchyPanel.h"
 
-#include "Window.h"
+
 #include "Camera.h"
 #include "ButtonManager.h"
 

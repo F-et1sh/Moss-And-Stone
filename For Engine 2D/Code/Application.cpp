@@ -2,6 +2,9 @@
 #include "Application.h"
 
 void FE2D::Application::Release() {
+	m_ResourceManager.save_resources();
+	m_SceneManager.SaveCurrentScene();
+
 	m_SceneManager.Release();
 	m_ResourceManager.Release();
 	m_Window.Release();

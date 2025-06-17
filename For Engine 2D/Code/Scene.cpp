@@ -28,7 +28,6 @@ void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, Reso
 	m_ResourceManager = &resource_manager;
 
 	m_SpriteRendererSystem	 = this->CreateSystem<SpriteRendererSystem>();
-	m_PlayerControllerSystem = this->CreateSystem<PlayerControllerSystem>();
 	m_PhysicsSystem			 = this->CreateSystem<PhysicsSystem>();
 	m_AnimationSystem		 = this->CreateSystem<AnimationSystem>();
 	m_ScriptManagerSystem	 = this->CreateSystem<ScriptManagerSystem>();
@@ -103,25 +102,16 @@ void FE2D::Scene::Start() {
 
 void FE2D::Scene::Update() {
 
-	/* Input */
-	m_PlayerControllerSystem->Update();
-	
-	/* Calculations */
+	m_ScriptManagerSystem->OnUpdate();
 	m_PhysicsSystem->Update();
 	
-	/* Post-Calculations */
-	m_ScriptManagerSystem->OnUpdate();
-
 	//vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
 	//m_Camera.setPosition(cam_pos);
 }
 
 void FE2D::Scene::Render() {
 
-	/* Animation */
 	m_AnimationSystem->Render();
-
-	/* Sprite Renderer */
 	m_SpriteRendererSystem->Render();
 
 	/* .. */

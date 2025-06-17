@@ -3,7 +3,6 @@
 
 #include "ISystemBase.h"
 #include "SpriteRendererSystem.h"
-#include "PlayerControllerSystem.h"
 #include "PhysicsSystem.h"
 #include "AnimationSystem.h"
 #include "ScriptManagerSystem.h"
@@ -64,7 +63,6 @@ namespace FE2D {
 
 	private:
 		std::unique_ptr<SpriteRendererSystem>	m_SpriteRendererSystem;
-		std::unique_ptr<PlayerControllerSystem> m_PlayerControllerSystem;
 		std::unique_ptr<PhysicsSystem>			m_PhysicsSystem;
 		std::unique_ptr<AnimationSystem>		m_AnimationSystem;
 		std::unique_ptr<ScriptManagerSystem>	m_ScriptManagerSystem;

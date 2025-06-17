@@ -1,7 +1,7 @@
 #include "forpch.h"
 #include "RenderContext.h"
 
-#include "Window.h"
+
 
 void FE2D::RenderContext::Initialize() {
 	this->UpdateWindowResolution(LOGICAL_RESOLUTION);

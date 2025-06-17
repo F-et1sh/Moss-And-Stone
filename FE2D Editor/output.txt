@@ -1,1 +1,4 @@
-[json.exception.type_error.305] cannot use operator[] with a string argument with null
+RUNTIME ERROR : ERROR : ComponentField failure
+Entity name : <unknown>
+Component name : struct FE2D::SpriteComponent
+Message : Entity wasn't initialized

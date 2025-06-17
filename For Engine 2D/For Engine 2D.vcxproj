@@ -25,7 +25,6 @@
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\PlayerController.cpp" />
-    <ClCompile Include="Code\PlayerControllerSystem.cpp" />
     <ClCompile Include="Code\RenderContext.cpp" />
     <ClCompile Include="Code\ResourceCache.cpp" />
     <ClCompile Include="Code\ResourceID.cpp" />
@@ -148,7 +147,6 @@
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />
     <ClInclude Include="Code\PlayerController.h" />
-    <ClInclude Include="Code\PlayerControllerSystem.h" />
     <ClInclude Include="Code\RenderContext.h" />
     <ClInclude Include="Code\ResourceCache.h" />
     <ClInclude Include="Code\ResourceID.h" />

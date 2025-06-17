@@ -3,7 +3,7 @@
 
 namespace FE2D {  
 	template<typename T>  
-	struct FOR_API ComponentField {  
+	struct FOR_API ComponentField {
 		T* operator->() { return &get(); }  
 		const T* operator->()const { return &get(); }
 
@@ -13,43 +13,50 @@ namespace FE2D {
 		operator T& () { return get(); }  
 		operator const T& ()const { return get(); }
 
-		Entity operator=(Entity e) {  
-			entity = e;  
-			return entity;  
+		Entity operator=(Entity e) {
+			entity = e;
+			return entity;
 		}
 
 		T& get() {  
 #ifdef _DEBUG  
-			check_valid();  
-#endif  
-			return entity.GetComponent<T>();  
-		}  
-
-		const T& get()const {  
-#ifdef _DEBUG  
-			check_valid();  
+			check_valid();
 #endif  
 			return entity.GetComponent<T>();
 		}  
 
-		Entity entity;  
+		const T& get()const {  
+#ifdef _DEBUG  
+			check_valid();
+#endif  
+			return entity.GetComponent<T>();
+		}  
 
-	private:  
+	public:
+		Entity entity;
+
 #ifdef _DEBUG  
 		void check_valid()const {  
 			if (!entity) this->assert_error("Entity wasn't initialized");  
 			if (!entity.HasComponent<T>()) this->assert_error("Entity hasn't this component");  
 		}  
 
-		void assert_error(const std::string& message) const {  
-			std::string entity_name = "<unknown>";  
-			static const std::string_view component_name = typeid(T).name();  
+        void assert_error(const std::string& message) const {  
+            std::string entity_name = "<unknown>";  
+            static const std::string component_name = typeid(T).name();  
 
-			if (entity && entity.HasComponent<TagComponent>())  
-				entity_name = entity.GetComponent<TagComponent>().tag;  
+            if (entity && entity.HasComponent<TagComponent>())  
+                entity_name = entity.GetComponent<TagComponent>().tag;  
 
-			FOR_RUNTIME_ERROR("ERROR : ComponentField failure\nEntity name : " + entity_name + "\nComponent name : " + component_name + "\nMessage : " + message); 
-		}
-#endif  
+            std::ostringstream error_stream;  
+            error_stream << "ComponentField failure\nEntity name : " << entity_name  
+                         << "\nComponent name : " << component_name  
+                         << "\nMessage : " << message;  
+
+			FOR_RUNTIME_ERROR(error_stream.str());
+        }  
+#endif
+
+		friend class SceneSerializer;
 	};  
 }

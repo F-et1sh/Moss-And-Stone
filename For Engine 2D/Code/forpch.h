@@ -88,6 +88,9 @@ using namespace glm;
 // Resource Management
 #include "ResourceManager.h"
 
+// Window
+#include "Window.h"
+
 // Scene Management
 #include "Scene.h"
 #include "SceneSerializer.h"

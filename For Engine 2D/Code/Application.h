@@ -1,7 +1,6 @@
 #pragma once
 #include <forpch.h>
 
-#include "Window.h"
 #include "RenderContext.h"
 #include "SceneHierarchyPanel.h"
 #include "ContentBrowser.h"
