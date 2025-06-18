@@ -14,6 +14,11 @@ namespace FE2D {
 
 		inline Entity this_entity()const noexcept { return { m_EntityHandle, m_Scene }; }
 
+		void subscribe_to_event(EventType type, std::function<void(const IEvent& e)>&& func);
+		bool is_key_pressed(int key);
+
+		void OnEnd() { m_EventSubscription.clear(); }
+
 		virtual void OnStart() {}
 		virtual void OnUpdate(double deltaTime) {}
 
@@ -23,7 +28,7 @@ namespace FE2D {
 		virtual void OnEditorPanel(IMGUI& imgui) {}
 	
 	private:
-		
+		std::vector<EventSubscription> m_EventSubscription;
 	};
 #define SAVE_COMPONENT_FIELD(field) SceneSerializer::save_component_field(field, j, #field);
 #define LOAD_COMPONENT_FIELD(field) SceneSerializer::load_component_field(field, j, #field, m_Scene);

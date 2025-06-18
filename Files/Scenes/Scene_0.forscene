@@ -1,6 +1,16 @@
 {
     "Entities": [
         {
+            "AnimatorComponent": {
+                "animations": [
+                    {
+                        "id": "17761858592016308651",
+                        "name": "New Animation"
+                    }
+                ],
+                "current_animation": "0",
+                "time": 0.0
+            },
             "NativeScriptComponent": {
                 "script_data": null,
                 "script_name": "PlayerController"
@@ -15,10 +25,10 @@
                 "frame": [
                     0.0,
                     0.0,
-                    42.0,
-                    26.0
+                    20.0,
+                    14.0
                 ],
-                "texture": "5326511936020937367"
+                "texture": "10481742720340127963"
             },
             "TagComponent": {
                 "tag": "Artem"
@@ -36,8 +46,8 @@
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    1.0,
-                    1.0
+                    25.0,
+                    25.0
                 ]
             },
             "UUID": 16602346664228839650

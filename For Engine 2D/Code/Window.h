@@ -104,7 +104,7 @@ namespace FE2D {
 
 #pragma region Event System
 
-	public:
+	private:
 		EventDispatcher m_EventDispatcher;
 
 	public:

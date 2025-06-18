@@ -6,10 +6,10 @@ namespace FE2D {
     public:
         EventDispatcher() = default;
         ~EventDispatcher() = default;
-    public:
+    
         using Listener = std::function<void(const IEvent&)>;
         using ListenerID = size_t;
-    public:
+    
         // This function will return you listener's index you added
         // With this index you can unsubscribe on an event
         inline ListenerID subscribe(const EventType& type, const Listener& listener) {
@@ -30,7 +30,8 @@ namespace FE2D {
             // handle all of events here
             for (const auto& listener : typeListeners) listener.second(event);
         }
-    public:
+
+    private:
         ListenerID m_NextIndex = 0;
         std::unordered_map<EventType, std::unordered_map<ListenerID, Listener>> m_Listeners;
     };

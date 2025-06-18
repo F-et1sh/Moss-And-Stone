@@ -9,6 +9,7 @@ namespace FE2D {
 
 		void Initialize();
 
+		void OnEnd();
 		void OnStart();
 		void OnUpdate();
 

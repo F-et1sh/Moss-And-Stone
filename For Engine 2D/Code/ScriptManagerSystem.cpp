@@ -5,6 +5,19 @@ void FE2D::ScriptManagerSystem::Initialize()
 {
 }
 
+void FE2D::ScriptManagerSystem::OnEnd() {
+	entt::registry& registry = this->m_Scene->getRegistry();
+
+	auto view = registry.view<NativeScriptComponent>();
+	for (auto e : view) {
+		Entity entity = { e, m_Scene };
+		auto& nsc = entity.GetComponent<NativeScriptComponent>();
+		if (nsc.instance) {
+			nsc.instance->OnEnd();
+		}
+	}
+}
+
 void FE2D::ScriptManagerSystem::OnStart() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 

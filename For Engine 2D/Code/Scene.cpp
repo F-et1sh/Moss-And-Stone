@@ -76,8 +76,8 @@ void FE2D::Scene::EmplaceEntity(Entity entity) {
 	m_EntityMap.emplace(entity.GetUUID(), entity);
 }
 
-void FE2D::Scene::End()
-{
+void FE2D::Scene::End() {
+	this->m_ScriptManagerSystem->OnEnd();
 }
 
 // TODO : Rewrite camera logic
@@ -103,6 +103,7 @@ void FE2D::Scene::Start() {
 void FE2D::Scene::Update() {
 
 	m_ScriptManagerSystem->OnUpdate();
+
 	m_PhysicsSystem->Update();
 	
 	//vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;

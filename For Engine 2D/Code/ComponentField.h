@@ -32,7 +32,7 @@ namespace FE2D {
 			return entity.GetComponent<T>();
 		}  
 
-	public:
+	private:
 		Entity entity;
 
 #ifdef _DEBUG  

@@ -2,6 +2,8 @@
 #include "Application.h"
 
 void FE2D::Application::Release() {
+	m_SceneManager.EndGameSession();
+
 	m_ResourceManager.save_resources();
 	m_SceneManager.SaveCurrentScene();
 
