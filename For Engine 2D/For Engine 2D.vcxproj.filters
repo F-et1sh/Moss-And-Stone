@@ -313,6 +313,9 @@
     <Filter Include="Code\ECS\System\System Base %28 inherit %29">
       <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cursor">
+      <UniqueIdentifier>{a3551581-e45b-47d7-92f3-2452dbb5a3b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -542,6 +545,9 @@
     </ClCompile>
     <ClCompile Include="Code\EventSubscription.cpp">
       <Filter>Code\Event System\Subscription</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Cursor.cpp">
+      <Filter>Cursor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -793,6 +799,9 @@
     </ClInclude>
     <ClInclude Include="Code\EventSubscription.h">
       <Filter>Code\Event System\Subscription</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Cursor.h">
+      <Filter>Cursor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

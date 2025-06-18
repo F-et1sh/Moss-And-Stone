@@ -32,16 +32,16 @@
 //
 //	// Initialize Event Indices ( indices to delete )
 //	m_EventIndices.emplace(		 EventType::WindowResized,
-//		window->SubscribeOnEvent(EventType::WindowResized,       [this](const IEvent& e) {this->onWindowResized      (e); }));
+//		window->SubscribeToEvent(EventType::WindowResized,       [this](const IEvent& e) {this->onWindowResized      (e); }));
 //	
 //	m_EventIndices.emplace(		 EventType::MouseMoved,		        
-//		window->SubscribeOnEvent(EventType::MouseMoved,          [this](const IEvent& e) {this->onMouseMoved         (e); }));
+//		window->SubscribeToEvent(EventType::MouseMoved,          [this](const IEvent& e) {this->onMouseMoved         (e); }));
 //	
 //	m_EventIndices.emplace(		 EventType::MouseButtonPressed,
-//		window->SubscribeOnEvent(EventType::MouseButtonPressed,  [this](const IEvent& e) {this->onMouseButtonPressed (e); }));
+//		window->SubscribeToEvent(EventType::MouseButtonPressed,  [this](const IEvent& e) {this->onMouseButtonPressed (e); }));
 //	
 //	m_EventIndices.emplace(		 EventType::MouseButtonReleased,
-//		window->SubscribeOnEvent(EventType::MouseButtonReleased, [this](const IEvent& e) {this->onMouseButtonReleased(e); }));
+//		window->SubscribeToEvent(EventType::MouseButtonReleased, [this](const IEvent& e) {this->onMouseButtonReleased(e); }));
 //	
 //	m_WindowResolution = window->getResolution();
 //	m_WindowReference  = window;

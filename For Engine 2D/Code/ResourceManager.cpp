@@ -44,12 +44,6 @@ std::vector<std::filesystem::path> FE2D::ResourceManager::scan_folder(const std:
     return scanned;
 }
 
-void FE2D::ResourceManager::Release() {
-    this->m_ResourceCache.clear_resources();
-    this->m_ResourceCache.clear_metadata();
-    this->m_ResourceCache.clear_fallbacks();
-}
-
 void FE2D::ResourceManager::Initialize() {
     this->load_fallback_resources();
     this->load_available_metadata();

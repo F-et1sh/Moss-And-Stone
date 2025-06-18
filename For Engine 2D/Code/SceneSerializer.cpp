@@ -126,14 +126,6 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 			SceneSerializer::load_vec4(component.clear_color, j_component, "clear_color");
 		}
 
-		if (j_entity.contains("PlayerComponent")) {
-			PlayerComponent& component = deserialized_entity.AddComponent<PlayerComponent>();
-
-			json j_component = j_entity["PlayerComponent"];
-
-			 // ..
-		}
-
 		if (j_entity.contains("VelocityComponent")) {
 			VelocityComponent& component = deserialized_entity.AddComponent<VelocityComponent>();
 
@@ -256,15 +248,6 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		SceneSerializer::save_vec4(component.clear_color, j_component, "clear_color");
 
 		j["CameraComponent"] = j_component;
-	}
-
-	if (entity.HasComponent<PlayerComponent>()) {
-		auto& component = entity.GetComponent<PlayerComponent>();
-
-		json j_component;
-		// ..
-
-		j["PlayerComponent"] = j_component;
 	}
 
 	if (entity.HasComponent<VelocityComponent>()) {

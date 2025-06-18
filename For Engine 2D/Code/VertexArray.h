@@ -4,7 +4,7 @@ namespace FE2D {
 	class FOR_API VertexArray {
 	public:
 		VertexArray() = default;
-		~VertexArray() = default;
+		~VertexArray() { Unbind(); Delete(); }
 	public:
 		inline void Delete()noexcept;
 		inline void Create()noexcept;

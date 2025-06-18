@@ -21,6 +21,14 @@ namespace FE2D {
 			return m_AssetsPath;
 		}
 
+		inline std::filesystem::path get_application_path()const {
+			return this->get_assets_path() / L"Application";
+		}
+
+		inline std::filesystem::path get_cursors_path()const {
+			return this->get_application_path() / "Cursors";
+		}
+
 		inline std::filesystem::path get_scenes_path()const {
 			return this->get_assets_path() / L"Scenes";
 		}

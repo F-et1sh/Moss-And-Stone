@@ -1,8 +1,6 @@
 #include "forpch.h"
 #include "RenderContext.h"
 
-
-
 void FE2D::RenderContext::Initialize() {
 	this->UpdateWindowResolution(LOGICAL_RESOLUTION);
 	this->UpdateProjection();
@@ -16,7 +14,7 @@ void FE2D::RenderContext::Initialize(Window& window) {
 
 	this->setViewport(vec4(0, 0, window.getResolution()));
 	
-	this->SubscribeOnEvents(window);
+	this->SubscribeToEvents(window);
 }
 
 void FE2D::RenderContext::UpdateWindowResolution(const vec2& resolution)noexcept {
@@ -30,11 +28,11 @@ void FE2D::RenderContext::UpdateProjection() noexcept {
 
 	m_Projection = ortho(-logical_half_width , logical_half_width,
 						 -logical_half_height, logical_half_height,
-						 -1000.0f, 1000.0f);
+						 -m_Depth, m_Depth);
 }
 
-void FE2D::RenderContext::SubscribeOnEvents(Window& window) {
-	window.SubscribeOnEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
+void FE2D::RenderContext::SubscribeToEvents(Window& window) {
+	window.SubscribeToEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
 		const WindowResized* _event = static_cast<const WindowResized*>(&e);
 		this->UpdateWindowResolution(_event->size);
 		this->UpdateProjection();

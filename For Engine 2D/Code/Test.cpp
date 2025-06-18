@@ -61,7 +61,7 @@ void FE2D::Test::loop() {
 			texture_offsets.add(vec4(0, 0, texture.getSize()));
 		}
 
-		shader.Use();
+		shader.Bind();
 
 		atlas.bind();
 

@@ -1,7 +1,7 @@
 #include "forpch.h"
 #include "Scene.h"
 
-void FE2D::Scene::Release() {
+FE2D::Scene::~Scene() {
 	for (const auto& pair : m_EntityMap) {
 		Entity e = pair.second;
 
@@ -21,8 +21,6 @@ void FE2D::Scene::Release() {
 }
 
 void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
-	this->Release();
-
 	m_Window		  = &window;
 	m_RenderContext	  = &render_context;
 	m_ResourceManager = &resource_manager;
@@ -80,19 +78,16 @@ void FE2D::Scene::End() {
 	this->m_ScriptManagerSystem->OnEnd();
 }
 
-// TODO : Rewrite camera logic
-
 void FE2D::Scene::Start() {
-	/*bool camera_found = false;
+	bool camera_found = false;
 
 	auto view = m_Registry.view<TransformComponent, CameraComponent>();
 	view.each([&](auto entity, auto& transform, auto& camera) {
-		m_Camera.setPosition(transform.position);
 		m_CameraEntityUUID = Entity{ entity, this }.GetUUID();
 		camera_found = true;
 		});
-
-	if (!camera_found) SAY("WARNING : No camera found in the Scene");*/
+	
+	if (!camera_found) SAY("WARNING : No camera found in the Scene");
 
 	m_RenderContext->BindCamera(m_Camera);
 
@@ -105,9 +100,11 @@ void FE2D::Scene::Update() {
 	m_ScriptManagerSystem->OnUpdate();
 
 	m_PhysicsSystem->Update();
-	
-	//vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
-	//m_Camera.setPosition(cam_pos);
+
+	if (m_CameraEntityUUID != FE2D::UUID(0)) {
+		vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
+		m_Camera.setPosition(cam_pos);
+	}
 }
 
 void FE2D::Scene::Render() {

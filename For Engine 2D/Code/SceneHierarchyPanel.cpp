@@ -135,7 +135,6 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<TransformComponent>("Transform");
 		DisplayAddComponentEntry<SpriteComponent>("Sprite Renderer");
 		DisplayAddComponentEntry<CameraComponent>("Camera");
-		DisplayAddComponentEntry<PlayerComponent>("Player Controller");
 		DisplayAddComponentEntry<VelocityComponent>("Velocity");
 		DisplayAddComponentEntry<ColliderComponent>("Collider");
 		DisplayAddComponentEntry<CharacterAnimatorComponent>("Character Animator");
@@ -174,10 +173,6 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 	DrawComponent<CameraComponent>("Camera", entity, [&](auto& component) {
 		ImGui::ColorEdit4("Clear Color", (float*)&component.clear_color);
-		});
-
-	DrawComponent<PlayerComponent>("Player Controller", entity, [&](auto& component) {
-		// ..
 		});
 
 	DrawComponent<VelocityComponent>("Velocity", entity, [&](auto& component) {

@@ -24,7 +24,7 @@ void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, Reso
     m_RenderContext = &render_context;
     m_ResourceManager = &resource_manager;
     
-    m_Window->SubscribeOnEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
+    m_Window->SubscribeToEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
         m_CtrlWasPressed = false; // mouse position will be shifted after window resizing and you need reset values
         });
 

@@ -13,7 +13,8 @@ namespace FE2D {
 
 		void OnEditorDraw(IMGUI& imgui)override;
 
-		inline void bind()const noexcept;
+		inline void Bind()const noexcept;
+		inline void Unbind()const noexcept;
 
 		inline unsigned int reference() const noexcept { return m_Reference; }
 		inline bool is_Initialized()const noexcept { return m_Reference > 0; }

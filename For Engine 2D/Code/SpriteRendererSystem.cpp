@@ -7,9 +7,6 @@ void FE2D::SpriteRendererSystem::Release() {
 	m_Shader.Release();
 	m_UniformBuffer.release();
 
-	m_VertexArray.Delete();
-	m_VertexBuffer.Delete();
-
 	m_TextureAtlas.Release();
 }
 
@@ -137,10 +134,9 @@ void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, M
 }
 
 void FE2D::SpriteRendererSystem::DrawPickable(RenderContext& render_context, Shader& shader, UniformBuffer& ubo) {
-	if (m_Matrices.empty())
-		return;
+	if (m_Matrices.empty()) return;
 
-	shader.Use();
+	shader.Bind();
 
 	shader.setUniformMat4("u_ViewProj", render_context.getViewProjection());
 
@@ -161,10 +157,9 @@ void FE2D::SpriteRendererSystem::DrawPickable(RenderContext& render_context, Sha
 }
 
 void FE2D::SpriteRendererSystem::DrawSprites() {
-	if (m_Matrices.empty() || m_AtlasOffsets.empty())
-		return;
+	if (m_Matrices.empty() || m_AtlasOffsets.empty()) return;
 
-	m_Shader.Use();
+	m_Shader.Bind();
 
 	m_Shader.setUniformMat4("u_ViewProj", m_RenderContext->getViewProjection());
 

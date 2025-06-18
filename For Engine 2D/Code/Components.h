@@ -100,14 +100,6 @@ namespace FE2D {
         CameraComponent(const CameraComponent&) = default;
     };
 
-    struct FOR_API PlayerComponent {
-        float a = 0.0f; // temp value to compile the project
-
-        PlayerComponent() = default;
-        ~PlayerComponent() = default;
-        PlayerComponent(const PlayerComponent&) = default;
-    };
-
     struct FOR_API VelocityComponent {
         vec2 velocity = vec2();
 

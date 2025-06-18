@@ -7,6 +7,7 @@ namespace FE2D {
 		~ResourceCache() {
 			this->clear_resources();
 			this->clear_metadata();
+			this->clear_fallbacks();
 		}
 
 		FOR_CLASS_NONCOPYABLE(ResourceCache)

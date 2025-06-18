@@ -4,7 +4,7 @@ namespace FE2D {
 	class FOR_API VertexBuffer {
 	public:
 		VertexBuffer() = default;
-		~VertexBuffer() = default;
+		~VertexBuffer() { Unbind(); Delete(); }
 	public:
 		inline void Delete()noexcept;
 		inline void Create()noexcept;

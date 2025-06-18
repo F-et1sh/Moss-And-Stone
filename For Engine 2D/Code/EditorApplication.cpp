@@ -1,15 +1,12 @@
 #include "forpch.h"
 #include "EditorApplication.h"
 
-void FE2D::EditorApplication::Release() {
+FE2D::EditorApplication::~EditorApplication() {
 	m_MousePicker.Delete();
 
 	m_GameFramebuffer.Delete();
 
-	m_SceneManager.Release();
-
 	m_Window.Release();
-	m_ResourceManager.Release();
 
 	m_ImGui.Release();
 	GLFW::Release();
@@ -25,8 +22,8 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 	m_Window.setVSyn(true);
 	m_Window.setAutoClose(false);
 
-	m_Window.SubscribeOnEvent(m_Event_WindowClosed, EventType::WindowClosed, [&](const IEvent& e) { this->make_close_request(); });
-	m_Window.SubscribeOnEvent(m_Event_WindowFocus, EventType::WindowFocus, [&](const IEvent& e) {
+	m_Window.SubscribeToEvent(m_Event_WindowClosed, EventType::WindowClosed, [&](const IEvent& e) { this->make_close_request(); });
+	m_Window.SubscribeToEvent(m_Event_WindowFocus, EventType::WindowFocus, [&](const IEvent& e) {
 		// Reinitialize ImGui after window gained
 		try {
 			m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager);
@@ -37,13 +34,13 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 		}
 	);
 
-	m_Window.SubscribeOnEvent(m_Event_KeyPressed, EventType::KeyPressed, [&](const IEvent& e) {
+	m_Window.SubscribeToEvent(m_Event_KeyPressed, EventType::KeyPressed, [&](const IEvent& e) {
 		const KeyPressed& event = *static_cast<const KeyPressed*>(&e);
 		// CTRL + S
 		if (event.ctrl && event.key == GLFW_KEY_S) this->Save();
 		});
 
-	m_Window.SubscribeOnEvent(m_Event_MouseWheelScrolled, EventType::MouseWheelScrolled, [&](const IEvent& e) {
+	m_Window.SubscribeToEvent(m_Event_MouseWheelScrolled, EventType::MouseWheelScrolled, [&](const IEvent& e) {
 		if (!m_IsPreviewHovered) return;
 
 		const MouseWheelScrolled* wheel = static_cast<const MouseWheelScrolled*>(&e);

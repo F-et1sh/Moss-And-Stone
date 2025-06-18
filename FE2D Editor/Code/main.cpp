@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
 		FOR_PATH.init(argv[0], true); // instance of the PathManager
 		editor_app->Initialize(WINDOW_RESOLUTION, WINDOW_NAME, WINDOW_MONITOR);
 		editor_app->Loop();
-		editor_app->Release();
 	}
 	catch (const std::exception& e) {
 

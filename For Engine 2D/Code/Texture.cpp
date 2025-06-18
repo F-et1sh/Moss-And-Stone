@@ -89,7 +89,8 @@ void FE2D::Texture::OnEditorDraw(IMGUI& imgui) {
 	setIsLinear(m_IsLinear);
 }
 
-void FE2D::Texture::bind() const noexcept{ glBindTexture(GL_TEXTURE_2D, m_Reference); }
+void FE2D::Texture::Bind() const noexcept { glBindTexture(GL_TEXTURE_2D, m_Reference); }
+void FE2D::Texture::Unbind() const noexcept{ glBindTexture(GL_TEXTURE_2D, 0); }
 
 inline void FE2D::Texture::setIsLinear(bool linear) noexcept {
 	m_IsLinear = linear;

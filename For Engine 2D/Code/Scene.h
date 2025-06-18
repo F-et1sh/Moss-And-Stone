@@ -13,7 +13,7 @@ namespace FE2D {
 	class FOR_API Scene {
 	public:
 		Scene() = default;
-		~Scene() = default;
+		~Scene();
 
 		Scene(Scene&&) noexcept = default;
 		Scene& operator=(Scene&&) noexcept = default;
@@ -21,7 +21,6 @@ namespace FE2D {
 		Scene(const Scene&) = delete;
 		Scene& operator=(const Scene&) = delete;
 
-		void Release();
 		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
 
 	public:
@@ -67,7 +66,7 @@ namespace FE2D {
 		std::unique_ptr<AnimationSystem>		m_AnimationSystem;
 		std::unique_ptr<ScriptManagerSystem>	m_ScriptManagerSystem;
 
-		std::vector<ISystemBase*> m_SystemsList;
+		std::vector<ISystemBase*> m_SystemsList; // this mustn't free data of systems
 
 	private:
 		std::unordered_map<UUID, Entity> m_EntityMap;

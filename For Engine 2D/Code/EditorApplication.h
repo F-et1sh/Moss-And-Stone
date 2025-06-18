@@ -5,9 +5,8 @@ namespace FE2D {
 	class FOR_API EditorApplication {
 	public:
 		EditorApplication() = default;
-		~EditorApplication() = default;
-
-		void Release();
+		~EditorApplication();
+		
 		void Initialize(
 			const vec2& window_resolution = vec2(800, 600),
 			const std::string_view& window_name = "For Default Application",
@@ -16,6 +15,8 @@ namespace FE2D {
 
 	private:
 		Window m_Window;
+		ResourceManager m_ResourceManager;
+
 		RenderContext m_RenderContext;
 		
 		bool m_IsRunning = false;
@@ -67,7 +68,6 @@ namespace FE2D {
 		SceneManager m_SceneManager;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 
-		ResourceManager m_ResourceManager;
 		ContentBrowser m_ContentBrowser;
 
 	private:

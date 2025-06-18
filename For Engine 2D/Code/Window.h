@@ -22,7 +22,7 @@ namespace FE2D {
 	class FOR_API Window {
 	public:
 		Window() = default;
-		~Window() = default;
+		~Window() { Release(); }
 
 		Window(const vec2& window_size, const std::string& window_name, int monitor) {
 			this->Initialize(window_size, window_name, monitor);
@@ -114,7 +114,7 @@ namespace FE2D {
 		// @param You can find event type in EventType, and to use it - use the class with the same name
 		//
 		// @param Second parameter needs std::function<void(const Event&)>
-		inline void SubscribeOnEvent(EventSubscription& subscription, EventType type, const EventDispatcher::Listener& listener) {
+		inline void SubscribeToEvent(EventSubscription& subscription, EventType type, const EventDispatcher::Listener& listener) {
 			subscription.set_context(this, type, m_EventDispatcher.subscribe(type, listener));
 		}
 
@@ -126,6 +126,11 @@ namespace FE2D {
 		// when the window should close ( for example you press alt+f4 ) it will close
 		void setAutoClose(bool auto_close);
 
+#pragma endregion
+
+#pragma region Cursor
+		void HideCursor(bool hide);
+		void setCursorIcon(const std::filesystem::path& path);
 #pragma endregion
 
 	private:

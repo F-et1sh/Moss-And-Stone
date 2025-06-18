@@ -18,9 +18,11 @@ namespace FE2D {
 
 		inline const vec2& getResolution()const noexcept { return m_Resolution; }
 
-		inline const mat4& getView() const noexcept { return m_Camera->getView(); }
+		inline const mat4& getView()const noexcept { return m_Camera->getView(); }
 		inline const mat4& getProjection()const noexcept { return m_Projection; }
-		inline mat4 getViewProjection() const noexcept { return m_Projection * m_Camera->getView(); }
+		inline mat4 getViewProjection()const noexcept { return m_Projection * m_Camera->getView(); }
+		
+		inline float getDepth()const noexcept { return m_Depth; }
 
 		inline void setViewport(const vec4& viewport)noexcept { m_Viewport = viewport; GLFW::setViewport(m_Viewport); }
 		inline const vec4& getViewport()const noexcept { return m_Viewport; }
@@ -35,9 +37,10 @@ namespace FE2D {
 
 		mat4 m_Projection = mat4();
 		vec2 m_Resolution = vec2();
+		constexpr static float m_Depth = 1000.0f;
 
 	private:
-		void SubscribeOnEvents(Window& window);
+		void SubscribeToEvents(Window& window);
 
 		Window* m_Window = nullptr;
 		EventSubscription m_Event_WindowResized;

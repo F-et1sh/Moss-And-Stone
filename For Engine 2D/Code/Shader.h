@@ -22,7 +22,7 @@ namespace FE2D {
 		void Initialize(const std::wstring& vert_path, const std::wstring& frag_path);
 
 	public:
-		inline void Use()const noexcept;
+		inline void Bind()const noexcept;
 		inline void Unbind()const noexcept;
 
 		// Get Shader Program Refecence

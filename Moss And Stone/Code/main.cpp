@@ -24,7 +24,6 @@ int main(int argc, char* argv[]) {
 		return FAILED_EXIT;
 	}
 	app->Loop();
-	app->Release();
 
 	return SUCCESSFUL_EXIT;
 }

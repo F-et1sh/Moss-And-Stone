@@ -1,5 +1,5 @@
 #include "forpch.h"
-
+#include "Window.h"
 
 #include "stb_image.h"
 
@@ -61,7 +61,7 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 	{
 		/* Subscribe on Window Focus Event */
 		/* If the Window is not Focused Enable V-Syn | Make Context Current | Apply GLFW Callbacks */
-		this->SubscribeOnEvent(m_Event_WindowFocus, EventType::WindowFocus, [&](const IEvent& e) {
+		this->SubscribeToEvent(m_Event_WindowFocus, EventType::WindowFocus, [&](const IEvent& e) {
 			GLFW::SwapInterval(this->m_VSyn);
 			GLFW::MakeContextCurrent(this->m_Window);
 
@@ -69,12 +69,12 @@ void FE2D::Window::Initialize(const vec2& window_size, const std::string& window
 			});
 
 		/* Subscribe on Window Lost Focus Event */
-		this->SubscribeOnEvent(m_Event_WindowLostFocus, EventType::WindowLostFocus, [&](const IEvent& e) {
+		this->SubscribeToEvent(m_Event_WindowLostFocus, EventType::WindowLostFocus, [&](const IEvent& e) {
 			GLFW::SwapInterval(FOR_LOW_OPERATION_MODE);
 			});
 
 		///* Subscribe on Window Resized Event */
-		this->SubscribeOnEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
+		this->SubscribeToEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
 			const WindowResized* resized = static_cast<const WindowResized*>(&e);
 			this->m_Resolution = resized->size;
 			});
@@ -327,9 +327,24 @@ inline void FE2D::Window::Update_DeltaTime() noexcept {
 
 void FE2D::Window::setAutoClose(bool auto_close) {
 	if (auto_close) {
-		this->SubscribeOnEvent(m_Event_AutoClose, EventType::WindowClosed, [&](const IEvent& e) {
+		this->SubscribeToEvent(m_Event_AutoClose, EventType::WindowClosed, [&](const IEvent& e) {
 			this->m_IsRunning = false;
 			});
 	}
 	else m_Event_AutoClose.unsubscribe();
+}
+
+void FE2D::Window::HideCursor(bool hide) {
+	if (hide) glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	else	  glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void FE2D::Window::setCursorIcon(const std::filesystem::path& path) {
+	
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+	
+	GLFWimage image{ width, height, data };
+	GLFWcursor* cursor = glfwCreateCursor(&image, width / 2, height / 2);
+	glfwSetCursor(m_Window, cursor);
 }

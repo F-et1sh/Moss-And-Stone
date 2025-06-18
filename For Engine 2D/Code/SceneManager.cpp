@@ -1,15 +1,6 @@
 #include "forpch.h"
 #include "SceneManager.h"
 
-void FE2D::SceneManager::Release() {
-	m_RenderContext = nullptr;
-	m_Window = nullptr;
-	m_ResourceManager = nullptr;
-
-	m_CurrentScene.Release();
-	m_ScenePaths.clear();
-}
-
 void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
 	m_Window = &window;
 	m_RenderContext = &render_context;
@@ -99,7 +90,7 @@ bool FE2D::SceneManager::LoadScene(SceneIndex index) {
 	}
 
 	SceneIndex backup_index = m_CurrentScene.getIndex();
-	m_CurrentScene.Release();
+	//m_CurrentScene.~Scene();
 	m_CurrentScene.Initialize(*m_Window, *m_RenderContext, *m_ResourceManager);
 
 	SceneSerializer ser(&m_CurrentScene);

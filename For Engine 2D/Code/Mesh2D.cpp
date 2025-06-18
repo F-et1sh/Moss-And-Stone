@@ -112,7 +112,7 @@ inline void FE2D::Mesh2D::draw() const {
 				m_Layer)));                                  // Layer
 	}
 
-	m_DefaultShader.Use();
+	m_DefaultShader.Bind();
 	m_DefaultShader.setUniformMat4("u_Transform", load_matrix);
 
 	m_DefaultShader.setUniformMat4("u_Camera", mat4(1.0f)); // TODO

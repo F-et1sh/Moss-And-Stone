@@ -121,7 +121,7 @@ void FE2D::Shader::LinkShader() {
 	glValidateProgram(m_Program);
 }
 
-inline void FE2D::Shader::Use()const noexcept { glUseProgram(m_Program); }
+inline void FE2D::Shader::Bind()const noexcept { glUseProgram(m_Program); }
 inline void FE2D::Shader::Unbind() const noexcept { glUseProgram(0); }
 
 #pragma region Legacy Uniform Setting

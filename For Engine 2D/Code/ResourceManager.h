@@ -21,7 +21,7 @@ namespace FE2D {
 	class FOR_API ResourceManager {
 	public:
 		ResourceManager() = default;
-		~ResourceManager() = default; // ñall Release() youself !!
+		~ResourceManager() = default;
 
 		static const std::vector<unsigned char> load_file_to_memory(const std::wstring& file_path);
 
@@ -32,7 +32,6 @@ namespace FE2D {
 			ScanMode mode,
 			size_t start_capacity = 32);
 
-		void Release();
 		void Initialize();
 
 		// this function scanning all of resource files from assets folder ( FOR_PATH.get_assets_path() )

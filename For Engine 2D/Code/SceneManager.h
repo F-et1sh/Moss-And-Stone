@@ -11,7 +11,6 @@ namespace FE2D {
 		SceneManager() = default;
 		~SceneManager() = default;
 
-		void Release();
 		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
 
 		void Update();
