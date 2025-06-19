@@ -1,10 +1,6 @@
 #include "forpch.h"
 #include "ScriptManagerSystem.h"
 
-void FE2D::ScriptManagerSystem::Initialize()
-{
-}
-
 void FE2D::ScriptManagerSystem::OnEnd() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 

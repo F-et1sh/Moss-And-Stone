@@ -2,9 +2,6 @@
 #include "Mesh2D.h"
 
 void FE2D::Mesh2D::Release() {
-	m_DefaultShader.Release();
-	m_VertexArray.Delete();
-	m_VertexBuffer.Delete();
 	m_DrawMode = 0;
 	m_VerticesCount = 0;
 

@@ -9,13 +9,14 @@ namespace FE2D {
 			vec4 uv = vec4();
 			float duration = 0.0f;
 
-			FOR_CLASS_DEFAULT(Frame)
+			Frame() = default;
+			~Frame() = default;
 		};
 	public:  
-		FOR_CLASS_DEFAULT(Animation)
+		Animation() = default;
+		~Animation() = default;
 
-		void Release()override;  
-		bool LoadFromFile(const std::filesystem::path& file_path)override;  
+		bool LoadFromFile(const std::filesystem::path& file_path)override;
 
 		inline float getDuration()const noexcept { return m_Duration; }
 		

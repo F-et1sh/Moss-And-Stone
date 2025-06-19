@@ -8,7 +8,7 @@ namespace FE2D {
 
 		inline const mat4& getView()noexcept {
 			this->UpdateView();
-			return m_View; 
+			return m_View;
 		}
 
 		inline const vec2& getPosition()const noexcept { return m_Position; }

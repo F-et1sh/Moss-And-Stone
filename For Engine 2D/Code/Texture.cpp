@@ -3,16 +3,9 @@
 
 #include "stb_image.h"
 
-void FE2D::Texture::Release() {
-	if (m_Data) 
-		stbi_image_free(m_Data);
-
-	if (m_Reference > 0)
-		glDeleteTextures(1, &m_Reference);
-
-	m_Size = vec2();
-	m_Channels = 0;
-	m_IsLinear = false;
+FE2D::Texture::~Texture() {
+	if (m_Data) stbi_image_free(m_Data);
+	if (m_Reference > 0) glDeleteTextures(1, &m_Reference);
 }
 
 bool FE2D::Texture::LoadFromFile(const std::filesystem::path& file_path) {

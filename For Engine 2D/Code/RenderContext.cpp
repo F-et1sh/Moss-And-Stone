@@ -17,6 +17,13 @@ void FE2D::RenderContext::Initialize(Window& window) {
 	this->SubscribeToEvents(window);
 }
 
+void FE2D::RenderContext::Initialize(vec2 resolution) {
+	this->UpdateWindowResolution(resolution);
+	this->UpdateProjection();
+
+	this->setViewport(vec4(0, 0, resolution));
+}
+
 void FE2D::RenderContext::UpdateWindowResolution(const vec2& resolution)noexcept {
 	m_Resolution = resolution;
 }

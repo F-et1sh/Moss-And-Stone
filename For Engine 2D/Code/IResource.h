@@ -8,7 +8,11 @@ namespace FE2D {
         IResource() = default;
         virtual ~IResource() = default;
 
-        virtual void Release() = 0;
+        // legacy function. use destructor instead
+        // if you overrided this - do NOT put it in the destructor
+        // to free data use only Release() or only destructor, but never use them together
+        virtual void Release() {}
+
         virtual bool LoadFromFile(const std::filesystem::path& file_path) = 0;
         virtual void UplopadToFile(const std::filesystem::path& file_path)const {}
 

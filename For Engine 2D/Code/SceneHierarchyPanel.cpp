@@ -137,7 +137,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<CameraComponent>("Camera");
 		DisplayAddComponentEntry<VelocityComponent>("Velocity");
 		DisplayAddComponentEntry<ColliderComponent>("Collider");
-		DisplayAddComponentEntry<CharacterAnimatorComponent>("Character Animator");
+		DisplayAddComponentEntry<AnimatorComponent>("Animator");
 		DisplayAddComponentEntry<NativeScriptComponent>("Script");
 
 		ImGui::EndPopup();
@@ -187,8 +187,8 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		//m_ImGui->ColliderControl(entity.GetComponent<TransformComponent>(), component);
 		});
 
-	DrawComponent<CharacterAnimatorComponent>("Character Animator", entity, [&](auto& component) {
-		static ResourceID<Animation> editing_animation;
+	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
+		/*static ResourceID<Animation> editing_animation;
 		static std::string editing_name = "";
 		static char name_buffer[128] = "";
 
@@ -275,7 +275,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 			index++;
 		}
 
-		if (!is_any_card_hovered && ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) editing_name.clear();
+		if (!is_any_card_hovered && ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) editing_name.clear();*/
 		});
 
 	DrawComponent<NativeScriptComponent>("Script", entity, [&](auto& component) {

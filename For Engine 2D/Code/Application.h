@@ -22,16 +22,12 @@ namespace FE2D {
 			int monitor = -1);
 		void Loop();
 
-		inline void StartGameSession()noexcept { m_SceneManager.StartGameSession(); }
-		inline void EndGameSession()noexcept { m_SceneManager.EndGameSession(); }
-
 	private:
 		Window m_Window;
 		ResourceManager m_ResourceManager;
 		SceneManager m_SceneManager;
 		
 		RenderContext m_RenderContext;
-		Cursor m_Cursor;
 
 		friend class EditorApplication;
 	};

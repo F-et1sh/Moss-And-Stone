@@ -3,14 +3,7 @@
 
 #include "MousePicker.h"
 
-void FE2D::SpriteRendererSystem::Release() {
-	m_Shader.Release();
-	m_UniformBuffer.release();
-
-	m_TextureAtlas.Release();
-}
-
-void FE2D::SpriteRendererSystem::Initialize() {
+FE2D::SpriteRendererSystem::SpriteRendererSystem() {
 	m_Shader.Initialize(FOR_PATH.get_shaders_path() / L"Sprite Default" / L"SpriteDefault");
 
 	m_UniformBuffer.create();
@@ -48,9 +41,9 @@ void FE2D::SpriteRendererSystem::Handle(Entity entity) {
 	mat4 matrix = entity.GetGlobalTransform();
 
 	vec2 frame_size = vec2(sprite.frame.z, sprite.frame.w);
-	
+
 	Texture& texture = m_ResourceManager->GetResource(sprite.texture);
-	
+
 	if (sprite.texture.uuid == FE2D::UUID(0))
 		frame_size = texture.getSize();
 

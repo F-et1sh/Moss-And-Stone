@@ -8,12 +8,6 @@ FE2D::Scene::~Scene() {
 		if (e.HasComponent<SpriteComponent>()) {
 			m_ResourceManager->RemoveResource(e.GetComponent<SpriteComponent>().texture);
 		}
-		if (e.HasComponent<CharacterAnimatorComponent>()) {
-			const auto& animations = e.GetComponent<CharacterAnimatorComponent>().animations;
-			for (const auto& pair : animations) {
-				m_ResourceManager->RemoveResource(pair.second);
-			}
-		}
 	}
 	m_SystemsList.clear();
 	m_EntityMap.clear();
@@ -101,8 +95,26 @@ void FE2D::Scene::Update() {
 
 	m_PhysicsSystem->Update();
 
+
 	if (m_CameraEntityUUID != FE2D::UUID(0)) {
 		vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
+
+		double x_pos = 0.0f;
+		double y_pos = 0.0f;
+
+		glfwGetCursorPos(m_Window->reference(), &x_pos, &y_pos);
+
+		y_pos = m_Window->getResolution().y - y_pos;
+
+		x_pos -= m_Window->getResolution().x / 2.0f;
+		y_pos -= m_Window->getResolution().y / 2.0f;
+
+		vec2 pos = { x_pos , y_pos };
+
+		pos /= 10;
+
+		cam_pos += pos;
+
 		m_Camera.setPosition(cam_pos);
 	}
 }
@@ -111,9 +123,6 @@ void FE2D::Scene::Render() {
 
 	m_AnimationSystem->Render();
 	m_SpriteRendererSystem->Render();
-
-	/* .. */
-	//..
 }
 
 void FE2D::Scene::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {

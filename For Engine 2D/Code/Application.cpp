@@ -12,11 +12,8 @@ void FE2D::Application::Initialize(const vec2& window_resolution, const std::str
 	GLFW::Initialize();
 	
 	m_Window.Initialize(window_resolution, window_name.data(), monitor);
-	m_Window.HideCursor(true);
-
+	
 	m_RenderContext.Initialize(m_Window);
-
-	m_Cursor.Initialize(m_Window, m_RenderContext);
 
 	m_ResourceManager.Initialize();
 
@@ -32,8 +29,6 @@ void FE2D::Application::Loop() {
 		m_Window.ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_SceneManager.Update();
-
-		m_Cursor.Render();
 
 		m_Window.SwapBuffers();
 		m_Window.PollEvent();

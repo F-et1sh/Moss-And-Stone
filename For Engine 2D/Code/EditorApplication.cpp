@@ -2,12 +2,6 @@
 #include "EditorApplication.h"
 
 FE2D::EditorApplication::~EditorApplication() {
-	m_MousePicker.Delete();
-
-	m_GameFramebuffer.Delete();
-
-	m_Window.Release();
-
 	m_ImGui.Release();
 	GLFW::Release();
 }
@@ -188,13 +182,13 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 	ImGui::Begin("Preview", nullptr, m_ImGui.IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	ImGui::SameLine(ImGui::GetWindowWidth() / 2, 0); // draw the button in the middle of the window
+	
+	bool running = this->m_SceneManager.IsGameSessionRunning();
+	std::string title = running ? "Stop" : "Start";
 
-	if (ImGui::Button("Launch")) {
-		this->Save();
-
-		std::filesystem::path exe_path = FOR_PATH.get_executable_path() / L"Moss And Stone.exe";
-		std::string command = "\"" + exe_path.string() + "\"";
-		std::system(command.c_str());
+	if (ImGui::Button(title.c_str())) {
+		if (running) this->m_SceneManager.EndGameSession();
+		else this->m_SceneManager.StartGameSession();
 	}
 
 	const float aspect = (float)m_GameFramebuffer.get_texture_size().y / m_GameFramebuffer.get_texture_size().x;

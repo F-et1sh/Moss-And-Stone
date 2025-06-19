@@ -1,20 +1,14 @@
 #include "forpch.h"
 #include "MousePicker.h"
 
-inline void FE2D::MousePicker::Delete() noexcept {
-    m_UniformBuffer.release();
-    m_Shader.Release();
-
+FE2D::MousePicker::~MousePicker() {
     this->Unbind();
-
     glDeleteRenderbuffers(1, &m_DepthBuffer);
     glDeleteFramebuffers(1, &m_Reference);
     glDeleteTextures(1, &m_TextureReference);
 }
 
 inline void FE2D::MousePicker::Initialize(const vec2& resolution) noexcept {
-    this->Delete();
-
     glCreateFramebuffers(1, &m_Reference);
     glBindFramebuffer(GL_FRAMEBUFFER, m_Reference);
 

@@ -6,22 +6,19 @@ namespace FE2D {
 	class FOR_API Shader {
 	public:
 		Shader() = default;
-		~Shader() = default;
+		~Shader();
 	public:
 		enum {
 			VERTEX = 0x8B31,
 			FRAGMENT = 0x8B30
 		};
-	public:
-		void Release();
-
+	
 		// Initialize the shader program with one path for both shaders ( vertex and fragment )
 		// don't use an extension here
 		void Initialize(const std::wstring& file_path);
 
 		void Initialize(const std::wstring& vert_path, const std::wstring& frag_path);
 
-	public:
 		inline void Bind()const noexcept;
 		inline void Unbind()const noexcept;
 

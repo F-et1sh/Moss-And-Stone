@@ -1,17 +1,14 @@
 #include "forpch.h"
 #include "Framebuffer.h"
 
-inline void FE2D::Framebuffer::Delete() noexcept {
+FE2D::Framebuffer::~Framebuffer() {
     this->Unbind();
-
     glDeleteRenderbuffers(1, &m_DepthBuffer);
     glDeleteFramebuffers(1, &m_Reference);
     glDeleteTextures(1, &m_TextureReference);
 }
 
 inline void FE2D::Framebuffer::Initialize(const vec2& resolution) noexcept {
-    this->Delete();
-
     glCreateFramebuffers(1, &m_Reference);
     glBindFramebuffer(GL_FRAMEBUFFER, m_Reference);
 

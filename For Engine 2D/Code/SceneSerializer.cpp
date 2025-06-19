@@ -142,17 +142,15 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 		}
 
 		if (j_entity.contains("AnimatorComponent")) {
-			CharacterAnimatorComponent& component = deserialized_entity.AddComponent<CharacterAnimatorComponent>();
+			AnimatorComponent& component = deserialized_entity.AddComponent<AnimatorComponent>();
 
 			json j_component = j_entity["AnimatorComponent"];
-			SceneSerializer::load_resource_id(component.current_animation, j_component, "current_animation");
-			SceneSerializer::load_value(component.time, j_component, "time");
-			SceneSerializer::load_array(component.animations, j_component, "animations", [](const json& j) -> std::pair<std::string, ResourceID<Animation>> {
-				std::pair<std::string, ResourceID<Animation>> pair;
-				pair.first = j["name"].get<std::string>();
-				pair.second = ResourceID<Animation>(FE2D::UUID(j["id"].get<std::string>()));
+			/*SceneSerializer::load_array(component.animations, j_component, "animations", [](const json& j) -> std::pair<vec2, ResourceID<Animation>> {
+				std::pair<vec2, ResourceID<Animation>> pair;
+				SceneSerializer::load_vec2(pair.first, j, "coord");
+				SceneSerializer::load_resource_id(pair.second, j, "animation");
 				return pair;
-				});
+				});*/
 		}
 
 		if (j_entity.contains("NativeScriptComponent")) {
@@ -269,18 +267,16 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		j["ColliderComponent"] = j_component;
 	}
 
-	if (entity.HasComponent<CharacterAnimatorComponent>()) {
-		auto& component = entity.GetComponent<CharacterAnimatorComponent>();
+	if (entity.HasComponent<AnimatorComponent>()) {
+		auto& component = entity.GetComponent<AnimatorComponent>();
 
 		json j_component;
-		SceneSerializer::save_resource_id(component.current_animation, j_component, "current_animation");
-		SceneSerializer::save_value(component.time, j_component, "time");
-		SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<std::string, ResourceID<Animation>>& e) -> json { 
+		/*SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<vec2, ResourceID<Animation>>& e) -> json {
 			json j;
-			j["name"] = e.first;
-			j["id"] = e.second.uuid.ToString();
+			SceneSerializer::save_vec2(e.first, j, "coord");
+			SceneSerializer::save_resource_id(e.second, j, "animation");
 			return j;
-			});
+			});*/
 
 		j["AnimatorComponent"] = j_component;
 	}

@@ -1,6 +1,5 @@
 #pragma once
 #include "UUID.h"
-#include "Animation.h"
 
 namespace FE2D {
     struct FOR_API IDComponent {
@@ -17,7 +16,6 @@ namespace FE2D {
 		TagComponent() = default;
 		TagComponent(const TagComponent&) = default;
 		TagComponent(const std::string& tag) : tag(tag) {}
-    
     };
     
     struct FOR_API TransformComponent {
@@ -119,20 +117,15 @@ namespace FE2D {
         ColliderComponent(const ColliderComponent&) = default;
     };
     
-    struct FOR_API CharacterAnimatorComponent {
-        ResourceID<Animation> current_animation;
+    struct FOR_API AnimatorComponent {
+        std::vector<std::pair<vec2, ResourceID<Animation>>> animations;
+
+        vec2 current_direction = vec2();
         float time = 0.0f;
 
-        std::unordered_map<std::string, ResourceID<Animation>> animations;
-
-        void setCurrentAnimation(const std::string& name) {
-            auto it = animations.find(name);
-            if (it == animations.end()) {
-                SAY("ERROR : Failed to set current animation in CharacterAnimatorComponent\nThere is no animation " << name.c_str());
-                return;
-            }
-            current_animation = it->second;
-        }
+        AnimatorComponent() = default;
+        ~AnimatorComponent() = default;
+        AnimatorComponent(const AnimatorComponent&) = default;
     };
 
     class ScriptableEntity; // forward declaration

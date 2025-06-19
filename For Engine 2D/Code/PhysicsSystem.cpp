@@ -1,16 +1,6 @@
 #include "forpch.h"
 #include "PhysicsSystem.h"
 
-
-
-void FE2D::PhysicsSystem::Release()
-{
-}
-
-void FE2D::PhysicsSystem::Initialize()
-{
-}
-
 void FE2D::PhysicsSystem::Update() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 

@@ -6,9 +6,8 @@ namespace FE2D {
 	class FOR_API Texture : public IResource {
 	public:
 		Texture() = default;
-		~Texture() = default;
-
-		void Release()override;
+		~Texture();
+		
 		bool LoadFromFile(const std::filesystem::path& file_path)override;
 
 		void OnEditorDraw(IMGUI& imgui)override;

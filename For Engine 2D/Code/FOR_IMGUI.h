@@ -49,14 +49,13 @@ namespace FE2D {
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
 
 		template<typename T>
-		inline void ComponentPayload(ComponentField<T>& component_field) {
+		inline void ComponentPayload(std::string_view title, ComponentField<T>& component_field) {
 			if (component_field.entity) {
-				std::string name = component_field.entity.GetComponent<TagComponent>().tag;
+				std::string_view name = component_field.entity.GetComponent<TagComponent>().tag;
 				ImGui::Button(name.c_str());
 			}
 			else {
-				std::string name = typeid(T).name();
-				ImGui::Button(name.c_str());
+				ImGui::Button("None");
 			}
 
 			if (ImGui::BeginDragDropTarget()) {
@@ -69,16 +68,15 @@ namespace FE2D {
 			}
 
 			ImGui::SameLine();
-			ImGui::Text(typeid(T).name());
+			ImGui::Text(title.data());
 		}
-		void EntityPayload(Entity& load_entity) {
+		void EntityPayload(std::string_view title, Entity& load_entity) {
 			if (load_entity) {
-				std::string name = load_entity.GetComponent<TagComponent>().tag;
-				ImGui::Button(name.c_str());
+				std::string_view name = load_entity.GetComponent<TagComponent>().tag;
+				ImGui::Button(name.data());
 			}
 			else {
-				std::string name = "Entity";
-				ImGui::Button(name.c_str());
+				ImGui::Button("None");
 			}
 
 			if (ImGui::BeginDragDropTarget()) {
@@ -90,7 +88,7 @@ namespace FE2D {
 			}
 
 			ImGui::SameLine();
-			ImGui::Text("Entity");
+			ImGui::Text(title.data());
 		}
 	public:
 		Window* getWindow()const noexcept { return m_Window; }

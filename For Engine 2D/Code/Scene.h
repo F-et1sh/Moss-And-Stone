@@ -8,6 +8,7 @@
 #include "ScriptManagerSystem.h"
 
 #include "RenderContext.h"
+#include "Cursor.h"
 
 namespace FE2D {
 	class FOR_API Scene {
@@ -55,7 +56,6 @@ namespace FE2D {
 		std::unique_ptr<T> CreateSystem() {
 			std::unique_ptr<T> system = std::make_unique<T>();
 			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this);
-			system->Initialize();
 			m_SystemsList.emplace_back(system.get());
 			return system;
 		}

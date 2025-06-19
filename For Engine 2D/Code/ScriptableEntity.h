@@ -26,10 +26,16 @@ namespace FE2D {
 		virtual void Deserialize(const json& j) {}
 
 		virtual void OnEditorPanel(IMGUI& imgui) {}
-	
+
 	private:
 		std::vector<EventSubscription> m_EventSubscription;
 	};
-#define SAVE_COMPONENT_FIELD(field) SceneSerializer::save_component_field(field, j, #field);
-#define LOAD_COMPONENT_FIELD(field) SceneSerializer::load_component_field(field, j, #field, m_Scene);
+#define SAVE_COMPONENT_FIELD(field) SceneSerializer::save_component_field(field, j, #field)
+#define LOAD_COMPONENT_FIELD(field) SceneSerializer::load_component_field(field, j, #field, m_Scene)
+
+#define SAVE_ENTITY(entity)			SceneSerializer::save_entity(entity, j, #entity)
+#define LOAD_ENTITY(entity)			SceneSerializer::load_entity(entity, j, #entity, m_Scene)
+
+#define SAVE_VALUE(value)			SceneSerializer::save_value(value, j, #value)
+#define LOAD_VALUE(value)			SceneSerializer::load_value(value, j, #value)
 }

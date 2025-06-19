@@ -4,14 +4,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-void FE2D::TextureAtlas::Release() {
-	if (m_Reference) glDeleteTextures(1, &m_Reference);
-	m_LoadedTextures.clear();
+FE2D::TextureAtlas::~TextureAtlas() {
+	glDeleteTextures(1, &m_Reference);
 }
 
 void FE2D::TextureAtlas::Initialize(const vec2& load_size) {
-	this->Release();
-
 	glGenTextures(1, &m_Reference);
 	glBindTexture(GL_TEXTURE_2D, m_Reference);
 

@@ -4,10 +4,12 @@ namespace FE2D {
 	class FOR_API Cursor {
 	public:
 		Cursor() = default;
-		~Cursor();
+		~Cursor() = default;
 
 		void Initialize(Window& window, RenderContext& render_context);
 		void Render();
+
+		inline vec2 getPosition()const noexcept { return m_MousePosition; }
 		
 	private:
 		Shader m_Shader;

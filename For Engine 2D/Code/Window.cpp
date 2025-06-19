@@ -348,3 +348,7 @@ void FE2D::Window::setCursorIcon(const std::filesystem::path& path) {
 	GLFWcursor* cursor = glfwCreateCursor(&image, width / 2, height / 2);
 	glfwSetCursor(m_Window, cursor);
 }
+
+void FE2D::Window::ResetCursorIcon() {
+	glfwSetCursor(m_Window, glfwCreateStandardCursor(GLFW_CURSOR));
+}

@@ -19,11 +19,8 @@ namespace FE2D {
 
 	class FOR_API SpriteRendererSystem : public ISystemBase {
 	public:
-		SpriteRendererSystem() = default;
-		~SpriteRendererSystem() { this->Release(); }
-
-		void Release();
-		void Initialize();
+		SpriteRendererSystem();
+		~SpriteRendererSystem() = default;
 
 		void Render();
 

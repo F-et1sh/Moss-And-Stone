@@ -5,9 +5,8 @@ namespace FE2D {
     class FOR_API MousePicker {
     public:
         MousePicker() = default;
-        ~MousePicker() = default;
+        ~MousePicker();
 
-        inline void Delete()noexcept;
         inline void Initialize(const vec2& resolution)noexcept;
         inline void Bind()const noexcept;
         inline void Unbind()const noexcept;

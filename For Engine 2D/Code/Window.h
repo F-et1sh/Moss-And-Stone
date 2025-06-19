@@ -131,6 +131,7 @@ namespace FE2D {
 #pragma region Cursor
 		void HideCursor(bool hide);
 		void setCursorIcon(const std::filesystem::path& path);
+		void ResetCursorIcon();
 #pragma endregion
 
 	private:

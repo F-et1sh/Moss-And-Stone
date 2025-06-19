@@ -7,8 +7,6 @@ namespace FE2D {
 		ScriptManagerSystem() = default;
 		~ScriptManagerSystem() = default;
 
-		void Initialize();
-
 		void OnEnd();
 		void OnStart();
 		void OnUpdate();

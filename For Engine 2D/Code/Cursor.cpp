@@ -1,11 +1,6 @@
 #include "forpch.h"
 #include "Cursor.h"
 
-FE2D::Cursor::~Cursor() {
-	m_Shader.Release();
-	m_Texture.Release();
-}
-
 void FE2D::Cursor::Initialize(Window& window, RenderContext& render_context) {
 	m_Window = &window;
 	m_RenderContext = &render_context;

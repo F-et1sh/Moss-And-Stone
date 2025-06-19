@@ -20,8 +20,19 @@ namespace FE2D {
 		void SaveCurrentScene();
 
 	public:
-		inline void StartGameSession() { m_IsRunning = true; m_CurrentScene.Start(); }
-		inline void EndGameSession()noexcept { m_IsRunning = false; m_CurrentScene.End(); }
+		inline void StartGameSession() { 
+			m_IsRunning = true; 
+			m_CurrentScene.Start();
+
+			m_Window->setCursorIcon(FOR_PATH.get_cursors_path() / "CursorQuad.png");
+		}
+		inline void EndGameSession() { 
+			m_IsRunning = false;
+			m_CurrentScene.End();
+
+			m_Window->ResetCursorIcon();
+		}
+		inline bool IsGameSessionRunning()const noexcept { return m_IsRunning; }
 
 	private:
 		bool m_IsRunning = false;

@@ -1,16 +1,7 @@
 #include "forpch.h"
 #include "Animation.h"
 
-void FE2D::Animation::Release() {
-    m_Frames.clear();
-    m_Duration = 0.0f;
-    m_TextureID = ResourceID<Texture>(0);
-    m_TexturePath.clear();
-}
-
 bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
-    this->Release();
-
     std::ifstream file(file_path);
     if (!file.good()) {
         SAY("ERROR : Failed to open file");

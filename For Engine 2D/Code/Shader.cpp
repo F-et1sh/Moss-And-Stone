@@ -1,7 +1,7 @@
 #include "forpch.h"
 #include "Shader.h"
 
-void FE2D::Shader::Release() {
+FE2D::Shader::~Shader() {
 	glDeleteProgram(m_Program);
 }
 
@@ -25,8 +25,6 @@ void FE2D::Shader::Initialize(const std::wstring& file_path) {
 	// if a user will use path with an extension program anyway can work
 	// Example : SomeShader.shader ==> SomeShader.shader.vert & SomeShader.shader.frag
 	// but if it doesn't wokred throw an error
-
-	this->Release();
 
 	if (path.has_extension())
 		FOR_RUNTIME_ERROR(std::string("\nFailed to Initialize a shader") +
@@ -52,8 +50,6 @@ void FE2D::Shader::Initialize(const std::wstring& vert_path, const std::wstring&
 		this->LinkShader();
 		return;
 	}
-
-	this->Release();
 
 	FOR_RUNTIME_ERROR(std::string("Failed to Initialize a shader") +
 		std::string("\nVertex Path : ") + vertex_path.string() +

@@ -283,26 +283,11 @@
     <Filter Include="Code\ECS\System\Animation\Nodes %28 Future %29">
       <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Scriptable Entity">
-      <UniqueIdentifier>{fa6f0624-686f-4364-bfec-b30fd8f88523}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\Component Field">
       <UniqueIdentifier>{f1b09f5c-5095-4e01-bf0c-c0e5224e6459}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Script Factory">
-      <UniqueIdentifier>{048d134d-2501-410c-a7e3-354a7511edeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Scripts">
-      <UniqueIdentifier>{6cac321f-9af3-4177-a2b2-4455a71cbf5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\System\ScriptManager">
       <UniqueIdentifier>{17d4c217-85be-4eb6-aad4-7b35c6e9d6b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Scripts\Test Script">
-      <UniqueIdentifier>{b5bccd6f-e7ed-4004-a1f3-d5d46bdff72c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Scripts\Player Controller">
-      <UniqueIdentifier>{039b3d26-32c2-4f07-90cd-e594332dcb32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Event System\Event %28 inherit %29">
       <UniqueIdentifier>{68d26f98-24a0-42a5-83d4-2c246e79186c}</UniqueIdentifier>
@@ -315,6 +300,27 @@
     </Filter>
     <Filter Include="Cursor">
       <UniqueIdentifier>{a3551581-e45b-47d7-92f3-2452dbb5a3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting">
+      <UniqueIdentifier>{d556bf41-00c0-4f8e-a8e6-461195d74498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Script Factory">
+      <UniqueIdentifier>{048d134d-2501-410c-a7e3-354a7511edeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scriptable Entity">
+      <UniqueIdentifier>{fa6f0624-686f-4364-bfec-b30fd8f88523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts">
+      <UniqueIdentifier>{6cac321f-9af3-4177-a2b2-4455a71cbf5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Test Script">
+      <UniqueIdentifier>{b5bccd6f-e7ed-4004-a1f3-d5d46bdff72c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Player Controller">
+      <UniqueIdentifier>{039b3d26-32c2-4f07-90cd-e594332dcb32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Enemy">
+      <UniqueIdentifier>{3d12fd32-fedd-403d-9843-27ecd0106d24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -526,28 +532,31 @@
       <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptableEntity.cpp">
-      <Filter>Code\ECS\Scriptable Entity</Filter>
+      <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
     </ClCompile>
     <ClCompile Include="Code\ComponentField.cpp">
       <Filter>Code\ECS\Component Field</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptFactory.cpp">
-      <Filter>Code\ECS\Script Factory</Filter>
+      <Filter>Code\ECS\Scripting\Script Factory</Filter>
     </ClCompile>
     <ClCompile Include="Code\TestScript.cpp">
-      <Filter>Code\ECS\Scripts\Test Script</Filter>
+      <Filter>Code\ECS\Scripting\Scripts\Test Script</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptManagerSystem.cpp">
       <Filter>Code\ECS\System\ScriptManager</Filter>
     </ClCompile>
     <ClCompile Include="Code\PlayerController.cpp">
-      <Filter>Code\ECS\Scripts\Player Controller</Filter>
+      <Filter>Code\ECS\Scripting\Scripts\Player Controller</Filter>
     </ClCompile>
     <ClCompile Include="Code\EventSubscription.cpp">
       <Filter>Code\Event System\Subscription</Filter>
     </ClCompile>
     <ClCompile Include="Code\Cursor.cpp">
       <Filter>Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Enemy.cpp">
+      <Filter>Code\ECS\Scripting\Scripts\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -780,28 +789,31 @@
       <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptableEntity.h">
-      <Filter>Code\ECS\Scriptable Entity</Filter>
+      <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
     </ClInclude>
     <ClInclude Include="Code\ComponentField.h">
       <Filter>Code\ECS\Component Field</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptFactory.h">
-      <Filter>Code\ECS\Script Factory</Filter>
+      <Filter>Code\ECS\Scripting\Script Factory</Filter>
     </ClInclude>
     <ClInclude Include="Code\TestScript.h">
-      <Filter>Code\ECS\Scripts\Test Script</Filter>
+      <Filter>Code\ECS\Scripting\Scripts\Test Script</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptManagerSystem.h">
       <Filter>Code\ECS\System\ScriptManager</Filter>
     </ClInclude>
     <ClInclude Include="Code\PlayerController.h">
-      <Filter>Code\ECS\Scripts\Player Controller</Filter>
+      <Filter>Code\ECS\Scripting\Scripts\Player Controller</Filter>
     </ClInclude>
     <ClInclude Include="Code\EventSubscription.h">
       <Filter>Code\Event System\Subscription</Filter>
     </ClInclude>
     <ClInclude Include="Code\Cursor.h">
       <Filter>Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Enemy.h">
+      <Filter>Code\ECS\Scripting\Scripts\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

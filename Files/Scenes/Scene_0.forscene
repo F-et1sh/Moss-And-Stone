@@ -1,6 +1,14 @@
 {
     "Entities": [
         {
+            "NativeScriptComponent": {
+                "script_data": {
+                    "player": "16602346664228839650",
+                    "speed": 20.0,
+                    "transform": "7684727528006643842"
+                },
+                "script_name": "Enemy"
+            },
             "RelationshipComponent": {
                 "children": [],
                 "parent": 0
@@ -11,44 +19,35 @@
                 "frame": [
                     0.0,
                     0.0,
-                    16.0,
-                    16.0
+                    20.0,
+                    14.0
                 ],
-                "texture": "6178231784002649046"
+                "texture": "10481742720340127963"
             },
             "TagComponent": {
-                "tag": "New Entity"
+                "tag": "Enemy"
             },
             "TransformComponent": {
-                "auto_sort": false,
+                "auto_sort": true,
                 "layer": 0,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    -27.89621925354004,
-                    3.4158637523651123
+                    -37.27333068847656,
+                    -5.747798919677734
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    1.0,
+                    -1.0,
                     1.0
                 ]
             },
-            "UUID": 5470052668110645887
+            "UUID": 7684727528006643842
         },
         {
-            "AnimatorComponent": {
-                "animations": [
-                    {
-                        "id": "17761858592016308651",
-                        "name": "New Animation"
-                    }
-                ],
-                "current_animation": "0",
-                "time": 0.0
-            },
+            "AnimatorComponent": null,
             "CameraComponent": {
                 "clear_color": [
                     0.0,
@@ -71,24 +70,24 @@
                 "frame": [
                     0.0,
                     0.0,
-                    20.0,
-                    14.0
+                    7.0,
+                    26.0
                 ],
-                "texture": "10481742720340127963"
+                "texture": "5326511936020937367"
             },
             "TagComponent": {
                 "tag": "Artem"
             },
             "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
+                "auto_sort": true,
+                "layer": 1,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    0.0,
-                    0.0
+                    -25.61571502685547,
+                    -9.351451873779297
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -97,6 +96,44 @@
                 ]
             },
             "UUID": 16602346664228839650
+        },
+        {
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    16.0,
+                    16.0
+                ],
+                "texture": "6178231784002649046"
+            },
+            "TagComponent": {
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -25,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -28.18087387084961,
+                    3.4158637523651123
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 5470052668110645887
         }
     ],
     "SceneInfo": {
