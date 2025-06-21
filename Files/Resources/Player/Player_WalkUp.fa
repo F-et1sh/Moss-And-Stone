@@ -1,0 +1,66 @@
+{ "frames": {
+   "Player_WalkUp 0.png": {
+    "frame": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Player_WalkUp 1.png": {
+    "frame": { "x": 7, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Player_WalkUp 2.png": {
+    "frame": { "x": 14, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Player_WalkUp 3.png": {
+    "frame": { "x": 21, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Player_WalkUp 4.png": {
+    "frame": { "x": 28, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   },
+   "Player_WalkUp 5.png": {
+    "frame": { "x": 35, "y": 0, "w": 7, "h": 26 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 26 },
+    "sourceSize": { "w": 7, "h": 26 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-beta16-dev",
+  "image": "Player_WalkUp.png",
+  "format": "RGBA8888",
+  "size": { "w": 42, "h": 26 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

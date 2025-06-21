@@ -34,6 +34,7 @@ namespace FE2D {
 
 		inline entt::registry& getRegistry()noexcept { return m_Registry; }
 		inline Window& getContextWindow()noexcept { return *m_Window; }
+		inline RenderContext& getRenderContext()noexcept { return *m_RenderContext; }
 
 	public:
 

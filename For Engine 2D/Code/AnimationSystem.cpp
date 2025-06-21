@@ -12,7 +12,18 @@ void FE2D::AnimationSystem::Render() {
 		auto& animator = entity.GetComponent<AnimatorComponent>();
 		auto& sprite = entity.GetComponent<SpriteComponent>();
 
-		animator.time += m_Window->getDeltaTime();
+		switch (animator.state) {
+		case AnimatorComponent::State::PAUSE:
+			break;
+		
+		case AnimatorComponent::State::PLAY:
+			animator.time += m_Window->getDeltaTime();
+			break;
+
+		case AnimatorComponent::State::STOP:
+			animator.time = 0;
+			break;
+		}
 
 		auto chosen_id = GetNearAnimation(animator.animations, animator.current_direction);
 		auto& chosen_animation = m_ResourceManager->GetResource(chosen_id);

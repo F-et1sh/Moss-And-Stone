@@ -188,94 +188,50 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
-		/*static ResourceID<Animation> editing_animation;
-		static std::string editing_name = "";
-		static char name_buffer[128] = "";
+		static vec2 choosing_coords{};
+		static ResourceID<Animation> choosing_id{};
 
-		if (!editing_name.empty()) {
-			ImGui::InputText("Animation Name", name_buffer, sizeof(name_buffer));
+		m_ImGui->SelectAnimation(choosing_id);
+		m_ImGui->DrawAnimation(choosing_id);
 
-			m_ImGui->SelectAnimation(editing_animation);
-			auto it = component.animations.find(editing_name);
-			if (it != component.animations.end()) {
-				component.animations.erase(it);
-				editing_name = name_buffer;
-				if (editing_name.empty()) editing_name = " ";
-				component.animations.emplace(editing_name, editing_animation);
-			}
+		m_ImGui->DragVector2("Coordinates", choosing_coords);
 
-			if (ImGui::IsKeyDown(ImGuiKey_Delete)) {
-				auto it = component.animations.find(editing_name);
-				if (it != component.animations.end())
-					component.animations.erase(it);
-
-				editing_animation = ResourceID<Animation>();
-				editing_name = "";
-				memset(name_buffer, 0, sizeof(name_buffer));
-			}
+		if (ImGui::Button("Normalize")) {
+			if (length(choosing_coords) != 0.0f)
+				choosing_coords = normalize(choosing_coords);
+		}
+		
+		if (ImGui::Button("Add Node")) {
+			component.animations.push_back({ choosing_coords, choosing_id });
 		}
 
 		ImGui::Separator();
+		
+		size_t pushing_id = 0;
+		int deleting_id = -1;
 
-		if (ImGui::Button("Add Animation"))
-			component.animations.emplace("New Animation", ResourceID<Animation>(FE2D::UUID(0)));
+		for (const auto& [coord, animation_id] : component.animations) {
+			ImGui::PushID(pushing_id);
 
-		constexpr float spacing = 20.0f;
-		constexpr ImVec2 card_size = ImVec2(100, 130);
-		constexpr ImVec4 card_bg_color = ImVec4(0.2f, 0.2f, 0.2f, 1.0f);
-		constexpr ImVec4 card_bg_hovered = ImVec4(0.25f, 0.25f, 0.25f, 1.0f);
-		constexpr ImVec4 card_bg_selected = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);
+			m_ImGui->DrawAnimation(animation_id);
+			ImGui::SameLine();
+			ImGui::Text((std::to_string(coord.x) + " " + std::to_string(coord.y)).c_str());
+			ImGui::SameLine();
 
-		ImVec2 pos = ImGui::GetCursorScreenPos();
-		int index = 0;
+			if (ImGui::Button("Remove")) deleting_id = pushing_id;
+			if (ImGui::Button("Edit")) {
+				choosing_coords = coord;
+				choosing_id = animation_id;
 
-		bool is_any_card_hovered = false;
-
-		for (auto& [name, anim_id] : component.animations) {
-			ImGui::PushID(index);
-
-			float offset_x = index * (card_size.x + spacing);
-			ImVec2 card_pos = ImVec2(pos.x + offset_x, pos.y);
-			ImGui::SetCursorScreenPos(card_pos);
-
-			ImVec2 cursor = ImGui::GetCursorScreenPos();
-			ImDrawList* draw_list = ImGui::GetWindowDrawList();
-
-			ImVec2 card_min = cursor;
-			ImVec2 card_max = ImVec2(cursor.x + card_size.x, cursor.y + card_size.y);
-
-			bool hovered = ImGui::IsMouseHoveringRect(card_min, card_max);
-			if (hovered) is_any_card_hovered = true;
-			bool clicked = hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left);
-
-			if (clicked) {
-				strncpy_s(name_buffer, name.c_str(), sizeof(name_buffer));
-				editing_name = name;
-				editing_animation = anim_id;
-
-				component.current_animation = anim_id;
+				deleting_id = pushing_id;
 			}
 
-			draw_list->AddRectFilled(
-				card_min, card_max,
-				ImGui::GetColorU32(editing_name == name ? card_bg_selected : (hovered ? card_bg_hovered : card_bg_color)),
-				4.0f
-			);
-
-			ImGui::SetCursorScreenPos(ImVec2(cursor.x + 5, cursor.y + 5));
-			ImGui::Text(name.c_str());
-
-			ImVec2 preview_pos = ImVec2(cursor.x + 5, cursor.y + 25);
-			ImGui::SetCursorScreenPos(preview_pos);
-
-			if (anim_id.uuid != FE2D::UUID(0)) m_ImGui->DrawAnimation(anim_id);
-			else ImGui::Dummy(ImVec2(card_size.x - 10, card_size.x - 10));
-
+			pushing_id++;
 			ImGui::PopID();
-			index++;
 		}
 
-		if (!is_any_card_hovered && ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) editing_name.clear();*/
+		if (deleting_id != -1)
+			component.animations.erase(component.animations.begin() + deleting_id);
 		});
 
 	DrawComponent<NativeScriptComponent>("Script", entity, [&](auto& component) {

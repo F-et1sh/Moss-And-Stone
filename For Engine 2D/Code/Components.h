@@ -118,10 +118,17 @@ namespace FE2D {
     };
     
     struct FOR_API AnimatorComponent {
+        enum class State {
+            PAUSE,
+            PLAY,
+            STOP,
+        };
+
         std::vector<std::pair<vec2, ResourceID<Animation>>> animations;
 
         vec2 current_direction = vec2();
         float time = 0.0f;
+        State state = State::STOP;
 
         AnimatorComponent() = default;
         ~AnimatorComponent() = default;

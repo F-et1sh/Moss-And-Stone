@@ -145,12 +145,12 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 			AnimatorComponent& component = deserialized_entity.AddComponent<AnimatorComponent>();
 
 			json j_component = j_entity["AnimatorComponent"];
-			/*SceneSerializer::load_array(component.animations, j_component, "animations", [](const json& j) -> std::pair<vec2, ResourceID<Animation>> {
+			SceneSerializer::load_array(component.animations, j_component, "animations", [](const json& j) -> std::pair<vec2, ResourceID<Animation>> {
 				std::pair<vec2, ResourceID<Animation>> pair;
 				SceneSerializer::load_vec2(pair.first, j, "coord");
 				SceneSerializer::load_resource_id(pair.second, j, "animation");
 				return pair;
-				});*/
+				});
 		}
 
 		if (j_entity.contains("NativeScriptComponent")) {
@@ -271,12 +271,12 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		auto& component = entity.GetComponent<AnimatorComponent>();
 
 		json j_component;
-		/*SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<vec2, ResourceID<Animation>>& e) -> json {
+		SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<vec2, ResourceID<Animation>>& e) -> json {
 			json j;
 			SceneSerializer::save_vec2(e.first, j, "coord");
 			SceneSerializer::save_resource_id(e.second, j, "animation");
 			return j;
-			});*/
+			});
 
 		j["AnimatorComponent"] = j_component;
 	}

@@ -26,6 +26,7 @@
     <ClCompile Include="Code\Cursor.cpp" />
     <ClCompile Include="Code\Enemy.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
+    <ClCompile Include="Code\IPickable.cpp" />
     <ClCompile Include="Code\PlayerController.cpp" />
     <ClCompile Include="Code\RenderContext.cpp" />
     <ClCompile Include="Code\ResourceCache.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Code\fortraits.hpp" />
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />
+    <ClInclude Include="Code\IPickable.h" />
     <ClInclude Include="Code\PlayerController.h" />
     <ClInclude Include="Code\RenderContext.h" />
     <ClInclude Include="Code\ResourceCache.h" />

@@ -322,6 +322,9 @@
     <Filter Include="Code\ECS\Scripting\Scripts\Enemy">
       <UniqueIdentifier>{3d12fd32-fedd-403d-9843-27ecd0106d24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\IPickable">
+      <UniqueIdentifier>{8ed3b931-7694-4341-83f3-1e4c0db28e94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -557,6 +560,9 @@
     </ClCompile>
     <ClCompile Include="Code\Enemy.cpp">
       <Filter>Code\ECS\Scripting\Scripts\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\IPickable.cpp">
+      <Filter>Code\ECS\Scripting\Scripts\IPickable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -814,6 +820,9 @@
     </ClInclude>
     <ClInclude Include="Code\Enemy.h">
       <Filter>Code\ECS\Scripting\Scripts\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\IPickable.h">
+      <Filter>Code\ECS\Scripting\Scripts\IPickable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -377,7 +377,7 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
     id.uuid = selected_uuid;
 }
 
-void FE2D::IMGUI::DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size) {
+void FE2D::IMGUI::DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size) {
     if (id.uuid == FE2D::UUID(0)) return;
 
     auto& animation = m_ResourceManager->GetResource(id);

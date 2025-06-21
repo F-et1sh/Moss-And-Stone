@@ -187,8 +187,13 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 	std::string title = running ? "Stop" : "Start";
 
 	if (ImGui::Button(title.c_str())) {
-		if (running) this->m_SceneManager.EndGameSession();
-		else this->m_SceneManager.StartGameSession();
+		if (running) { 
+			this->m_SceneManager.EndGameSession();
+			m_RenderContext.BindCamera(m_EditorCamera);
+		}
+		else {
+			this->m_SceneManager.StartGameSession();
+		}
 	}
 
 	const float aspect = (float)m_GameFramebuffer.get_texture_size().y / m_GameFramebuffer.get_texture_size().x;

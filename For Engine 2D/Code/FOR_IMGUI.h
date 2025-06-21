@@ -41,7 +41,7 @@ namespace FE2D {
 
 		void SelectTexture(ResourceID<Texture>& id);
 		void SelectAnimation(ResourceID<Animation>& id);
-		void DrawAnimation(ResourceID<Animation>& id, ImVec2 sprite_size = ImVec2(100, 100));
+		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
 
 		void TransformControl(Entity entity);
 		void ColliderControl(TransformComponent& transform, ColliderComponent& collider);
