@@ -10,6 +10,6 @@ namespace FE2D {
 		void Update();
 
 	private:
-
+		static bool IsCollided(const vec2& posA, const vec2& sizeA, const vec2& posB, const vec2& sizeB);
 	};
 }

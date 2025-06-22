@@ -399,6 +399,30 @@ void FE2D::IMGUI::DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size) {
     ImGui::Image(texture.reference(), image_size, uv0, uv1);
 }
 
+void FE2D::IMGUI::DrawCollider(Entity entity) {
+    auto& transform = entity.GetComponent<TransformComponent>();
+    auto& physics = entity.GetComponent<PhysicsComponent>();
+
+    mat4 matrix = entity.GetGlobalTransform();
+    matrix = translate(matrix, vec3(physics.position, 0));
+
+    vec2 pos = this->GetWorldPosition(matrix);
+
+    static constexpr float factor = 0.703f;
+    vec2 size = physics.size * m_RenderContext->getCamera()->getZoom() * factor;
+
+    ImVec2 rect_min(pos.x - (size.x / 2), pos.y - (size.y / 2));
+    ImVec2 rect_max(pos.x + (size.x / 2), pos.y + (size.y / 2));
+
+    std::swap(rect_min.y, rect_max.y);
+
+    constexpr ImU32 rect_color = IM_COL32(20, 240, 40, 100);
+    
+    auto draw = this->GetPreviewWindowDrawList();
+
+    draw->AddRectFilled(rect_min, rect_max, rect_color);
+}
+
 vec2 FE2D::IMGUI::GetWorldPosition(const mat4& matrix) {
     mat4 mvp_matrix = m_RenderContext->getViewProjection() * matrix;
     vec4 clip_space_pos = mvp_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -420,6 +444,13 @@ vec2 FE2D::IMGUI::extractScale(const glm::mat4& matrix) {
     scale.x = length(vec3(matrix[0]));
     scale.y = length(vec3(matrix[1]));
     return scale;
+}
+
+vec2 FE2D::IMGUI::extractPosition(const glm::mat4& matrix) {
+    vec2 position;
+    position.x = matrix[3][0];
+    position.y = matrix[3][1];
+    return position;
 }
 
 ImDrawList* FE2D::IMGUI::GetPreviewWindowDrawList() {
@@ -536,45 +567,6 @@ void IMGUI::TransformControl(Entity entity) {
         }
 
         m_IsDraggingRect = true;
-    }
-}
-
-void FE2D::IMGUI::ColliderControl(TransformComponent& transform, ColliderComponent& collider) {
-    if (IsAnyTransformGizmoDragging()) return;
-
-    m_IsAnyGizmoHovered = false;
-
-    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
-        if (m_IsDraggingColliderLeft) m_IsDraggingColliderLeft = false;
-		if (m_IsDraggingColliderRight) m_IsDraggingColliderRight = false;
-		if (m_IsDraggingColliderTop) m_IsDraggingColliderTop = false;
-		if (m_IsDraggingColliderBottom) m_IsDraggingColliderBottom = false;
-    }
-
-    vec2 pos = this->GetWorldPosition(transform);
-    pos += collider.position;
-    
-    constexpr float line_width = 3;
-
-    vec2 left_pos = pos;
-
-	vec2 vertical_line_size   = vec2(line_width, collider.size.y);
-	vec2 horizontal_line_size = vec2(collider.size.x, line_width);
-
-    auto draw = this->GetPreviewWindowDrawList();
-
-    constexpr vec4 color = vec4(0.4f, 0.7f, 0.5f, 1.0f);
-
-    const float camera_zoom = m_RenderContext->getCamera()->getZoom();
-    vec2 viewport_scale = (LOGICAL_RESOLUTION / m_PreviewWindowSize) * camera_zoom;
-
-    // left
-    if (DrawGizmoRect(left_pos, vertical_line_size, color, m_IsDraggingColliderLeft, draw)) {
-        vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
-
-        collider.position.x += delta.x * viewport_scale.x;
-
-        m_IsDraggingColliderLeft = true;
     }
 }
 

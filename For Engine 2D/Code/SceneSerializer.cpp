@@ -18,7 +18,7 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& full_path) {
 
 	registry.view<IDComponent>().each([&](auto entity, auto& uuid) {
 		Entity load_entity = { entity, m_Scene };
-		
+
 		json j_entity;
 		SerializeEntity(j_entity, load_entity);
 
@@ -37,22 +37,22 @@ bool FE2D::SceneSerializer::Serialize(const std::filesystem::path& full_path) {
 }
 
 bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) {
-    std::ifstream file(full_path);
-    if (!file.good()) {
-        SAY("ERROR : Failed to deserialize a scene with JSON\nFile path : " << full_path);
-        return false;
-    }
+	std::ifstream file(full_path);
+	if (!file.good()) {
+		SAY("ERROR : Failed to deserialize a scene with JSON\nFile path : " << full_path);
+		return false;
+	}
 
-    json j;
-    file >> j;
-    file.close();
+	json j;
+	file >> j;
+	file.close();
 
 	// deserialize scriptable entities after other entities
 	std::vector<std::pair<json, Entity>> scriptable_entities;
 
-    entt::registry& registry = m_Scene->getRegistry();
+	entt::registry& registry = m_Scene->getRegistry();
 
-    for (auto& j_entity : j["Entities"]) {
+	for (auto& j_entity : j["Entities"]) {
 		uint64_t uuid = 0;
 		SceneSerializer::load_value(uuid, j_entity, "UUID");
 
@@ -61,8 +61,8 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 		SceneSerializer::load_value(name, tagComponent, "tag");
 
 		if (!uuid || name.empty()) {
-			SAY("WARNING : Failed to deserialize an entity. UUID or name are not valid" << 
-				"\nUUID : " << uuid << 
+			SAY("WARNING : Failed to deserialize an entity. UUID or name are not valid" <<
+				"\nUUID : " << uuid <<
 				"\nName : " << name.c_str());
 			continue;
 		}
@@ -126,19 +126,16 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 			SceneSerializer::load_vec4(component.clear_color, j_component, "clear_color");
 		}
 
-		if (j_entity.contains("VelocityComponent")) {
-			VelocityComponent& component = deserialized_entity.AddComponent<VelocityComponent>();
+		if (j_entity.contains("PhysicsComponent")) {
+			PhysicsComponent& component = deserialized_entity.AddComponent<PhysicsComponent>();
 
-			json j_component = j_entity["VelocityComponent"];
-			SceneSerializer::load_vec2(component.velocity, j_component, "velocity");
-		}
-
-		if (j_entity.contains("ColliderComponent")) {
-			ColliderComponent& component = deserialized_entity.AddComponent<ColliderComponent>();
-
-			json j_component = j_entity["ColliderComponent"];
+			json j_component = j_entity["PhysicsComponent"];
 			SceneSerializer::load_vec2(component.position, j_component, "position");
 			SceneSerializer::load_vec2(component.size, j_component, "size");
+			SceneSerializer::load_value(component.restitution, j_component, "restitution");
+			SceneSerializer::load_value(component.mass, j_component, "mass");
+			SceneSerializer::load_value(component.is_trigger, j_component, "is_trigger");
+			SceneSerializer::load_value(component.is_static, j_component, "is_static");
 		}
 
 		if (j_entity.contains("AnimatorComponent")) {
@@ -156,15 +153,15 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 		if (j_entity.contains("NativeScriptComponent")) {
 			scriptable_entities.emplace_back(j_entity["NativeScriptComponent"], deserialized_entity);
 		}
-    }
+	}
 
 	for (auto [j_component, entity] : scriptable_entities) {
 		NativeScriptComponent& component = entity.AddComponent<NativeScriptComponent>();
 
 		SceneSerializer::load_value(component.script_name, j_component, "script_name");
 		if (!ScriptFactory::Instance().GetRegisteredScripts().contains(component.script_name)) {
-			SAY("WARNING : Failed to deserialize a scriptable entity" << 
-				"\nFailed to find script name in the list. Using empty name" << 
+			SAY("WARNING : Failed to deserialize a scriptable entity" <<
+				"\nFailed to find script name in the list. Using empty name" <<
 				"\nName : " << component.script_name.c_str());
 			component.script_name.clear();
 			continue;
@@ -180,7 +177,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 		return false;
 	}
 
-    return true;
+	return true;
 }
 
 void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
@@ -191,7 +188,7 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 
 	if (entity.HasComponent<TagComponent>()) {
 		auto& component = entity.GetComponent<TagComponent>();
-		
+
 		json j_component;
 		SceneSerializer::save_value(component.tag, j_component, "tag");
 
@@ -248,23 +245,18 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		j["CameraComponent"] = j_component;
 	}
 
-	if (entity.HasComponent<VelocityComponent>()) {
-		auto& component = entity.GetComponent<VelocityComponent>();
-
-		json j_component;
-		SceneSerializer::save_vec2(component.velocity, j_component, "velocity");
-
-		j["VelocityComponent"] = j_component;
-	}
-
-	if (entity.HasComponent<ColliderComponent>()) {
-		auto& component = entity.GetComponent<ColliderComponent>();
+	if (entity.HasComponent<PhysicsComponent>()) {
+		auto& component = entity.GetComponent<PhysicsComponent>();
 
 		json j_component;
 		SceneSerializer::save_vec2(component.position, j_component, "position");
 		SceneSerializer::save_vec2(component.size, j_component, "size");
+		SceneSerializer::save_value(component.restitution, j_component, "restitution");
+		SceneSerializer::save_value(component.mass, j_component, "mass");
+		SceneSerializer::save_value(component.is_trigger, j_component, "is_trigger");
+		SceneSerializer::save_value(component.is_static, j_component, "is_static");
 
-		j["ColliderComponent"] = j_component;
+		j["PhysicsComponent"] = j_component;
 	}
 
 	if (entity.HasComponent<AnimatorComponent>()) {
@@ -294,11 +286,11 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 
 void FE2D::SceneSerializer::SerializeSceneInfo(json& j) {
 	json info;
-	info["SceneIndex"]			   = m_Scene->getIndex();
+	info["SceneIndex"] = m_Scene->getIndex();
 
-	info["SpriteRendererSystem"]   = m_Scene->m_SpriteRendererSystem->Serialize();
-	info["PhysicsSystem"]		   = m_Scene->m_PhysicsSystem		->Serialize();
-	info["AnimationSystem"]		   = m_Scene->m_AnimationSystem		->Serialize();
+	info["SpriteRendererSystem"] = m_Scene->m_SpriteRendererSystem->Serialize();
+	info["PhysicsSystem"] = m_Scene->m_PhysicsSystem->Serialize();
+	info["AnimationSystem"] = m_Scene->m_AnimationSystem->Serialize();
 
 	j["SceneInfo"] = info;
 }
@@ -319,8 +311,8 @@ bool FE2D::SceneSerializer::DeserializeSceneInfo(const json& j) {
 	SceneSerializer::load_value(m_Scene->m_Index, info, "SceneIndex");
 
 	if (info.contains("SpriteRendererSystem"))      m_Scene->m_SpriteRendererSystem->Deserialize(info["SpriteRendererSystem"]);
-	if (info.contains("PhysicsSystem"))             m_Scene->m_PhysicsSystem	   ->Deserialize(info["PhysicsSystem"]);
-	if (info.contains("AnimationSystem"))           m_Scene->m_AnimationSystem	   ->Deserialize(info["AnimationSystem"]);
+	if (info.contains("PhysicsSystem"))             m_Scene->m_PhysicsSystem->Deserialize(info["PhysicsSystem"]);
+	if (info.contains("AnimationSystem"))           m_Scene->m_AnimationSystem->Deserialize(info["AnimationSystem"]);
 
 	return true;
 }

@@ -8,7 +8,6 @@
 namespace FE2D {
 	/* forward declarations */
 	class TransformComponent;
-	class ColliderComponent;
 	class Camera;
 	class Window;
 	class RenderContext;
@@ -41,10 +40,11 @@ namespace FE2D {
 
 		void SelectTexture(ResourceID<Texture>& id);
 		void SelectAnimation(ResourceID<Animation>& id);
+
 		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
+		void DrawCollider(Entity entity);
 
 		void TransformControl(Entity entity);
-		void ColliderControl(TransformComponent& transform, ColliderComponent& collider);
 
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
 
@@ -102,9 +102,11 @@ namespace FE2D {
 		bool DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
 		bool DrawGizmoRect(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
 
+		static vec2 extractScale(const glm::mat4& matrix);
+		static vec2 extractPosition(const glm::mat4& matrix);
+
 	private:
 		vec2 GetWorldPosition(const mat4& matrix);
-		static vec2 extractScale(const glm::mat4& matrix);
 
 		ImDrawList* GetPreviewWindowDrawList();
 

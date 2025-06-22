@@ -1,5 +1,6 @@
 #pragma once
 #include "UUID.h"
+#include "Entity.h"
 
 namespace FE2D {
     struct FOR_API IDComponent {
@@ -98,23 +99,26 @@ namespace FE2D {
         CameraComponent(const CameraComponent&) = default;
     };
 
-    struct FOR_API VelocityComponent {
-        vec2 velocity = vec2();
-
-        VelocityComponent() = default;
-        ~VelocityComponent() = default;
-        VelocityComponent(const VelocityComponent&) = default;
-    };
-
-    struct FOR_API ColliderComponent {
-        // position of the collider is local
-        // ensure that you're using TransformComponent::position with ColliderComponent::position
-        vec2 position = vec2(0, 0);
+    struct FOR_API PhysicsComponent {
+        vec2 position = vec2();
         vec2 size = vec2(50, 50);
 
-        ColliderComponent() = default;
-        ~ColliderComponent() = default;
-        ColliderComponent(const ColliderComponent&) = default;
+        // 0 - no bounce
+        // 1 - full bounce
+        float restitution = 0.0f;
+
+        float mass = 1.0f;
+
+        bool is_trigger = false;
+        bool is_static = false;
+
+        vec2 velocity = vec2();
+
+        Entity entity_in;
+
+        PhysicsComponent() = default;
+        ~PhysicsComponent() = default;
+        PhysicsComponent(const PhysicsComponent&) = default;
     };
     
     struct FOR_API AnimatorComponent {

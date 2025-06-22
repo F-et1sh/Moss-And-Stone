@@ -95,7 +95,6 @@ void FE2D::Scene::Update() {
 
 	m_PhysicsSystem->Update();
 
-
 	if (m_CameraEntityUUID != FE2D::UUID(0)) {
 		vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;
 

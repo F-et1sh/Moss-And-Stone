@@ -145,9 +145,6 @@
     <Filter Include="Code\ECS\System\SpriteRenderer">
       <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Physics">
-      <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\System\Animation">
       <UniqueIdentifier>{9063ff2c-256d-48d4-a7a6-aa6c7a1e0daf}</UniqueIdentifier>
     </Filter>
@@ -324,6 +321,9 @@
     </Filter>
     <Filter Include="Code\ECS\Scripting\Scripts\IPickable">
       <UniqueIdentifier>{8ed3b931-7694-4341-83f3-1e4c0db28e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Physics">
+      <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

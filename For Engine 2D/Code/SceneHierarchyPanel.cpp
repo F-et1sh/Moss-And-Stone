@@ -66,6 +66,10 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 	ImGuiTreeNodeFlags flags = ((this->getSelected() == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 	bool opened = ImGui::TreeNodeEx(tag.c_str(), flags, tag.c_str());
 
+	// draw collider
+	if (entity.HasComponent<PhysicsComponent>())
+		m_ImGui->DrawCollider(entity);
+
 	if (ImGui::BeginDragDropSource()) {
 		ImGui::SetDragDropPayload("ENTITY_DRAGGING", &entity, sizeof(Entity));
 		ImGui::Text("%s", tag.c_str());
@@ -135,8 +139,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<TransformComponent>("Transform");
 		DisplayAddComponentEntry<SpriteComponent>("Sprite Renderer");
 		DisplayAddComponentEntry<CameraComponent>("Camera");
-		DisplayAddComponentEntry<VelocityComponent>("Velocity");
-		DisplayAddComponentEntry<ColliderComponent>("Collider");
+		DisplayAddComponentEntry<PhysicsComponent>("Physics");
 		DisplayAddComponentEntry<AnimatorComponent>("Animator");
 		DisplayAddComponentEntry<NativeScriptComponent>("Script");
 
@@ -175,16 +178,22 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::ColorEdit4("Clear Color", (float*)&component.clear_color);
 		});
 
-	DrawComponent<VelocityComponent>("Velocity", entity, [&](auto& component) {
-		m_ImGui->DragVector2("Velocity", component.velocity);
-		});
-
-	DrawComponent<ColliderComponent>("Collider", entity, [&](auto& component) {
+	DrawComponent<PhysicsComponent>("Physics", entity, [&](auto& component) {
 		m_ImGui->DragVector2("Position", component.position);
 		ImGui::Spacing();
 		m_ImGui->DragVector2("Size", component.size);
+		ImGui::Spacing();
+		ImGui::DragFloat("Restitution", &component.restitution, 1, 0, 1);
+		ImGui::Spacing();
+		ImGui::DragFloat("Mass", &component.mass, 1);
 
-		//m_ImGui->ColliderControl(entity.GetComponent<TransformComponent>(), component);
+		m_ImGui->CheckBox("Is Trigger", component.is_trigger);
+		m_ImGui->CheckBox("Is Static", component.is_static);
+
+		ImGui::Spacing();
+
+		if (!component.is_static)
+			m_ImGui->DragVector2("Velocity", component.velocity);
 		});
 
 	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {

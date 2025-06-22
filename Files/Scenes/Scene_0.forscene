@@ -4,10 +4,24 @@
             "NativeScriptComponent": {
                 "script_data": {
                     "player": "16602346664228839650",
-                    "speed": 20.0,
+                    "speed": 0.0,
                     "transform": "7684727528006643842"
                 },
                 "script_name": "Enemy"
+            },
+            "PhysicsComponent": {
+                "is_static": true,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "restitution": 0.0,
+                "size": [
+                    50.0,
+                    50.0
+                ]
             },
             "RelationshipComponent": {
                 "children": [],
@@ -29,14 +43,14 @@
             },
             "TransformComponent": {
                 "auto_sort": true,
-                "layer": 0,
+                "layer": 1,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    -6.183216094970703,
-                    5.009083271026611
+                    38.209259033203125,
+                    135.7602996826172
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -91,12 +105,26 @@
                 "script_data": null,
                 "script_name": "PlayerController"
             },
+            "PhysicsComponent": {
+                "is_static": false,
+                "is_trigger": false,
+                "mass": 70.0,
+                "position": [
+                    0.0,
+                    -1.0
+                ],
+                "restitution": 1.0,
+                "size": [
+                    7.0,
+                    16.0
+                ]
+            },
             "RelationshipComponent": {
                 "children": [],
                 "parent": 0
             },
             "SpriteComponent": {
-                "flip_x": false,
+                "flip_x": true,
                 "flip_y": false,
                 "frame": [
                     0.0,
@@ -104,7 +132,7 @@
                     7.0,
                     26.0
                 ],
-                "texture": "4535877023346598092"
+                "texture": "5170493861806834643"
             },
             "TagComponent": {
                 "tag": "Artem"
@@ -117,8 +145,8 @@
                     0.0
                 ],
                 "position": [
-                    24.7359676361084,
-                    -20.535276412963867
+                    43.14662170410156,
+                    69.09751892089844
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -127,6 +155,58 @@
                 ]
             },
             "UUID": 16602346664228839650
+        },
+        {
+            "PhysicsComponent": {
+                "is_static": true,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "restitution": 0.0,
+                "size": [
+                    16.0,
+                    16.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    16.0,
+                    16.0
+                ],
+                "texture": "11974836725074382672"
+            },
+            "TagComponent": {
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 15105499749586616922
         }
     ],
     "SceneInfo": {

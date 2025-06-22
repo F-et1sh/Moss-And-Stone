@@ -88,4 +88,25 @@ void FE2D::Entity::RemoveChild(UUID child) {
 	m_Scene->GetEntityByUUID(child).RemoveParent();
 }
 
+inline FE2D::UUID FE2D::Entity::GetUUID() const {
+	FOR_ASSERT(HasComponent<IDComponent>(), "Entity does not have IDComponent");
+	return GetComponent<IDComponent>().id;
+}
+
+inline mat4 FE2D::Entity::GetGlobalTransform() {
+	auto& transform = GetComponent<TransformComponent>();
+	mat4 global_transform = mat4();
+	if (HasParent()) global_transform = GetGlobalTransform(GetParent()) * static_cast<mat4>(transform);
+	else			 global_transform = static_cast<mat4>(transform);
+	return global_transform;
+}
+
+inline mat4 FE2D::Entity::GetGlobalTransform(Entity entity) {
+	auto& transform = entity.GetComponent<TransformComponent>();
+	mat4 global_transform = mat4();
+	if (entity.HasParent()) global_transform = GetGlobalTransform(entity.GetParent()) * static_cast<mat4>(transform);
+	else					global_transform = static_cast<mat4>(transform);
+	return global_transform;
+}
+
 inline entt::registry& FE2D::Entity::GetRegistry() const noexcept { return m_Scene->m_Registry; }
