@@ -13,7 +13,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 	m_RenderContext.Initialize();
 	m_RenderContext.BindCamera(m_EditorCamera);
 
-	m_Window.setVSyn(true);
+	//m_Window.setVSyn(true);
 	m_Window.setAutoClose(false);
 
 	m_Window.SubscribeToEvent(m_Event_WindowClosed, EventType::WindowClosed, [&](const IEvent& e) { this->make_close_request(); });

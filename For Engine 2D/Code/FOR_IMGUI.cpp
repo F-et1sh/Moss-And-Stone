@@ -417,7 +417,7 @@ void FE2D::IMGUI::DrawCollider(Entity entity) {
     std::swap(rect_min.y, rect_max.y);
 
     constexpr ImU32 rect_color = IM_COL32(20, 240, 40, 100);
-    
+
     auto draw = this->GetPreviewWindowDrawList();
 
     draw->AddRectFilled(rect_min, rect_max, rect_color);

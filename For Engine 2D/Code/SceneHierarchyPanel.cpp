@@ -183,7 +183,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::Spacing();
 		m_ImGui->DragVector2("Size", component.size);
 		ImGui::Spacing();
-		ImGui::DragFloat("Restitution", &component.restitution, 1, 0, 1);
+		ImGui::DragFloat("Bounce Factor", &component.bounce_factor, 0.1f);
 		ImGui::Spacing();
 		ImGui::DragFloat("Mass", &component.mass, 1);
 
@@ -192,8 +192,10 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 		ImGui::Spacing();
 
-		if (!component.is_static)
+		if (!component.is_static) {
 			m_ImGui->DragVector2("Velocity", component.velocity);
+			ImGui::DragFloat("Velocity Dying", &component.velocity_dying, 0.01f);
+		}
 		});
 
 	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {

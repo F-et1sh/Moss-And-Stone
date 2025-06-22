@@ -3,13 +3,14 @@
 class PlayerController : public ScriptableEntity {
 public:
 	ComponentField<TransformComponent> transform;
+	ComponentField<PhysicsComponent> physics;
 	ComponentField<SpriteComponent> sprite;
 	ComponentField<AnimatorComponent> animator;
 
 	vec2 dir = vec2();
 	static constexpr float speed = 60;
 
-	vec2 view_dir = vec2();
+	vec2 mouse_position = vec2();
 
 	PlayerController()
 	{
@@ -20,15 +21,26 @@ public:
 
 	void OnStart()override {
 		transform = this_entity();
+		physics = this_entity();
 		animator = this_entity();
 		sprite = this_entity();
 
 		subscribe_to_event(EventType::MouseMoved, [&](const IEvent& e) {
 			const MouseMoved& _event = static_cast<const MouseMoved&>(e);
-			view_dir = _event.position;
-			view_dir.y = m_Scene->getRenderContext().getResolution().y - view_dir.y;
-			view_dir  -= m_Scene->getRenderContext().getResolution() / vec2(2);
+			mouse_position = _event.position;
+			mouse_position.y = m_Scene->getRenderContext().getResolution().y - mouse_position.y;
+			mouse_position -= m_Scene->getRenderContext().getResolution() / vec2(2);
 			});
+
+		/*subscribe_to_event(EventType::MouseButtonPressed, [&](const IEvent& e) {
+			const MouseButtonPressed& _event = static_cast<const MouseButtonPressed&>(e);
+			if (_event.button == GLFW_MOUSE_BUTTON_LEFT) {
+				Entity e = m_Scene->CreateEntity("Bullet");
+				e.GetComponent<TransformComponent>().position = transform->position + vec2(8, 0);
+				auto& physics = e.AddComponent<PhysicsComponent>();
+				physics.size = vec2(8);
+			}
+			});*/
 	}
 
 	void OnUpdate(double deltaTime)override {
@@ -45,10 +57,10 @@ public:
 
 		transform->position += dir * speed * vec2(deltaTime);
 
-		if (view_dir.x > 0) sprite->flip_x = false;
-		else				sprite->flip_x = true;
+		if (mouse_position.x > 0) sprite->flip_x = false;
+		else					  sprite->flip_x = true;
 
-		animator->current_direction = vec2(abs(view_dir.x), view_dir.y);
+		animator->current_direction = vec2(abs(mouse_position.x), mouse_position.y);
 
 		dir = {};
 	}

@@ -132,10 +132,11 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 			json j_component = j_entity["PhysicsComponent"];
 			SceneSerializer::load_vec2(component.position, j_component, "position");
 			SceneSerializer::load_vec2(component.size, j_component, "size");
-			SceneSerializer::load_value(component.restitution, j_component, "restitution");
+			SceneSerializer::load_value(component.bounce_factor, j_component, "bounce_factor");
 			SceneSerializer::load_value(component.mass, j_component, "mass");
 			SceneSerializer::load_value(component.is_trigger, j_component, "is_trigger");
 			SceneSerializer::load_value(component.is_static, j_component, "is_static");
+			SceneSerializer::load_value(component.velocity_dying, j_component, "velocity_dying");
 		}
 
 		if (j_entity.contains("AnimatorComponent")) {
@@ -251,10 +252,11 @@ void FE2D::SceneSerializer::SerializeEntity(json& j, Entity entity) {
 		json j_component;
 		SceneSerializer::save_vec2(component.position, j_component, "position");
 		SceneSerializer::save_vec2(component.size, j_component, "size");
-		SceneSerializer::save_value(component.restitution, j_component, "restitution");
+		SceneSerializer::save_value(component.bounce_factor, j_component, "bounce_factor");
 		SceneSerializer::save_value(component.mass, j_component, "mass");
 		SceneSerializer::save_value(component.is_trigger, j_component, "is_trigger");
 		SceneSerializer::save_value(component.is_static, j_component, "is_static");
+		SceneSerializer::save_value(component.velocity_dying, j_component, "velocity_dying");
 
 		j["PhysicsComponent"] = j_component;
 	}

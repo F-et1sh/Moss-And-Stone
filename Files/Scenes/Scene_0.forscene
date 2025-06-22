@@ -1,15 +1,46 @@
 {
     "Entities": [
         {
-            "NativeScriptComponent": {
-                "script_data": {
-                    "player": "16602346664228839650",
-                    "speed": 0.0,
-                    "transform": "7684727528006643842"
-                },
-                "script_name": "Enemy"
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
             },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    31.0,
+                    67.0
+                ],
+                "texture": "14478432495492671754"
+            },
+            "TagComponent": {
+                "tag": "Tree"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 8482497956033706171
+        },
+        {
             "PhysicsComponent": {
+                "bounce_factor": 0.0,
                 "is_static": true,
                 "is_trigger": false,
                 "mass": 1.0,
@@ -17,11 +48,11 @@
                     0.0,
                     0.0
                 ],
-                "restitution": 0.0,
                 "size": [
-                    50.0,
-                    50.0
-                ]
+                    16.0,
+                    16.0
+                ],
+                "velocity_dying": 1.024999976158142
             },
             "RelationshipComponent": {
                 "children": [],
@@ -33,32 +64,85 @@
                 "frame": [
                     0.0,
                     0.0,
-                    20.0,
-                    14.0
+                    16.0,
+                    16.0
                 ],
-                "texture": "10481742720340127963"
+                "texture": "6178231784002649046"
             },
             "TagComponent": {
-                "tag": "Enemy"
+                "tag": "Tile 2"
             },
             "TransformComponent": {
-                "auto_sort": true,
-                "layer": 1,
+                "auto_sort": false,
+                "layer": 0,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    38.209259033203125,
-                    135.7602996826172
+                    85.42684173583984,
+                    71.68128967285156
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    -1.0,
+                    1.0,
                     1.0
                 ]
             },
-            "UUID": 7684727528006643842
+            "UUID": 15978327270506073818
+        },
+        {
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    16.0,
+                    16.0
+                ],
+                "velocity_dying": 1.024999976158142
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    16.0,
+                    16.0
+                ],
+                "texture": "11974836725074382672"
+            },
+            "TagComponent": {
+                "tag": "Tile 1"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    71.01913452148438,
+                    25.10017967224121
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "UUID": 15771887310811224654
         },
         {
             "AnimatorComponent": {
@@ -106,6 +190,7 @@
                 "script_name": "PlayerController"
             },
             "PhysicsComponent": {
+                "bounce_factor": 1.0,
                 "is_static": false,
                 "is_trigger": false,
                 "mass": 70.0,
@@ -113,18 +198,18 @@
                     0.0,
                     -1.0
                 ],
-                "restitution": 1.0,
                 "size": [
                     7.0,
                     16.0
-                ]
+                ],
+                "velocity_dying": 1.024999976158142
             },
             "RelationshipComponent": {
                 "children": [],
                 "parent": 0
             },
             "SpriteComponent": {
-                "flip_x": true,
+                "flip_x": false,
                 "flip_y": false,
                 "frame": [
                     0.0,
@@ -145,8 +230,8 @@
                     0.0
                 ],
                 "position": [
-                    43.14662170410156,
-                    69.09751892089844
+                    46.96015930175781,
+                    64.87004089355469
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -155,58 +240,6 @@
                 ]
             },
             "UUID": 16602346664228839650
-        },
-        {
-            "PhysicsComponent": {
-                "is_static": true,
-                "is_trigger": false,
-                "mass": 1.0,
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "restitution": 0.0,
-                "size": [
-                    16.0,
-                    16.0
-                ]
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    16.0,
-                    16.0
-                ],
-                "texture": "11974836725074382672"
-            },
-            "TagComponent": {
-                "tag": "New Entity"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "UUID": 15105499749586616922
         }
     ],
     "SceneInfo": {

@@ -105,7 +105,7 @@ namespace FE2D {
 
         // 0 - no bounce
         // 1 - full bounce
-        float restitution = 0.0f;
+        float bounce_factor = 0.0f;
 
         float mass = 1.0f;
 
@@ -113,6 +113,7 @@ namespace FE2D {
         bool is_static = false;
 
         vec2 velocity = vec2();
+        float velocity_dying = 1.025f;
 
         Entity entity_in;
 
