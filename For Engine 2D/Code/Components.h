@@ -1,6 +1,7 @@
 #pragma once
 #include "UUID.h"
 #include "Entity.h"
+#include "ScriptableEntity.h"
 
 namespace FE2D {
     struct FOR_API IDComponent {
@@ -140,10 +141,38 @@ namespace FE2D {
         AnimatorComponent(const AnimatorComponent&) = default;
     };
 
-    class ScriptableEntity; // forward declaration
-
     struct FOR_API NativeScriptComponent {
         std::unique_ptr<ScriptableEntity> instance = nullptr;
         std::string script_name;
+        
+        NativeScriptComponent() = default;
+        ~NativeScriptComponent() = default;
+
+        NativeScriptComponent(const NativeScriptComponent& other) {
+            if (other.instance)
+                instance = std::move(other.instance->clone());
+        }
+
+        NativeScriptComponent& operator=(const NativeScriptComponent& other) {
+            if (this != &other) {
+                if (other.instance) instance = other.instance->clone();
+                else instance.reset();
+            }
+            return *this;
+        }
+
+        NativeScriptComponent(NativeScriptComponent&&) noexcept = default;
+        NativeScriptComponent& operator=(NativeScriptComponent&&) noexcept = default;
     };
+
+    using AllComponents = std::variant<
+        IDComponent, 
+        TagComponent, 
+        TransformComponent, 
+        SpriteComponent, 
+        RelationshipComponent, 
+        CameraComponent, 
+        PhysicsComponent, 
+        AnimatorComponent, 
+        NativeScriptComponent>;
 }

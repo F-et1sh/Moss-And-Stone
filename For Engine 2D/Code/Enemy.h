@@ -1,6 +1,9 @@
 #pragma once
 
 class Enemy : public ScriptableEntity {
+	
+	GENERATED_BODY(Enemy)
+
 public:
 	Enemy() {}
 	~Enemy() {}

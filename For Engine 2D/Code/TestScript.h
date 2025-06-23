@@ -1,9 +1,13 @@
 #pragma once
 
 class TestScript : public ScriptableEntity {
+	
+	GENERATED_BODY(TestScript)
+
 public:
 	TestScript() { SAY("TestScript : Created"); }
 	~TestScript() { SAY("TestScript : Deleted"); }
+
 
 	void OnStart()override {
 		SAY("TestScript : Started");

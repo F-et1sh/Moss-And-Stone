@@ -1,4 +1,5 @@
 #pragma once
+#include "Window.h"
 
 namespace FE2D {
     class ScriptableEntity; // forward declaration

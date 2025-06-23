@@ -29,5 +29,13 @@ namespace FE2D {
 
 	private:
 		std::vector<EventSubscription> m_EventSubscription;
+
+	public:
+		virtual std::unique_ptr<ScriptableEntity> clone()const = 0;
 	};
+#define GENERATED_BODY(T) \
+public: \
+    std::unique_ptr<ScriptableEntity> clone()const override { \
+        return std::make_unique<T>(*this); \
+    }
 }

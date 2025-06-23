@@ -1,6 +1,7 @@
 #pragma once
 #include "ComponentField.h"
 #include "Scene.h"
+#include "Prefab.h"
 
 namespace FE2D {
 	class FOR_API SceneSerializer {
@@ -11,7 +12,111 @@ namespace FE2D {
         bool Deserialize(const std::filesystem::path& full_path);
 
     private:
-        void SerializeEntity(json& j, Entity entity);
+        template<typename T> requires std::is_same_v<T, Prefab> || std::is_same_v<T, Entity>
+        void SerializeEntity(json& j, const T& entity) {
+            FOR_ASSERT(entity.HasComponent<IDComponent>(), "Cannot serialize an entity without IDComponent");
+
+            uint64_t uuid = entity.GetComponent<IDComponent>().id.get();
+            SceneSerializer::save_value(uuid, j, "UUID");
+
+            if (entity.HasComponent<TagComponent>()) {
+                auto& component = entity.GetComponent<TagComponent>();
+
+                json j_component;
+                SceneSerializer::save_value(component.tag, j_component, "tag");
+
+                j["TagComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<TransformComponent>()) {
+                auto& component = entity.GetComponent<TransformComponent>();
+
+                json j_component;
+                SceneSerializer::save_vec2(component.position, j_component, "position");
+                SceneSerializer::save_value(component.layer, j_component, "layer");
+                SceneSerializer::save_value(component.auto_sort, j_component, "auto_sort");
+                SceneSerializer::save_vec2(component.scale, j_component, "scale");
+                SceneSerializer::save_value(component.rotation, j_component, "rotation");
+                SceneSerializer::save_vec2(component.origin, j_component, "origin");
+
+                j["TransformComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<SpriteComponent>()) {
+                auto& component = entity.GetComponent<SpriteComponent>();
+
+                json j_component;
+                SceneSerializer::save_resource_id(component.texture, j_component, "texture");
+                SceneSerializer::save_vec4(component.frame, j_component, "frame");
+                SceneSerializer::save_value(component.flip_x, j_component, "flip_x");
+                SceneSerializer::save_value(component.flip_y, j_component, "flip_y");
+
+                j["SpriteComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<RelationshipComponent>()) {
+                auto& component = entity.GetComponent<RelationshipComponent>();
+
+                json j_component;
+                SceneSerializer::save_value(component.parent.get(), j_component, "parent");
+
+                json children_array = json::array();
+                for (const auto& child : component.children) {
+                    children_array.push_back(child.get());
+                }
+                j_component["children"] = std::move(children_array);
+
+                j["RelationshipComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<CameraComponent>()) {
+                auto& component = entity.GetComponent<CameraComponent>();
+
+                json j_component;
+                SceneSerializer::save_vec4(component.clear_color, j_component, "clear_color");
+
+                j["CameraComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<PhysicsComponent>()) {
+                auto& component = entity.GetComponent<PhysicsComponent>();
+
+                json j_component;
+                SceneSerializer::save_vec2(component.position, j_component, "position");
+                SceneSerializer::save_vec2(component.size, j_component, "size");
+                SceneSerializer::save_value(component.bounce_factor, j_component, "bounce_factor");
+                SceneSerializer::save_value(component.mass, j_component, "mass");
+                SceneSerializer::save_value(component.is_trigger, j_component, "is_trigger");
+                SceneSerializer::save_value(component.is_static, j_component, "is_static");
+                SceneSerializer::save_value(component.velocity_dying, j_component, "velocity_dying");
+
+                j["PhysicsComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<AnimatorComponent>()) {
+                auto& component = entity.GetComponent<AnimatorComponent>();
+
+                json j_component;
+                SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<vec2, ResourceID<Animation>>& e) -> json {
+                    json j;
+                    SceneSerializer::save_vec2(e.first, j, "coord");
+                    SceneSerializer::save_resource_id(e.second, j, "animation");
+                    return j;
+                    });
+
+                j["AnimatorComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<NativeScriptComponent>()) {
+                auto& component = entity.GetComponent<NativeScriptComponent>();
+
+                json j_component;
+                SceneSerializer::save_value(component.script_name, j_component, "script_name");
+                SceneSerializer::save_value(component.instance ? component.instance->Serialize() : json(), j_component, "script_data");
+
+                j["NativeScriptComponent"] = j_component;
+            }
+        }
         
         void SerializeSceneInfo(json& j);
         bool DeserializeSceneInfo(const json& j);

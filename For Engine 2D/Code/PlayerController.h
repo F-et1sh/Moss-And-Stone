@@ -1,7 +1,17 @@
 #pragma once
 
 class PlayerController : public ScriptableEntity {
+
+	GENERATED_BODY(PlayerController)
+
 public:
+	PlayerController()
+	{
+	}
+	~PlayerController()
+	{
+	}
+
 	ComponentField<TransformComponent> transform;
 	ComponentField<PhysicsComponent> physics;
 	ComponentField<SpriteComponent> sprite;
@@ -11,13 +21,6 @@ public:
 	static constexpr float speed = 60;
 
 	vec2 mouse_position = vec2();
-
-	PlayerController()
-	{
-	}
-	~PlayerController()
-	{
-	}
 
 	void OnStart()override {
 		transform = this_entity();

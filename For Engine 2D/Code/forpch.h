@@ -82,8 +82,8 @@ using namespace glm;
 
 // ECS
 #include "Entity.h"
-#include "Components.h"
 #include "ScriptableEntity.h"
+#include "Components.h"
 
 // Resource Management
 #include "ResourceManager.h"

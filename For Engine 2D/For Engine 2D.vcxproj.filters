@@ -325,6 +325,9 @@
     <Filter Include="Code\ECS\System\Physics">
       <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Resource Management\Resources\Prefab">
+      <UniqueIdentifier>{62c62c8f-f10a-4700-9ec8-71d63183c3ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -563,6 +566,9 @@
     </ClCompile>
     <ClCompile Include="Code\IPickable.cpp">
       <Filter>Code\ECS\Scripting\Scripts\IPickable</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Prefab.cpp">
+      <Filter>Code\Resource Management\Resources\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -823,6 +829,9 @@
     </ClInclude>
     <ClInclude Include="Code\IPickable.h">
       <Filter>Code\ECS\Scripting\Scripts\IPickable</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Prefab.h">
+      <Filter>Code\Resource Management\Resources\Prefab</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
