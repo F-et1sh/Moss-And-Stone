@@ -1,6 +1,10 @@
 #include "forpch.h"
 #include "Prefab.h"
 
+FE2D::Prefab::Prefab(Entity entity) {
+	FOR_COMPONENTS_HELPER::collect_from_entity(entity, this->m_Components);
+}
+
 bool FE2D::Prefab::LoadFromFile(const std::filesystem::path& file_path) {
 	std::ifstream file(file_path);
 	if (!file.good()) {
@@ -11,7 +15,7 @@ bool FE2D::Prefab::LoadFromFile(const std::filesystem::path& file_path) {
 	json j;
 	file >> j;
 
-	auto components = SceneSerializer::DeserialzieComponents(j);
+	auto components = SceneSerializer::DeserializeComponents(j);
 	for (auto& comp : components) {
 		std::visit([&](auto&& c) {
 			using T = std::decay_t<decltype(c)>;
@@ -32,6 +36,17 @@ void FE2D::Prefab::UplopadToFile(const std::filesystem::path& file_path) const {
 	json j = SceneSerializer::SerializeComponents(*this);
 
 	file << j;
+}
+
+Entity FE2D::Prefab::CreateEntity(Scene* scene) {
+	Entity e = { scene->getRegistry().create(), scene };
+	for (auto& comp : m_Components) {
+		std::visit([&](auto& c) {
+			using T = std::decay_t<decltype(c)>;
+			e.AddComponent<T>(std::move(c));
+			}, comp);
+	}
+	return e;
 }
 
 void FE2D::Prefab::OnEditorDraw(IMGUI& imgui) {

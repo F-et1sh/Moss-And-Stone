@@ -13,13 +13,13 @@ namespace FE2D {
     };
 
     struct FOR_API TagComponent {
-		std::string tag;
+        std::string tag;
 
-		TagComponent() = default;
-		TagComponent(const TagComponent&) = default;
-		TagComponent(const std::string& tag) : tag(tag) {}
+        TagComponent() = default;
+        TagComponent(const TagComponent&) = default;
+        TagComponent(const std::string& tag) : tag(tag) {}
     };
-    
+
     struct FOR_API TransformComponent {
         vec2 position = vec2();
 
@@ -46,13 +46,13 @@ namespace FE2D {
             // rotation
             {
                 // set origin
-                matrix = glm::translate(matrix, vec3(-origin*scale, 0));
+                matrix = glm::translate(matrix, vec3(-origin * scale, 0));
 
                 // apply rotation
                 matrix = glm::rotate(matrix, glm::radians(rotation), vec3(0.0f, 0.0f, -1.0f));
 
                 // reset origin
-                matrix = glm::translate(matrix, vec3(origin*scale, 0));
+                matrix = glm::translate(matrix, vec3(origin * scale, 0));
             }
 
             // scaling
@@ -67,7 +67,7 @@ namespace FE2D {
         ~TransformComponent() = default;
 
         TransformComponent(const TransformComponent&) = default;
-	};
+    };
 
     struct FOR_API SpriteComponent {
         ResourceID<Texture> texture;
@@ -122,7 +122,7 @@ namespace FE2D {
         ~PhysicsComponent() = default;
         PhysicsComponent(const PhysicsComponent&) = default;
     };
-    
+
     struct FOR_API AnimatorComponent {
         enum class State {
             PAUSE,
@@ -144,19 +144,27 @@ namespace FE2D {
     struct FOR_API NativeScriptComponent {
         std::unique_ptr<ScriptableEntity> instance = nullptr;
         std::string script_name;
-        
+
         NativeScriptComponent() = default;
         ~NativeScriptComponent() = default;
 
         NativeScriptComponent(const NativeScriptComponent& other) {
-            if (other.instance)
+            if (other.instance) {
                 instance = std::move(other.instance->clone());
+                script_name = other.script_name;
+            }
         }
 
         NativeScriptComponent& operator=(const NativeScriptComponent& other) {
             if (this != &other) {
-                if (other.instance) instance = other.instance->clone();
-                else instance.reset();
+                if (other.instance) {
+                    instance = std::move(other.instance->clone());
+                    script_name = other.script_name;
+                }
+                else {
+                    instance.reset();
+                    script_name.clear();
+                }
             }
             return *this;
         }
@@ -165,14 +173,43 @@ namespace FE2D {
         NativeScriptComponent& operator=(NativeScriptComponent&&) noexcept = default;
     };
 
-    using AllComponents = std::variant<
-        IDComponent, 
-        TagComponent, 
-        TransformComponent, 
-        SpriteComponent, 
-        RelationshipComponent, 
-        CameraComponent, 
-        PhysicsComponent, 
-        AnimatorComponent, 
+    template<typename... Components>
+    struct FOR_API ComponentGroup 
+    {
+    };
+
+    using AllComponentsGroup = ComponentGroup<
+        IDComponent,
+        TagComponent,
+        TransformComponent,
+        SpriteComponent,
+        RelationshipComponent,
+        CameraComponent,
+        PhysicsComponent,
+        AnimatorComponent,
         NativeScriptComponent>;
+
+    template<typename Group>
+    struct FOR_API ComponentsHelper;
+
+    template<typename... Components>
+    struct FOR_API ComponentsHelper<ComponentGroup<Components...>> {
+        using variant = std::variant<Components...>;
+
+        inline static void collect_from_entity(Entity entity, std::vector<variant>& out) {
+            CollectFromEntity<Components...>(entity, out);
+        }
+
+    private:
+        template<typename T, typename... Rest>
+        inline static void CollectFromEntity(Entity entity, std::vector<variant>& out) {
+            if (entity.HasComponent<T>())
+                out.emplace_back(std::move(entity.GetComponent<T>()));
+            if constexpr (sizeof...(Rest) > 0)
+                CollectFromEntity<Rest...>(entity, out);
+        }
+    };
+
+    using FOR_COMPONENTS_HELPER = ComponentsHelper<AllComponentsGroup>;
+    using ComponentsVariant = FOR_COMPONENTS_HELPER::variant;
 }

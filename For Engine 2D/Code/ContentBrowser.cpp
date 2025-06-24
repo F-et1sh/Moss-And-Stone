@@ -20,6 +20,7 @@ void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_
     this->LoadContentImage(m_DirectoryImage, base_path / L"folder_icon.png");
     this->LoadContentImage(m_EmptyImage    , base_path / L"empty_icon.png");
     this->LoadContentImage(m_AnimationImage, base_path / L"animation_icon.png");
+    this->LoadContentImage(m_PrefabImage   , base_path / L"prefab_icon.png");
 
     m_RootDirectory = FOR_PATH.get_assets_path();
     m_CurrentDirectory = m_RootDirectory;
@@ -27,7 +28,7 @@ void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_
 
 void FE2D::ContentBrowser::OnImGuiRender() {
     ImGui::Begin("Content Browser", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
-    
+
     if (m_CurrentDirectory != m_RootDirectory) {
         if (ImGui::Button("<--") || ImGui::IsMouseClicked(3)) // mouse 'back' button
             m_CurrentDirectory = m_CurrentDirectory.parent_path();
@@ -42,18 +43,6 @@ void FE2D::ContentBrowser::OnImGuiRender() {
 
         this->OnEditorDraw();
         this->OnPanelDraw(); // draw the panel after drawing editor
-        
-        // right-click on blank space
-        if (ImGui::BeginPopupContextWindow()) {
-            if (ImGui::MenuItem("Create Animation")) {
-                const std::filesystem::path resource_path = FE2D::generate_unique_filename(m_CurrentDirectory / L"New Animation.fa");
-                const std::filesystem::path metadata_path = resource_path.wstring() + L".fs";
-                m_ResourceManager->getLoader().CreateResource(resource_path);
-                m_ResourceManager->getLoader().LoadMetadata(metadata_path);
-            }
-
-            ImGui::EndPopup();
-        }
 
         ImGui::Columns(1);
     }
@@ -62,6 +51,16 @@ void FE2D::ContentBrowser::OnImGuiRender() {
             "\nCurrent Directory Path : " << m_CurrentDirectory <<
             "\nReason : " << e.what());
     }
+
+    ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+    ImVec2 windowPos = ImGui::GetWindowPos();
+    ImVec2 size = ImGui::GetWindowSize();
+
+    ImGui::SetCursorScreenPos(windowPos);
+    ImGui::InvisibleButton("DropTarget", size);
+    ImGui::SetCursorScreenPos(cursorPos);
+
+    this->OnEntityDrop(m_CurrentDirectory);
 
     ImGui::End();
 }
@@ -99,15 +98,16 @@ void FE2D::ContentBrowser::DrawDirectory(const std::filesystem::path& path) {
     const std::string filename_string = path.filename().string();
 
     ImVec4 color = DEFAULT_DIRECTORY_COLOR;
-    if (m_SelectedPath == path) {
+    if (m_SelectedPath == path)
         color = SELECTED_DIRECTORY_COLOR;
-    }
 
     // selectable image of the file
     ImGui::ImageButton(filename_string.c_str(),
         m_DirectoryImage.reference(),
         TEXTURE_SIZE(m_DirectoryImage),
         ImVec2(0, 1), ImVec2(1, 0), color);
+
+    this->OnEntityDrop(path);
 
     // click to open the folder
     if (ImGui::IsItemHovered()) {
@@ -139,6 +139,10 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
         texture_index = m_AnimationImage.reference();
         texture_size = TEXTURE_SIZE(m_AnimationImage);
     }
+    else if (ResourceLoader::prefab_supported_extensions.contains(ext)) {
+        texture_index = m_PrefabImage.reference();
+        texture_size = TEXTURE_SIZE(m_PrefabImage);
+    }
 
     ImVec4 color = DEFAULT_FILE_COLOR;
     if (m_SelectedPath == path) {
@@ -150,18 +154,35 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
         texture_index,
         texture_size, ImVec2(0, 1), ImVec2(1, 0), m_SelectedPath == path ? color : ImVec4(0, 0, 0, 0), color);
 
-    if (uuid == 0 || !ResourceLoader::texture_supported_extensions.contains(path.extension())) return;
+    if (uuid == 0) return;
 
-    // click to open the folder
-    if (ImGui::IsItemHovered()) {
-        if (ImGui::IsMouseClicked(0)) {
-            auto& resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
-            this->setSelected(static_cast<IResource*>(&resource), path);
+    if (ResourceLoader::texture_supported_extensions.contains(ext)) {
+        // click to open the folder
+        if (ImGui::IsItemHovered()) {
+            if (ImGui::IsMouseClicked(0)) {
+                auto& resource = m_ResourceManager->GetResource(ResourceID<Texture>(uuid));
+                this->setSelected(static_cast<IResource*>(&resource), path);
+            }
+            if (ImGui::IsMouseDoubleClicked(0)) {
+                static const std::string aseprite_path = "C:\\Program Files\\TorAs\\aseprite.exe"; // hardcode
+                std::string command = "(\"" + aseprite_path + "\" \"" + path.string() + "\")";
+                std::system(command.c_str());
+            }
         }
-        if (ImGui::IsMouseDoubleClicked(0)) {
-            static const std::string aseprite_path = "C:\\Program Files\\TorAs\\aseprite.exe";
-            std::string command = "(\"" + aseprite_path + "\" \"" + path.string() + "\")";
-            std::system(command.c_str());
+    }
+    else if (ResourceLoader::prefab_supported_extensions.contains(ext)) {
+        if (ImGui::BeginDragDropSource()) {
+            auto& resource = m_ResourceManager->GetResource(ResourceID<Prefab>(uuid));
+            if (!resource.HasComponent<TagComponent>()) {
+                SAY("ERORR : Failed to drag prefab. Prefab hasn't TagComponent");
+                return;
+            }
+
+            auto& tag_component = resource.GetComponent<TagComponent>();
+
+            ImGui::SetDragDropPayload("PREFAB_DRAGGING", &resource, sizeof(Prefab));
+            ImGui::Text("%s", tag_component.tag.c_str());
+            ImGui::EndDragDropSource();
         }
     }
 }
@@ -232,6 +253,26 @@ void FE2D::ContentBrowser::OnDeleteRequest() {
 
         ImGui::EndPopup();
     }
+}
+
+void FE2D::ContentBrowser::OnEntityDrop(const std::filesystem::path& path) {
+    if (!ImGui::BeginDragDropTarget()) return;
+
+    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_DRAGGING")) {
+        Entity dropped_entity = *static_cast<Entity*>(payload->Data);
+
+        if (dropped_entity && dropped_entity.HasComponent<TagComponent>()) {
+            std::string entity_name = dropped_entity.GetComponent<TagComponent>().tag + ".fp";
+
+            const std::filesystem::path resource_path = FE2D::generate_unique_filename(path / entity_name);
+            const std::filesystem::path metadata_path = resource_path.wstring() + L".fs";
+
+            m_ResourceManager->getLoader().CreateResource<Prefab>(resource_path, dropped_entity);
+            m_ResourceManager->getLoader().LoadMetadata(metadata_path);
+        }
+    }
+
+    ImGui::EndDragDropTarget();
 }
 
 void FE2D::ContentBrowser::OnEditorDraw() {

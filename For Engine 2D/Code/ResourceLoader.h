@@ -1,6 +1,11 @@
 #pragma once
 
 namespace FE2D {
+	/* forward declarations */
+	class Texture;
+	class Animation;
+	class Prefab;
+
 	class FOR_API ResourceLoader : public IResourceModule {
 	public:
 		ResourceLoader(ResourceManager& resource_manager) {
@@ -14,8 +19,17 @@ namespace FE2D {
 		void LoadMetadata(const std::filesystem::path& full_path);
 		void LoadFallback(const std::filesystem::path& filename);
 
-		void CreateResource(const std::filesystem::path& full_path);
 		void CreateMetadata(const std::filesystem::path& full_path, FE2D::UUID uuid);
+
+		template<typename T, typename... Args> requires std::is_base_of_v<IResource, T>
+		void CreateResource(const std::filesystem::path& full_path, Args&&... args) {
+			IResource* resource = new T(std::forward<Args>(args)...);
+			FE2D::UUID uuid = FE2D::UUID(); // generate new UUID
+
+			resource->UplopadToFile(full_path);
+			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
+			this->CreateMetadata(metadata_full_path, uuid);
+		}
 
 	private:
 		template<typename T> requires std::is_base_of_v<IResource, T>
@@ -73,22 +87,15 @@ namespace FE2D {
 		void cache_resource(FE2D::UUID uuid, IResource* resource, const std::filesystem::path& relative_path);
 		void fallback_resource(size_t hash_code, IResource* resource);
 
-		template<typename T> requires std::is_base_of_v<IResource, T>
-		void create_resource(const std::filesystem::path& full_path) {
-			IResource* resource = new T();
-			FE2D::UUID uuid = FE2D::UUID(); // generate new UUID
-
-			resource->UplopadToFile(full_path);
-			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
-			this->CreateMetadata(metadata_full_path, uuid);
-		}
-
 	public:
 		inline static const std::unordered_set<std::wstring> texture_supported_extensions = {
 			L".png", L".jpg", L".bmp", L".tga", L".gif", L".hdr", L".pic", L".psd"
 		};
 		inline static const std::unordered_set<std::wstring> animation_supported_extensions = {
 			L".fa",
+		};
+		inline static const std::unordered_set<std::wstring> prefab_supported_extensions = {
+			L".fp",
 		};
 		inline static const std::unordered_set<std::wstring> audio_supported_extensions = {
 			 L".wav", L".aif", L".aiff", L".au", L".snd", L".raw", L".pcm", L".sf", L".paf", L".svx",
