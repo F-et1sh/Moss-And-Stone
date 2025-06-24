@@ -29,7 +29,7 @@ namespace FE2D {
         }
 
         inline const auto& GetRegisteredScripts()const noexcept { return m_FactoryMap; }
-        std::unique_ptr<ScriptableEntity> CreateScript(const std::string& name, Entity entity);
+        std::unique_ptr<ScriptableEntity> CreateScript(const std::string& name);
 
     private:
         ScriptFactory() = default;

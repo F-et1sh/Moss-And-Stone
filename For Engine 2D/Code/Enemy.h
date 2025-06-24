@@ -33,15 +33,15 @@ public:
 
 	json Serialize()const override{
 		json j;
-		SAVE_COMPONENT_FIELD(transform);
-		SAVE_ENTITY(player);
-		SAVE_VALUE(speed);
+		FOR_SAVE_COMPONENT_FIELD(transform);
+		//FOR_SAVE_ENTITY(player);
+		FOR_SAVE_VALUE(speed);
 		return j;
 	}
 	void Deserialize(const json& j)override {
-		LOAD_COMPONENT_FIELD(transform);
-		LOAD_ENTITY(player);
-		LOAD_VALUE(speed);
+		FOR_LOAD_COMPONENT_FIELD(transform);
+		//FOR_LOAD_ENTITY(player);
+		FOR_LOAD_VALUE(speed);
 	}
 
 	void OnEditorPanel(IMGUI& imgui)override {

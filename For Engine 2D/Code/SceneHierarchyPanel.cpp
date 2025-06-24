@@ -255,7 +255,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 				std::string script_name = pair.first;
 
 				if (ImGui::MenuItem(script_name.c_str())) {
-					component.instance = ScriptFactory::Instance().CreateScript(script_name, entity);
+					component.instance = ScriptFactory::Instance().CreateScript(script_name);
 					component.script_name = script_name;
 				}
 			}

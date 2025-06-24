@@ -1,7 +1,7 @@
 #include "forpch.h"
 #include "ScriptFactory.h"
 
-std::unique_ptr<ScriptableEntity> FE2D::ScriptFactory::CreateScript(const std::string& name, Entity entity) {
+std::unique_ptr<ScriptableEntity> FE2D::ScriptFactory::CreateScript(const std::string& name) {
     std::lock_guard<std::mutex> lock(m_Mutex);
 
     auto it = m_FactoryMap.find(name);
@@ -9,7 +9,6 @@ std::unique_ptr<ScriptableEntity> FE2D::ScriptFactory::CreateScript(const std::s
         return nullptr;
 
     std::unique_ptr<ScriptableEntity> scriptable_entity = it->second();
-    scriptable_entity->setContext(entity);
 
     return scriptable_entity;
 }

@@ -36,6 +36,25 @@ namespace FE2D {
 #define GENERATED_BODY(T) \
 public: \
     std::unique_ptr<ScriptableEntity> clone()const override { \
+		SAY("Cloned"); \
         return std::make_unique<T>(*this); \
     }
+
+#define FOR_SAVE_COMPONENT_FIELD(field) SceneSerializer::save_component_field(field, j, #field)
+#define FOR_LOAD_COMPONENT_FIELD(field) SceneSerializer::load_component_field(field, j, #field, m_Scene)
+
+#define FOR_SAVE_ENTITY_FIELD(entity)	SceneSerializer::save_entity(entity, j, #entity)
+#define FOR_LOAD_ENTITY_FIELD(entity)	SceneSerializer::load_entity(entity, j, #entity, m_Scene)
+
+#define FOR_SAVE_VALUE(value)			SceneSerializer::save_value(value, j, #value)
+#define FOR_LOAD_VALUE(value)			SceneSerializer::load_value(value, j, #value)
+
+#define FOR_SAVE_VECTOR_2(value)		SceneSerializer::save_vec2(value, j, #value)
+#define FOR_LOAD_VECTOR_2(value)		SceneSerializer::load_vec2(value, j, #value)
+
+#define FOR_SAVE_VECTOR_3(value)		SceneSerializer::save_vec3(value, j, #value)
+#define FOR_LOAD_VECTOR_3(value)		SceneSerializer::load_vec3(value, j, #value)
+
+#define FOR_SAVE_VECTOR_4(value)		SceneSerializer::save_vec4(value, j, #value)
+#define FOR_LOAD_VECTOR_4(value)		SceneSerializer::load_vec4(value, j, #value)
 }

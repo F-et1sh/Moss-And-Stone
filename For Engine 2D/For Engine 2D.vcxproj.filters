@@ -280,9 +280,6 @@
     <Filter Include="Code\ECS\System\Animation\Nodes %28 Future %29">
       <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Component Field">
-      <UniqueIdentifier>{f1b09f5c-5095-4e01-bf0c-c0e5224e6459}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\System\ScriptManager">
       <UniqueIdentifier>{17d4c217-85be-4eb6-aad4-7b35c6e9d6b9}</UniqueIdentifier>
     </Filter>
@@ -327,6 +324,15 @@
     </Filter>
     <Filter Include="Code\Resource Management\Resources\Prefab">
       <UniqueIdentifier>{62c62c8f-f10a-4700-9ec8-71d63183c3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Fields">
+      <UniqueIdentifier>{bf7ffc0c-cff3-43df-8cf4-308a8abe0e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Fields\Component Field">
+      <UniqueIdentifier>{f1b09f5c-5095-4e01-bf0c-c0e5224e6459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Fields\Entity Field">
+      <UniqueIdentifier>{701ab4c8-80e9-4212-913f-d378c197811a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -541,7 +547,7 @@
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
     </ClCompile>
     <ClCompile Include="Code\ComponentField.cpp">
-      <Filter>Code\ECS\Component Field</Filter>
+      <Filter>Code\ECS\Fields\Component Field</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptFactory.cpp">
       <Filter>Code\ECS\Scripting\Script Factory</Filter>
@@ -569,6 +575,9 @@
     </ClCompile>
     <ClCompile Include="Code\Prefab.cpp">
       <Filter>Code\Resource Management\Resources\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EntityField.cpp">
+      <Filter>Code\ECS\Fields\Entity Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -804,7 +813,7 @@
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
     </ClInclude>
     <ClInclude Include="Code\ComponentField.h">
-      <Filter>Code\ECS\Component Field</Filter>
+      <Filter>Code\ECS\Fields\Component Field</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptFactory.h">
       <Filter>Code\ECS\Scripting\Script Factory</Filter>
@@ -832,6 +841,9 @@
     </ClInclude>
     <ClInclude Include="Code\Prefab.h">
       <Filter>Code\Resource Management\Resources\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\EntityField.h">
+      <Filter>Code\ECS\Fields\Entity Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

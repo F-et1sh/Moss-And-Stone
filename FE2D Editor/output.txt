@@ -1,4 +1,4 @@
-RUNTIME ERROR : ERROR : ComponentField failure
-Entity name : <unknown>
-Component name : struct FE2D::SpriteComponent
-Message : Entity wasn't initialized
+RUNTIME ERROR : ComponentField failure
+Entity name : New Entity
+Component name : struct FE2D::AnimatorComponent
+Message : Entity hasn't this component

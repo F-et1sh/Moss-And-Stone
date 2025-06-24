@@ -25,6 +25,7 @@
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\Cursor.cpp" />
     <ClCompile Include="Code\Enemy.cpp" />
+    <ClCompile Include="Code\EntityField.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\IPickable.cpp" />
     <ClCompile Include="Code\PlayerController.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Code\ContentBrowser.h" />
     <ClInclude Include="Code\Cursor.h" />
     <ClInclude Include="Code\Enemy.h" />
+    <ClInclude Include="Code\EntityField.h" />
     <ClInclude Include="Code\forarray.hpp" />
     <ClInclude Include="Code\forfile.hpp" />
     <ClInclude Include="Code\fortraits.hpp" />
