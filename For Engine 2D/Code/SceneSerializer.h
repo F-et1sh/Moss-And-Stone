@@ -1,6 +1,6 @@
 #pragma once
-#include "ComponentField.h"
 #include "Scene.h"
+#include "Fields.h"
 #include "Prefab.h"
 
 namespace FE2D {
@@ -126,8 +126,8 @@ namespace FE2D {
             return j;
         }
 
-        inline static std::vector<AllComponents> DeserialzieComponents(const json& j) {
-            std::vector<AllComponents> deserialized_components;
+        inline static std::vector<ComponentsVariant> DeserializeComponents(const json& j) {
+            std::vector<ComponentsVariant> deserialized_components;
 
             if (j.contains("IDComponent")) {
                 IDComponent component;
@@ -245,9 +245,10 @@ namespace FE2D {
                         "\nName : " << component.script_name.c_str());
                     component.script_name.clear();
                 }
-
-                component.instance = ScriptFactory::Instance().CreateScript(component.script_name);
-                component.instance->Deserialize(j_component["script_data"]);
+                else {
+                    component.instance = ScriptFactory::Instance().CreateScript(component.script_name);
+                    component.instance->Deserialize(j_component["script_data"]);
+                }
 
                 deserialized_components.emplace_back(std::move(component));
             }

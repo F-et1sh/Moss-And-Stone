@@ -26,6 +26,8 @@ namespace FE2D {
 		void OnImGuiRender();
 
 	private:
+		void OnEntityDrop(const std::filesystem::path& path);
+
 		void OnEditorDraw();
 		void OnPanelDraw();
 	
@@ -61,6 +63,7 @@ namespace FE2D {
 		Texture m_DirectoryImage;
 		Texture m_EmptyImage;
 		Texture m_AnimationImage;
+		Texture m_PrefabImage;
 	
 		std::filesystem::path m_RootDirectory;    // path to the assets folder
 		std::filesystem::path m_CurrentDirectory; // current opened directory

@@ -51,7 +51,7 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 	for (auto& j_entity : j["Entities"]) {
 		Entity e{ m_Scene->getRegistry().create(), m_Scene };
 
-		auto components = DeserialzieComponents(j_entity);
+		auto components = DeserializeComponents(j_entity);
 		for (auto& comp : components) {
 			std::visit([&](auto&& c) {
 				using T = std::decay_t<decltype(c)>;

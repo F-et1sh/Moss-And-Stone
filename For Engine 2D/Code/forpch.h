@@ -84,6 +84,7 @@ using namespace glm;
 #include "Entity.h"
 #include "ScriptableEntity.h"
 #include "Components.h"
+#include "Fields.h"
 
 // Resource Management
 #include "ResourceManager.h"

@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptFactory.h"
+#include "Fields.h"
 
 namespace FE2D {
 	class FOR_API ScriptableEntity : public Entity {
@@ -27,6 +28,12 @@ namespace FE2D {
 
 		virtual void OnEditorPanel(IMGUI& imgui) {}
 
+	protected:
+		template<typename T>
+		inline ComponentField<T> create_component_field()const noexcept {
+
+		}
+
 	private:
 		std::vector<EventSubscription> m_EventSubscription;
 
@@ -36,7 +43,6 @@ namespace FE2D {
 #define GENERATED_BODY(T) \
 public: \
     std::unique_ptr<ScriptableEntity> clone()const override { \
-		SAY("Cloned"); \
         return std::make_unique<T>(*this); \
     }
 

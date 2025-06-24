@@ -2,7 +2,7 @@
     "Entities": [
         {
             "IDComponent": {
-                "id": "5588814952041076376"
+                "id": "4340908370811240592"
             },
             "NativeScriptComponent": {
                 "script_data": null,
@@ -11,6 +11,17 @@
             "RelationshipComponent": {
                 "children": [],
                 "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    1500.0,
+                    1000.0
+                ],
+                "texture": "8745956757200837066"
             },
             "TagComponent": {
                 "tag": "New Entity"
@@ -25,6 +36,50 @@
                 "position": [
                     0.0,
                     0.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "13327848124045703769"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Test Script"
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    1500.0,
+                    1000.0
+                ],
+                "texture": "8745956757200837066"
+            },
+            "TagComponent": {
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    1238.7962646484375,
+                    455.3193359375
                 ],
                 "rotation": 0.0,
                 "scale": [

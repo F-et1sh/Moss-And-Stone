@@ -5,9 +5,13 @@ namespace FE2D {
 	public:
 		Prefab() = default;
 		~Prefab() = default;
+		
+		Prefab(Entity entity);
 
 		bool LoadFromFile(const std::filesystem::path& file_path) override;
 		void UplopadToFile(const std::filesystem::path& file_path) const override;
+
+		Entity CreateEntity(Scene* scene);
 
 		void OnEditorDraw(IMGUI& imgui) override;
 
@@ -49,12 +53,12 @@ namespace FE2D {
 			FOR_ASSERT(HasComponent<T>(), "Prefab does not have component");
 
 			auto it = std::find_if(m_Components.begin(), m_Components.end(),
-				[](const AllComponents& c) { return std::holds_alternative<T>(c); });
+				[](const ComponentsVariant& c) { return std::holds_alternative<T>(c); });
 
 			if (it != m_Components.end()) m_Components.erase(it);
 		}
 
 	private:
-		std::vector<AllComponents> m_Components;
+		std::vector<ComponentsVariant> m_Components;
 	};
 }

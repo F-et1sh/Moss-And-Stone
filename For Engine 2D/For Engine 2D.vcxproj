@@ -21,11 +21,10 @@
   <ItemGroup>
     <ClCompile Include="Code\AnimationStateNodes.cpp" />
     <ClCompile Include="Code\AnimationSystem.cpp" />
-    <ClCompile Include="Code\ComponentField.cpp" />
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\Cursor.cpp" />
     <ClCompile Include="Code\Enemy.cpp" />
-    <ClCompile Include="Code\EntityField.cpp" />
+    <ClCompile Include="Code\Fields.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\IPickable.cpp" />
     <ClCompile Include="Code\PlayerController.cpp" />
@@ -144,11 +143,10 @@
   <ItemGroup>
     <ClInclude Include="Code\AnimationStateNodes.h" />
     <ClInclude Include="Code\AnimationSystem.h" />
-    <ClInclude Include="Code\ComponentField.h" />
     <ClInclude Include="Code\ContentBrowser.h" />
     <ClInclude Include="Code\Cursor.h" />
     <ClInclude Include="Code\Enemy.h" />
-    <ClInclude Include="Code\EntityField.h" />
+    <ClInclude Include="Code\Fields.h" />
     <ClInclude Include="Code\forarray.hpp" />
     <ClInclude Include="Code\forfile.hpp" />
     <ClInclude Include="Code\fortraits.hpp" />

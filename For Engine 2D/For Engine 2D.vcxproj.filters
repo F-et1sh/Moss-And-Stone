@@ -328,12 +328,6 @@
     <Filter Include="Code\ECS\Fields">
       <UniqueIdentifier>{bf7ffc0c-cff3-43df-8cf4-308a8abe0e09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Fields\Component Field">
-      <UniqueIdentifier>{f1b09f5c-5095-4e01-bf0c-c0e5224e6459}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Fields\Entity Field">
-      <UniqueIdentifier>{701ab4c8-80e9-4212-913f-d378c197811a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -546,9 +540,6 @@
     <ClCompile Include="Code\ScriptableEntity.cpp">
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Code\ComponentField.cpp">
-      <Filter>Code\ECS\Fields\Component Field</Filter>
-    </ClCompile>
     <ClCompile Include="Code\ScriptFactory.cpp">
       <Filter>Code\ECS\Scripting\Script Factory</Filter>
     </ClCompile>
@@ -576,8 +567,8 @@
     <ClCompile Include="Code\Prefab.cpp">
       <Filter>Code\Resource Management\Resources\Prefab</Filter>
     </ClCompile>
-    <ClCompile Include="Code\EntityField.cpp">
-      <Filter>Code\ECS\Fields\Entity Field</Filter>
+    <ClCompile Include="Code\Fields.cpp">
+      <Filter>Code\ECS\Fields</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -812,9 +803,6 @@
     <ClInclude Include="Code\ScriptableEntity.h">
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Code\ComponentField.h">
-      <Filter>Code\ECS\Fields\Component Field</Filter>
-    </ClInclude>
     <ClInclude Include="Code\ScriptFactory.h">
       <Filter>Code\ECS\Scripting\Script Factory</Filter>
     </ClInclude>
@@ -842,8 +830,8 @@
     <ClInclude Include="Code\Prefab.h">
       <Filter>Code\Resource Management\Resources\Prefab</Filter>
     </ClInclude>
-    <ClInclude Include="Code\EntityField.h">
-      <Filter>Code\ECS\Fields\Entity Field</Filter>
+    <ClInclude Include="Code\Fields.h">
+      <Filter>Code\ECS\Fields</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
