@@ -5,32 +5,16 @@ namespace FE2D {
 		IField() = default;
 		virtual ~IField() = default;
 
-		void init(Scene& scene);
+		void set_context(Scene* scene)noexcept { this->scene = scene; }
+		
+		bool is_valid()const { return scene && uuid != FE2D::UUID(0) && get(); }
 
-		const Entity& get()const {
-#ifdef _DEBUG
-			this->check_valid();
-#endif
-			return entity;
-		}
-
-		Entity& get() {
-#ifdef _DEBUG
-			this->check_valid();
-#endif
-			return entity;
-		}
-
+		const Entity& get()const;
+		Entity& get();
 
 	protected:
-		Entity entity;
-		FE2D::UUID uuid;
-
-#ifdef _DEBUG
-		virtual void check_valid()const {
-			if (!entity) FOR_RUNTIME_ERROR("Field entity wasn't initialized");
-		}
-#endif
+		Scene* scene = nullptr;
+		FE2D::UUID uuid = FE2D::UUID(0);
 
 		friend class IMGUI;
 		friend class SceneSerializer;
@@ -41,41 +25,34 @@ namespace FE2D {
 	struct FOR_API ComponentField : public IField {
 		ComponentField() = default;
 		~ComponentField() = default;
-
+		
 		Entity operator=(Entity e) {
-			this->entity = e;
-			return this->entity;
+			this->uuid = e.GetUUID();
+			return this->get();
 		}
 
 		T* operator->() { return &get_component(); }
 		const T* operator->()const { return &get_component(); }
 
 	private:
-		T& get_component() {
+		inline T& get_component() {
 			Entity e = this->get();
 			return e.GetComponent<T>();
 		}
 
-		const T& get_component()const {
+		inline const T& get_component()const {
 			Entity e = this->get();
 			return e.GetComponent<T>();
 		}
-
-#ifdef _DEBUG
-		void check_valid()const override {
-			IField::check_valid();
-			if (!entity.HasComponent<T>()) FOR_RUNTIME_ERROR("Field entity wasn't needed component");
-		}
-#endif
 	};
 
 	struct FOR_API EntityField : public IField {
 		EntityField() = default;
 		~EntityField() = default;
-
+		
 		Entity operator=(Entity e) {
-			this->entity = e;
-			return this->entity;
+			this->uuid = e.GetUUID();
+			return this->get();
 		}
 
 		Entity* operator->() { return &get(); }

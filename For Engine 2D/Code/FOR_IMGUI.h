@@ -50,8 +50,8 @@ namespace FE2D {
 
 		template<typename T>
 		inline void ComponentPayload(std::string_view title, ComponentField<T>& component_field) {
-			if (component_field.entity) {
-				std::string_view name = component_field.entity.GetComponent<TagComponent>().tag;
+			if (component_field.is_valid()) {
+				std::string_view name = component_field.get().GetComponent<TagComponent>().tag;
 				ImGui::Button(name.data());
 			}
 			else {
@@ -72,8 +72,8 @@ namespace FE2D {
 		}
 
 		void EntityPayload(std::string_view title, EntityField& load_entity) {
-			if (load_entity.entity) {
-				std::string_view name = load_entity.entity.GetComponent<TagComponent>().tag;
+			if (load_entity.is_valid()) {
+				std::string_view name = load_entity.get().GetComponent<TagComponent>().tag;
 				ImGui::Button(name.data());
 			}
 			else {

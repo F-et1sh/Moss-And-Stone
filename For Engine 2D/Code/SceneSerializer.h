@@ -316,7 +316,7 @@ namespace FE2D {
             field->uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
-        inline static void load_uuid(FE2D::UUID uuid, const json& j, const std::string& name) {
+        inline static void load_uuid(FE2D::UUID& uuid, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
             uuid = FE2D::UUID(j[name].get<std::string>());
         }

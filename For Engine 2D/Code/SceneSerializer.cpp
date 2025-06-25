@@ -48,6 +48,8 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 
 	entt::registry& registry = m_Scene->getRegistry();
 
+	std::vector<Entity> entities_with_script;
+
 	for (auto& j_entity : j["Entities"]) {
 		Entity e{ m_Scene->getRegistry().create(), m_Scene };
 
@@ -59,7 +61,16 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 				}, comp);
 		}
 
+		if (e.HasComponent<NativeScriptComponent>())
+			entities_with_script.emplace_back(e);
+	
 		m_Scene->EmplaceEntity(e);
+	}
+
+	for (auto entity : entities_with_script) {
+		auto instance = entity.GetComponent<NativeScriptComponent>().instance.get();
+		if (instance)
+			instance->setContext(entity);
 	}
 
 	// deserialize scene info after entities

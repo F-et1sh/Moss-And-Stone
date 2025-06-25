@@ -1,16 +1,38 @@
 {
     "Entities": [
         {
+            "AnimatorComponent": {
+                "animations": []
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
             "IDComponent": {
-                "id": "9081146031261972670"
+                "id": "9331318317484437096"
             },
             "NativeScriptComponent": {
-                "script_data": {
-                    "player": "11874062289101780161",
-                    "speed": 0.0,
-                    "transform": "4444375886392046005"
-                },
-                "script_name": "Enemy"
+                "script_data": null,
+                "script_name": "PlayerController"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    50.0,
+                    50.0
+                ],
+                "velocity_dying": 1.024999976158142
             },
             "RelationshipComponent": {
                 "children": [],
@@ -22,13 +44,13 @@
                 "frame": [
                     0.0,
                     0.0,
-                    1500.0,
-                    1000.0
+                    7.0,
+                    26.0
                 ],
-                "texture": "8745956757200837066"
+                "texture": "5326511936020937367"
             },
             "TagComponent": {
-                "tag": "Enemy"
+                "tag": "Player"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -38,8 +60,70 @@
                     0.0
                 ],
                 "position": [
+                    -94.16414642333984,
+                    -42.889888763427734
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "11076792241646299437"
+            },
+            "NativeScriptComponent": {
+                "script_data": {
+                    "player": "9331318317484437096",
+                    "speed": 20.0
+                },
+                "script_name": "Enemy"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
                     0.0,
                     0.0
+                ],
+                "size": [
+                    50.0,
+                    50.0
+                ],
+                "velocity_dying": 1.024999976158142
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    20.0,
+                    14.0
+                ],
+                "texture": "10481742720340127963"
+            },
+            "TagComponent": {
+                "tag": "New Entity"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -30.164905548095703,
+                    -0.6504855751991272
                 ],
                 "rotation": 0.0,
                 "scale": [

@@ -12,10 +12,10 @@ public:
 	{
 	}
 
-	ComponentField<TransformComponent> transform;
-	ComponentField<PhysicsComponent> physics;
-	ComponentField<SpriteComponent> sprite;
-	ComponentField<AnimatorComponent> animator;
+	FOR_COMPONENT_FIELD(TransformComponent, transform);
+	FOR_COMPONENT_FIELD(PhysicsComponent, physics);
+	FOR_COMPONENT_FIELD(SpriteComponent, sprite);
+	FOR_COMPONENT_FIELD(AnimatorComponent, animator);
 
 	vec2 dir = vec2();
 	static constexpr float speed = 60;

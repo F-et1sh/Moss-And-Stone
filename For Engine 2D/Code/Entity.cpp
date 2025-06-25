@@ -4,16 +4,6 @@
 FE2D::Entity::Entity(entt::entity handle, Scene* scene) :
 	m_EntityHandle(handle), m_Scene(scene) {}
 
-template<>
-NativeScriptComponent& Entity::AddComponent(NativeScriptComponent&& component) {
-	FOR_ASSERT(!HasComponent<NativeScriptComponent>(), "Entity already has NativeScriptComponent");
-	auto& reg = this->GetRegistry();
-	auto& target = reg.emplace<NativeScriptComponent>(m_EntityHandle);
-	target.script_name = std::move(component.script_name);
-	target.instance = std::move(component.instance);
-	return target;
-}
-
 void FE2D::Entity::SetParent(Entity newParent) {
 	FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
 

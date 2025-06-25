@@ -204,7 +204,7 @@ namespace FE2D {
         template<typename T, typename... Rest>
         inline static void CollectFromEntity(Entity entity, std::vector<variant>& out) {
             if (entity.HasComponent<T>())
-                out.emplace_back(std::move(entity.GetComponent<T>()));
+                out.emplace_back(entity.GetComponent<T>());
             if constexpr (sizeof...(Rest) > 0)
                 CollectFromEntity<Rest...>(entity, out);
         }

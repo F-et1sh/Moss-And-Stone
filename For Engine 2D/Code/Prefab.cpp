@@ -43,10 +43,16 @@ Entity FE2D::Prefab::CreateEntity(Scene* scene) {
 	for (auto& comp : m_Components) {
 		std::visit([&](auto& c) {
 			using T = std::decay_t<decltype(c)>;
-			e.AddComponent<T>(std::move(c));
+			e.AddComponent<T>(c);
 			}, comp);
 	}
 	e.GetComponent<IDComponent>().id = FE2D::UUID(); // generate new UUID for Entity
+	if (e.HasComponent<NativeScriptComponent>()) {
+		auto& script = e.GetComponent<NativeScriptComponent>();
+		if (script.instance) {
+			script.instance->setContext(e);
+		}
+	}
 	return e;
 }
 

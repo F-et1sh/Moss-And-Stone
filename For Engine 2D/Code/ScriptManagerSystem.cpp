@@ -22,7 +22,6 @@ void FE2D::ScriptManagerSystem::OnStart() {
 		Entity entity = { e, m_Scene };
 		auto& nsc =  entity.GetComponent<NativeScriptComponent>();
 		if (nsc.instance) {
-			nsc.instance->setContext(entity);
 			nsc.instance->OnStart();
 		}
 	}

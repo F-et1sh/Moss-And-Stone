@@ -4,9 +4,7 @@
 // Based on Hazel ( The Cherno ) - Apache License 2.0
 
 namespace FE2D {
-	/* forward declaration */
-	class Scene;
-	class NativeScriptComponent;
+	class Scene; // forward declaration
 	
 	class FOR_API Entity {
 	public:
@@ -22,9 +20,6 @@ namespace FE2D {
 			T& component = this->GetRegistry().emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 			return component;
 		}
-
-		template<>
-		NativeScriptComponent& AddComponent<NativeScriptComponent>(NativeScriptComponent&& component);
 
 		template<typename T>
 		inline T& GetComponent() {

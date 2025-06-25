@@ -5,16 +5,17 @@ class Enemy : public ScriptableEntity {
 	GENERATED_BODY(Enemy)
 
 public:
-	ComponentField<TransformComponent> transform;
-	EntityField player;
+	FOR_COMPONENT_FIELD(TransformComponent, transform);
+	FOR_ENTITY_FIELD(player);
 
 	float speed = 0.0f;
 
-	Enemy() {
-		FOR_REGISTER_FIELD(transform);
-		FOR_REGISTER_FIELD(player);
+	Enemy()
+	{
 	}
-	~Enemy() {}
+	~Enemy()
+	{
+	}
 
 	void OnStart()override {
 		transform = this_entity();
@@ -36,13 +37,11 @@ public:
 
 	json Serialize()const override{
 		json j;
-		FOR_SAVE_FIELD(transform);
 		FOR_SAVE_FIELD(player);
 		FOR_SAVE_VALUE(speed);
 		return j;
 	}
 	void Deserialize(const json& j)override {
-		FOR_LOAD_FIELD(transform);
 		FOR_LOAD_FIELD(player);
 		FOR_LOAD_VALUE(speed);
 	}
