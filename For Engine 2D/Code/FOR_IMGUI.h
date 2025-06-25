@@ -52,7 +52,7 @@ namespace FE2D {
 		inline void ComponentPayload(std::string_view title, ComponentField<T>& component_field) {
 			if (component_field.entity) {
 				std::string_view name = component_field.entity.GetComponent<TagComponent>().tag;
-				ImGui::Button(name.c_str());
+				ImGui::Button(name.data());
 			}
 			else {
 				ImGui::Button("None");
@@ -62,7 +62,7 @@ namespace FE2D {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY_DRAGGING")) {
 					auto entity = *static_cast<Entity*>(payload->Data);
 					if (entity.HasComponent<T>())
-						component_field.entity = entity;
+						component_field = entity;
 				}
 				ImGui::EndDragDropTarget();
 			}
@@ -70,9 +70,10 @@ namespace FE2D {
 			ImGui::SameLine();
 			ImGui::Text(title.data());
 		}
-		void EntityPayload(std::string_view title, Entity& load_entity) {
-			if (load_entity) {
-				std::string_view name = load_entity.GetComponent<TagComponent>().tag;
+
+		void EntityPayload(std::string_view title, EntityField& load_entity) {
+			if (load_entity.entity) {
+				std::string_view name = load_entity.entity.GetComponent<TagComponent>().tag;
 				ImGui::Button(name.data());
 			}
 			else {

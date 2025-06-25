@@ -11,6 +11,9 @@ namespace FE2D {
 		inline void setContext(Entity entity)noexcept {
 			m_EntityHandle = entity.m_EntityHandle;
 			m_Scene = entity.m_Scene;
+
+			for (auto field : m_Fields)
+				field->init(*m_Scene);
 		}
 
 		inline Entity this_entity()const noexcept { return { m_EntityHandle, m_Scene }; }
@@ -29,13 +32,11 @@ namespace FE2D {
 		virtual void OnEditorPanel(IMGUI& imgui) {}
 
 	protected:
-		template<typename T>
-		inline ComponentField<T> create_component_field()const noexcept {
-
-		}
+		inline void register_field(IField* field)noexcept { m_Fields.emplace_back(field); }
 
 	private:
 		std::vector<EventSubscription> m_EventSubscription;
+		std::vector<IField*> m_Fields;
 
 	public:
 		virtual std::unique_ptr<ScriptableEntity> clone()const = 0;
@@ -46,21 +47,20 @@ public: \
         return std::make_unique<T>(*this); \
     }
 
-#define FOR_SAVE_COMPONENT_FIELD(field) SceneSerializer::save_component_field(field, j, #field)
-#define FOR_LOAD_COMPONENT_FIELD(field) SceneSerializer::load_component_field(field, j, #field, m_Scene)
+#define FOR_REGISTER_FIELD(field)	this->register_field(&field);
 
-#define FOR_SAVE_ENTITY_FIELD(entity)	SceneSerializer::save_entity(entity, j, #entity)
-#define FOR_LOAD_ENTITY_FIELD(entity)	SceneSerializer::load_entity(entity, j, #entity, m_Scene)
+#define FOR_SAVE_FIELD(field)		SceneSerializer::save_field(static_cast<const IField*>(&field), j, #field)
+#define FOR_LOAD_FIELD(field)		SceneSerializer::load_field(static_cast<IField*>(&field), j, #field)
 
-#define FOR_SAVE_VALUE(value)			SceneSerializer::save_value(value, j, #value)
-#define FOR_LOAD_VALUE(value)			SceneSerializer::load_value(value, j, #value)
-
-#define FOR_SAVE_VECTOR_2(value)		SceneSerializer::save_vec2(value, j, #value)
-#define FOR_LOAD_VECTOR_2(value)		SceneSerializer::load_vec2(value, j, #value)
-
-#define FOR_SAVE_VECTOR_3(value)		SceneSerializer::save_vec3(value, j, #value)
-#define FOR_LOAD_VECTOR_3(value)		SceneSerializer::load_vec3(value, j, #value)
-
-#define FOR_SAVE_VECTOR_4(value)		SceneSerializer::save_vec4(value, j, #value)
-#define FOR_LOAD_VECTOR_4(value)		SceneSerializer::load_vec4(value, j, #value)
+#define FOR_SAVE_VALUE(value)		SceneSerializer::save_value(value, j, #value)
+#define FOR_LOAD_VALUE(value)		SceneSerializer::load_value(value, j, #value)
+									
+#define FOR_SAVE_VECTOR_2(value)	SceneSerializer::save_vec2(value, j, #value)
+#define FOR_LOAD_VECTOR_2(value)	SceneSerializer::load_vec2(value, j, #value)
+									
+#define FOR_SAVE_VECTOR_3(value)	SceneSerializer::save_vec3(value, j, #value)
+#define FOR_LOAD_VECTOR_3(value)	SceneSerializer::load_vec3(value, j, #value)
+									
+#define FOR_SAVE_VECTOR_4(value)	SceneSerializer::save_vec4(value, j, #value)
+#define FOR_LOAD_VECTOR_4(value)	SceneSerializer::load_vec4(value, j, #value)
 }

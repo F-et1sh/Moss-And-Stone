@@ -5,15 +5,26 @@ namespace FE2D {
 		IField() = default;
 		virtual ~IField() = default;
 
-		Entity get()const {
+		void init(Scene& scene);
+
+		const Entity& get()const {
 #ifdef _DEBUG
 			this->check_valid();
 #endif
 			return entity;
 		}
 
+		Entity& get() {
+#ifdef _DEBUG
+			this->check_valid();
+#endif
+			return entity;
+		}
+
+
 	protected:
 		Entity entity;
+		FE2D::UUID uuid;
 
 #ifdef _DEBUG
 		virtual void check_valid()const {
@@ -21,7 +32,9 @@ namespace FE2D {
 		}
 #endif
 
+		friend class IMGUI;
 		friend class SceneSerializer;
+		friend class ScirptableEntity;
 	};
 
 	template<typename T>
@@ -65,7 +78,7 @@ namespace FE2D {
 			return this->entity;
 		}
 
-		Entity operator->() { return get(); }
-		const Entity operator->()const { return get(); }
+		Entity* operator->() { return &get(); }
+		const Entity* operator->()const { return &get(); }
 	};
 }

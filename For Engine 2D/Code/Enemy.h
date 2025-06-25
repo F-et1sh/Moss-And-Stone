@@ -5,20 +5,23 @@ class Enemy : public ScriptableEntity {
 	GENERATED_BODY(Enemy)
 
 public:
-	Enemy() {}
-	~Enemy() {}
-
 	ComponentField<TransformComponent> transform;
+	EntityField player;
 
-	Entity player;
 	float speed = 0.0f;
+
+	Enemy() {
+		FOR_REGISTER_FIELD(transform);
+		FOR_REGISTER_FIELD(player);
+	}
+	~Enemy() {}
 
 	void OnStart()override {
 		transform = this_entity();
 	}
 
 	void OnUpdate(double deltaTime)override {
-		auto& player_transform = player.GetComponent<TransformComponent>();
+		auto& player_transform = player->GetComponent<TransformComponent>();
 
 		vec2 direction = player_transform.position - transform->position;
 
@@ -33,14 +36,14 @@ public:
 
 	json Serialize()const override{
 		json j;
-		FOR_SAVE_COMPONENT_FIELD(transform);
-		//FOR_SAVE_ENTITY(player);
+		FOR_SAVE_FIELD(transform);
+		FOR_SAVE_FIELD(player);
 		FOR_SAVE_VALUE(speed);
 		return j;
 	}
 	void Deserialize(const json& j)override {
-		FOR_LOAD_COMPONENT_FIELD(transform);
-		//FOR_LOAD_ENTITY(player);
+		FOR_LOAD_FIELD(transform);
+		FOR_LOAD_FIELD(player);
 		FOR_LOAD_VALUE(speed);
 	}
 

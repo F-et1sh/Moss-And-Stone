@@ -2,11 +2,15 @@
     "Entities": [
         {
             "IDComponent": {
-                "id": "4340908370811240592"
+                "id": "9081146031261972670"
             },
             "NativeScriptComponent": {
-                "script_data": null,
-                "script_name": "Test Script"
+                "script_data": {
+                    "player": "11874062289101780161",
+                    "speed": 0.0,
+                    "transform": "4444375886392046005"
+                },
+                "script_name": "Enemy"
             },
             "RelationshipComponent": {
                 "children": [],
@@ -24,7 +28,7 @@
                 "texture": "8745956757200837066"
             },
             "TagComponent": {
-                "tag": "New Entity"
+                "tag": "Enemy"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -36,50 +40,6 @@
                 "position": [
                     0.0,
                     0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "IDComponent": {
-                "id": "13327848124045703769"
-            },
-            "NativeScriptComponent": {
-                "script_data": null,
-                "script_name": "Test Script"
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    1500.0,
-                    1000.0
-                ],
-                "texture": "8745956757200837066"
-            },
-            "TagComponent": {
-                "tag": "New Entity"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    1238.7962646484375,
-                    455.3193359375
                 ],
                 "rotation": 0.0,
                 "scale": [

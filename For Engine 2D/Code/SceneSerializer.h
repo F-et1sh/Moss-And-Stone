@@ -263,29 +263,23 @@ namespace FE2D {
         Scene* m_Scene = nullptr;
 
 	public:
-        static void save_uuid(FE2D::UUID uuid, json& j, const std::string& name) {
+        inline static void save_field(const IField* field, json& j, const std::string& name) {
+            if (!field || field->uuid == FE2D::UUID()) return;
+            j[name] = field->uuid.ToString();
+        }
+
+        inline static void save_uuid(FE2D::UUID uuid, json& j, const std::string& name) {
             if (uuid.ToString().empty()) return;
             j[name] = uuid.ToString();
         }
 
-        static void save_entity(Entity entity, json& j, const std::string& name) {
-            if (!entity) return;
-            j[name] = entity.GetComponent<IDComponent>().id.ToString();
-        }
-
-        template<typename T>
-        static void save_component_field(ComponentField<T> field, json& j, const std::string& name) {
-            if (!field.entity) return;
-            j[name] = field.entity.GetUUID().ToString();
-        }
-
         template<typename T> requires std::is_base_of_v<IResource, T>
-        static void save_resource_id(ResourceID<T> id, json& j, const std::string& name) {
+        inline static void save_resource_id(ResourceID<T> id, json& j, const std::string& name) {
             j[name] = id.uuid.ToString();
         }
 
         template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
-        static void save_value(const T& value, json& j, const std::string& name) {
+        inline static void save_value(const T& value, json& j, const std::string& name) {
             j[name] = value;
         }
 
@@ -294,7 +288,7 @@ namespace FE2D {
                 std::invocable<Func, typename Array::value_type>&&
                 std::convertible_to<std::invoke_result_t<Func, typename Array::value_type>, json>
             )
-            static void save_array(const Array& array, json& j, const std::string& name, Func&& func) {
+            inline static void save_array(const Array& array, json& j, const std::string& name, Func&& func) {
             json j_array = json::array();
             for (const auto& e : array) {
                 j_array.emplace_back(func(e));
@@ -302,50 +296,39 @@ namespace FE2D {
             j[name] = j_array;
         }
 
-        static void save_value(const std::wstring& value, json& j, const std::string& name) {
+        inline static void save_value(const std::wstring& value, json& j, const std::string& name) {
             std::string load_value = FE2D::wstring_to_string(value);
             j[name] = load_value;
         }
 
-        static void save_vec2(const vec2& value, json& j, const std::string& name) {
+        inline static void save_vec2(const vec2& value, json& j, const std::string& name) {
             j[name] = { value.x, value.y };
         }
-        static void save_vec3(const vec3& value, json& j, const std::string& name) {
+        inline static void save_vec3(const vec3& value, json& j, const std::string& name) {
             j[name] = { value.x, value.y, value.z };
         }
-        static void save_vec4(const vec4& value, json& j, const std::string& name) {
+        inline static void save_vec4(const vec4& value, json& j, const std::string& name) {
             j[name] = { value.x, value.y, value.z, value.w };
         }
     public:
-        static void load_uuid(FE2D::UUID uuid, const json& j, const std::string& name) {
+        inline static void load_field(IField* field, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
+            field->uuid = FE2D::UUID(j[name].get<std::string>());
+        }
 
+        inline static void load_uuid(FE2D::UUID uuid, const json& j, const std::string& name) {
+            if (!j.contains(name)) return;
             uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
-        static void load_entity(Entity& entity, const json& j, const std::string& name, Scene* scene) {
-            if (!j.contains(name)) return;
-
-            FE2D::UUID uuid = FE2D::UUID(j[name].get<std::string>());
-            entity = scene->GetEntityByUUID(uuid);
-        }
-
-        template<typename T>
-        static void load_component_field(ComponentField<T>& field, const json& j, const std::string& name, Scene* scene) {
-            if (!j.contains(name)) return;
-
-            FE2D::UUID uuid = FE2D::UUID(j[name].get<std::string>());
-            field.entity = scene->GetEntityByUUID(uuid);
-        }
-
         template<typename T> requires std::is_base_of_v<IResource, T>
-        static void load_resource_id(ResourceID<T>& id, const json& j, const std::string& name) {
+        inline static void load_resource_id(ResourceID<T>& id, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
             id.uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
         template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
-        static void load_value(T& value, const json& j, const std::string& name) {
+        inline static void load_value(T& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
             value = j[name].get<T>();
         }
@@ -355,7 +338,7 @@ namespace FE2D {
                 std::invocable<Func, const json&>&&
                 std::convertible_to<std::invoke_result_t<Func, const json&>, typename Array::value_type>
             )
-            static void load_array(Array& array, const json& j, const std::string& name, Func&& func) {
+            inline static void load_array(Array& array, const json& j, const std::string& name, Func&& func) {
             if (!j.contains(name)) return;
             if (!j[name].is_array()) return;
 
@@ -374,26 +357,26 @@ namespace FE2D {
             else FOR_ASSERT(true, "Container does not support emplace_back or insert");
         }
 
-        static void load_value(std::wstring& value, const json& j, const std::string& name) {
+        inline static void load_value(std::wstring& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
 
             std::string load_value = j[name].get<std::string>();
             value = FE2D::string_to_wstring(load_value);
         }
 
-        static void load_vec2(vec2& value, const json& j, const std::string& name) {
+        inline static void load_vec2(vec2& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
 
             auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>() };
         }
-        static void load_vec3(vec3& value, const json& j, const std::string& name) {
+        inline static void load_vec3(vec3& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
 
             auto& load_value = j[name];
             value = { load_value[0].get<float>(), load_value[1].get<float>(), load_value[2].get<float>() };
         }
-        static void load_vec4(vec4& value, const json& j, const std::string& name) {
+        inline static void load_vec4(vec4& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
 
             auto& load_value = j[name];
