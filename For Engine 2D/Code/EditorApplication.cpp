@@ -220,6 +220,17 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 	
 	ImGui::Image(m_GameFramebuffer.texture_reference(), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
 
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_DRAGGING")) {
+			Prefab dropped_prefab = *static_cast<Prefab*>(payload->Data);
+			
+			Scene& scene = m_SceneManager.getCurrentScene();
+			Entity entity = dropped_prefab.CreateEntity(&scene);
+			scene.EmplaceEntity(entity);
+		}
+		ImGui::EndDragDropTarget();
+	}
+
 	ImGui::End();
 }
 
