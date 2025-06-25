@@ -38,18 +38,6 @@ void FE2D::Prefab::UplopadToFile(const std::filesystem::path& file_path) const {
 	file << j;
 }
 
-Entity FE2D::Prefab::CreateEntity(Scene* scene) {
-	Entity e = { scene->getRegistry().create(), scene};
-	for (auto& comp : m_Components) {
-		std::visit([&](auto& c) {
-			using T = std::decay_t<decltype(c)>;
-			e.AddComponent<T>(std::move(c));
-			}, comp);
-	}
-	e.GetComponent<IDComponent>().id = FE2D::UUID(); // generate new UUID for new Entity
-	return e;
-}
-
 void FE2D::Prefab::OnEditorDraw(IMGUI& imgui) {
 
 }
