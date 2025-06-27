@@ -29,6 +29,9 @@ namespace FE2D {
 			resource->UplopadToFile(full_path);
 			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
 			this->CreateMetadata(metadata_full_path, uuid);
+
+			std::filesystem::path resource_relative_path = std::filesystem::relative(full_path, FOR_PATH.get_resources_path());
+			this->cache_resource(uuid, resource, resource_relative_path);
 		}
 
 	private:
@@ -53,7 +56,7 @@ namespace FE2D {
 			if (!resource->LoadFromFile(full_path)) {
 				delete resource;
 				resource = nullptr;
-				SAY("WARNING : Failed to load a resource\nPath : " << full_path);
+				SAY("ERROR : Failed to load a resource\nPath : " << full_path.c_str());
 			}
 
 			FE2D::UUID uuid = FE2D::UUID(0);
@@ -71,14 +74,15 @@ namespace FE2D {
 					uuid = FE2D::UUID(j["UUID"].get<std::string>());
 				}
 				else {
-					SAY("WARNING : There is no DATA or UUID in metadata\nPath : " << metadata_full_path);
+					SAY("WARNING : There is no DATA or UUID in metadata\nPath : " << metadata_full_path.c_str());
 					uuid = FE2D::UUID(); // generate new UUID
 				}
 			}
-			else
-				uuid = FE2D::UUID(); // generate new UUID
+			else uuid = FE2D::UUID(); // generate new UUID
 
 			auto metadata_path = std::filesystem::relative(metadata_full_path, FOR_PATH.get_assets_path());
+
+			resource->setUUID(uuid);
 			this->cache_resource(uuid, resource, metadata_path);
 
 			return resource;

@@ -96,16 +96,21 @@ inline FE2D::UUID FE2D::Entity::GetUUID() const {
 inline mat4 FE2D::Entity::GetGlobalTransform() {
 	auto& transform = GetComponent<TransformComponent>();
 	mat4 global_transform = mat4();
-	if (HasParent()) global_transform = GetGlobalTransform(GetParent()) * static_cast<mat4>(transform);
-	else			 global_transform = static_cast<mat4>(transform);
+	if (HasParent())
+		global_transform = GetGlobalTransform(GetParent()) * static_cast<mat4>(transform);
+	else
+		global_transform = static_cast<mat4>(transform);
+	
 	return global_transform;
 }
 
 inline mat4 FE2D::Entity::GetGlobalTransform(Entity entity) {
 	auto& transform = entity.GetComponent<TransformComponent>();
 	mat4 global_transform = mat4();
-	if (entity.HasParent()) global_transform = GetGlobalTransform(entity.GetParent()) * static_cast<mat4>(transform);
-	else					global_transform = static_cast<mat4>(transform);
+	if (entity.HasParent())
+		global_transform = GetGlobalTransform(entity.GetParent()) * static_cast<mat4>(transform);
+	else
+		global_transform = static_cast<mat4>(transform);
 	return global_transform;
 }
 

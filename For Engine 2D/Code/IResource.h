@@ -1,7 +1,8 @@
 #pragma once
+#include "UUID.h"
 
 namespace FE2D {
-    class IMGUI; // forward declaration
+    class IMGUI; // forward declaration,
 
     class FOR_API IResource {
     public:
@@ -20,5 +21,11 @@ namespace FE2D {
 
         virtual json Serialize()const { return json(); }
         virtual void Deserialize(const json& j) {}
+
+        inline void setUUID(FE2D::UUID uuid)noexcept { m_UUID = uuid; }
+        inline FE2D::UUID getUUID()const noexcept { return m_UUID; }
+
+    private:
+        FE2D::UUID m_UUID = FE2D::UUID(0);
     };
 }

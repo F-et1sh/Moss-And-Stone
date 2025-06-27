@@ -1,6 +1,8 @@
 #pragma once
 #include "Texture.h"
 #include "Animation.h"
+#include "Prefab.h"
+
 #include "Components.h"
 #include "Fields.h"
 #include "EventSubscription.h"
@@ -40,6 +42,7 @@ namespace FE2D {
 
 		void SelectTexture(ResourceID<Texture>& id);
 		void SelectAnimation(ResourceID<Animation>& id);
+		void SelectPrefab(ResourceID<Prefab>& id);
 
 		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
 		void DrawCollider(Entity entity);

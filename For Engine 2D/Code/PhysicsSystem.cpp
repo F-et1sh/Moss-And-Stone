@@ -6,37 +6,55 @@
 
 void FE2D::PhysicsSystem::Update() {
 	entt::registry& registry = this->m_Scene->getRegistry();
-
 	auto group = registry.group<PhysicsComponent>(entt::get<TransformComponent>);
-	for (auto e_1 : group) {
-		Entity entity_1{ e_1, m_Scene };
+	
+	m_AABBs.reset();
 
-		auto& transform_1 = entity_1.GetComponent<TransformComponent>();
-		auto& physics_1  = entity_1.GetComponent<PhysicsComponent>();
+	for (auto e : group) {
+		Entity entity{ e, m_Scene };
 
-		if (physics_1.is_static) continue;
+		auto& physics = entity.GetComponent<PhysicsComponent>();
+		if (physics.is_static) continue;
 
-		mat4 mat_1 = entity_1.GetGlobalTransform();
+		auto& transform = entity.GetComponent<TransformComponent>();
+
+		mat4 mat = entity.GetGlobalTransform();
+		vec2 pos = physics.position + IMGUI::extractPosition(mat);
+		vec2 size = physics.size;
+
+		m_AABBs.add({ entity, pos.x - (size.x / 2), pos.x + (size.x / 2) });
+	}
+
+	std::sort(m_AABBs.begin(), m_AABBs.end(), [](const AABB& a, const AABB& b) { return a.min_x < b.min_x; });
+
+	for (auto i = m_AABBs.begin(); i != m_AABBs.end(); i++) {
+
+		auto& physics_1 = i->entity.GetComponent<PhysicsComponent>();
+		auto& transform_1 = i->entity.GetComponent<TransformComponent>();
+
+		mat4 mat_1 = i->entity.GetGlobalTransform();
 		vec2 pos_1 = physics_1.position + IMGUI::extractPosition(mat_1);
 		vec2 size_1 = physics_1.size;
 
-		for (auto& e_2 : group) {
-			if (e_1 == e_2) continue;
+		auto j = i;
+		j++;
+		for (; j != m_AABBs.end(); j++) {
+			if (j->min_x > i->max_x) break;
 
-			Entity entity_2 = { e_2, m_Scene };
+			auto& physics_2 = j->entity.GetComponent<PhysicsComponent>();
+			auto& transform_2 = j->entity.GetComponent<TransformComponent>();
 
-			auto& transform_2 = entity_2.GetComponent<TransformComponent>();
-			auto& physics_2 = entity_2.GetComponent<PhysicsComponent>();
-
-			mat4 mat_2 = entity_2.GetGlobalTransform();
+			mat4 mat_2 = j->entity.GetGlobalTransform();
 			vec2 pos_2 = physics_2.position + IMGUI::extractPosition(mat_2);
 			vec2 size_2 = physics_2.size;
+
+			if (std::abs(pos_1.y - pos_2.y) > (size_1.y + size_2.y) / 2) continue;
 
 			vec2 mtv = GetMTV(pos_1, size_1, pos_2, size_2);
 			if (mtv == vec2()) continue;
 
-			physics_1.entity_in = entity_2;
-			physics_2.entity_in = entity_1;
+			physics_1.entity_in = j->entity;
+			physics_2.entity_in = i->entity;
 
 			if (physics_1.is_trigger || physics_2.is_trigger) continue;
 

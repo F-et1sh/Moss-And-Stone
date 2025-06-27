@@ -377,6 +377,26 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
     id.uuid = selected_uuid;
 }
 
+void FE2D::IMGUI::SelectPrefab(ResourceID<Prefab>& id) {
+    const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
+
+    std::string_view button_name = "Prefab";
+    if (id.uuid != FE2D::UUID(0)) {
+        auto& prefab = m_ResourceManager->GetResource(id);
+        button_name = prefab.GetComponent<TagComponent>().tag; // prefabs always has TagComponent
+    }
+
+    ImGui::Button(button_name.data());
+
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_DRAGGING")) {
+            Prefab dropped_prefab = *static_cast<Prefab*>(payload->Data);
+            id = ResourceID<Prefab>(dropped_prefab.getUUID());
+        }
+        ImGui::EndDragDropTarget();
+    }
+}
+
 void FE2D::IMGUI::DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size) {
     if (id.uuid == FE2D::UUID(0)) return;
 

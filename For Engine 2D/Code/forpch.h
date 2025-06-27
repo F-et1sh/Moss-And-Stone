@@ -68,11 +68,7 @@ using json = nlohmann::json;
 using namespace glm;
 
 // For
-#include <forcore.hpp>
-#include <forarray.hpp>
-#include <fortraits.hpp>
-#include <forconvert.hpp>
-#include <forfile.hpp>
+#include "forcore.hpp"
 
 // GLFW
 #include "FOR_GLFW.h"

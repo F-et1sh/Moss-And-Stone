@@ -1,7 +1,6 @@
 #pragma once
 #include "SceneHierarchyPanel.h"
 
-
 #include "Camera.h"
 #include "ButtonManager.h"
 
@@ -18,8 +17,7 @@ namespace FE2D {
 	public:
 		ContentBrowser() = default;
 		~ContentBrowser() = default;
-	public:
-		void Release();
+	
 		void Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui);
 
 		void OnDeleteRequest();
@@ -69,16 +67,17 @@ namespace FE2D {
 		std::filesystem::path m_CurrentDirectory; // current opened directory
 
 		float m_ItemSize = 160.0f; // size of files and folders in the UI window
-	private:
+	
 		ResourceManager* m_ResourceManager = nullptr;
 	
 		IResource* m_Selected = nullptr;
 		std::filesystem::path m_SelectedPath;
 	
 		std::filesystem::path m_DeletingPath;
+	
 	public:
 		bool m_DeleteRequest = false;
-	private:
+	
 		IMGUI* m_ImGui = nullptr;
 
 		friend class SceneHierarchyPanel;

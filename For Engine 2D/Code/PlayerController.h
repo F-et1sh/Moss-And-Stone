@@ -17,6 +17,8 @@ public:
 	FOR_COMPONENT_FIELD(SpriteComponent, sprite);
 	FOR_COMPONENT_FIELD(AnimatorComponent, animator);
 
+	ResourceID<Prefab> bullet;
+
 	vec2 dir = vec2();
 	static constexpr float speed = 60;
 
@@ -35,15 +37,14 @@ public:
 			mouse_position -= m_Scene->getRenderContext().getResolution() / vec2(2);
 			});
 
-		/*subscribe_to_event(EventType::MouseButtonPressed, [&](const IEvent& e) {
+		subscribe_to_event(EventType::MouseButtonPressed, [&](const IEvent& e) {
 			const MouseButtonPressed& _event = static_cast<const MouseButtonPressed&>(e);
 			if (_event.button == GLFW_MOUSE_BUTTON_LEFT) {
-				Entity e = m_Scene->CreateEntity("Bullet");
-				e.GetComponent<TransformComponent>().position = transform->position + vec2(8, 0);
-				auto& physics = e.AddComponent<PhysicsComponent>();
-				physics.size = vec2(8);
+				auto& prefab = get_resource_manager().GetResource(bullet);
+				Entity e = prefab.CreateEntity(get_scene());
+				e.GetComponent<TransformComponent>().position = transform->position;
 			}
-			});*/
+			});
 	}
 
 	void OnUpdate(double deltaTime)override {
@@ -70,14 +71,15 @@ public:
 
 	json Serialize()const override {
 		json j;
+		FOR_SAVE_RESOURCE(bullet);
 		return j;
 	}
 
 	void Deserialize(const json& j)override {
-
+		FOR_LOAD_RESOURCE(bullet);
 	}
 
 	void OnEditorPanel(IMGUI& imgui)override {
-
+		imgui.SelectPrefab(bullet);
 	}
 };

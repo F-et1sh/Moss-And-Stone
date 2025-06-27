@@ -1,4 +1,6 @@
 #pragma once
+#include "Components.h"
+#include "Entity.h"
 
 namespace FE2D {
 	class FOR_API Prefab : public IResource {
@@ -11,7 +13,7 @@ namespace FE2D {
 		bool LoadFromFile(const std::filesystem::path& file_path) override;
 		void UplopadToFile(const std::filesystem::path& file_path) const override;
 
-		Entity CreateEntity(Scene* scene);
+		Entity CreateEntity(Scene& scene);
 
 		void OnEditorDraw(IMGUI& imgui) override;
 

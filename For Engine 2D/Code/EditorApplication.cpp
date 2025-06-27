@@ -71,11 +71,15 @@ void FE2D::EditorApplication::Loop() {
 
 		this->UpdateCameraMoving();
 
+		m_ImGui.BeginFrame();
+
 		this->OnGameUpdate();
 
 		if (m_IsPreviewHovered) this->OnPickerUpdate();
 
 		this->OnImGuiRender();
+
+		m_ImGui.EndFrame();
 
 		m_Window.SwapBuffers();
 		m_Window.PollEvent();
@@ -161,7 +165,6 @@ void FE2D::EditorApplication::OnPickerUpdate() {
 }
 
 void FE2D::EditorApplication::OnImGuiRender() {
-	m_ImGui.BeginFrame();
 
 	if (m_CloseRequest)					  this->OnCloseRequest();
 	if (m_ContentBrowser.m_DeleteRequest) this->m_ContentBrowser.OnDeleteRequest();
@@ -174,8 +177,6 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition);
 	m_ContentBrowser.OnImGuiRender();
-
-	m_ImGui.EndFrame();
 }
 
 void FE2D::EditorApplication::OnPreviewWindow() {
@@ -225,7 +226,7 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 			Prefab dropped_prefab = *static_cast<Prefab*>(payload->Data);
 			
 			Scene& scene = m_SceneManager.getCurrentScene();
-			Entity entity = dropped_prefab.CreateEntity(&scene);
+			Entity entity = dropped_prefab.CreateEntity(scene);
 			scene.EmplaceEntity(entity);
 		}
 		ImGui::EndDragDropTarget();

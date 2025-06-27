@@ -1,15 +1,6 @@
 #include "forpch.h"
 #include "ContentBrowser.h"
 
-void FE2D::ContentBrowser::Release() {
-    m_ResourceManager = nullptr;
-    m_ImGui = nullptr;
-
-    m_DirectoryImage.Release();
-
-    this->resetSelected();
-}
-
 void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_manager, IMGUI& imgui) {
     m_ResourceManager = &resource_manager;
     m_ImGui = &imgui;

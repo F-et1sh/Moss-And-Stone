@@ -328,6 +328,12 @@
     <Filter Include="Code\ECS\Fields">
       <UniqueIdentifier>{bf7ffc0c-cff3-43df-8cf4-308a8abe0e09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Caching">
+      <UniqueIdentifier>{c937cc80-b81f-49e1-be7a-bf9c720c8cf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Output">
+      <UniqueIdentifier>{0f0ab065-6da5-4b43-9271-2a7f4dcd40e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -832,6 +838,12 @@
     </ClInclude>
     <ClInclude Include="Code\Fields.h">
       <Filter>Code\ECS\Fields</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\forcache.hpp">
+      <Filter>Code\Caching</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\foroutput.hpp">
+      <Filter>Code\Output</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

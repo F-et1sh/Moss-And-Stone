@@ -148,7 +148,9 @@
     <ClInclude Include="Code\Enemy.h" />
     <ClInclude Include="Code\Fields.h" />
     <ClInclude Include="Code\forarray.hpp" />
+    <ClInclude Include="Code\forcache.hpp" />
     <ClInclude Include="Code\forfile.hpp" />
+    <ClInclude Include="Code\foroutput.hpp" />
     <ClInclude Include="Code\fortraits.hpp" />
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />

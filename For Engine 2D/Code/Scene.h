@@ -33,8 +33,9 @@ namespace FE2D {
 		void EmplaceEntity(Entity entity);
 
 		inline entt::registry& getRegistry()noexcept { return m_Registry; }
-		inline Window& getContextWindow()noexcept { return *m_Window; }
-		inline RenderContext& getRenderContext()noexcept { return *m_RenderContext; }
+		inline Window& getContextWindow() { return *m_Window; }
+		inline RenderContext& getRenderContext() { return *m_RenderContext; }
+		inline ResourceManager& getResourceManager() { return *m_ResourceManager; }
 
 	public:
 

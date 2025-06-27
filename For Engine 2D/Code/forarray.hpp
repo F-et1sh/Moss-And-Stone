@@ -1,4 +1,5 @@
 #pragma once
+#include <foroutput.hpp>
 #include <vector>
 #include <future>
 #include <memory>

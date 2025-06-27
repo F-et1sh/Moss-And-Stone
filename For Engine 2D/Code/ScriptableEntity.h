@@ -1,4 +1,5 @@
 #pragma once
+#include "Scene.h"
 #include "ScriptFactory.h"
 #include "Fields.h"
 
@@ -16,8 +17,18 @@ namespace FE2D {
 				field->set_context(m_Scene);
 		}
 
-		inline Entity this_entity()const noexcept { return { m_EntityHandle, m_Scene }; }
-		inline Scene* get_scene()const noexcept { return m_Scene; }
+		inline Entity this_entity()const noexcept { 
+			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get this entity in a scrpt\nScene was nullptr");
+			return { m_EntityHandle, m_Scene };
+		}
+		inline Scene& get_scene()const {
+			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get scene in a scrpt\nScene was nullptr");
+			return *m_Scene;
+		}
+		inline ResourceManager& get_resource_manager()const {
+			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get resource manager in a scrpt\nScene was nullptr");
+			return m_Scene->getResourceManager();
+		}
 
 		template<typename T>
 		inline ComponentField<T>& create_component_field() {
@@ -64,6 +75,9 @@ public: \
 
 #define FOR_SAVE_FIELD(field)			SceneSerializer::save_field(static_cast<const IField*>(&field), j, #field)
 #define FOR_LOAD_FIELD(field)			SceneSerializer::load_field(static_cast<IField*>(&field), j, #field)
+
+#define FOR_SAVE_RESOURCE(resource)		SceneSerializer::save_resource_id(resource, j, #resource)
+#define FOR_LOAD_RESOURCE(resource)		SceneSerializer::load_resource_id(resource, j, #resource)
 
 #define FOR_SAVE_VALUE(value)			SceneSerializer::save_value(value, j, #value)
 #define FOR_LOAD_VALUE(value)			SceneSerializer::load_value(value, j, #value)

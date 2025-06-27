@@ -1,4 +1,5 @@
 #pragma once
+#include "Window.h"
 #include "Camera.h"
 
 namespace FE2D {
