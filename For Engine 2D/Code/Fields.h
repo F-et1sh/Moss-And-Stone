@@ -7,7 +7,7 @@ namespace FE2D {
 
 		void set_context(Scene* scene)noexcept { this->scene = scene; }
 		
-		bool is_valid()const { return scene && uuid != FE2D::UUID(0) && get(); }
+		bool is_valid()const;
 
 		const Entity& get()const;
 		Entity& get();

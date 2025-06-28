@@ -99,7 +99,7 @@ void FE2D::SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		ImGui::EndPopup();
 	}
 
-	if (ImGui::IsWindowFocused() && this->getSelected() == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
+	if (this->getSelected() == entity && ImGui::IsKeyDown(ImGuiKey_Delete))
 		entity_deleted = true;
 
 	if (opened) {
