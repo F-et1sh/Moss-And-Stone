@@ -6,6 +6,7 @@ class Enemy : public ScriptableEntity {
 
 public:
 	FOR_COMPONENT_FIELD(TransformComponent, transform);
+	FOR_COMPONENT_FIELD(PhysicsComponent, physics);
 	FOR_ENTITY_FIELD(player);
 
 	float speed = 0.0f;
@@ -19,6 +20,7 @@ public:
 
 	void OnStart()override {
 		transform = this_entity();
+		physics = this_entity();
 	}
 
 	void OnUpdate(double deltaTime)override {
@@ -31,7 +33,7 @@ public:
 
 		if (length(direction) != 0.0f) {
 			direction = normalize(direction);
-			transform->position += direction * static_cast<float>(deltaTime) * speed;
+			physics->velocity = direction * static_cast<float>(deltaTime) * speed;
 		}
 	}
 

@@ -1,15 +1,27 @@
 {
     "Entities": [
         {
-            "IDComponent": {
-                "id": "10197375792988487906"
+            "AnimatorComponent": {
+                "current_direction": [
+                    0.0,
+                    0.0
+                ],
+                "current_state": "Reloading",
+                "current_time": 242.36451721191406,
+                "parameters": [],
+                "states": [
+                    {
+                        "animation_id": "17848275348952744805",
+                        "duration": 0.0,
+                        "looping": false,
+                        "name": "Reloading",
+                        "type": "AnimationState"
+                    }
+                ],
+                "transitions": []
             },
-            "NativeScriptComponent": {
-                "script_data": {
-                    "player": "6277878321365287483",
-                    "speed": 20.0
-                },
-                "script_name": "Enemy"
+            "IDComponent": {
+                "id": "2840176425508825968"
             },
             "RelationshipComponent": {
                 "children": [],
@@ -19,12 +31,12 @@
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
+                    16.0,
                     0.0,
-                    0.0,
-                    20.0,
-                    14.0
+                    16.0,
+                    16.0
                 ],
-                "texture": "10481742720340127963"
+                "texture": "15859077320941354709"
             },
             "TagComponent": {
                 "tag": "New Entity"
@@ -37,85 +49,13 @@
                     0.0
                 ],
                 "position": [
-                    34.538883209228516,
-                    13.307389259338379
+                    0.0,
+                    0.0
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    -1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "AnimatorComponent": {
-                "animations": []
-            },
-            "CameraComponent": {
-                "clear_color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "IDComponent": {
-                "id": "6277878321365287483"
-            },
-            "NativeScriptComponent": {
-                "script_data": {
-                    "bullet": "0"
-                },
-                "script_name": "PlayerController"
-            },
-            "PhysicsComponent": {
-                "bounce_factor": 0.0,
-                "is_static": false,
-                "is_trigger": false,
-                "mass": 1.0,
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    50.0,
-                    50.0
-                ],
-                "velocity_dying": 1.024999976158142
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    7.0,
-                    26.0
-                ],
-                "texture": "5326511936020937367"
-            },
-            "TagComponent": {
-                "tag": "Player"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    34.49142837524414,
-                    13.310357093811035
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
+                    15.0,
+                    15.0
                 ]
             }
         }

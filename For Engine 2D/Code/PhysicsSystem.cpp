@@ -1,9 +1,6 @@
 #include "forpch.h"
 #include "PhysicsSystem.h"
 
-#undef min
-#undef max
-
 void FE2D::PhysicsSystem::Update() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 	auto group = registry.group<PhysicsComponent>(entt::get<TransformComponent>);
@@ -14,9 +11,11 @@ void FE2D::PhysicsSystem::Update() {
 		Entity entity{ e, m_Scene };
 
 		auto& physics = entity.GetComponent<PhysicsComponent>();
-		if (physics.is_static) continue;
-
+		physics.entities_in.clear();
+		
 		auto& transform = entity.GetComponent<TransformComponent>();
+
+		transform.position += physics.velocity;
 
 		mat4 mat = entity.GetGlobalTransform();
 		vec2 pos = physics.position + IMGUI::extractPosition(mat);
@@ -53,8 +52,8 @@ void FE2D::PhysicsSystem::Update() {
 			vec2 mtv = GetMTV(pos_1, size_1, pos_2, size_2);
 			if (mtv == vec2()) continue;
 
-			physics_1.entity_in = j->entity;
-			physics_2.entity_in = i->entity;
+			physics_1.entities_in.emplace_back(j->entity);
+			physics_2.entities_in.emplace_back(i->entity);
 
 			if (physics_1.is_trigger || physics_2.is_trigger) continue;
 

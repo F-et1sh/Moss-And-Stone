@@ -4,6 +4,8 @@
 #undef max
 
 void FE2D::BlendTreeNode::update_current_animation(vec2 load_coords) {
+	if (animation_points.empty()) return;
+
 	float shortest_distance = std::numeric_limits<float>::max(); // some big value
 	size_t current_anim = 0;
 	for (size_t i = 0; i < animation_points.size(); i++) {

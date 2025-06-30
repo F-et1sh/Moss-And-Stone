@@ -390,16 +390,14 @@ void FE2D::IMGUI::SelectPrefab(ResourceID<Prefab>& id) {
 
     if (ImGui::BeginDragDropTarget()) {
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_DRAGGING")) {
-            Prefab dropped_prefab = *static_cast<Prefab*>(payload->Data);
-            id = ResourceID<Prefab>(dropped_prefab.getUUID());
+            ResourceID<Prefab> dropped_prefab_id = *static_cast<ResourceID<Prefab>*>(payload->Data);
+            id = dropped_prefab_id;
         }
         ImGui::EndDragDropTarget();
     }
 }
 
 void FE2D::IMGUI::DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size) {
-    if (id.uuid == FE2D::UUID(0)) return;
-
     auto& animation = m_ResourceManager->GetResource(id);
     auto texture_id = animation.getTexture(*m_ResourceManager);
     auto& texture = m_ResourceManager->GetResource(texture_id);
@@ -589,6 +587,25 @@ void IMGUI::TransformControl(Entity entity) {
         m_IsDraggingRect = true;
     }
 }
+
+bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, float columnWidth) {
+    char buffer[256];
+    memset(buffer, 0, sizeof(buffer));
+    strncpy_s(buffer, sizeof(buffer), value.c_str(), sizeof(buffer));
+    ImGui::PushID(label.c_str());
+    ImGui::Columns(2);
+    ImGui::SetColumnWidth(0, columnWidth);
+    ImGui::Text(label.c_str());
+    ImGui::NextColumn();
+    bool changed = false;
+    if (ImGui::InputText(("##input" + label).c_str(), buffer, sizeof(buffer))) {
+        value = std::string(buffer);
+        changed = true;
+    }
+    ImGui::Columns(1);
+    ImGui::PopID();
+    return changed;
+}   
 
 bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw) {
     ImGuiIO& io = ImGui::GetIO();

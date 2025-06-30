@@ -169,9 +169,17 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
                 return;
             }
 
+            FE2D::UUID uuid = m_ResourceManager->GetResourceByPath(path);
+            if (uuid == FE2D::UUID(0)) {
+                SAY("ERROR : Failed to drag prefab. Prefab UUID is 0");
+                return;
+            }
+
+			ResourceID<Prefab> prefab_id(uuid);
+
             auto& tag_component = resource.GetComponent<TagComponent>();
 
-            ImGui::SetDragDropPayload("PREFAB_DRAGGING", &resource, sizeof(Prefab));
+            ImGui::SetDragDropPayload("PREFAB_DRAGGING", &prefab_id, sizeof(ResourceID<Prefab>));
             ImGui::Text("%s", tag_component.tag.c_str());
             ImGui::EndDragDropSource();
         }

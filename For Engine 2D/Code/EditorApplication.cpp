@@ -13,7 +13,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 	m_RenderContext.Initialize();
 	m_RenderContext.BindCamera(m_EditorCamera);
 
-	//m_Window.setVSyn(true);
+	m_Window.setVSyn(true);
 	m_Window.setAutoClose(false);
 
 	m_Window.SubscribeToEvent(m_Event_WindowClosed, EventType::WindowClosed, [&](const IEvent& e) { this->make_close_request(); });
@@ -223,10 +223,11 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 
 	if (ImGui::BeginDragDropTarget()) {
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_DRAGGING")) {
-			Prefab dropped_prefab = *static_cast<Prefab*>(payload->Data);
+			ResourceID<Prefab> dropped_prefab_id = *static_cast<ResourceID<Prefab>*>(payload->Data);
 			
 			Scene& scene = m_SceneManager.getCurrentScene();
-			Entity entity = dropped_prefab.CreateEntity(scene);
+			auto& prefab = m_ResourceManager.GetResource(dropped_prefab_id);
+			Entity entity = prefab.CreateEntity(scene);
 			scene.EmplaceEntity(entity);
 		}
 		ImGui::EndDragDropTarget();

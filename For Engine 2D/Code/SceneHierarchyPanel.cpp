@@ -1,6 +1,8 @@
 #include "forpch.h"
 #include "SceneHierarchyPanel.h"
 
+#include "AnimationStateNodes.h"
+
 void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePicker& mouse_picker) {
 	m_Context = &context;
 	m_ImGui = &imgui;
@@ -190,59 +192,137 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		m_ImGui->CheckBox("Is Trigger", component.is_trigger);
 		m_ImGui->CheckBox("Is Static", component.is_static);
 
+		m_ImGui->DragVector2("Velocity", component.velocity);
+
 		ImGui::Spacing();
 
-		if (!component.is_static) {
-			m_ImGui->DragVector2("Velocity", component.velocity);
-			ImGui::DragFloat("Velocity Dying", &component.velocity_dying, 0.01f);
+		ImGui::Text("Colliding entities");
+
+		for (auto e : component.entities_in) {
+			ImGui::PushID(e.GetComponent<IDComponent>().id.get());
+			ImGui::Text(e.GetComponent<TagComponent>().tag.c_str());
+			ImGui::PopID();
 		}
 		});
 
 	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
-		static vec2 choosing_coords{};
-		static ResourceID<Animation> choosing_id{};
-
-		m_ImGui->SelectAnimation(choosing_id);
-		m_ImGui->DrawAnimation(choosing_id);
-
-		m_ImGui->DragVector2("Coordinates", choosing_coords);
-
-		if (ImGui::Button("Normalize")) {
-			if (length(choosing_coords) != 0.0f)
-				choosing_coords = normalize(choosing_coords);
-		}
+		ImGui::Begin("Animator Editor");
 		
-		if (ImGui::Button("Add Node")) {
-			component.animations.push_back({ choosing_coords, choosing_id });
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
+			ImGui::OpenPopup("Add Animation");
+
+		if (ImGui::BeginPopup("Add Animation")) {
+			if (ImGui::MenuItem("Add Animation Node")) {
+				auto& node = component.states.emplace_back(std::make_unique<AnimationStateNode>());
+				node->name = "New AnimationState";
+			}
+			if (ImGui::MenuItem("Add Blend Tree Node")) {
+				auto& node = component.states.emplace_back(std::make_unique<BlendTreeNode>());
+				node->name = "New BlendTree";
+			}
+			ImGui::EndPopup();
 		}
 
-		ImGui::Separator();
-		
-		size_t pushing_id = 0;
-		int deleting_id = -1;
+		static IStateNode* selected_node = nullptr;
+		for (const auto& state : component.states) {
+			if (!state) continue;
+			if (ImGui::Button(state->name.c_str())) {
+				selected_node = state.get();
+				component.current_state = selected_node->name;
+			}
+		}
 
-		for (const auto& [coord, animation_id] : component.animations) {
-			ImGui::PushID(pushing_id);
-
-			m_ImGui->DrawAnimation(animation_id);
+		if (selected_node) {
+			bool is_deleting = false;
+			
 			ImGui::SameLine();
-			ImGui::Text((std::to_string(coord.x) + " " + std::to_string(coord.y)).c_str());
-			ImGui::SameLine();
 
-			if (ImGui::Button("Remove")) deleting_id = pushing_id;
-			if (ImGui::Button("Edit")) {
-				choosing_coords = coord;
-				choosing_id = animation_id;
+			ImVec2 window_pos = ImGui::GetCursorPos();
+			window_pos.x += ImGui::GetContentRegionAvail().x / 2;
+			ImGui::SetCursorPos(window_pos);
+			ImGui::BeginChild("Animation Properties", ImVec2(0, 0), m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
-				deleting_id = pushing_id;
+			if (auto node = dynamic_cast<AnimationStateNode*>(selected_node)) {
+				m_ImGui->SelectAnimation(node->animation_id);
+				m_ImGui->DrawAnimation(node->animation_id);
+				
+				ImGui::Separator();
+
+				m_ImGui->InputText("Node Name", node->name);
+
+				ImGui::SameLine();
+				if (ImGui::Button("Remove")) is_deleting = true;
+				
+				ImGui::Checkbox("Looping", &node->looping);
+				if (node->looping)
+					ImGui::DragFloat("Duration", &node->duration, 0.1f);
+			}
+			else if (auto node = dynamic_cast<BlendTreeNode*>(selected_node)) {
+				static vec2 editing_coords = vec2();
+				static ResourceID<Animation> editing_anim_id;
+
+				m_ImGui->InputText("Node Name", node->name);
+				
+				ImGui::SameLine();
+				if (ImGui::Button("Remove")) is_deleting = true;
+
+				ImGui::Checkbox("Looping", &node->looping);
+
+				if (node->looping)
+					ImGui::DragFloat("Duration", &node->duration, 0.1f);
+
+				ImGui::Separator();
+
+				m_ImGui->DragVector2("Coordinate", editing_coords);
+				
+				ImGui::SameLine();
+				
+				m_ImGui->SelectAnimation(editing_anim_id);
+				m_ImGui->DrawAnimation(editing_anim_id);
+
+				if (ImGui::Button("Add Point"))
+					node->animation_points.emplace_back(editing_coords, editing_anim_id);
+
+				size_t i = 0;
+				int deleting_index = -1;
+
+				for (const auto& [coords, anim_id] : node->animation_points) {
+					ImGui::Text("%f x %f", coords.x, coords.y);
+
+					ImGui::SameLine();
+
+					m_ImGui->DrawAnimation(anim_id);
+
+					ImGui::SameLine();
+
+					if (ImGui::Button(("Remove##" + std::to_string(i)).c_str())) deleting_index = i;
+
+					ImGui::SameLine();
+
+					if (ImGui::Button("Edit")) {
+						editing_coords = coords;
+						editing_anim_id = anim_id;
+						deleting_index = i;
+					}
+
+					i++;
+				}
+				if (deleting_index != -1)
+					node->animation_points.erase(node->animation_points.begin() + deleting_index);
 			}
 
-			pushing_id++;
-			ImGui::PopID();
+			if (is_deleting) {
+				auto it = std::find_if(component.states.begin(), component.states.end(), [](const std::unique_ptr<IStateNode>& state) { return state.get() == selected_node; });
+				if (it != component.states.end()) {
+					component.states.erase(it);
+					selected_node = nullptr;
+				}
+			}
+			
+			ImGui::EndChild();
 		}
 
-		if (deleting_id != -1)
-			component.animations.erase(component.animations.begin() + deleting_id);
+		ImGui::End();
 		});
 
 	DrawComponent<NativeScriptComponent>("Script", entity, [&](auto& component) {

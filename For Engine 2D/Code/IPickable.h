@@ -7,4 +7,9 @@ class IPickable : public ScriptableEntity {
 public:
 	IPickable() = default;
 	~IPickable() = default;
+
+	void OnStart()override {
+		if (!this_entity().HasComponent<PhysicsComponent>())
+			this_entity().AddComponent<PhysicsComponent>();
+	}
 };

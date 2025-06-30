@@ -11,8 +11,5 @@ namespace FE2D {
 		~AnimationSystem() = default;
 
 		void Render();
-
-	private:
-		static ResourceID<Animation> GetNearAnimation(const std::vector<std::pair<vec2, ResourceID<Animation>>>& animation_points, vec2 current_direction);
 	};
 }

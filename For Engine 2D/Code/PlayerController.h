@@ -15,9 +15,6 @@ public:
 	FOR_COMPONENT_FIELD(TransformComponent, transform);
 	FOR_COMPONENT_FIELD(PhysicsComponent, physics);
 	FOR_COMPONENT_FIELD(SpriteComponent, sprite);
-	FOR_COMPONENT_FIELD(AnimatorComponent, animator);
-
-	ResourceID<Prefab> bullet;
 
 	vec2 dir = vec2();
 	static constexpr float speed = 60;
@@ -27,7 +24,6 @@ public:
 	void OnStart()override {
 		transform = this_entity();
 		physics = this_entity();
-		animator = this_entity();
 		sprite = this_entity();
 
 		subscribe_to_event(EventType::MouseMoved, [&](const IEvent& e) {
@@ -35,15 +31,6 @@ public:
 			mouse_position = _event.position;
 			mouse_position.y = m_Scene->getRenderContext().getResolution().y - mouse_position.y;
 			mouse_position -= m_Scene->getRenderContext().getResolution() / vec2(2);
-			});
-
-		subscribe_to_event(EventType::MouseButtonPressed, [&](const IEvent& e) {
-			const MouseButtonPressed& _event = static_cast<const MouseButtonPressed&>(e);
-			if (_event.button == GLFW_MOUSE_BUTTON_LEFT) {
-				auto& prefab = get_resource_manager().GetResource(bullet);
-				Entity e = prefab.CreateEntity(get_scene());
-				e.GetComponent<TransformComponent>().position = transform->position;
-			}
 			});
 	}
 
@@ -55,31 +42,27 @@ public:
 
 		if (length(dir) != 0.0f) {
 			dir = normalize(dir);
-			animator->state = AnimatorComponent::State::PLAY;
 		}
-		else animator->state = AnimatorComponent::State::STOP;
 
-		transform->position += dir * speed * vec2(deltaTime);
+		physics->velocity = dir * speed * vec2(deltaTime);
 
 		if (mouse_position.x > 0) sprite->flip_x = false;
 		else					  sprite->flip_x = true;
-
-		animator->current_direction = vec2(abs(mouse_position.x), mouse_position.y);
 
 		dir = {};
 	}
 
 	json Serialize()const override {
 		json j;
-		FOR_SAVE_RESOURCE(bullet);
+
 		return j;
 	}
 
 	void Deserialize(const json& j)override {
-		FOR_LOAD_RESOURCE(bullet);
+
 	}
 
 	void OnEditorPanel(IMGUI& imgui)override {
-		imgui.SelectPrefab(bullet);
+		
 	}
 };

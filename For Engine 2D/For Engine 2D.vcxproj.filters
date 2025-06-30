@@ -277,9 +277,6 @@
     <Filter Include="Code\Graphics %28 Legacy %29\Animator\Animation State">
       <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Animation\Nodes %28 Future %29">
-      <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\System\ScriptManager">
       <UniqueIdentifier>{17d4c217-85be-4eb6-aad4-7b35c6e9d6b9}</UniqueIdentifier>
     </Filter>
@@ -333,6 +330,12 @@
     </Filter>
     <Filter Include="Code\Output">
       <UniqueIdentifier>{0f0ab065-6da5-4b43-9271-2a7f4dcd40e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Weapon">
+      <UniqueIdentifier>{2a9826e0-60ec-45e2-9420-61a0138118f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Animation\Nodes">
+      <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -541,7 +544,7 @@
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClCompile>
     <ClCompile Include="Code\AnimationStateNodes.cpp">
-      <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
+      <Filter>Code\ECS\System\Animation\Nodes</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptableEntity.cpp">
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
@@ -804,7 +807,7 @@
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClInclude>
     <ClInclude Include="Code\AnimationStateNodes.h">
-      <Filter>Code\ECS\System\Animation\Nodes %28 Future %29</Filter>
+      <Filter>Code\ECS\System\Animation\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptableEntity.h">
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>

@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Fields.h"
 #include "Prefab.h"
+#include "AnimationStateNodes.h"
 
 namespace FE2D {
     class FOR_API SceneSerializer {
@@ -94,7 +95,6 @@ namespace FE2D {
                 SceneSerializer::save_value(component.mass, j_component, "mass");
                 SceneSerializer::save_value(component.is_trigger, j_component, "is_trigger");
                 SceneSerializer::save_value(component.is_static, j_component, "is_static");
-                SceneSerializer::save_value(component.velocity_dying, j_component, "velocity_dying");
 
                 j["PhysicsComponent"] = j_component;
             }
@@ -103,10 +103,52 @@ namespace FE2D {
                 auto& component = entity.GetComponent<AnimatorComponent>();
 
                 json j_component;
-                SceneSerializer::save_array(component.animations, j_component, "animations", [](const std::pair<vec2, ResourceID<Animation>>& e) -> json {
+				SceneSerializer::save_value(component.current_state, j_component, "current_state");
+                SceneSerializer::save_value(component.current_time, j_component, "current_time");
+                SceneSerializer::save_vec2(component.current_direction, j_component, "current_direction");
+                SceneSerializer::save_array(component.states, j_component, "states", [](const std::unique_ptr<IStateNode>& e) -> json {
                     json j;
-                    SceneSerializer::save_vec2(e.first, j, "coord");
-                    SceneSerializer::save_resource_id(e.second, j, "animation");
+                    if (e) {
+                        if (auto state = dynamic_cast<AnimationStateNode*>(e.get())) {
+                            j["type"] = "AnimationState";
+                            SceneSerializer::save_resource_id(state->animation_id, j, "animation_id");
+                            SceneSerializer::save_value(state->name, j, "name");
+                            SceneSerializer::save_value(state->duration, j, "duration");
+                            SceneSerializer::save_value(state->looping, j, "looping");
+                        }
+                        else if (auto blend = dynamic_cast<BlendTreeNode*>(e.get())) {
+                            j["type"] = "BlendTree";
+                            SceneSerializer::save_value(blend->name, j, "name");
+                            SceneSerializer::save_value(blend->duration, j, "duration");
+                            SceneSerializer::save_value(blend->looping, j, "looping");
+                            SceneSerializer::save_array(blend->animation_points, j, "animation_points", [](const BlendTreeNode::AnimationPoint& e) -> json {
+                                json j;
+                                SceneSerializer::save_vec2(e.first, j, "direction");
+                                SceneSerializer::save_resource_id(e.second, j, "animation");
+                                return j;
+                                });
+                        }
+                    }
+                    return j;
+                    });
+                SceneSerializer::save_array(component.transitions, j_component, "transitions", [](const AnimationTransition& e) -> json {
+                    json j;
+                    SceneSerializer::save_value(e.from_state, j, "from_state");
+                    SceneSerializer::save_value(e.to_state, j, "to_state");
+                    SceneSerializer::save_array(e.conditions, j, "conditions", [](const AnimationCondition& e2)->json {
+                        json j;
+                        SceneSerializer::save_value(e2.condition, j, "condition");
+                        SceneSerializer::save_value(e2.parameter_name, j, "parameter_name");
+                        SceneSerializer::save_value(e2.value, j, "value");
+                        return j;
+                        });
+                    return j;
+                    });
+                SceneSerializer::save_array(component.parameters, j_component, "parameters", [](const std::pair<std::string, AnimationParameter>& e)->json {
+                    json j;
+                    SceneSerializer::save_value(e.first, j, "first");
+                    SceneSerializer::save_value(e.second.name, j, "second.name");
+                    SceneSerializer::save_value(e.second.value, j, "second.value");
                     return j;
                     });
 
@@ -214,22 +256,93 @@ namespace FE2D {
                 SceneSerializer::load_value(component.mass, j_component, "mass");
                 SceneSerializer::load_value(component.is_trigger, j_component, "is_trigger");
                 SceneSerializer::load_value(component.is_static, j_component, "is_static");
-                SceneSerializer::load_value(component.velocity_dying, j_component, "velocity_dying");
 
                 deserialized_components.emplace_back(std::move(component));
             }
 
             if (j.contains("AnimatorComponent")) {
                 AnimatorComponent component;
-
                 const json& j_component = j["AnimatorComponent"];
-                SceneSerializer::load_array(component.animations, j_component, "animations",
-                    [](const json& j) -> std::pair<vec2, ResourceID<Animation>> {
-                        std::pair<vec2, ResourceID<Animation>> pair;
-                        SceneSerializer::load_vec2(pair.first, j, "coord");
-                        SceneSerializer::load_resource_id(pair.second, j, "animation");
-                        return pair;
-                    });
+
+                SceneSerializer::load_value(component.current_state, j_component, "current_state");
+                SceneSerializer::load_value(component.current_time, j_component, "current_time");
+                SceneSerializer::load_vec2(component.current_direction, j_component, "current_direction");
+
+                component.states.clear();
+                if (j_component.contains("states")) {
+                    for (const auto& j_state : j_component["states"]) {
+                        if (!j_state.contains("type")) continue;
+
+                        std::string type = j_state["type"];
+
+                        if (type == "AnimationState") {
+							auto node = std::make_unique<AnimationStateNode>();
+                            SceneSerializer::load_resource_id(node->animation_id, j_state, "animation_id");
+                            SceneSerializer::load_value(node->name, j_state, "name");
+                            SceneSerializer::load_value(node->duration, j_state, "duration");
+                            SceneSerializer::load_value(node->looping, j_state, "looping");
+                            
+                            component.states.emplace_back(std::move(node));
+                        }
+                        else if (type == "BlendTree") {
+                            auto node = std::make_unique<BlendTreeNode>();
+                            SceneSerializer::load_value(node->name, j_state, "name");
+                            SceneSerializer::load_value(node->duration, j_state, "duration");
+                            SceneSerializer::load_value(node->looping, j_state, "looping");
+
+                            if (j_state.contains("animation_points")) {
+                                for (const auto& ap : j_state["animation_points"]) {
+                                    vec2 direction;
+                                    ResourceID<Animation> anim_id;
+                                    SceneSerializer::load_vec2(direction, ap, "direction");
+                                    SceneSerializer::load_resource_id(anim_id, ap, "animation");
+                                    node->animation_points.emplace_back(direction, anim_id);
+                                }
+                            }
+                            node->update_current_animation(component.current_direction);
+
+                            component.states.emplace_back(std::move(node));
+                        }
+                    }
+                }
+
+                if (j_component.contains("transitions")) {
+                    for (const auto& j_trans : j_component["transitions"]) {
+                        AnimationTransition trans;
+                        SceneSerializer::load_value(trans.from_state, j_trans, "from_state");
+                        SceneSerializer::load_value(trans.to_state, j_trans, "to_state");
+
+                        if (j_trans.contains("conditions")) {
+                            for (const auto& j_cond : j_trans["conditions"]) {
+                                AnimationCondition cond;
+                                SceneSerializer::load_value(cond.parameter_name, j_cond, "parameter_name");
+                                SceneSerializer::load_value(cond.condition, j_cond, "condition");
+                                SceneSerializer::load_value(cond.value, j_cond, "value");
+                                trans.conditions.push_back(cond);
+                            }
+                        }
+
+                        component.transitions.push_back(std::move(trans));
+                    }
+                }
+
+                if (j_component.contains("parameters")) {
+                    for (const auto& j_param : j_component["parameters"]) {
+                        std::string name;
+                        SceneSerializer::load_value(name, j_param, "first");
+                        std::string param_name;
+                        SceneSerializer::load_value(param_name, j_param, "second.name");
+
+                        AnimationParameter param;
+                        param.name = param_name;
+
+                        if (j_param["second.value"].is_boolean()) param.value = j_param["second.value"].get<bool>();
+                        else if (j_param["second.value"].is_number_integer()) param.value = j_param["second.value"].get<int>();
+                        else if (j_param["second.value"].is_number_float()) param.value = j_param["second.value"].get<float>();
+
+                        component.parameters.insert({ name, param });
+                    }
+                }
 
                 deserialized_components.emplace_back(std::move(component));
             }
@@ -278,9 +391,19 @@ namespace FE2D {
             j[name] = id.uuid.ToString();
         }
 
-        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
+        template<typename T> requires (!std::is_base_of_v<IResource, T> && (std::is_trivial_v<T> || (std::is_same_v<T, std::string> || std::is_same_v<T, std::wstring>)))
         inline static void save_value(const T& value, json& j, const std::string& name) {
             j[name] = value;
+        }
+
+        template<typename... Ts>
+        inline static void save_value(const std::variant<Ts...>& value, json& j, const std::string& name) {
+            std::visit([&](const auto& v) {
+                if      constexpr (std::is_same_v<std::decay_t<decltype(v)>, bool>) j[name] = v;
+                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, float>) j[name] = v;
+                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, int  >) j[name] = v;
+                else throw std::runtime_error("Unsupported type in std::variant for save_value");
+                }, value);
         }
 
         template<typename Array, typename Func>
@@ -327,10 +450,19 @@ namespace FE2D {
             id.uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
-        template<typename T, typename = std::enable_if_t<!std::is_same_v<T, std::wstring> && !std::_Is_specialization_v<std::remove_cvref_t<T>, std::vector> && !std::is_pointer_v<T>>> requires (!std::is_base_of_v<IResource, T>)
+        template<typename T> requires (!std::is_base_of_v<IResource, T> && (std::is_trivial_v<T> || (std::is_same_v<T, std::string> || std::is_same_v<T, std::wstring>)))
         inline static void load_value(T& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
             value = j[name].get<T>();
+        }
+
+        template<typename... Ts>
+        inline static void load_value(std::variant<Ts...>& value, const json& j, const std::string& name) {
+            if (!j[name].contains(name)) return;
+            
+            if      (j[name].is_boolean())        value = j[name].get<bool>();
+            else if (j[name].is_number_float())   value = j[name].get<float>();
+            else if (j[name].is_number_integer()) value = j[name].get<int>();
         }
 
         template<typename Array, typename Func>

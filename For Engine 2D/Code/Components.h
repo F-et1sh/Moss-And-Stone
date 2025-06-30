@@ -2,6 +2,7 @@
 #include "UUID.h"
 #include "Entity.h"
 #include "ScriptableEntity.h"
+#include "AnimationStateNodes.h"
 
 namespace FE2D {
     struct FOR_API IDComponent {
@@ -114,9 +115,8 @@ namespace FE2D {
         bool is_static = false;
 
         vec2 velocity = vec2();
-        float velocity_dying = 1.025f;
 
-        Entity entity_in;
+        std::vector<Entity> entities_in;
 
         PhysicsComponent() = default;
         ~PhysicsComponent() = default;
@@ -124,21 +124,51 @@ namespace FE2D {
     };
 
     struct FOR_API AnimatorComponent {
-        enum class State {
-            PAUSE,
-            PLAY,
-            STOP,
-        };
-
-        std::vector<std::pair<vec2, ResourceID<Animation>>> animations;
-
+        std::string current_state;
+        float current_time = 0.0f;
         vec2 current_direction = vec2();
-        float time = 0.0f;
-        State state = State::STOP;
+
+        std::vector<std::unique_ptr<IStateNode>> states;
+        std::vector<AnimationTransition> transitions;
+        std::unordered_map<std::string, AnimationParameter> parameters;
 
         AnimatorComponent() = default;
         ~AnimatorComponent() = default;
-        AnimatorComponent(const AnimatorComponent&) = default;
+
+        AnimatorComponent(const AnimatorComponent& other) {
+            current_state = other.current_state;
+            current_time = other.current_time;
+            current_direction = other.current_direction;
+            transitions = other.transitions;
+            parameters = other.parameters;
+
+            states.reserve(other.states.size());
+            for (const auto& state : other.states) {
+				if (state) states.emplace_back(state->clone());
+            }
+        }
+
+        AnimatorComponent& operator=(const AnimatorComponent& other) {
+            if (this == &other) return *this;
+
+            states.clear();
+
+            current_state = other.current_state;
+            current_time = other.current_time;
+            current_direction = other.current_direction;
+            transitions = other.transitions;
+            parameters = other.parameters;
+
+            states.reserve(other.states.size());
+            for (const auto& state : other.states) {
+                if (state) states.emplace_back(state->clone());
+            }
+
+            return *this;
+        }
+
+        AnimatorComponent(AnimatorComponent&&) noexcept = default;
+        AnimatorComponent& operator=(AnimatorComponent&&) noexcept = default;
     };
 
     struct FOR_API NativeScriptComponent {
