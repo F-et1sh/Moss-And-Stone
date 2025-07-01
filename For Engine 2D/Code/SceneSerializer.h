@@ -105,7 +105,6 @@ namespace FE2D {
                 json j_component;
 				SceneSerializer::save_value(component.current_state, j_component, "current_state");
                 SceneSerializer::save_value(component.current_time, j_component, "current_time");
-                SceneSerializer::save_vec2(component.current_direction, j_component, "current_direction");
                 SceneSerializer::save_array(component.states, j_component, "states", [](const std::unique_ptr<IStateNode>& e) -> json {
                     json j;
                     if (e) {
@@ -121,6 +120,9 @@ namespace FE2D {
                             SceneSerializer::save_value(blend->name, j, "name");
                             SceneSerializer::save_value(blend->duration, j, "duration");
                             SceneSerializer::save_value(blend->looping, j, "looping");
+                            SceneSerializer::save_value(blend->parameter_name_x, j, "parameter_name_x");
+                            SceneSerializer::save_value(blend->parameter_name_y, j, "parameter_name_y");
+
                             SceneSerializer::save_array(blend->animation_points, j, "animation_points", [](const BlendTreeNode::AnimationPoint& e) -> json {
                                 json j;
                                 SceneSerializer::save_vec2(e.first, j, "direction");
@@ -137,7 +139,7 @@ namespace FE2D {
                     SceneSerializer::save_value(e.to_state, j, "to_state");
                     SceneSerializer::save_array(e.conditions, j, "conditions", [](const AnimationCondition& e2)->json {
                         json j;
-                        SceneSerializer::save_value(e2.condition, j, "condition");
+                        SceneSerializer::save_value(e2.condition_type, j, "condition");
                         SceneSerializer::save_value(e2.parameter_name, j, "parameter_name");
                         SceneSerializer::save_value(e2.value, j, "value");
                         return j;
@@ -147,7 +149,6 @@ namespace FE2D {
                 SceneSerializer::save_array(component.parameters, j_component, "parameters", [](const std::pair<std::string, AnimationParameter>& e)->json {
                     json j;
                     SceneSerializer::save_value(e.first, j, "first");
-                    SceneSerializer::save_value(e.second.name, j, "second.name");
                     SceneSerializer::save_value(e.second.value, j, "second.value");
                     return j;
                     });
@@ -266,7 +267,6 @@ namespace FE2D {
 
                 SceneSerializer::load_value(component.current_state, j_component, "current_state");
                 SceneSerializer::load_value(component.current_time, j_component, "current_time");
-                SceneSerializer::load_vec2(component.current_direction, j_component, "current_direction");
 
                 component.states.clear();
                 if (j_component.contains("states")) {
@@ -276,30 +276,30 @@ namespace FE2D {
                         std::string type = j_state["type"];
 
                         if (type == "AnimationState") {
-							auto node = std::make_unique<AnimationStateNode>();
+                            auto node = std::make_unique<AnimationStateNode>();
+
                             SceneSerializer::load_resource_id(node->animation_id, j_state, "animation_id");
                             SceneSerializer::load_value(node->name, j_state, "name");
                             SceneSerializer::load_value(node->duration, j_state, "duration");
                             SceneSerializer::load_value(node->looping, j_state, "looping");
-                            
+
                             component.states.emplace_back(std::move(node));
                         }
                         else if (type == "BlendTree") {
                             auto node = std::make_unique<BlendTreeNode>();
+
                             SceneSerializer::load_value(node->name, j_state, "name");
                             SceneSerializer::load_value(node->duration, j_state, "duration");
                             SceneSerializer::load_value(node->looping, j_state, "looping");
-
-                            if (j_state.contains("animation_points")) {
-                                for (const auto& ap : j_state["animation_points"]) {
-                                    vec2 direction;
-                                    ResourceID<Animation> anim_id;
-                                    SceneSerializer::load_vec2(direction, ap, "direction");
-                                    SceneSerializer::load_resource_id(anim_id, ap, "animation");
-                                    node->animation_points.emplace_back(direction, anim_id);
-                                }
-                            }
-                            node->update_current_animation(component.current_direction);
+                            SceneSerializer::load_value(node->parameter_name_x, j_state, "parameter_name_x");
+                            SceneSerializer::load_value(node->parameter_name_y, j_state, "parameter_name_y");
+                            
+                            SceneSerializer::load_array(node->animation_points, j_state, "animation_points", [](const json& j) -> std::pair<vec2, ResourceID<Animation>> {
+                                std::pair<vec2, ResourceID<Animation>> pair;
+                                SceneSerializer::load_vec2(pair.first, j, "direction");
+                                SceneSerializer::load_resource_id(pair.second, j, "animation");
+                                return pair;
+                                });
 
                             component.states.emplace_back(std::move(node));
                         }
@@ -316,7 +316,7 @@ namespace FE2D {
                             for (const auto& j_cond : j_trans["conditions"]) {
                                 AnimationCondition cond;
                                 SceneSerializer::load_value(cond.parameter_name, j_cond, "parameter_name");
-                                SceneSerializer::load_value(cond.condition, j_cond, "condition");
+                                SceneSerializer::load_value(cond.condition_type, j_cond, "condition");
                                 SceneSerializer::load_value(cond.value, j_cond, "value");
                                 trans.conditions.push_back(cond);
                             }
@@ -329,16 +329,16 @@ namespace FE2D {
                 if (j_component.contains("parameters")) {
                     for (const auto& j_param : j_component["parameters"]) {
                         std::string name;
-                        SceneSerializer::load_value(name, j_param, "first");
                         std::string param_name;
+
+                        SceneSerializer::load_value(name, j_param, "first");
                         SceneSerializer::load_value(param_name, j_param, "second.name");
 
                         AnimationParameter param;
-                        param.name = param_name;
 
-                        if (j_param["second.value"].is_boolean()) param.value = j_param["second.value"].get<bool>();
+                        if      (j_param["second.value"].is_boolean       ()) param.value = j_param["second.value"].get<bool>();
                         else if (j_param["second.value"].is_number_integer()) param.value = j_param["second.value"].get<int>();
-                        else if (j_param["second.value"].is_number_float()) param.value = j_param["second.value"].get<float>();
+                        else if (j_param["second.value"].is_number_float  ()) param.value = j_param["second.value"].get<float>();
 
                         component.parameters.insert({ name, param });
                     }

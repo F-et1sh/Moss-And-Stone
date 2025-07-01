@@ -50,6 +50,7 @@ namespace FE2D {
 		void TransformControl(Entity entity);
 
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
+		inline bool IsAnyTextInput()const noexcept { return m_IsAnyTextInput; }
 
 		template<typename T>
 		inline void ComponentPayload(std::string_view title, ComponentField<T>& component_field) {
@@ -123,6 +124,7 @@ namespace FE2D {
 		RenderContext* m_RenderContext = nullptr;
 
 		bool m_IsAnyGizmoHovered = false;
+		bool m_IsAnyTextInput = false;
 
 	private:
 		bool m_IsDraggingColliderLeft = false;

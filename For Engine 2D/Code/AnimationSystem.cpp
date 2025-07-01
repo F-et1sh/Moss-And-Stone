@@ -25,42 +25,49 @@ void FE2D::AnimationSystem::Render() {
         }
         if (!state) return;
 
-        if (auto* blend = dynamic_cast<BlendTreeNode*>(state))
-            blend->update_current_animation(animator.current_direction);
+        if (auto blend = dynamic_cast<BlendTreeNode*>(state)) {
+            auto it_y = std::find_if(animator.parameters.begin(), animator.parameters.end(), [&](const std::pair<std::string, AnimationParameter>& e) { return e.first == state->name; });
+            auto it_x = std::find_if(animator.parameters.begin(), animator.parameters.end(), [&](const std::pair<std::string, AnimationParameter>& e) { return e.first == state->name; });
+            
+            if (it_x != animator.parameters.end() &&
+                it_y != animator.parameters.end()) {
+
+                // idk what will happend if the values are not float but bool or int
+                // I hope this won't crash everything and just convert that type to float
+                vec2 direction = vec2(std::get<float>(it_x->second.value), 
+                                      std::get<float>(it_y->second.value));
+
+                blend->update_current_animation(direction);
+            }
+        }
 
         for (const auto& transition : animator.transitions) {
             if (transition.from_state != animator.current_state) continue;
 
             if (state->looping && animator.current_time >= state->duration) {
-                bool passed = true;
+                bool passed = true; // turn on the next animation
 
-                for (const auto& cond : transition.conditions) {
+                for (const auto& cond : transition.conditions) { // look though all transition conditions
                     const auto it = animator.parameters.find(cond.parameter_name);
                     if (it == animator.parameters.end()) {
-                        passed = false;
+                        passed = false; // parameter wasn't found
                         break;
                     }
 
-                    const auto& param = it->second;
+                    const auto& param = it->second; // parameter of AnimatorComponent
                     float param_value = 0.0f;
 
                     if      (std::holds_alternative<bool >(param.value)) param_value = std::get<bool >(param.value) ? 1.0f : 0.0f;
                     else if (std::holds_alternative<float>(param.value)) param_value = std::get<float>(param.value);
                     else if (std::holds_alternative<int  >(param.value)) param_value = static_cast<float>(std::get<int>(param.value));
 
-                    switch (cond.condition) {
-                    case ConditionType::Equals:
-                        if (param_value != cond.value) passed = false;
-                        break;
-                    case ConditionType::Greater:
-                        if (param_value <= cond.value) passed = false;
-                        break;
-                    case ConditionType::Less:
-                        if (param_value >= cond.value) passed = false;
-                        break;
+                    switch (cond.condition_type) {
+                        case ConditionType::Equals : if (param_value != cond.value) passed = false; break;
+                        case ConditionType::Greater: if (param_value <= cond.value) passed = false; break;
+                        case ConditionType::Less   : if (param_value >= cond.value) passed = false; break;
                     }
 
-                    if (!passed) break;
+                    if (!passed) break; // transition condition not met
                 }
 
                 if (passed) {

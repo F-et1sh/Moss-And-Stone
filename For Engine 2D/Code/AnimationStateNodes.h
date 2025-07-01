@@ -28,6 +28,9 @@ namespace FE2D {
 		using AnimationPoint = std::pair<vec2, ResourceID<Animation>>;
 		std::vector<AnimationPoint> animation_points;
 		
+		std::string parameter_name_x; // float
+		std::string parameter_name_y; // float
+		
 		FOR_CLASS_DEFAULT(BlendTreeNode)
 		std::unique_ptr<IStateNode> clone() const override { return std::make_unique<BlendTreeNode>(*this); }
 	};
@@ -35,20 +38,19 @@ namespace FE2D {
 	enum class ParameterType { Bool, Float, Int };
 
 	struct AnimationParameter {
-		std::string name;
 		std::variant<bool, float, int> value;
 
 		FOR_CLASS_DEFAULT(AnimationParameter)
 
 		template<typename T> requires (std::is_same_v<T, bool> || std::is_same_v<T, float> || std::is_same_v<T, int>)
-		AnimationParameter(std::string n, T v) : name(std::move(n)), value(v) {}
+		AnimationParameter(T value) : value(value) {}
 	};
 
 	enum class ConditionType { Equals, Greater, Less };
 
 	struct AnimationCondition {
 		std::string parameter_name;
-		ConditionType condition = ConditionType::Equals;
+		ConditionType condition_type = ConditionType::Equals;
 		float value = 0.0f;
 
 		FOR_CLASS_DEFAULT(AnimationCondition)

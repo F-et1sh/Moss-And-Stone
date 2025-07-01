@@ -126,10 +126,10 @@ namespace FE2D {
     struct FOR_API AnimatorComponent {
         std::string current_state;
         float current_time = 0.0f;
-        vec2 current_direction = vec2();
 
         std::vector<std::unique_ptr<IStateNode>> states;
         std::vector<AnimationTransition> transitions;
+        // name | parameter
         std::unordered_map<std::string, AnimationParameter> parameters;
 
         AnimatorComponent() = default;
@@ -138,7 +138,6 @@ namespace FE2D {
         AnimatorComponent(const AnimatorComponent& other) {
             current_state = other.current_state;
             current_time = other.current_time;
-            current_direction = other.current_direction;
             transitions = other.transitions;
             parameters = other.parameters;
 
@@ -155,7 +154,6 @@ namespace FE2D {
 
             current_state = other.current_state;
             current_time = other.current_time;
-            current_direction = other.current_direction;
             transitions = other.transitions;
             parameters = other.parameters;
 
