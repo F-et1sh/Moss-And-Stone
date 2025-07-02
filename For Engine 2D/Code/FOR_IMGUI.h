@@ -96,7 +96,7 @@ namespace FE2D {
 			ImGui::Text(title.data());
 		}
 
-		bool InputText(const std::string& label, std::string& value, float columnWidth = 100.0f);
+		bool InputText(const std::string& label, std::string& value, int text_width = 100);
 	public:
 		Window* getWindow()const noexcept { return m_Window; }
 		RenderContext* getRenderContext()const noexcept { return m_RenderContext; }

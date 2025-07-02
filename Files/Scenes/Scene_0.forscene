@@ -2,22 +2,46 @@
     "Entities": [
         {
             "AnimatorComponent": {
-                "current_state": "Reloading",
-                "current_time": 364.4472351074219,
-                "parameters": [],
+                "current_state": 0,
+                "current_time": 174.24130249023438,
+                "parameters": [
+                    {
+                        "first": "IsReloading",
+                        "second.value": false
+                    }
+                ],
                 "states": [
                     {
                         "animation_id": "17848275348952744805",
                         "duration": 0.0,
                         "looping": false,
-                        "name": "Reloading",
+                        "name": "Shoot",
+                        "type": "AnimationState"
+                    },
+                    {
+                        "animation_id": "13019861593271216063",
+                        "duration": 0.0,
+                        "looping": false,
+                        "name": "Reload",
                         "type": "AnimationState"
                     }
                 ],
-                "transitions": []
+                "transitions": [
+                    {
+                        "conditions": [
+                            {
+                                "condition": 0,
+                                "parameter_name": "IsReloading",
+                                "value": 1.0
+                            }
+                        ],
+                        "from_state": 0,
+                        "to_state": 1
+                    }
+                ]
             },
             "IDComponent": {
-                "id": "2840176425508825968"
+                "id": "2802728413380588256"
             },
             "RelationshipComponent": {
                 "children": [],
@@ -35,62 +59,7 @@
                 "texture": "15859077320941354709"
             },
             "TagComponent": {
-                "tag": "New Entity"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 2,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    262.7547912597656,
-                    68.86834716796875
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    15.0,
-                    15.0
-                ]
-            }
-        },
-        {
-            "AnimatorComponent": {
-                "current_state": "Walk",
-                "current_time": 107.46831512451172,
-                "parameters": [],
-                "states": [
-                    {
-                        "animation_id": "586694841512290349",
-                        "duration": 0.0,
-                        "looping": false,
-                        "name": "Walk",
-                        "type": "AnimationState"
-                    }
-                ],
-                "transitions": []
-            },
-            "IDComponent": {
-                "id": "12317699387495320580"
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    7.0,
-                    26.0
-                ],
-                "texture": "3568749835203105778"
-            },
-            "TagComponent": {
-                "tag": "Player"
+                "tag": "Shotgun"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -105,8 +74,8 @@
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    15.0,
-                    15.0
+                    1.0,
+                    1.0
                 ]
             }
         }

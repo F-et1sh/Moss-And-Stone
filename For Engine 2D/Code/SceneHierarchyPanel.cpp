@@ -206,65 +206,150 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<AnimatorComponent>("Animator", entity, [&](auto& component) {
-		ImGui::Begin("Animator Editor");
-
 		static FE2D::UUID selected_entity = entity.GetUUID();
 		static IStateNode* selected_node = nullptr;
+		static size_t selected_node_index = 0;
 		static AnimationTransition* selected_transition = nullptr;
 
 		if (selected_entity != entity.GetUUID()) { // reset if this is other entity
 			selected_node = nullptr;
+			selected_node_index = 0;
 			selected_transition = nullptr;
 		}
 
 		ImVec2 window_size = ImVec2(ImGui::GetContentRegionAvail().x / 3, ImGui::GetContentRegionAvail().y);
 
 		// draw parameters
-		ImGui::BeginChild("Parameters", window_size, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
+		ImGui::BeginChild("Parameters", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
 		{
-			static std::string adding_parameter = "DefaultParameter";
+			static std::string adding_parameter_name = "DefaultParameter";
+			static AnimationParameter adding_parameter;
 
-			if (ImGui::Button("Add Parameter")) {
-				ImGui::OpenPopup("##ADD_PARAMETER");
+			if (selected_entity != entity.GetUUID()) {
+				adding_parameter_name = "DefaultParameter";
+				adding_parameter = {};
 			}
 
-			if (ImGui::BeginPopup("##ADD_PARAMETER")) {
-				if (ImGui::MenuItem("Boolean")) {
-					component.parameters.emplace(adding_parameter, AnimationParameter{ static_cast<bool>(false) });
+			// draw InputText window and text itself
+			float text_width = ImGui::GetContentRegionAvail().x - 130;
+			m_ImGui->InputText("Parameter Name", adding_parameter_name, text_width);
+			if (ImGui::Button("Parameter Type")) {
+				ImGui::OpenPopup("##CHOOSE_PARAMETER_TYPE");
+			}
+
+			// draw value input window
+			{
+				// new ( for me ) style of code formatting, when you put braces like this
+				if (std::holds_alternative<bool>(adding_parameter.value)) 
+				{
+					float item_width = ImGui::GetFrameHeight();
+					ImGui::PushItemWidth(item_width);
+
+					bool value = std::get<bool>(adding_parameter.value) ? 1.0f : 0.0f;
+					ImGui::Checkbox(("Boolean##" + adding_parameter_name).c_str(), &value);
+					adding_parameter.value = value;
+
+					ImGui::PopItemWidth();
 				}
-				if (ImGui::MenuItem("Integer")) {
-					component.parameters.emplace(adding_parameter, AnimationParameter{ static_cast<int>(0) });
+				else if (std::holds_alternative<float>(adding_parameter.value)) 
+				{
+					float item_width = ImGui::GetFrameHeight() * 4;
+					ImGui::PushItemWidth(item_width);
+
+					float value = std::get<float>(adding_parameter.value);
+					ImGui::DragFloat(("Float##" + adding_parameter_name).c_str(), &value);
+					adding_parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+				else if (std::holds_alternative<int>(adding_parameter.value)) 
+				{
+					float item_width = ImGui::GetFrameHeight() * 4;
+					ImGui::PushItemWidth(item_width);
+
+					int value = std::get<int>(adding_parameter.value);
+					ImGui::DragInt(("Integer##" + adding_parameter_name).c_str(), &value);
+					adding_parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+			}
+
+			static constexpr ImVec2 button_size = ImVec2(110, 25);
+			ImGui::SameLine(ImGui::GetContentRegionAvail().x - button_size.x);
+
+			// draw Add Parameter button
+			if (ImGui::Button("Add Parameter", button_size)) {
+				component.parameters.emplace(adding_parameter_name, adding_parameter);
+			}
+
+			if (ImGui::BeginPopup("##CHOOSE_PARAMETER_TYPE")) {
+				if (ImGui::MenuItem("Boolean")) {
+					adding_parameter = AnimationParameter{ static_cast<bool>(false) };
 				}
 				if (ImGui::MenuItem("Float")) {
-					component.parameters.emplace(adding_parameter, AnimationParameter{ static_cast<float> (0.0f) });
+					adding_parameter = AnimationParameter{ static_cast<float> (0.0f) };
+				}
+				if (ImGui::MenuItem("Integer")) {
+					adding_parameter = AnimationParameter{ static_cast<int>(0) };
 				}
 				ImGui::EndPopup();
 			}
 
+			std::string parameter_to_delete;
 			for (auto& [name, parameter] : component.parameters) {
-				if (std::holds_alternative<bool>(parameter.value)) {
+				std::string label = std::string(name + "##Parameter");
+
+				if (std::holds_alternative<bool>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight();
+					ImGui::PushItemWidth(item_width);
+
 					bool value = std::get<bool>(parameter.value) ? 1.0f : 0.0f;
-					m_ImGui->CheckBox("Value##AnimationCondition", value);
+					ImGui::Checkbox(label.c_str(), &value);
 					parameter.value = value;
+
+					ImGui::PopItemWidth();
 				}
-				else if (std::holds_alternative<float>(parameter.value)) {
+				else if (std::holds_alternative<float>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight();
+					ImGui::PushItemWidth(item_width);
+
 					float value = std::get<float>(parameter.value);
-					ImGui::DragFloat("Value##AnimationCondition", &value);
+					ImGui::DragFloat(label.c_str(), &value);
 					parameter.value = value;
+
+					ImGui::PopItemWidth();
 				}
-				else if (std::holds_alternative<int>(parameter.value)) {
+				else if (std::holds_alternative<int>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight();
+					ImGui::PushItemWidth(item_width);
+
 					int value = std::get<int>(parameter.value);
-					ImGui::DragInt("Value##AnimationCondition", &value);
+					ImGui::DragInt(label.c_str(), &value);
 					parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+
+				ImGui::SameLine();
+
+				if (ImGui::Button(("Remove##" + name).c_str())) {
+					parameter_to_delete = name;
 				}
 			}
+			
+			if (!parameter_to_delete.empty())
+				component.parameters.erase(parameter_to_delete);
 		}
 		ImGui::EndChild();
 
 		ImGui::SameLine();
 
 		// draw state nodes
-		ImGui::BeginChild("State Nodes", window_size, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
+		ImGui::BeginChild("State Nodes", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
 		{
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
 				ImGui::OpenPopup("Add Animation");
@@ -272,25 +357,19 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 			if (ImGui::BeginPopup("Add Animation")) {
 				std::unique_ptr<IStateNode> node = nullptr;
 
-				if (ImGui::MenuItem("Add Animation State Node")) {
-					node = std::make_unique<AnimationStateNode>();
-					node->name = "New AnimationState";
-				}
-				if (ImGui::MenuItem("Add Blend Tree Node")) {
-					node = std::make_unique<BlendTreeNode>();
-					node->name = "New BlendTree";
-				}
+				if (ImGui::MenuItem("Add Animation State Node")) node = std::make_unique<AnimationStateNode>();
+				if (ImGui::MenuItem("Add Blend Tree Node"))		 node = std::make_unique<BlendTreeNode>();
 
 				if (node) {
 					component.states.emplace_back(std::move(node));
 
-					size_t transitions_size = static_cast<size_t>(component.states.size() / 2);
-					if (component.transitions.size() < transitions_size) {
+					size_t needed_transitions_size = static_cast<size_t>(component.states.size() / 2);
+					if (component.transitions.size() < needed_transitions_size) {
 						size_t last = component.states.size() - 1;
 
 						AnimationTransition transition;
-						transition.from_state = component.states[last]->name;
-						transition.to_state = component.states[last - 1]->name; // can't throw an error
+						transition.from_state = last - 1;
+						transition.to_state = last;
 
 						component.transitions.emplace_back(std::move(transition));
 					}
@@ -299,16 +378,18 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 				ImGui::EndPopup();
 			}
 
+			size_t i = 0;
 			for (const auto& state : component.states) {
 				if (!state) continue;
 				if (ImGui::Button(state->name.c_str())) {
 					selected_node = state.get();
-					component.current_state = selected_node->name;
+					selected_node_index = i;
+					component.current_state = i;
 					selected_transition = nullptr;
 				}
 
-				auto it = std::find_if(component.transitions.begin(), component.transitions.end(), [&](const AnimationTransition& e) {
-					return e.from_state == state->name;
+				auto it = std::find_if(component.transitions.begin(), component.transitions.end(), [i](const AnimationTransition& e) {
+					return e.from_state == i;
 					});
 				if (it != component.transitions.end()) {
 					std::string name = it->from_state + " -> " + it->to_state;
@@ -317,6 +398,8 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 						selected_node = nullptr;
 					}
 				}
+
+				i++;
 			}
 		}
 		ImGui::EndChild();
@@ -324,13 +407,11 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::SameLine();
 
 		// draw properties
-		ImGui::BeginChild("Properties", window_size, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
+		ImGui::BeginChild("Properties", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
 		{
 			// draw state node properties
 			if (selected_node) {
 				bool is_deleting = false;
-
-				ImGui::BeginChild("Animation Properties", window_size, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 				if (auto node = dynamic_cast<AnimationStateNode*>(selected_node)) {
 					m_ImGui->SelectAnimation(node->animation_id);
@@ -356,9 +437,8 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 						editing_anim_id = ResourceID<Animation>();
 					}
 
-					m_ImGui->InputText("Node Name", node->name);
+					m_ImGui->InputText("Node Name", node->name, node->name.size() * 10);
 
-					ImGui::SameLine();
 					if (ImGui::Button("Remove")) is_deleting = true;
 
 					ImGui::Checkbox("Looping", &node->looping);
@@ -381,7 +461,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 					size_t i = 0;
 					int deleting_index = -1;
 
-					for (const auto& [coords, anim_id] : node->animation_points) {
+					for (auto& [coords, anim_id] : node->animation_points) {
 						ImGui::Text("%f x %f", coords.x, coords.y);
 
 						ImGui::SameLine();
@@ -391,10 +471,14 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 						ImGui::SameLine();
 
 						if (ImGui::Button(("Remove##" + std::to_string(i)).c_str())) deleting_index = i;
+						if (ImGui::Button(("Normalize##" + std::to_string(i)).c_str())) {
+							if (coords.length() != 0.0f)
+								coords = normalize(coords);
+						}
 
 						ImGui::SameLine();
 
-						if (ImGui::Button("Edit")) {
+						if (ImGui::Button(("Edit##" + std::to_string(i)).c_str())) {
 							editing_coords = coords;
 							editing_anim_id = anim_id;
 							deleting_index = i;
@@ -406,11 +490,11 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 						node->animation_points.erase(node->animation_points.begin() + deleting_index);
 				}
 
-				if (is_deleting) {
+				if (is_deleting) { // call this only at the ending
 					auto it = std::find_if(component.states.begin(), component.states.end(), [](const std::unique_ptr<IStateNode>& state) { return state.get() == selected_node; });
 					if (it != component.states.end()) {
 						auto transition_it = std::find_if(component.transitions.begin(), component.transitions.end(), [](const AnimationTransition& e) {
-							return e.from_state == selected_node->name || e.to_state == selected_node->name;
+							return e.from_state == selected_node_index || e.to_state == selected_node_index;
 							});
 						if (transition_it != component.transitions.end()) {
 							component.transitions.erase(transition_it);
@@ -420,20 +504,17 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 						selected_node = nullptr;
 					}
 				}
-
-				ImGui::EndChild();
 			}
 
 			// draw transition properties
 			else if (selected_transition) {
-				ImGui::BeginChild("Transition Properties", window_size, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
-
-				ImGui::SameLine();
-
 				if (ImGui::Button("Add Condition")) {
 					ImGui::OpenPopup("##ADD_CONDITION");
 				}
 				if (ImGui::BeginPopup("##ADD_CONDITION")) {
+					if (component.parameters.empty())
+						ImGui::Text("Please add at least one parameter on the left panel");
+
 					for (const auto& [param_name, param] : component.parameters) {
 						if (ImGui::MenuItem((param_name + "##PARAMETER").c_str())) {
 							AnimationCondition cond;
@@ -443,40 +524,95 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 					}
 					ImGui::EndPopup();
 				}
-
+				
+				size_t i = 0;
+				int index_to_delete = -1;
 				for (auto& cond : selected_transition->conditions) {
-					if (ImGui::Button(cond.parameter_name.c_str())) {
-						ImGui::OpenPopup("##CHOOSE_CONDITION");
-					}
+					ImGui::Text(cond.parameter_name.c_str());
+					
+					ImGui::SameLine();
 
-					if (ImGui::BeginPopup("##CHOOSE_CONDITION")) {
-						for (const auto& [param_name, param] : component.parameters) {
-							if (ImGui::MenuItem((param_name + "##PARAMETER").c_str())) {
-								cond.parameter_name = param_name;
-							}
+					// draw condition mark ( ==, >=, <= )
+					{
+						std::string cond_text;
+						switch (cond.condition_type) {
+							case ConditionType::Equals : cond_text = " == "; break;
+							case ConditionType::Greater: cond_text = " >= "; break;
+							case ConditionType::Less   : cond_text = " <= "; break;
 						}
-						ImGui::EndPopup();
+						
+						if (ImGui::Button(cond_text.c_str())) {
+							ImGui::OpenPopup("##CHOOSE_CONDITION_TYPE");
+						}
+
+						if (ImGui::BeginPopup("##CHOOSE_CONDITION_TYPE")) {
+							if (ImGui::MenuItem("Equals" )) cond.condition_type = ConditionType::Equals;
+							if (ImGui::MenuItem("Greater")) cond.condition_type = ConditionType::Greater;
+							if (ImGui::MenuItem("Less"	 )) cond.condition_type = ConditionType::Less;
+							ImGui::EndPopup();
+						}
 					}
 
 					ImGui::SameLine();
 
-					switch (cond.condition_type) {
-					case ConditionType::Equals: ImGui::Text("=="); break;
-					case ConditionType::Greater: ImGui::Text(">="); break;
-					case ConditionType::Less: ImGui::Text("<="); break;
+					auto it = std::find_if(component.parameters.begin(), component.parameters.end(), [cond](const std::pair<std::string, AnimationParameter>& e) {
+						return e.first == cond.parameter_name;
+						});
+					if (it == component.parameters.end()) {
+						index_to_delete = i;
+						break;
+					}
+					AnimationParameter anim_param = component.parameters[cond.parameter_name];
+
+					ImGui::PushID(("##ConditionValue_" + cond.parameter_name).c_str());
+
+					if (std::holds_alternative<bool>(anim_param.value))
+					{
+						float item_width = ImGui::GetFrameHeight();
+						ImGui::PushItemWidth(item_width);
+
+						bool value = static_cast<bool>(cond.value);
+						ImGui::Checkbox(("##Cond_" + cond.parameter_name).c_str(), &value);
+						cond.value = value;
+
+						ImGui::PopItemWidth();
+					}
+					else if (std::holds_alternative<float>(anim_param.value))
+					{
+						float item_width = ImGui::GetFrameHeight() * 4;
+						ImGui::PushItemWidth(item_width);
+
+						float value = static_cast<float>(cond.value);
+						ImGui::DragFloat(("##Cond_" + cond.parameter_name).c_str(), &value);
+						cond.value = value;
+
+						ImGui::PopItemWidth();
+					}
+					else if (std::holds_alternative<int>(anim_param.value))
+					{
+						float item_width = ImGui::GetFrameHeight() * 4;
+						ImGui::PushItemWidth(item_width);
+
+						int value = static_cast<int>(cond.value);
+						ImGui::DragInt(("##Cond_" + cond.parameter_name).c_str(), &value);
+						cond.value = value;
+
+						ImGui::PopItemWidth();
 					}
 
-					ImGui::Text(cond.parameter_name.c_str());
+					ImGui::PopID();
+
+					i++;
 				}
 
-				ImGui::EndChild();
+				if (index_to_delete != -1) {
+					selected_transition->conditions.erase(selected_transition->conditions.begin() + index_to_delete);
+				}
 			}
 		}
 		ImGui::EndChild();
 
 		selected_entity = entity.GetUUID(); // set new entity only at the ending
-
-		ImGui::End();
 		});
 
 	DrawComponent<NativeScriptComponent>("Script", entity, [&](auto& component) {

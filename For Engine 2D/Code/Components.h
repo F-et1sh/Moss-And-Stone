@@ -124,7 +124,7 @@ namespace FE2D {
     };
 
     struct FOR_API AnimatorComponent {
-        std::string current_state;
+        size_t current_state = 0;
         float current_time = 0.0f;
 
         std::vector<std::unique_ptr<IStateNode>> states;

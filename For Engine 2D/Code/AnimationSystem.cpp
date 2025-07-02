@@ -17,23 +17,21 @@ void FE2D::AnimationSystem::Render() {
         animator.current_time += deltaTime;
 
         IStateNode* state = nullptr;
-        for (const auto& s : animator.states) {
-            if (s->name == animator.current_state) {
-                state = s.get();
+        for (size_t i = 0; i < animator.states.size(); i++) {
+            if (i == animator.current_state) {
+                state = animator.states[i].get();
                 break;
             }
         }
-        if (!state) return;
+        if (!state) continue;
 
         if (auto blend = dynamic_cast<BlendTreeNode*>(state)) {
-            auto it_y = std::find_if(animator.parameters.begin(), animator.parameters.end(), [&](const std::pair<std::string, AnimationParameter>& e) { return e.first == state->name; });
-            auto it_x = std::find_if(animator.parameters.begin(), animator.parameters.end(), [&](const std::pair<std::string, AnimationParameter>& e) { return e.first == state->name; });
+            auto it_x = std::find_if(animator.parameters.begin(), animator.parameters.end(), [blend](const std::pair<std::string, AnimationParameter>& e) { return e.first == blend->parameter_name_x; });
+            auto it_y = std::find_if(animator.parameters.begin(), animator.parameters.end(), [blend](const std::pair<std::string, AnimationParameter>& e) { return e.first == blend->parameter_name_y; });
             
             if (it_x != animator.parameters.end() &&
                 it_y != animator.parameters.end()) {
 
-                // idk what will happend if the values are not float but bool or int
-                // I hope this won't crash everything and just convert that type to float
                 vec2 direction = vec2(std::get<float>(it_x->second.value), 
                                       std::get<float>(it_y->second.value));
 

@@ -588,20 +588,21 @@ void IMGUI::TransformControl(Entity entity) {
     }
 }
 
-bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, float columnWidth) {
+bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, int text_width) {
     char buffer[256];
     memset(buffer, 0, sizeof(buffer));
     strncpy_s(buffer, sizeof(buffer), value.c_str(), sizeof(buffer));
 
     ImGui::PushID(label.c_str());
-
-    ImGui::Columns(2);
-    ImGui::SetColumnWidth(0, columnWidth);
     
     ImGui::Text(label.c_str());
-    ImGui::NextColumn();
+
+    ImGui::SameLine();
     
     bool changed = false;
+
+    ImGui::PushItemWidth(text_width);
+
     if (ImGui::InputText(("##input" + label).c_str(), buffer, sizeof(buffer))) {
         value = std::string(buffer);
         if (value.empty()) value = " ";
@@ -610,7 +611,6 @@ bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, float 
 
     m_IsAnyTextInput = ImGui::IsItemFocused();
 
-    ImGui::Columns(1);
     ImGui::PopID();
 
     return changed;

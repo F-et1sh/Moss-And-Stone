@@ -7,7 +7,7 @@ namespace FE2D {
 		inline void set_animation(ResourceID<Animation> id)noexcept { animation_id = id; }
 		inline ResourceID<Animation> get_animation()const noexcept { return animation_id; }
 
-		std::string name;
+		std::string name = "NewStateNode";
 		float duration = 0.0f;
 		bool looping = false;
 
@@ -57,8 +57,8 @@ namespace FE2D {
 	};
 
 	struct AnimationTransition {
-		std::string from_state;
-		std::string to_state;
+		size_t from_state;
+		size_t to_state;
 		std::vector<AnimationCondition> conditions;
 
 		FOR_CLASS_DEFAULT(AnimationTransition)
