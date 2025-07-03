@@ -15,7 +15,7 @@ namespace FE2D {
         virtual void Release() {}
 
         virtual bool LoadFromFile(const std::filesystem::path& file_path) = 0;
-        virtual void UplopadToFile(const std::filesystem::path& file_path)const {}
+        virtual void UploadToFile(const std::filesystem::path& file_path)const {}
 
         virtual void OnEditorDraw(IMGUI& imgui) {}
 

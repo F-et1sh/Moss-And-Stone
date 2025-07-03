@@ -26,7 +26,7 @@ namespace FE2D {
 			IResource* resource = new T(std::forward<Args>(args)...);
 			FE2D::UUID uuid = FE2D::UUID(); // generate new UUID
 
-			resource->UplopadToFile(full_path);
+			resource->UploadToFile(full_path);
 			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
 			this->CreateMetadata(metadata_full_path, uuid);
 

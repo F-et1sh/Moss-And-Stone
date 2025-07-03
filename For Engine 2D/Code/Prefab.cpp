@@ -26,7 +26,7 @@ bool FE2D::Prefab::LoadFromFile(const std::filesystem::path& file_path) {
 	return true;
 }
 
-void FE2D::Prefab::UplopadToFile(const std::filesystem::path& file_path) const {
+void FE2D::Prefab::UploadToFile(const std::filesystem::path& file_path) const {
 	std::ofstream file(file_path);
 	if (!file.good()) {
 		SAY("ERROR : Failed to open file\nPath : " << file_path.string().c_str());

@@ -217,11 +217,11 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 			selected_transition = nullptr;
 		}
 
-		ImVec2 window_size = ImVec2(ImGui::GetContentRegionAvail().x / 3, ImGui::GetContentRegionAvail().y);
+		ImVec2 window_size = ImVec2(ImGui::GetContentRegionAvail().x / 3, 400);
 		ImVec2 window_pos = ImGui::GetCursorPos();
 
 		// draw parameters
-		ImGui::BeginChild("Parameters", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+		ImGui::BeginChild("Parameters", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX);
 		{
 			static std::string adding_parameter_name = "DefaultParameter";
 			static AnimationParameter adding_parameter;
@@ -377,12 +377,12 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::SetCursorPos(ImVec2(window_pos.x + window_size.x, window_pos.y));
 
 		// draw state nodes
-		ImGui::BeginChild("State Nodes", ImVec2(window_size.x, window_size.y / 2), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+		ImGui::BeginChild("State Nodes", ImVec2(window_size.x, window_size.y / 2), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX);
 		{
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
-				ImGui::OpenPopup("Add Animation");
+				ImGui::OpenPopup("##ADD_ANIMATION");
 
-			if (ImGui::BeginPopup("Add Animation")) {
+			if (ImGui::BeginPopup("##ADD_ANIMATION")) {
 				std::unique_ptr<IStateNode> node = nullptr;
 
 				if (ImGui::MenuItem("Add Animation State Node")) node = std::make_unique<AnimationStateNode>();
@@ -429,7 +429,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::SetCursorPos(ImVec2(window_pos.x + window_size.x, window_pos.y + (window_size.y / 2)));
 
 		// draw transitions
-		ImGui::BeginChild("Transitions", ImVec2(window_size.x, window_size.y / 2), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+		ImGui::BeginChild("Transitions", ImVec2(window_size.x, window_size.y / 2), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX);
 		{
 			static size_t from_state_index = 0;
 			static size_t to_state_index = 1;
@@ -530,7 +530,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::SetCursorPos(ImVec2(window_pos.x + window_size.x * 2, window_pos.y));
 
 		// draw properties
-		ImGui::BeginChild("Properties", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+		ImGui::BeginChild("Properties", window_size, ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeX);
 		{
 			// draw state node properties
 			if (selected_node) {
@@ -609,18 +609,22 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 				}
 
 				if (is_deleting) { // call this only at the ending
-					auto it = std::find_if(component.states.begin(), component.states.end(), [](const std::unique_ptr<IStateNode>& state) { return state.get() == selected_node; });
-					if (it != component.states.end()) {
-						auto transition_it = std::find_if(component.transitions.begin(), component.transitions.end(), [](const AnimationTransition& e) {
-							return e.from_state == selected_node_index || e.to_state == selected_node_index;
-							});
-						if (transition_it != component.transitions.end()) {
-							component.transitions.erase(transition_it);
+					for (auto it = component.transitions.begin(); it != component.transitions.end(); ) {
+						if (it->from_state == selected_node_index || it->to_state == selected_node_index) {
+							it = component.transitions.erase(it);
+							continue;
 						}
 
-						component.states.erase(it);
-						selected_node = nullptr;
+						if (it->from_state > selected_node_index) it->from_state--;
+						if (it->to_state   > selected_node_index) it->to_state--;
+
+						++it;
 					}
+
+					component.states.erase(component.states.begin() + selected_node_index);
+
+					selected_node = nullptr;
+					selected_transition = nullptr;
 				}
 			}
 

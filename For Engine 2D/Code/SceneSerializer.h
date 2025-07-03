@@ -116,7 +116,7 @@ namespace FE2D {
                         }
                         else if (auto blend = dynamic_cast<BlendTreeNode*>(e.get())) {
                             j["type"] = "BlendTree";
-                            SceneSerializer::save_value(state->name, j, "name");
+                            SceneSerializer::save_value(blend->name, j, "name");
                             SceneSerializer::save_value(blend->looping, j, "looping");
                             SceneSerializer::save_value(blend->parameter_name_x, j, "parameter_name_x");
                             SceneSerializer::save_value(blend->parameter_name_y, j, "parameter_name_y");

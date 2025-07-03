@@ -91,7 +91,7 @@ void FE2D::ResourceManager::save_resources() {
         if (auto resource = m_ResourceCache.get_resource(uuid)) {
             std::filesystem::path resource_path = path;
             resource_path.replace_extension(); // clear .fs extension
-            resource->UplopadToFile(resource_path);
+            resource->UploadToFile(resource_path);
         }
     }
 }

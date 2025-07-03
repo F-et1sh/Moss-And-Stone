@@ -11,7 +11,7 @@ namespace FE2D {
 		Prefab(Entity entity);
 
 		bool LoadFromFile(const std::filesystem::path& file_path) override;
-		void UplopadToFile(const std::filesystem::path& file_path) const override;
+		void UploadToFile(const std::filesystem::path& file_path) const override;
 
 		Entity CreateEntity(Scene& scene);
 

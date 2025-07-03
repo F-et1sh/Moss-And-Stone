@@ -3,93 +3,45 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 75.89936828613281,
-                "parameters": [
-                    {
-                        "first": "IsShooting",
-                        "second.value": {
-                            "trigger": false
-                        }
-                    },
-                    {
-                        "first": "IsReloading",
-                        "second.value": {
-                            "trigger": false
-                        }
-                    }
-                ],
+                "current_time": 644.6908569335938,
+                "parameters": [],
                 "states": [
                     {
-                        "animation_id": "15111747118094725226",
+                        "animation_points": [],
                         "looping": false,
-                        "name": "Idle",
-                        "type": "AnimationState"
-                    },
-                    {
-                        "animation_id": "17848275348952744805",
-                        "looping": false,
-                        "name": "Shoot",
-                        "type": "AnimationState"
-                    },
-                    {
-                        "animation_id": "13019861593271216063",
-                        "looping": false,
-                        "name": "Reload",
-                        "type": "AnimationState"
+                        "name": "Walk",
+                        "type": "BlendTree"
                     }
                 ],
-                "transitions": [
-                    {
-                        "conditions": [
-                            {
-                                "condition": 0,
-                                "parameter_name": "IsShooting",
-                                "value": 1.0
-                            }
-                        ],
-                        "from_state": 0,
-                        "to_state": 1
-                    },
-                    {
-                        "conditions": [
-                            {
-                                "condition": 0,
-                                "parameter_name": "IsShooting",
-                                "value": 0.0
-                            }
-                        ],
-                        "from_state": 1,
-                        "to_state": 0
-                    },
-                    {
-                        "conditions": [
-                            {
-                                "condition": 0,
-                                "parameter_name": "IsReloading",
-                                "value": 1.0
-                            }
-                        ],
-                        "from_state": 0,
-                        "to_state": 2
-                    },
-                    {
-                        "conditions": [
-                            {
-                                "condition": 0,
-                                "parameter_name": "IsReloading",
-                                "value": 0.0
-                            }
-                        ],
-                        "from_state": 2,
-                        "to_state": 0
-                    }
+                "transitions": []
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
                 ]
             },
             "IDComponent": {
-                "id": "9906595595640692472"
+                "id": "3490922993741587887"
             },
             "NativeScriptComponent": {
                 "script_data": null
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    50.0,
+                    50.0
+                ]
             },
             "RelationshipComponent": {
                 "children": [],
@@ -101,13 +53,13 @@
                 "frame": [
                     0.0,
                     0.0,
-                    16.0,
-                    16.0
+                    42.0,
+                    26.0
                 ],
-                "texture": "7339296026360857254"
+                "texture": "1281483442294410756"
             },
             "TagComponent": {
-                "tag": "Shotgun"
+                "tag": "New Entity"
             },
             "TransformComponent": {
                 "auto_sort": false,
