@@ -3,24 +3,36 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 174.24130249023438,
+                "current_time": 75.89936828613281,
                 "parameters": [
                     {
+                        "first": "IsShooting",
+                        "second.value": {
+                            "trigger": false
+                        }
+                    },
+                    {
                         "first": "IsReloading",
-                        "second.value": false
+                        "second.value": {
+                            "trigger": false
+                        }
                     }
                 ],
                 "states": [
                     {
+                        "animation_id": "15111747118094725226",
+                        "looping": false,
+                        "name": "Idle",
+                        "type": "AnimationState"
+                    },
+                    {
                         "animation_id": "17848275348952744805",
-                        "duration": 0.0,
                         "looping": false,
                         "name": "Shoot",
                         "type": "AnimationState"
                     },
                     {
                         "animation_id": "13019861593271216063",
-                        "duration": 0.0,
                         "looping": false,
                         "name": "Reload",
                         "type": "AnimationState"
@@ -31,17 +43,53 @@
                         "conditions": [
                             {
                                 "condition": 0,
-                                "parameter_name": "IsReloading",
+                                "parameter_name": "IsShooting",
                                 "value": 1.0
                             }
                         ],
                         "from_state": 0,
                         "to_state": 1
+                    },
+                    {
+                        "conditions": [
+                            {
+                                "condition": 0,
+                                "parameter_name": "IsShooting",
+                                "value": 0.0
+                            }
+                        ],
+                        "from_state": 1,
+                        "to_state": 0
+                    },
+                    {
+                        "conditions": [
+                            {
+                                "condition": 0,
+                                "parameter_name": "IsReloading",
+                                "value": 1.0
+                            }
+                        ],
+                        "from_state": 0,
+                        "to_state": 2
+                    },
+                    {
+                        "conditions": [
+                            {
+                                "condition": 0,
+                                "parameter_name": "IsReloading",
+                                "value": 0.0
+                            }
+                        ],
+                        "from_state": 2,
+                        "to_state": 0
                     }
                 ]
             },
             "IDComponent": {
-                "id": "2802728413380588256"
+                "id": "9906595595640692472"
+            },
+            "NativeScriptComponent": {
+                "script_data": null
             },
             "RelationshipComponent": {
                 "children": [],
@@ -56,7 +104,7 @@
                     16.0,
                     16.0
                 ],
-                "texture": "15859077320941354709"
+                "texture": "7339296026360857254"
             },
             "TagComponent": {
                 "tag": "Shotgun"

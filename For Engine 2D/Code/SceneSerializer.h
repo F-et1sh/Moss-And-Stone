@@ -112,13 +112,11 @@ namespace FE2D {
                             j["type"] = "AnimationState";
                             SceneSerializer::save_resource_id(state->animation_id, j, "animation_id");
                             SceneSerializer::save_value(state->name, j, "name");
-                            SceneSerializer::save_value(state->duration, j, "duration");
                             SceneSerializer::save_value(state->looping, j, "looping");
                         }
                         else if (auto blend = dynamic_cast<BlendTreeNode*>(e.get())) {
                             j["type"] = "BlendTree";
                             SceneSerializer::save_value(state->name, j, "name");
-                            SceneSerializer::save_value(blend->duration, j, "duration");
                             SceneSerializer::save_value(blend->looping, j, "looping");
                             SceneSerializer::save_value(blend->parameter_name_x, j, "parameter_name_x");
                             SceneSerializer::save_value(blend->parameter_name_y, j, "parameter_name_y");
@@ -161,7 +159,7 @@ namespace FE2D {
 
                 json j_component;
                 SceneSerializer::save_value(component.script_name, j_component, "script_name");
-                SceneSerializer::save_value(component.instance ? component.instance->Serialize() : json(), j_component, "script_data");
+                j_component["script_data"] = component.instance ? component.instance->Serialize() : json(); // this must work like this
 
                 j["NativeScriptComponent"] = j_component;
             }
@@ -280,7 +278,6 @@ namespace FE2D {
 
                             SceneSerializer::load_resource_id(node->animation_id, j_state, "animation_id");
                             SceneSerializer::load_value(node->name, j_state, "name");
-                            SceneSerializer::load_value(node->duration, j_state, "duration");
                             SceneSerializer::load_value(node->looping, j_state, "looping");
 
                             component.states.emplace_back(std::move(node));
@@ -289,7 +286,6 @@ namespace FE2D {
                             auto node = std::make_unique<BlendTreeNode>();
 
                             SceneSerializer::load_value(node->name, j_state, "name");
-                            SceneSerializer::load_value(node->duration, j_state, "duration");
                             SceneSerializer::load_value(node->looping, j_state, "looping");
                             SceneSerializer::load_value(node->parameter_name_x, j_state, "parameter_name_x");
                             SceneSerializer::load_value(node->parameter_name_y, j_state, "parameter_name_y");
@@ -336,11 +332,12 @@ namespace FE2D {
 
                         AnimationParameter param;
 
-                        if      (j_param["second.value"].is_boolean       ()) param.value = j_param["second.value"].get<bool>();
-                        else if (j_param["second.value"].is_number_integer()) param.value = j_param["second.value"].get<int>();
-                        else if (j_param["second.value"].is_number_float  ()) param.value = j_param["second.value"].get<float>();
+                        if      (j_param["second.value"].is_boolean       ()) param.value =         j_param["second.value"]           .get<bool >();
+                        else if (j_param["second.value"].is_number_integer()) param.value =         j_param["second.value"]           .get<int  >();
+                        else if (j_param["second.value"].is_number_float  ()) param.value =         j_param["second.value"]           .get<float>();
+                        else if (j_param["second.value"].is_object        ()) param.value = Trigger(j_param["second.value"]["trigger"].get<bool >());
 
-                        component.parameters.insert({ name, param });
+                        component.parameters.emplace(name, param);
                     }
                 }
 
@@ -352,16 +349,9 @@ namespace FE2D {
 
                 const json& j_component = j["NativeScriptComponent"];
                 SceneSerializer::load_value(component.script_name, j_component, "script_name");
-                if (!ScriptFactory::Instance().GetRegisteredScripts().contains(component.script_name)) {
-                    SAY("WARNING : Failed to deserialize a scriptable entity" <<
-                        "\nFailed to find script name in the list. Using empty name" <<
-                        "\nName : " << component.script_name.c_str());
-                    component.script_name.clear();
-                }
-                else {
-                    component.instance = ScriptFactory::Instance().CreateScript(component.script_name);
+                component.instance = ScriptFactory::Instance().CreateScript(component.script_name);
+                if (component.instance)
                     component.instance->Deserialize(j_component["script_data"]);
-                }
 
                 deserialized_components.emplace_back(std::move(component));
             }
@@ -391,17 +381,20 @@ namespace FE2D {
             j[name] = id.uuid.ToString();
         }
 
-        template<typename T> requires (!std::is_base_of_v<IResource, T> && (std::is_trivial_v<T> || (std::is_same_v<T, std::string> || std::is_same_v<T, std::wstring>)))
+        template<typename T> requires (!std::is_base_of_v<IResource, T> && (std::is_trivial_v<T> || (std::is_same_v<T, std::string>)))
         inline static void save_value(const T& value, json& j, const std::string& name) {
+            if constexpr (std::is_same_v<T, std::string>)
+                if (value.empty()) return;
             j[name] = value;
         }
 
         template<typename... Ts>
         inline static void save_value(const std::variant<Ts...>& value, json& j, const std::string& name) {
             std::visit([&](const auto& v) {
-                if      constexpr (std::is_same_v<std::decay_t<decltype(v)>, bool>) j[name] = v;
-                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, float>) j[name] = v;
-                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, int  >) j[name] = v;
+                if      constexpr (std::is_same_v<std::decay_t<decltype(v)>, bool   >) j[name]            = v;
+                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, float  >) j[name]            = v;
+                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, int    >) j[name]            = v;
+                else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, Trigger>) j[name]["trigger"] = v.is_triggered();
                 else throw std::runtime_error("Unsupported type in std::variant for save_value");
                 }, value);
         }
@@ -450,7 +443,7 @@ namespace FE2D {
             id.uuid = FE2D::UUID(j[name].get<std::string>());
         }
 
-        template<typename T> requires (!std::is_base_of_v<IResource, T> && (std::is_trivial_v<T> || (std::is_same_v<T, std::string> || std::is_same_v<T, std::wstring>)))
+        template<typename T> requires (!std::is_base_of_v<IResource, T> && (std::is_trivial_v<T> || (std::is_same_v<T, std::string>)))
         inline static void load_value(T& value, const json& j, const std::string& name) {
             if (!j.contains(name)) return;
             value = j[name].get<T>();
@@ -463,6 +456,7 @@ namespace FE2D {
             if      (j[name].is_boolean())        value = j[name].get<bool>();
             else if (j[name].is_number_float())   value = j[name].get<float>();
             else if (j[name].is_number_integer()) value = j[name].get<int>();
+            else if (j[name].is_object        ()) value = j[name]["trigger"].get<bool>();
         }
 
         template<typename Array, typename Func>
