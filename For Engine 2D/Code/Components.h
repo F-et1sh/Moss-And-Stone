@@ -132,6 +132,17 @@ namespace FE2D {
         // name | parameter
         std::unordered_map<std::string, AnimationParameter> parameters;
 
+        inline void setBoolean(const std::string& name, bool value) { this->set_value(name, value); }
+        inline void setFloat(const std::string& name, float value) { this->set_value(name, value); }
+        inline void setInteger(const std::string& name, int value) { this->set_value(name, value); }
+        inline void callTrigger(const std::string& name) {
+            auto it = parameters.find(name);
+            if (it == parameters.end()) return;
+
+            if (std::holds_alternative<Trigger>(it->second.value))
+                std::get<Trigger>(it->second.value).trigger();
+        }
+
         AnimatorComponent() = default;
         ~AnimatorComponent() = default;
 
@@ -146,7 +157,6 @@ namespace FE2D {
 				if (state) states.emplace_back(state->clone());
             }
         }
-
         AnimatorComponent& operator=(const AnimatorComponent& other) {
             if (this == &other) return *this;
 
@@ -167,6 +177,16 @@ namespace FE2D {
 
         AnimatorComponent(AnimatorComponent&&) noexcept = default;
         AnimatorComponent& operator=(AnimatorComponent&&) noexcept = default;
+
+    private:
+        template<typename T> requires (std::is_same_v<T, bool> || std::is_same_v<T, float> || std::is_same_v<T, int> || std::is_same_v<T, Trigger>)
+        inline void set_value(const std::string& n, T v) {
+            auto it = parameters.find(n);
+            if (it == parameters.end()) return;
+
+            if (std::holds_alternative<T>(it->second.value))
+                it->second.value = v;
+        }
     };
 
     struct FOR_API NativeScriptComponent {

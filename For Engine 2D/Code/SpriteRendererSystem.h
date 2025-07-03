@@ -11,7 +11,7 @@
 
 namespace FE2D {
 	static constexpr size_t SPRITE_LIMIT = 256; // Limit of Sprites per one drawcall
-	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096*3, 4096*3); // Initial Size of Texture Atlas
+	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096*3, 4096*3); // Initial Size of Texture Atlas. HARDCODED, DO NOT TOUCH IT YET
 }
 
 namespace FE2D {

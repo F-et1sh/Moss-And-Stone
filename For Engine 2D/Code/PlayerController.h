@@ -15,6 +15,7 @@ public:
 	FOR_COMPONENT_FIELD(TransformComponent, transform);
 	FOR_COMPONENT_FIELD(PhysicsComponent, physics);
 	FOR_COMPONENT_FIELD(SpriteComponent, sprite);
+	FOR_COMPONENT_FIELD(AnimatorComponent, animator);
 
 	vec2 dir = vec2();
 	static constexpr float speed = 60;
@@ -25,6 +26,7 @@ public:
 		transform = this_entity();
 		physics = this_entity();
 		sprite = this_entity();
+		animator = this_entity();
 
 		subscribe_to_event(EventType::MouseMoved, [&](const IEvent& e) {
 			const MouseMoved& _event = static_cast<const MouseMoved&>(e);
@@ -43,6 +45,9 @@ public:
 		if (length(dir) != 0.0f) {
 			dir = normalize(dir);
 		}
+
+		animator->setFloat("DirectionX", abs(mouse_position.x));
+		animator->setFloat("DirectionY", mouse_position.y);
 
 		physics->velocity = dir * speed * vec2(deltaTime);
 

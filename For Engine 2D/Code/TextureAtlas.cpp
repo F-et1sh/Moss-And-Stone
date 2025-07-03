@@ -33,8 +33,7 @@ void FE2D::TextureAtlas::AddTexture(Texture& load_texture) {
 	FOR_ASSERT(load_texture.is_Initialized(), "Failed to Add a Texture to Texture Atlas\nTexture is not Initialized");
 
 	const auto it = m_LoadedTextures.find(&load_texture);
-	if (it != m_LoadedTextures.end())
-		return;
+	if (it != m_LoadedTextures.end()) return;
 
 	emplace_texture(load_texture); // add the texture to the opengl texture
 

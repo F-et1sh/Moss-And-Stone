@@ -10,7 +10,7 @@ constexpr int FAILED_EXIT = -1;
 #include "Test.h"
 
 int main(int argc, char* argv[]) {
-	setlocale(0, "Russian");
+	//setlocale(0, "Russian");
 
 	std::unique_ptr<FE2D::EditorApplication> editor_app = std::make_unique<FE2D::EditorApplication>();
 	try {

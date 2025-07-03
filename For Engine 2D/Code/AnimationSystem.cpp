@@ -23,7 +23,7 @@ void FE2D::AnimationSystem::Render() {
                 break;
             }
         }
-        if (!state || state->animation_id.uuid == FE2D::UUID(0)) continue;
+        if (!state) continue;
 
         if (auto blend = dynamic_cast<BlendTreeNode*>(state)) {
             auto it_x = std::find_if(animator.parameters.begin(), animator.parameters.end(), [blend](const std::pair<std::string, AnimationParameter>& e) { return e.first == blend->parameter_name_x; });

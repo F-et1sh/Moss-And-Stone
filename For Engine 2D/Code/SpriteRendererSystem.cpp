@@ -47,11 +47,11 @@ void FE2D::SpriteRendererSystem::Handle(Entity entity) {
 	if (sprite.texture.uuid == FE2D::UUID(0))
 		frame_size = texture.getSize();
 
-	m_TextureAtlas.AddTexture(texture);
+	m_TextureAtlas.AddTexture(texture); // it's immediate mode. this function will just cache the texture, there is not double-adding
 
 	matrix = scale(matrix, vec3(
-		sprite.flip_x ? -1 : 1,  // Flipping X
-		sprite.flip_y ? -1 : 1,  // Flipping Y
+		sprite.flip_x ? -1 : 1,  // flipping x
+		sprite.flip_y ? -1 : 1,  // flipping y
 		1));
 
 	matrix = scale(matrix, vec3(sprite.frame.z, sprite.frame.w, 1.0f));

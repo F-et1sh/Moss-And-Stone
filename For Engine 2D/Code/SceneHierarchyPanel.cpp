@@ -560,6 +560,28 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 					m_ImGui->InputText("Node Name", node->name, node->name.size() * 10);
 
+					auto choose_coord_parameter = [component](std::string& parameter_name, const std::string& axis) {
+						ImGui::Text((axis + " : ").c_str());
+
+						ImGui::SameLine();
+
+						if (ImGui::Button(parameter_name.empty() ? ("None##" + axis).c_str() : (parameter_name + "##PARAMETER_CHOOSING_" + axis).c_str()))
+							ImGui::OpenPopup(("##CHOOSE_COORD_" + axis).c_str());
+
+						if (ImGui::BeginPopup(("##CHOOSE_COORD_" + axis).c_str())) {
+							for (const auto& [name, parameter] : component.parameters) {
+								if (ImGui::MenuItem((name + "##BLEND_PARAMETER_" + axis).c_str()))
+									parameter_name = name;
+							}
+							ImGui::EndPopup();
+						}
+						};
+
+					choose_coord_parameter(node->parameter_name_x, "X");
+					choose_coord_parameter(node->parameter_name_y, "Y");
+
+					ImGui::Separator();
+
 					if (ImGui::Button("Remove")) is_deleting = true;
 
 					ImGui::Checkbox("Looping", &node->looping);

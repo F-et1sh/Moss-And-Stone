@@ -8,7 +8,7 @@
 
 namespace FE2D {
 	// Type of Elements in this Dynamic Array | Capacity of Dynamic Array on Start
-	template<typename T, size_t occupied_memory = 0>
+	template<typename T, size_t occupied_memory = 0> requires std::is_trivially_copyable_v<T>
 	class dynamic_array {
 	public:
 		// Initialize the Data of the Dynamic Array
