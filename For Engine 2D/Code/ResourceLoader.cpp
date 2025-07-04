@@ -18,11 +18,6 @@ void FE2D::ResourceLoader::LoadResource(const std::filesystem::path& full_path) 
 }
 
 void FE2D::ResourceLoader::LoadMetadata(const std::filesystem::path& full_path) {
-    auto resource_path = full_path;
-    resource_path.replace_extension();
-
-    if (!std::filesystem::exists(resource_path)) return;
-
     FE2D::UUID uuid = FE2D::UUID(0);
 
     std::ifstream file(full_path);
@@ -66,7 +61,7 @@ void FE2D::ResourceLoader::CreateMetadata(const std::filesystem::path& full_path
     if (auto resource = m_ResourceManager->getCache().get_resource(uuid))
         data = resource->Serialize();
 
-    j["DATA"] = data; // here you anyway MUST create DATA. At least as null
+    j["DATA"] = data; // here you must create data. At least as null
     j["UUID"] = uuid.ToString();
 
 #ifdef _DEBUG

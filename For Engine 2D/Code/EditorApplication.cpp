@@ -227,8 +227,7 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 			
 			Scene& scene = m_SceneManager.getCurrentScene();
 			auto& prefab = m_ResourceManager.GetResource(dropped_prefab_id);
-			Entity entity = prefab.CreateEntity(scene);
-			scene.EmplaceEntity(entity);
+			prefab.CreateEntity(scene);
 		}
 		ImGui::EndDragDropTarget();
 	}

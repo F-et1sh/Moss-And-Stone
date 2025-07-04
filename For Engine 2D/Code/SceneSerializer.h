@@ -13,7 +13,7 @@ namespace FE2D {
         bool Deserialize(const std::filesystem::path& full_path);
 
     public:
-        template<typename T> requires std::is_same_v<T, Prefab> || std::is_same_v<T, Entity>
+        template<typename T> requires std::is_same_v<T, PrefabEntity> || std::is_same_v<T, Entity>
         inline static json SerializeComponents(const T& entity) {
             json j;
 

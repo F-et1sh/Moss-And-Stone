@@ -155,7 +155,7 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
                 this->setSelected(static_cast<IResource*>(&resource), path);
             }
             if (ImGui::IsMouseDoubleClicked(0)) {
-                static const std::string aseprite_path = "C:\\Program Files\\TorAs\\aseprite.exe"; // hardcode
+                static const std::string aseprite_path = "C:\\Program Files\\TorAs\\aseprite.exe"; // hardcoded
                 std::string command = "(\"" + aseprite_path + "\" \"" + path.string() + "\")";
                 std::system(command.c_str());
             }
@@ -164,7 +164,7 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
     else if (ResourceLoader::prefab_supported_extensions.contains(ext)) {
         if (ImGui::BeginDragDropSource()) {
             auto& resource = m_ResourceManager->GetResource(ResourceID<Prefab>(uuid));
-            if (!resource.HasComponent<TagComponent>()) {
+            if (!resource.main_entity().HasComponent<TagComponent>()) {
                 SAY("ERORR : Failed to drag prefab. Prefab hasn't TagComponent");
                 return;
             }
@@ -177,7 +177,7 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
 
 			ResourceID<Prefab> prefab_id(uuid);
 
-            auto& tag_component = resource.GetComponent<TagComponent>();
+            auto& tag_component = resource.main_entity().GetComponent<TagComponent>();
 
             ImGui::SetDragDropPayload("PREFAB_DRAGGING", &prefab_id, sizeof(ResourceID<Prefab>));
             ImGui::Text("%s", tag_component.tag.c_str());
@@ -261,13 +261,9 @@ void FE2D::ContentBrowser::OnEntityDrop(const std::filesystem::path& path) {
         Entity dropped_entity = *static_cast<Entity*>(payload->Data);
 
         if (dropped_entity && dropped_entity.HasComponent<TagComponent>()) {
-            std::string entity_name = dropped_entity.GetComponent<TagComponent>().tag + ".fp";
-
-            const std::filesystem::path resource_path = FE2D::generate_unique_filename(path / entity_name);
-            const std::filesystem::path metadata_path = resource_path.wstring() + L".fs";
-
+            std::string entity_name = dropped_entity.GetComponent<TagComponent>().tag;
+            const std::filesystem::path resource_path = FE2D::generate_unique_filename((path / entity_name).wstring() + L".fp");
             m_ResourceManager->getLoader().CreateResource<Prefab>(resource_path, dropped_entity);
-            m_ResourceManager->getLoader().LoadMetadata(metadata_path);
         }
     }
 

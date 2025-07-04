@@ -44,7 +44,7 @@ namespace FE2D {
 			this->GetRegistry().remove<T>(m_EntityHandle);
 		}
 
-		void SetParent(Entity newParent);
+		void SetParent(Entity new_parent);
 		Entity GetParent();
 		bool HasParent();
 		void RemoveParent();
@@ -54,11 +54,23 @@ namespace FE2D {
 		std::vector<Entity> GetChildren();
 		void RemoveChild(UUID child);
 
+		// bind two entities as a parent and child
+		// this function needed because of old 'legacy' methods of Entity are fucked up
+		// i don't understand where i set parent and there i add child. So, use this instead
+		// this function don't use any of old methods of Entity's relationship logic
+		static void BindEntities(Entity& parent, Entity& child);
+
+		// unbind two parent and child
+		// this function needed because of old 'legacy' methods of Entity are fucked up
+		// i don't understand where i set parent and there i add child. So, use this instead
+		// this function don't use any of old methods of Entity's relationship logic
+		static void UnbindEntities(Entity& parent, Entity& child);
+
 		inline UUID GetUUID()const;
 
 		operator bool()const noexcept { return m_EntityHandle != entt::null; }
 		operator entt::entity() const { return m_EntityHandle; }
-		operator uint32_t()const noexcept { return (uint32_t)m_EntityHandle; }
+		operator uint32_t()const noexcept { return static_cast<uint32_t>(m_EntityHandle); }
 
 		bool operator==(const Entity& other)const noexcept { return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene; }
 		bool operator!=(const Entity& other)const noexcept { return !(*this == other); }

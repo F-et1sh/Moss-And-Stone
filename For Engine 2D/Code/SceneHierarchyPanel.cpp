@@ -25,8 +25,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_hovered, co
 		for (auto entity_handle : view) {
 			Entity entity = { entity_handle, m_Context };
 
-			if (entity.HasParent())
-				continue;
+			if (entity.HasParent()) continue;
 
 			entities_to_draw.emplace_back(entity);
 		}

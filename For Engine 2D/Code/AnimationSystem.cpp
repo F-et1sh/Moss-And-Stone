@@ -84,5 +84,10 @@ void FE2D::AnimationSystem::Render() {
                 }
             }
         }
+
+        for (auto& [name, parameter] : animator.parameters) {
+            if (auto trigger = std::get_if<Trigger>(&parameter.value))
+                trigger->reset();
+        }
     }
 }

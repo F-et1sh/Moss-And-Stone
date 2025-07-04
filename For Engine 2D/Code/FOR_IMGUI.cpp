@@ -383,7 +383,7 @@ void FE2D::IMGUI::SelectPrefab(ResourceID<Prefab>& id) {
     std::string_view button_name = "Prefab";
     if (id.uuid != FE2D::UUID(0)) {
         auto& prefab = m_ResourceManager->GetResource(id);
-        button_name = prefab.GetComponent<TagComponent>().tag; // prefabs always has TagComponent
+        button_name = prefab.main_entity().GetComponent<TagComponent>().tag; // prefabs always has TagComponent
     }
 
     ImGui::Button(button_name.data());

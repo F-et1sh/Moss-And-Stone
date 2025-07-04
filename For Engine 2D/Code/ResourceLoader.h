@@ -29,6 +29,7 @@ namespace FE2D {
 			resource->UploadToFile(full_path);
 			std::filesystem::path metadata_full_path = full_path.wstring() + L".fs";
 			this->CreateMetadata(metadata_full_path, uuid);
+			this->LoadMetadata(metadata_full_path);
 
 			std::filesystem::path resource_relative_path = std::filesystem::relative(full_path, FOR_PATH.get_resources_path());
 			this->cache_resource(uuid, resource, resource_relative_path);
@@ -55,8 +56,8 @@ namespace FE2D {
 			IResource* resource = new T();
 			if (!resource->LoadFromFile(full_path)) {
 				delete resource;
-				resource = nullptr;
 				SAY("ERROR : Failed to load a resource\nPath : " << full_path.c_str());
+				return nullptr;
 			}
 
 			FE2D::UUID uuid = FE2D::UUID(0);

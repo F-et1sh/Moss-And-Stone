@@ -3,19 +3,8 @@
 #include "Entity.h"
 
 namespace FE2D {
-	class FOR_API Prefab : public IResource {
-	public:
-		Prefab() = default;
-		~Prefab() = default;
-		
-		Prefab(Entity entity);
-
-		bool LoadFromFile(const std::filesystem::path& file_path) override;
-		void UploadToFile(const std::filesystem::path& file_path) const override;
-
-		Entity CreateEntity(Scene& scene);
-
-		void OnEditorDraw(IMGUI& imgui) override;
+	struct FOR_API PrefabEntity {
+		std::vector<ComponentsVariant> m_Components;
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args) {
@@ -45,7 +34,7 @@ namespace FE2D {
 		template<typename T>
 		bool HasComponent() const {
 			for (const auto& component : m_Components)
-				if (std::holds_alternative<T>(component)) 
+				if (std::holds_alternative<T>(component))
 					return true;
 			return false;
 		}
@@ -60,7 +49,35 @@ namespace FE2D {
 			if (it != m_Components.end()) m_Components.erase(it);
 		}
 
+		PrefabEntity() = default;
+		~PrefabEntity() = default;
+
+		PrefabEntity(std::vector<ComponentsVariant>& components) : m_Components(std::move(components)) {}
+	};
+
+	class FOR_API Prefab : public IResource {
+	public:
+		Prefab() = default;
+		~Prefab() = default;
+		
+		Prefab(Entity entity);
+
+		bool LoadFromFile(const std::filesystem::path& file_path) override;
+		void UploadToFile(const std::filesystem::path& file_path) const override;
+
+		// this function will spawn the 'main' entity and its children on the scene
+		// and return the 'main' entity
+		Entity CreateEntity(Scene& scene);
+
+		void OnEditorDraw(IMGUI& imgui) override;
+
+		inline PrefabEntity& main_entity() {
+			if (m_Entities.empty()) m_Entities.push_back({});
+			return m_Entities[0]; // the first entity is the 'main'
+		}
+
 	private:
-		std::vector<ComponentsVariant> m_Components;
+		// stores the 'main' entity and its children
+		std::vector<PrefabEntity> m_Entities;
 	};
 }
