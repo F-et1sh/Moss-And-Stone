@@ -198,7 +198,7 @@ namespace FE2D {
 
         NativeScriptComponent(const NativeScriptComponent& other) {
             if (other.instance) {
-                instance = std::move(other.instance->clone());
+                instance = other.instance->clone();
                 script_name = other.script_name;
             }
         }
@@ -206,7 +206,7 @@ namespace FE2D {
         NativeScriptComponent& operator=(const NativeScriptComponent& other) {
             if (this != &other) {
                 if (other.instance) {
-                    instance = std::move(other.instance->clone());
+                    instance = other.instance->clone();
                     script_name = other.script_name;
                 }
                 else {

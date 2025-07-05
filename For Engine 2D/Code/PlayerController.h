@@ -5,6 +5,15 @@ class PlayerController : public ScriptableEntity {
 
 	GENERATED_BODY(PlayerController)
 
+	void OnRegisterFields()override {
+		FOR_REGISTER_FIELD(transform);
+		FOR_REGISTER_FIELD(physics);
+		FOR_REGISTER_FIELD(sprite);
+		FOR_REGISTER_FIELD(animator);
+
+		FOR_REGISTER_FIELD(shotgun);
+	}
+
 public:
 	PlayerController()
 	{
@@ -13,13 +22,14 @@ public:
 	{
 	}
 
-	FOR_COMPONENT_FIELD(TransformComponent, transform);
-	FOR_COMPONENT_FIELD(PhysicsComponent, physics);
-	FOR_COMPONENT_FIELD(SpriteComponent, sprite);
-	FOR_COMPONENT_FIELD(AnimatorComponent, animator);
+	ComponentField<TransformComponent> transform;
+	ComponentField<PhysicsComponent> physics;
+	ComponentField<SpriteComponent> sprite;
+	ComponentField<AnimatorComponent> animator;
 
-	FOR_ENTITY_FIELD(shotgun);
-	FOR_RESOURCE_FIELD(Prefab, bullet);
+	EntityField shotgun;
+
+	ResourceID<Prefab> bullet;
 
 	float rotation = 0.0f;
 
@@ -62,7 +72,7 @@ public:
 
 			if (created_bullet.HasComponent<PhysicsComponent>()) {
 				auto& bullet_physics = created_bullet.GetComponent<PhysicsComponent>();
-				bullet_physics.velocity = mouse_position;
+				bullet_physics.velocity = mouse_position / vec2(50);
 			}
 		}
 

@@ -58,34 +58,32 @@ void FE2D::Prefab::UploadToFile(const std::filesystem::path& file_path) const {
 
 Entity FE2D::Prefab::CreateEntity(Scene& scene) {
 	Entity main_entity;
+	std::vector<Entity> entities_with_script;
 
-	for (auto& entity : m_Entities) {
-		Entity e = { scene.getRegistry().create(), &scene };
-		for (auto& comp : entity.m_Components) {
+	for (auto& e : m_Entities) {
+		Entity entity = { scene.getRegistry().create(), &scene };
+		for (auto& comp : e.m_Components) {
 			std::visit([&](auto& c) {
 				using T = std::decay_t<decltype(c)>;
-				e.AddComponent<T>(c);
+				entity.AddComponent<T>(c);
+
+				if constexpr (std::is_same_v<T, NativeScriptComponent>)
+					entities_with_script.emplace_back(entity);
+
 				}, comp);
 		}
 		
-		auto& id_component = e.GetComponent<IDComponent>();
+		auto& id_component = entity.GetComponent<IDComponent>();
 		FE2D::UUID old_uuid = id_component.id;
 		id_component.id = FE2D::UUID(); // generate new UUID for the Entity
 
-		scene.EmplaceEntity(e); // add the entity before setting context
+		scene.EmplaceEntity(entity); // add the entity before setting context of the script
 
-		if (e.HasComponent<NativeScriptComponent>()) {
-			auto& script = e.GetComponent<NativeScriptComponent>();
-			if (script.instance) {
-				script.instance->setContext(e);
-			}
-		}
-
-		if (!main_entity) main_entity = e; // store the first entity
+		if (!main_entity) main_entity = entity; // store the first entity
 		else {
 			if (scene.getEntityMap().find(old_uuid) != scene.getEntityMap().end())
 				Entity::UnbindEntities(main_entity, scene.GetEntityByUUID(old_uuid));
-			Entity::BindEntities(main_entity, e);
+			Entity::BindEntities(main_entity, entity);
 		}
 	}
 
@@ -93,6 +91,12 @@ Entity FE2D::Prefab::CreateEntity(Scene& scene) {
 		SAY("ERROR : Failed to create an entity from prefab\nMain entity is not initialized. Returning empty entity");
 		return {};
 	}
+
+	for (auto entity : entities_with_script)
+		entity.GetComponent<NativeScriptComponent>().instance->setContext(entity);
+
+	for (auto entity : entities_with_script)
+		entity.GetComponent<NativeScriptComponent>().instance->OnAwake();
 
 	return main_entity;
 }

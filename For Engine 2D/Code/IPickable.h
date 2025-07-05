@@ -4,6 +4,8 @@ class IPickable : public ScriptableEntity {
 
 	GENERATED_BODY(IPickable)
 
+	void OnRegisterFields()override {}
+
 public:
 	IPickable() = default;
 	~IPickable() = default;

@@ -68,6 +68,10 @@ void FE2D::Scene::EmplaceEntity(Entity entity) {
 	m_EntityMap.emplace(entity.GetUUID(), entity);
 }
 
+void FE2D::Scene::EmplaceEntity(FE2D::UUID uuid, Entity entity) {
+	m_EntityMap.emplace(uuid, entity);
+}
+
 void FE2D::Scene::End() {
 	this->m_ScriptManagerSystem->OnEnd();
 }

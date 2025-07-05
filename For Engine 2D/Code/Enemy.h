@@ -1,15 +1,17 @@
 #pragma once
 
 class Enemy : public ScriptableEntity {
-	
+
 	GENERATED_BODY(Enemy)
 
-public:
-	FOR_COMPONENT_FIELD(TransformComponent, transform);
-	FOR_COMPONENT_FIELD(PhysicsComponent, physics);
-	FOR_ENTITY_FIELD(player);
+	void OnRegisterFields()override {
+		FOR_REGISTER_FIELD(transform);
+		FOR_REGISTER_FIELD(physics);
 
-	float speed = 0.0f;
+		FOR_REGISTER_FIELD(player);
+	}
+
+public:
 
 	Enemy()
 	{
@@ -17,6 +19,13 @@ public:
 	~Enemy()
 	{
 	}
+
+	ComponentField<TransformComponent> transform;
+	ComponentField<PhysicsComponent> physics;
+
+	EntityField player;
+
+	float speed = 0.0f;
 
 	void OnStart()override {
 		transform = this_entity();

@@ -1,11 +1,11 @@
 [
     {
         "IDComponent": {
-            "id": "2161839158700461559"
+            "id": "4585051888722775299"
         },
         "NativeScriptComponent": {
             "script_data": {
-                "v": 52.0
+                "v": 0.0
             },
             "script_name": "Bullet"
         },

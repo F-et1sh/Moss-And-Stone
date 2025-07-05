@@ -4,6 +4,8 @@ class TestScript : public ScriptableEntity {
 	
 	GENERATED_BODY(TestScript)
 
+	void OnRegisterFields()override{}
+
 public:
 	TestScript() { SAY("TestScript : Created"); }
 	~TestScript() { SAY("TestScript : Deleted"); }

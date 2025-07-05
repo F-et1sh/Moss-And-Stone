@@ -13,18 +13,18 @@ namespace FE2D {
 			m_EntityHandle = entity.m_EntityHandle;
 			m_Scene = entity.m_Scene;
 
-			for (auto field : m_Fields) field->set_context(m_Scene);
+			m_Fields.clear();
+			OnRegisterFields();
 
-			this->OnAwake();
+			for (auto field : m_Fields) field->set_context(m_Scene);
 		}
 
-		inline Entity this_entity()const { 
+		inline Entity this_entity()const {
 			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get this entity in a scrpt\nScene was nullptr");
 			return { m_EntityHandle, m_Scene };
 		}
-		inline void destroy_this()const {
-			m_Scene->DestroyEntity(this_entity());
-		}
+
+		inline void destroy_this()noexcept { m_IsDestroyed = true; }
 
 		inline Scene& get_scene()const {
 			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get scene in a scrpt\nScene was nullptr");
@@ -35,18 +35,7 @@ namespace FE2D {
 			return m_Scene->getResourceManager();
 		}
 
-		template<typename T>
-		inline ComponentField<T>& create_component_field() {
-			auto field = new ComponentField<T>();
-			m_Fields.emplace_back(field);
-			return *field;
-		}
-
-		inline EntityField& create_entity_field() {
-			auto field = new EntityField();
-			m_Fields.emplace_back(field);
-			return *field;
-		}
+		inline void register_field(IField* field) { m_Fields.emplace_back(field); }
 
 		void subscribe_to_event(EventType type, std::function<void(const IEvent& e)>&& func);
 		bool is_key_pressed(int key);
@@ -67,8 +56,17 @@ namespace FE2D {
 		std::vector<EventSubscription> m_EventSubscription;
 		std::vector<IField*> m_Fields;
 
+		bool m_IsDestroyed = false;
+
+	private:
+		// this needed to destroy the entity after for-loop
+		inline bool IsDestroyed()const noexcept { return m_IsDestroyed; }
+
+		friend class ScriptManagerSystem;
+
 	public:
 		virtual std::unique_ptr<ScriptableEntity> clone()const = 0;
+		virtual void OnRegisterFields() = 0;
 	};
 
 #define GENERATED_BODY(T) \
@@ -77,10 +75,7 @@ public: \
         return std::make_unique<T>(*this); \
     }
 
-#define FOR_RESOURCE_FIELD(type, name)  ResourceID<type> name;
-
-#define FOR_COMPONENT_FIELD(type, name)	ComponentField<type>& name = create_component_field<type>()
-#define FOR_ENTITY_FIELD(name)			EntityField& name = create_entity_field()
+#define FOR_REGISTER_FIELD(field)		register_field(static_cast<IField*>(&field))
 
 #define FOR_SAVE_FIELD(field)			SceneSerializer::save_field(static_cast<const IField*>(&field), j, #field)
 #define FOR_LOAD_FIELD(field)			SceneSerializer::load_field(static_cast<IField*>(&field), j, #field)

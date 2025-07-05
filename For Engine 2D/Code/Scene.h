@@ -31,6 +31,7 @@ namespace FE2D {
 		void DestroyEntity(Entity entity);
 
 		void EmplaceEntity(Entity entity);
+		void EmplaceEntity(FE2D::UUID uuid, Entity entity);
 
 		inline entt::registry& getRegistry()noexcept { return m_Registry; }
 		inline Window& getContextWindow() { return *m_Window; }

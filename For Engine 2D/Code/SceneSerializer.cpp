@@ -69,8 +69,9 @@ bool FE2D::SceneSerializer::Deserialize(const std::filesystem::path& full_path) 
 
 	for (auto entity : entities_with_script) {
 		auto instance = entity.GetComponent<NativeScriptComponent>().instance.get();
-		if (instance)
+		if (instance) {
 			instance->setContext(entity);
+		}
 	}
 
 	// deserialize scene info after entities
