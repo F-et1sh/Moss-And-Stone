@@ -33,17 +33,20 @@ namespace FE2D {
 
 	struct FOR_API Trigger {
 	private:
-		bool used = false;
+		float time_left = 0.0f; // time when the trigger is active
 
 	public:
-		inline void trigger()noexcept { used = true; }
-		inline void reset()noexcept { used = false; }
-
-		inline bool is_triggered()const noexcept { return used; }
+		inline void trigger(float trigger_time = 0.5f)noexcept { time_left = trigger_time; }
+		inline void update(double delta_time)noexcept { time_left -= delta_time; }
+		inline void reset()noexcept { time_left = 0.0f; }
+		inline bool is_triggered()const noexcept {
+			if (time_left > 0) return true;
+			return false;
+		}
 
 		FOR_CLASS_DEFAULT(Trigger)
 
-		Trigger(bool is_triggered)noexcept { used = is_triggered; }
+		explicit Trigger(float trigger_time)noexcept : time_left(trigger_time) {}
 	};
 
 	struct FOR_API AnimationParameter {

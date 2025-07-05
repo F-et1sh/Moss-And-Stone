@@ -331,11 +331,17 @@
     <Filter Include="Code\Output">
       <UniqueIdentifier>{0f0ab065-6da5-4b43-9271-2a7f4dcd40e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\Scripting\Scripts\Weapon">
-      <UniqueIdentifier>{2a9826e0-60ec-45e2-9420-61a0138118f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\ECS\System\Animation\Nodes">
       <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Weapons">
+      <UniqueIdentifier>{2a9826e0-60ec-45e2-9420-61a0138118f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Weapons\Shotgun">
+      <UniqueIdentifier>{1c9f30a4-ea60-42df-ba2d-b946426cc09e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Scripting\Scripts\Weapons\Bullet">
+      <UniqueIdentifier>{9e7e1970-339f-4946-a5e8-280a200828c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -578,6 +584,9 @@
     </ClCompile>
     <ClCompile Include="Code\Fields.cpp">
       <Filter>Code\ECS\Fields</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Bullet.cpp">
+      <Filter>Code\ECS\Scripting\Scripts\Weapons\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -847,6 +856,9 @@
     </ClInclude>
     <ClInclude Include="Code\foroutput.hpp">
       <Filter>Code\Output</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Bullet.h">
+      <Filter>Code\ECS\Scripting\Scripts\Weapons\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

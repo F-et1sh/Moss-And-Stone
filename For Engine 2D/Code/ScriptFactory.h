@@ -47,5 +47,5 @@ namespace FE2D {
         }
     };
 
-#define FOR_SCRIPT_REGISTER(script_type, name) inline static FE2D::ScriptRegistrar<script_type> script_type##_script_register(name);
+#define FOR_REGISTER_SCRIPT(script_type, name) inline static FE2D::ScriptRegistrar<script_type> script_type##_script_register(name);
 }

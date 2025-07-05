@@ -38,5 +38,6 @@ void FE2D::ScriptManagerSystem::OnUpdate() {
 		if (nsc.instance) {
 			nsc.instance->OnUpdate(delta_time);
 		}
+
 	}
 }

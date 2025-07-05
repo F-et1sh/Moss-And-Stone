@@ -16,6 +16,7 @@ void FE2D::PhysicsSystem::Update() {
 		auto& transform = entity.GetComponent<TransformComponent>();
 
 		transform.position += physics.velocity;
+		physics.velocity /= vec2(100000 * m_Window->getDeltaTime());
 
 		mat4 mat = entity.GetGlobalTransform();
 		vec2 pos = physics.position + IMGUI::extractPosition(mat);

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Code\AnimationStateNodes.cpp" />
     <ClCompile Include="Code\AnimationSystem.cpp" />
+    <ClCompile Include="Code\Bullet.cpp" />
     <ClCompile Include="Code\ContentBrowser.cpp" />
     <ClCompile Include="Code\Cursor.cpp" />
     <ClCompile Include="Code\Enemy.cpp" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="Code\AnimationStateNodes.h" />
     <ClInclude Include="Code\AnimationSystem.h" />
+    <ClInclude Include="Code\Bullet.h" />
     <ClInclude Include="Code\ContentBrowser.h" />
     <ClInclude Include="Code\Cursor.h" />
     <ClInclude Include="Code\Enemy.h" />

@@ -72,13 +72,14 @@ Entity FE2D::Prefab::CreateEntity(Scene& scene) {
 		FE2D::UUID old_uuid = id_component.id;
 		id_component.id = FE2D::UUID(); // generate new UUID for the Entity
 
+		scene.EmplaceEntity(e); // add the entity before setting context
+
 		if (e.HasComponent<NativeScriptComponent>()) {
 			auto& script = e.GetComponent<NativeScriptComponent>();
 			if (script.instance) {
 				script.instance->setContext(e);
 			}
 		}
-		scene.EmplaceEntity(e);
 
 		if (!main_entity) main_entity = e; // store the first entity
 		else {

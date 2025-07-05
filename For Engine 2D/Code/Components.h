@@ -135,12 +135,12 @@ namespace FE2D {
         inline void setBoolean(const std::string& name, bool value) { this->set_value(name, value); }
         inline void setFloat(const std::string& name, float value) { this->set_value(name, value); }
         inline void setInteger(const std::string& name, int value) { this->set_value(name, value); }
-        inline void callTrigger(const std::string& name) {
+        inline void callTrigger(const std::string& name, float time = 0.5f) {
             auto it = parameters.find(name);
             if (it == parameters.end()) return;
 
             if (std::holds_alternative<Trigger>(it->second.value))
-                std::get<Trigger>(it->second.value).trigger();
+                std::get<Trigger>(it->second.value).trigger(time);
         }
 
         AnimatorComponent() = default;

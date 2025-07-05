@@ -32,7 +32,7 @@ Entity FE2D::Scene::CreateEntity(const std::string& name) {
 	entity.AddComponent<TransformComponent>();
 	entity.AddComponent<RelationshipComponent>();
 
-	m_EntityMap.emplace(uuid, entity);
+	this->EmplaceEntity(entity);
 
 	return entity;
 }
@@ -44,7 +44,7 @@ Entity FE2D::Scene::CreateEntityWithUUID(UUID uuid, const std::string& name) {
 	entity.AddComponent<TransformComponent>();
 	entity.AddComponent<RelationshipComponent>();
 
-	m_EntityMap.emplace(uuid, entity);
+	this->EmplaceEntity(entity);
 
 	return entity;
 }

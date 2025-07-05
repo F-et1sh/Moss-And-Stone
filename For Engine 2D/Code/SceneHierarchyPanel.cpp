@@ -11,7 +11,7 @@ void FE2D::SceneHierarchyPanel::setContext(Scene& context, IMGUI& imgui, MousePi
 	this->resetSelected();
 }
 
-void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_hovered, const vec2& preview_mouse_position) {
+void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_hovered, const vec2& preview_mouse_position, bool is_game_running) {
 	ImGui::Begin("Scene Hierarchy", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
 
 	if (m_Context) {
@@ -45,7 +45,11 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_hovered, co
 	}
 	ImGui::End();
 
-	if (!m_ImGui->IsAnyGizmoHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && is_preview_window_hovered) {
+	if (!m_ImGui->IsAnyGizmoHovered() && 
+		ImGui::IsMouseClicked(ImGuiMouseButton_Left) && 
+		is_preview_window_hovered && 
+		!is_game_running) {
+
 		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
 		if (entity_index != -1) this->setSelected({ (entt::entity)entity_index, m_Context });
@@ -230,6 +234,53 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 				adding_parameter = {};
 			}
 
+			auto draw_parameter_input = [](const std::string& label, AnimationParameter& parameter) {
+				if (std::holds_alternative<bool>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight();
+					ImGui::PushItemWidth(item_width);
+
+					bool value = std::get<bool>(parameter.value);
+					ImGui::Checkbox((label + "##Boolean").c_str(), &value);
+					parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+				else if (std::holds_alternative<float>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight() * 4;
+					ImGui::PushItemWidth(item_width);
+
+					float value = std::get<float>(parameter.value);
+					ImGui::DragFloat((label + "##Float").c_str(), &value);
+					parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+				else if (std::holds_alternative<int>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight() * 4;
+					ImGui::PushItemWidth(item_width);
+
+					int value = std::get<int>(parameter.value);
+					ImGui::DragInt((label + "##Integer").c_str(), &value);
+					parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+				else if (std::holds_alternative<Trigger>(parameter.value))
+				{
+					float item_width = ImGui::GetFrameHeight();
+					ImGui::PushItemWidth(item_width);
+
+					Trigger value = std::get<Trigger>(parameter.value);
+					if (ImGui::Button((label + "##Trigger").c_str())) value.trigger();
+					parameter.value = value;
+
+					ImGui::PopItemWidth();
+				}
+				};
+
 			// draw InputText window and text itself
 			float text_width = ImGui::GetContentRegionAvail().x - 130;
 			m_ImGui->InputText("Parameter Name", adding_parameter_name, text_width);
@@ -237,55 +288,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 				ImGui::OpenPopup("##CHOOSE_PARAMETER_TYPE");
 			}
 
-			// draw value input window
-			{
-				// new ( for me ) style of code formatting, when you put braces like this
-				if (std::holds_alternative<bool>(adding_parameter.value)) 
-				{
-					float item_width = ImGui::GetFrameHeight();
-					ImGui::PushItemWidth(item_width);
-
-					bool value = std::get<bool>(adding_parameter.value) ? 1.0f : 0.0f;
-					ImGui::Checkbox(("Boolean##" + adding_parameter_name).c_str(), &value);
-					adding_parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-				else if (std::holds_alternative<float>(adding_parameter.value)) 
-				{
-					float item_width = ImGui::GetFrameHeight() * 4;
-					ImGui::PushItemWidth(item_width);
-
-					float value = std::get<float>(adding_parameter.value);
-					ImGui::DragFloat(("Float##" + adding_parameter_name).c_str(), &value);
-					adding_parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-				else if (std::holds_alternative<int>(adding_parameter.value)) 
-				{
-					float item_width = ImGui::GetFrameHeight() * 4;
-					ImGui::PushItemWidth(item_width);
-
-					int value = std::get<int>(adding_parameter.value);
-					ImGui::DragInt(("Integer##" + adding_parameter_name).c_str(), &value);
-					adding_parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-				else if (std::holds_alternative<Trigger>(adding_parameter.value))
-				{
-					float item_width = ImGui::GetFrameHeight();
-					ImGui::PushItemWidth(item_width);
-
-					Trigger value = std::get<Trigger>(adding_parameter.value);
-					if (ImGui::Button(("Trigger##" + adding_parameter_name).c_str()))
-						value.trigger();
-					adding_parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-			}
+			draw_parameter_input(adding_parameter_name, adding_parameter);
 
 			static constexpr ImVec2 button_size = ImVec2(110, 25);
 			ImGui::SameLine(ImGui::GetContentRegionAvail().x - button_size.x);
@@ -306,7 +309,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 					adding_parameter = AnimationParameter{ static_cast<int>(0) };
 				}
 				if (ImGui::MenuItem("Trigger")) {
-					adding_parameter = AnimationParameter{ static_cast<Trigger>(false) };
+					adding_parameter = AnimationParameter{ static_cast<Trigger>(0.0f) };
 				}
 				ImGui::EndPopup();
 			}
@@ -315,51 +318,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 			for (auto& [name, parameter] : component.parameters) {
 				std::string label = std::string(name + "##Parameter");
 
-				if (std::holds_alternative<bool>(parameter.value))
-				{
-					float item_width = ImGui::GetFrameHeight();
-					ImGui::PushItemWidth(item_width);
-
-					bool value = std::get<bool>(parameter.value) ? 1.0f : 0.0f;
-					ImGui::Checkbox(label.c_str(), &value);
-					parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-				else if (std::holds_alternative<float>(parameter.value))
-				{
-					float item_width = ImGui::GetFrameHeight() * 4;
-					ImGui::PushItemWidth(item_width);
-
-					float value = std::get<float>(parameter.value);
-					ImGui::DragFloat(label.c_str(), &value);
-					parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-				else if (std::holds_alternative<int>(parameter.value))
-				{
-					float item_width = ImGui::GetFrameHeight() * 4;
-					ImGui::PushItemWidth(item_width);
-
-					int value = std::get<int>(parameter.value);
-					ImGui::DragInt(label.c_str(), &value);
-					parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
-				else if (std::holds_alternative<Trigger>(parameter.value))
-				{
-					float item_width = ImGui::GetFrameHeight() * 4;
-					ImGui::PushItemWidth(item_width);
-
-					Trigger value = std::get<Trigger>(parameter.value);
-					if (ImGui::Button(label.c_str()))
-						value.trigger();
-					parameter.value = value;
-
-					ImGui::PopItemWidth();
-				}
+				draw_parameter_input(label, parameter);
 
 				ImGui::SameLine();
 
@@ -639,7 +598,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 						if (it->from_state > selected_node_index) it->from_state--;
 						if (it->to_state   > selected_node_index) it->to_state--;
 
-						++it;
+						it++;
 					}
 
 					component.states.erase(component.states.begin() + selected_node_index);

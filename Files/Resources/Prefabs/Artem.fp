@@ -66,7 +66,10 @@
             "id": "6792913373566533148"
         },
         "NativeScriptComponent": {
-            "script_data": null,
+            "script_data": {
+                "bullet": "0",
+                "shotgun": "0"
+            },
             "script_name": "PlayerController"
         },
         "PhysicsComponent": {

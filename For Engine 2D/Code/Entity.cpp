@@ -33,7 +33,7 @@ Entity FE2D::Entity::GetParent() {
 
 bool FE2D::Entity::HasParent() {
 	FOR_ASSERT(HasComponent<RelationshipComponent>(), "Entity does not have RelationshipComponent");
-	return GetComponent<RelationshipComponent>().parent != 0;
+	return GetComponent<RelationshipComponent>().parent != FE2D::UUID(0);
 }
 
 void FE2D::Entity::RemoveParent() {
@@ -49,7 +49,7 @@ void FE2D::Entity::RemoveParent() {
 		parentRel.children.end()
 	);
 
-	relationship.parent = 0;
+	relationship.parent = FE2D::UUID(0);
 }
 
 void FE2D::Entity::AddChild() {

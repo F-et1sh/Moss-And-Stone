@@ -1,108 +1,26 @@
 {
     "Entities": [
         {
-            "AnimatorComponent": {
-                "current_state": 0,
-                "current_time": 980.1995239257813,
-                "parameters": [
-                    {
-                        "first": "DirectionX",
-                        "second.value": 0.0
-                    },
-                    {
-                        "first": "DirectionY",
-                        "second.value": 0.0
-                    }
-                ],
-                "states": [
-                    {
-                        "animation_points": [
-                            {
-                                "animation": "6381951605241949636",
-                                "direction": [
-                                    0.0,
-                                    1.0
-                                ]
-                            },
-                            {
-                                "animation": "586694841512290349",
-                                "direction": [
-                                    0.0,
-                                    -1.0
-                                ]
-                            },
-                            {
-                                "animation": "11039116287368755249",
-                                "direction": [
-                                    0.7071067690849304,
-                                    0.7071067690849304
-                                ]
-                            },
-                            {
-                                "animation": "2065295205648881081",
-                                "direction": [
-                                    0.7071068286895752,
-                                    -0.7071068286895752
-                                ]
-                            }
-                        ],
-                        "looping": true,
-                        "name": "Walk",
-                        "parameter_name_x": "DirectionX",
-                        "parameter_name_y": "DirectionY",
-                        "type": "BlendTree"
-                    }
-                ],
-                "transitions": []
-            },
-            "CameraComponent": {
-                "clear_color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
             "IDComponent": {
-                "id": "6792913373566533148"
-            },
-            "NativeScriptComponent": {
-                "script_data": null,
-                "script_name": "PlayerController"
-            },
-            "PhysicsComponent": {
-                "bounce_factor": 0.0,
-                "is_static": false,
-                "is_trigger": false,
-                "mass": 1.0,
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    6.0,
-                    20.0
-                ]
+                "id": "18137551200228504205"
             },
             "RelationshipComponent": {
-                "children": [
-                    8266231953880164252
-                ],
+                "children": [],
                 "parent": 0
             },
             "SpriteComponent": {
                 "flip_x": false,
                 "flip_y": false,
                 "frame": [
-                    21.0,
                     0.0,
-                    7.0,
-                    26.0
+                    0.0,
+                    20.0,
+                    14.0
                 ],
-                "texture": "11062371011373712234"
+                "texture": "10481742720340127963"
             },
             "TagComponent": {
-                "tag": "Artem"
+                "tag": "New Entity"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -112,8 +30,8 @@
                     0.0
                 ],
                 "position": [
-                    -7.017428874969482,
-                    -6.669442653656006
+                    90.0765151977539,
+                    29.27052116394043
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -125,7 +43,7 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 53.198822021484375,
+                "current_time": 10.609051704406738,
                 "parameters": [
                     {
                         "first": "IsShooting",
@@ -135,6 +53,12 @@
                     },
                     {
                         "first": "IsReloading",
+                        "second.value": {
+                            "trigger": false
+                        }
+                    },
+                    {
+                        "first": "CanT_Shoot",
                         "second.value": {
                             "trigger": false
                         }
@@ -167,6 +91,11 @@
                                 "condition": 0,
                                 "parameter_name": "IsShooting",
                                 "value": 1.0
+                            },
+                            {
+                                "condition": 0,
+                                "parameter_name": "CanT_Shoot",
+                                "value": 0.0
                             }
                         ],
                         "from_state": 0,
@@ -230,14 +159,139 @@
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": 0,
+                "layer": 1,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
                     0.0,
-                    4.162603378295898
+                    4.691352367401123
+                ],
+                "rotation": 53.25764465332031,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "AnimatorComponent": {
+                "current_state": 0,
+                "current_time": 3071.39892578125,
+                "parameters": [
+                    {
+                        "first": "DirectionX",
+                        "second.value": 215.0
+                    },
+                    {
+                        "first": "DirectionY",
+                        "second.value": -288.0
+                    }
+                ],
+                "states": [
+                    {
+                        "animation_points": [
+                            {
+                                "animation": "6381951605241949636",
+                                "direction": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            {
+                                "animation": "586694841512290349",
+                                "direction": [
+                                    0.0,
+                                    -1.0
+                                ]
+                            },
+                            {
+                                "animation": "11039116287368755249",
+                                "direction": [
+                                    0.7071067690849304,
+                                    0.7071067690849304
+                                ]
+                            },
+                            {
+                                "animation": "2065295205648881081",
+                                "direction": [
+                                    0.7071068286895752,
+                                    -0.7071068286895752
+                                ]
+                            }
+                        ],
+                        "looping": true,
+                        "name": "Walk",
+                        "parameter_name_x": "DirectionX",
+                        "parameter_name_y": "DirectionY",
+                        "type": "BlendTree"
+                    }
+                ],
+                "transitions": []
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "IDComponent": {
+                "id": "6792913373566533148"
+            },
+            "NativeScriptComponent": {
+                "script_data": {
+                    "bullet": "10775372365816649487",
+                    "shotgun": "8266231953880164252"
+                },
+                "script_name": "PlayerController"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    -9.5
+                ],
+                "size": [
+                    6.0,
+                    5.5
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [
+                    8266231953880164252
+                ],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    35.0,
+                    0.0,
+                    7.0,
+                    26.0
+                ],
+                "texture": "6717621450190303964"
+            },
+            "TagComponent": {
+                "tag": "Artem"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -32.546077728271484,
+                    27.995166778564453
                 ],
                 "rotation": 0.0,
                 "scale": [

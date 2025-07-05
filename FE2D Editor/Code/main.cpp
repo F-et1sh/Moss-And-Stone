@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
 	try {
 		FOR_PATH.init(argv[0], true); // instance of the PathManager
 		editor_app->Initialize(WINDOW_RESOLUTION, WINDOW_NAME, WINDOW_MONITOR);
-		editor_app->Loop();
 	}
 	catch (const std::exception& e) {
 
@@ -28,6 +27,7 @@ int main(int argc, char* argv[]) {
 
 		return FAILED_EXIT;
 	}
+	editor_app->Loop();
 
 	return SUCCESSFUL_EXIT;
 }

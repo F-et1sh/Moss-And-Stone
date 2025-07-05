@@ -32,10 +32,14 @@ void FE2D::AnimationSystem::Render() {
             if (it_x != animator.parameters.end() &&
                 it_y != animator.parameters.end()) {
 
-                vec2 direction = vec2(std::get<float>(it_x->second.value), 
-                                      std::get<float>(it_y->second.value));
+                if (std::holds_alternative<float>(it_x->second.value) && 
+                    std::holds_alternative<float>(it_y->second.value)) {
 
-                blend->update_current_animation(direction);
+                    vec2 direction = vec2(std::get<float>(it_x->second.value),
+                                          std::get<float>(it_y->second.value));
+
+                    blend->update_current_animation(direction);
+                }
             }
         }
 
@@ -87,7 +91,7 @@ void FE2D::AnimationSystem::Render() {
 
         for (auto& [name, parameter] : animator.parameters) {
             if (auto trigger = std::get_if<Trigger>(&parameter.value))
-                trigger->reset();
+                trigger->update(deltaTime);
         }
     }
 }

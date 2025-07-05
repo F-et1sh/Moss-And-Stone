@@ -1,4 +1,4 @@
 #include "forpch.h"
 #include "TestScript.h"
 
-FOR_SCRIPT_REGISTER(TestScript, "Test Script")
+FOR_REGISTER_SCRIPT(TestScript, "Test Script")

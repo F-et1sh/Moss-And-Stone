@@ -27,8 +27,7 @@ Entity& FE2D::IField::get() {
 	else {
 		auto& entity_map = scene->getEntityMap();
 		auto it = entity_map.find(uuid);
-		if (it != entity_map.end())
-			return it->second;
+		if (it != entity_map.end()) return it->second;
 		else FOR_RUNTIME_ERROR("Failed to find entity");
 	}
 }
