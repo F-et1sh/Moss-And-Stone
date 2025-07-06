@@ -197,6 +197,20 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 		m_ImGui->DragVector2("Velocity", component.velocity);
 
+		if (ImGui::Button("Layer")) {
+			ImGui::OpenPopup("##LAYER_CHOOSING");
+		}
+
+		if (ImGui::BeginPopup("##LAYER_CHOOSING")) {
+			/*for (auto& [layer_id, layer_name] : m_Context->getLayerMap()) {
+				if (ImGui::MenuItem(layer_name.c_str())) {
+					component.layer = layer_id;
+				}
+			}*/
+			
+			ImGui::EndPopup();
+		}
+
 		ImGui::Spacing();
 
 		ImGui::Text("Colliding entities");

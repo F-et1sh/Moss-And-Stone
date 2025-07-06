@@ -17,7 +17,7 @@ void FE2D::Application::Initialize(const vec2& window_resolution, const std::str
 
 	m_ResourceManager.Initialize();
 
-	m_SceneManager.Initialize(m_Window, m_RenderContext, m_ResourceManager);
+	m_SceneManager.Initialize(m_Window, m_RenderContext, m_ResourceManager, m_ProjectVariables);
 	m_SceneManager.StartGameSession();
 }
 

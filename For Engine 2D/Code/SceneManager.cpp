@@ -1,10 +1,11 @@
 #include "forpch.h"
 #include "SceneManager.h"
 
-void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
-	m_Window = &window;
-	m_RenderContext = &render_context;
-	m_ResourceManager = &resource_manager;
+void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager, ProjectVariables& project_variables) {
+	m_Window		   = &window;
+	m_RenderContext	   = &render_context;
+	m_ResourceManager  = &resource_manager;
+	m_ProjectVariables = &project_variables;
 
 	LoadAvailableScenes();
 	
@@ -13,7 +14,7 @@ void FE2D::SceneManager::Initialize(Window& window, RenderContext& render_contex
 
 		if (m_ScenePaths.empty()) {
 			SAY("WARNING : There is no loaded scene. Creating new scene");
-			m_CurrentScene.Initialize(window, render_context, resource_manager);
+			m_CurrentScene.Initialize(window, render_context, resource_manager, project_variables);
 		}
 		else {
 			// first loaded scene index
@@ -90,8 +91,7 @@ bool FE2D::SceneManager::LoadScene(SceneIndex index) {
 	}
 
 	SceneIndex backup_index = m_CurrentScene.getIndex();
-	//m_CurrentScene.~Scene();
-	m_CurrentScene.Initialize(*m_Window, *m_RenderContext, *m_ResourceManager);
+	m_CurrentScene.Initialize(*m_Window, *m_RenderContext, *m_ResourceManager, *m_ProjectVariables);
 
 	SceneSerializer ser(&m_CurrentScene);
 	if (!ser.Deserialize(it->second)) {

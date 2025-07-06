@@ -18,6 +18,8 @@ namespace FE2D {
 		ResourceManager m_ResourceManager;
 
 		RenderContext m_RenderContext;
+
+		ProjectVariables m_ProjectVariables;
 		
 		bool m_IsRunning = false;
 
@@ -69,6 +71,9 @@ namespace FE2D {
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 
 		ContentBrowser m_ContentBrowser;
+
+	private:
+		bool m_IsLayerWindowOpen = false;
 
 	private:
 		EventSubscription m_Event_WindowClosed;

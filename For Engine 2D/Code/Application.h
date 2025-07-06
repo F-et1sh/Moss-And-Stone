@@ -8,6 +8,7 @@
 #include "MousePicker.h"
 #include "Cursor.h"
 
+#include "ProjectVariables.h"
 #include "SceneManager.h"
 
 namespace FE2D {
@@ -28,6 +29,8 @@ namespace FE2D {
 		SceneManager m_SceneManager;
 		
 		RenderContext m_RenderContext;
+
+		ProjectVariables m_ProjectVariables;
 
 		friend class EditorApplication;
 	};

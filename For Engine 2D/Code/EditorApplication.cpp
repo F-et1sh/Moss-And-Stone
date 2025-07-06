@@ -50,7 +50,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 
 	m_ResourceManager.Initialize();
 
-	m_SceneManager.Initialize(m_Window, m_RenderContext, m_ResourceManager);
+	m_SceneManager.Initialize(m_Window, m_RenderContext, m_ResourceManager, m_ProjectVariables);
 	
 	m_SceneHierarchyPanel.setContext(m_SceneManager.getCurrentScene(), m_ImGui, m_MousePicker);
 	m_ContentBrowser.Initialize(m_Window, m_ResourceManager, m_ImGui);
@@ -87,8 +87,7 @@ void FE2D::EditorApplication::Loop() {
 }
 
 void FE2D::EditorApplication::OnMainMenuBar() {
-	if (!ImGui::BeginMainMenuBar())
-		return;
+	if (!ImGui::BeginMainMenuBar()) return;
 
 	if (ImGui::BeginMenu("File")) {
 
@@ -98,6 +97,15 @@ void FE2D::EditorApplication::OnMainMenuBar() {
 
 		if (ImGui::MenuItem("Exit")) {
 			make_close_request();
+		}
+
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Scene")) {
+		
+		if (ImGui::MenuItem("Layers")) {
+			m_IsLayerWindowOpen = true;
 		}
 
 		ImGui::EndMenu();
@@ -177,6 +185,12 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition, m_SceneManager.IsGameSessionRunning());
 	m_ContentBrowser.OnImGuiRender();
+
+	if (m_IsLayerWindowOpen) {
+		ImGui::Begin("Layers", &m_IsLayerWindowOpen);
+		Scene& scene = m_SceneManager.getCurrentScene();
+		ImGui::End();
+	}
 }
 
 void FE2D::EditorApplication::OnPreviewWindow() {

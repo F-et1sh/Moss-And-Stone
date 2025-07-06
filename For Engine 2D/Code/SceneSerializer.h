@@ -95,6 +95,7 @@ namespace FE2D {
                 SceneSerializer::save_value(component.mass, j_component, "mass");
                 SceneSerializer::save_value(component.is_trigger, j_component, "is_trigger");
                 SceneSerializer::save_value(component.is_static, j_component, "is_static");
+                SceneSerializer::save_value(component.layer, j_component, "layer");
 
                 j["PhysicsComponent"] = j_component;
             }
@@ -255,6 +256,7 @@ namespace FE2D {
                 SceneSerializer::load_value(component.mass, j_component, "mass");
                 SceneSerializer::load_value(component.is_trigger, j_component, "is_trigger");
                 SceneSerializer::load_value(component.is_static, j_component, "is_static");
+                SceneSerializer::load_value(component.layer, j_component, "layer");
 
                 deserialized_components.emplace_back(std::move(component));
             }

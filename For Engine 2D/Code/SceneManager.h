@@ -11,7 +11,7 @@ namespace FE2D {
 		SceneManager() = default;
 		~SceneManager() = default;
 
-		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
+		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager, ProjectVariables& project_variables);
 
 		void Update();
 
@@ -45,9 +45,10 @@ namespace FE2D {
 		std::unordered_map<SceneIndex, std::filesystem::path> m_ScenePaths;
 
 	private:
-		RenderContext* m_RenderContext = nullptr;
 		Window* m_Window = nullptr;
+		RenderContext* m_RenderContext = nullptr;
 		ResourceManager* m_ResourceManager = nullptr;
+		ProjectVariables* m_ProjectVariables = nullptr;
 
 	public:
 		// get a reference of current scene

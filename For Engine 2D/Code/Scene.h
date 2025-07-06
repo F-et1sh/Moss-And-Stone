@@ -22,7 +22,8 @@ namespace FE2D {
 		Scene(const Scene&) = delete;
 		Scene& operator=(const Scene&) = delete;
 
-		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
+		void Release();
+		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager, ProjectVariables& project_variables);
 
 	public:
 
@@ -58,7 +59,7 @@ namespace FE2D {
 		template<typename T> requires std::is_base_of_v<ISystemBase, T>
 		std::unique_ptr<T> CreateSystem() {
 			std::unique_ptr<T> system = std::make_unique<T>();
-			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this);
+			system->setContext(*m_Window, *m_RenderContext, *m_ResourceManager, *this, *m_ProjectVariables);
 			m_SystemsList.emplace_back(system.get());
 			return system;
 		}
@@ -79,6 +80,7 @@ namespace FE2D {
 		RenderContext* m_RenderContext = nullptr;
 		ResourceManager* m_ResourceManager = nullptr;
 		IMGUI* m_ImGui = nullptr;
+		ProjectVariables* m_ProjectVariables = nullptr;
 
 		Camera m_Camera;
 		FE2D::UUID m_CameraEntityUUID = FE2D::UUID(0);

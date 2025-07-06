@@ -1,7 +1,9 @@
 #include "forpch.h"
 #include "Scene.h"
 
-FE2D::Scene::~Scene() {
+FE2D::Scene::~Scene() { this->Release(); }
+
+void FE2D::Scene::Release() {
 	for (const auto& pair : m_EntityMap) {
 		Entity e = pair.second;
 
@@ -14,10 +16,13 @@ FE2D::Scene::~Scene() {
 	m_Registry.clear();
 }
 
-void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
-	m_Window		  = &window;
-	m_RenderContext	  = &render_context;
-	m_ResourceManager = &resource_manager;
+void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager, ProjectVariables& project_variables) {
+	this->Release();
+
+	m_Window		   = &window;
+	m_RenderContext	   = &render_context;
+	m_ResourceManager  = &resource_manager;
+	m_ProjectVariables = &project_variables;
 
 	m_SpriteRendererSystem	 = this->CreateSystem<SpriteRendererSystem>();
 	m_PhysicsSystem			 = this->CreateSystem<PhysicsSystem>();

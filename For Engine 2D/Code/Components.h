@@ -116,6 +116,8 @@ namespace FE2D {
 
         vec2 velocity = vec2();
 
+        uint32_t layer = 0;
+
         std::vector<Entity> entities_in;
 
         PhysicsComponent() = default;

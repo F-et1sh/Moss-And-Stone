@@ -29,6 +29,7 @@
 #include <vector>
 #include <stack>
 #include <random>
+#include <ctime>
 
 // OpenGL 4.6
 #include <GL/glew.h>

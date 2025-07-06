@@ -37,8 +37,12 @@ namespace FE2D {
 			return this->get_assets_path() / L"Resources";
 		}
 
+		inline std::filesystem::path get_engine_data_path()const {
+			return this->get_assets_path() / L"FE2D";
+		}
+
 		inline std::filesystem::path get_fallbacks_path()const {
-			return this->get_assets_path() / L"FE2D" / L"Fallbacks";
+			return this->get_engine_data_path() / L"Fallbacks";
 		}
 
 		inline std::filesystem::path get_shaders_path()const {
