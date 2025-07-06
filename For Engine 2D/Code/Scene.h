@@ -51,7 +51,7 @@ namespace FE2D {
 
 	public:
 		inline Entity& GetEntityByUUID(UUID uuid) { return m_EntityMap[uuid]; }
-		
+
 		inline std::unordered_map<UUID, Entity>& getEntityMap()noexcept { return m_EntityMap; }
 		inline size_t getIndex()const noexcept { return m_Index; }
 

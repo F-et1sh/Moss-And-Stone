@@ -1,7 +1,7 @@
 [
     {
         "IDComponent": {
-            "id": "2161839158700461559"
+            "id": "13115170258785437273"
         },
         "NativeScriptComponent": {
             "script_data": null,
@@ -10,8 +10,8 @@
         "PhysicsComponent": {
             "bounce_factor": 0.0,
             "is_static": false,
-            "is_trigger": true,
-            "layer": 0,
+            "is_trigger": false,
+            "layer": 1,
             "mass": 1.0,
             "position": [
                 0.0,
@@ -48,8 +48,8 @@
                 0.0
             ],
             "position": [
-                0.0,
-                0.0
+                -178.095947265625,
+                131.1840057373047
             ],
             "rotation": 0.0,
             "scale": [

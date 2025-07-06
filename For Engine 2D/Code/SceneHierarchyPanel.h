@@ -1,5 +1,6 @@
 #pragma once
 #include "MousePicker.h"
+#include "ProjectVariables.h"
 
 // Based on Hazel ( The Cherno ) - Apache License 2.0
 

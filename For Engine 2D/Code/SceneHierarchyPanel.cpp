@@ -191,22 +191,32 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::DragFloat("Bounce Factor", &component.bounce_factor, 0.1f);
 		ImGui::Spacing();
 		ImGui::DragFloat("Mass", &component.mass, 1);
+		
+		auto& physics_layers = m_Context->m_ProjectVariables->getPhysicsLayers();
+
+		std::string_view layer_button_name = "Layer";
+		
+		auto name = physics_layers.get_name_by_mask(component.layer);
+		if (!name.empty()) layer_button_name = name;
+		
+		if (ImGui::Button(layer_button_name.data())) {
+			ImGui::OpenPopup("##LAYER_CHOOSING");
+		}
 
 		m_ImGui->CheckBox("Is Trigger", component.is_trigger);
 		m_ImGui->CheckBox("Is Static", component.is_static);
 
 		m_ImGui->DragVector2("Velocity", component.velocity);
 
-		if (ImGui::Button("Layer")) {
-			ImGui::OpenPopup("##LAYER_CHOOSING");
-		}
-
 		if (ImGui::BeginPopup("##LAYER_CHOOSING")) {
-			/*for (auto& [layer_id, layer_name] : m_Context->getLayerMap()) {
-				if (ImGui::MenuItem(layer_name.c_str())) {
-					component.layer = layer_id;
+			size_t i = 0;
+			for (auto& info : physics_layers.getLayers()) {
+				if (info.name.empty()) continue;
+				if (ImGui::MenuItem((info.name + "##LAYER_" + std::to_string(i)).c_str())) {
+					component.layer = i;
 				}
-			}*/
+				i++;
+			}
 			
 			ImGui::EndPopup();
 		}

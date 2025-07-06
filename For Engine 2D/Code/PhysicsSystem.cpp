@@ -1,6 +1,8 @@
 #include "forpch.h"
 #include "PhysicsSystem.h"
 
+#include "ProjectVariables.h"
+
 void FE2D::PhysicsSystem::Update() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 	auto group = registry.group<PhysicsComponent>(entt::get<TransformComponent>);
@@ -43,6 +45,9 @@ void FE2D::PhysicsSystem::Update() {
 
 			auto& physics_2 = j->entity.GetComponent<PhysicsComponent>();
 			auto& transform_2 = j->entity.GetComponent<TransformComponent>();
+
+			auto& layers = m_ProjectVariables->getPhysicsLayers();
+			if (!layers.canCollide(physics_1.layer, physics_2.layer)) continue;
 
 			mat4 mat_2 = j->entity.GetGlobalTransform();
 			vec2 pos_2 = physics_2.position + IMGUI::extractPosition(mat_2);

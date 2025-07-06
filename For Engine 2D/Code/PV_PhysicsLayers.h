@@ -18,8 +18,10 @@ namespace FE2D {
             return std::nullopt;
         }
 
-        inline void rename(uint8_t id, const std::string& new_name) {
-            m_Layers[id].name = new_name;
+        inline void rename(uint8_t id, const std::string& new_name) { m_Layers[id].name = new_name; }
+
+        std::string_view get_name_by_mask(uint8_t id) const {
+            return m_Layers[id].name;
         }
 
         inline void setCollision(uint8_t a, uint8_t b, bool on) {
@@ -33,21 +35,23 @@ namespace FE2D {
             }
         }
 
-        inline bool canCollide(uint8_t a, uint8_t b)const { return (m_Layers[a].mask >> b) & 1u; }
+        inline bool canCollide(uint8_t a, uint8_t b)const { return (m_Layers[a].mask & (1u << b)) != 0; }
 
         bool createLayer(const std::string& name);
         bool removeLayer(int id);
 
 		inline auto& getLayers()noexcept { return m_Layers; }
 
+    private:
+        uint8_t get_last_index()const;
+
 	private:
 
 		struct LayerInfo {
-			std::string name;
-			uint32_t mask;
+            std::string name;
+            uint32_t mask = 0;
 		};
 
 		std::array<LayerInfo, FOR_PHYSICS_LAYERS_COUNT> m_Layers;
-        uint32_t m_NextAvailableBit = 0;
 	};
 }

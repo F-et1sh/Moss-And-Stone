@@ -1,0 +1,134 @@
+{
+    "PhysicsLayers": {
+        "array": [
+            {
+                "mask": 0,
+                "name": "Player"
+            },
+            {
+                "mask": 4,
+                "name": "PlayerBullet"
+            },
+            {
+                "mask": 2,
+                "name": "Enemy"
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            },
+            {
+                "mask": 0,
+                "name": ""
+            }
+        ]
+    }
+}
