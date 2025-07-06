@@ -4,15 +4,14 @@
             "id": "4585051888722775299"
         },
         "NativeScriptComponent": {
-            "script_data": {
-                "v": 0.0
-            },
+            "script_data": null,
             "script_name": "Bullet"
         },
         "PhysicsComponent": {
             "bounce_factor": 0.0,
             "is_static": false,
             "is_trigger": true,
+            "layer": 0,
             "mass": 1.0,
             "position": [
                 0.0,

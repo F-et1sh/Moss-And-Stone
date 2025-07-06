@@ -9,6 +9,8 @@ FE2D::EditorApplication::~EditorApplication() {
 void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const std::string_view& window_name, int monitor) {
 	GLFW::Initialize();
 
+	m_ProjectVariables.Load();
+
 	m_Window.Initialize(window_resolution, window_name.data(), monitor);
 	m_RenderContext.Initialize();
 	m_RenderContext.BindCamera(m_EditorCamera);
@@ -104,7 +106,7 @@ void FE2D::EditorApplication::OnMainMenuBar() {
 
 	if (ImGui::BeginMenu("Scene")) {
 		
-		if (ImGui::MenuItem("Layers")) {
+		if (ImGui::MenuItem("Physics Layers")) {
 			m_IsLayerWindowOpen = true;
 		}
 
@@ -144,6 +146,7 @@ void FE2D::EditorApplication::OnCloseRequest() {
 }
 
 void FE2D::EditorApplication::Save() {
+	m_ProjectVariables.Save();
 	m_ResourceManager.save_resources();
 	m_SceneManager.SaveCurrentScene();
 }
@@ -186,9 +189,63 @@ void FE2D::EditorApplication::OnImGuiRender() {
 	m_SceneHierarchyPanel.OnImGuiRender(m_IsPreviewHovered, m_PreviewMousePosition, m_SceneManager.IsGameSessionRunning());
 	m_ContentBrowser.OnImGuiRender();
 
+	auto& physics_layers = m_ProjectVariables.getPhysicsLayers();
+	auto& layers = physics_layers.getLayers();
+
 	if (m_IsLayerWindowOpen) {
-		ImGui::Begin("Layers", &m_IsLayerWindowOpen);
-		Scene& scene = m_SceneManager.getCurrentScene();
+		if (ImGui::Begin("Layers", &m_IsLayerWindowOpen)) {
+
+			constexpr static int count = physics_layers.FOR_PHYSICS_LAYERS_COUNT;
+
+			std::vector<int> named;
+			for (int i = 0; i < count; i++)
+				if (!layers[i].name.empty())
+					named.push_back(i);
+
+			if (ImGui::BeginTable("CollisionTable", named.size() + 2, ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				for (int col : named) {
+					ImGui::TableNextColumn();
+					ImGui::TextUnformatted(layers[col].name.c_str());
+				}
+				ImGui::TableNextColumn();
+
+				int layer_to_delete = -1;
+
+				for (int row : named) {
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::TextUnformatted(layers[row].name.c_str());
+
+					for (int col : named) {
+						ImGui::TableNextColumn();
+						if (col > row) continue;
+
+						bool on = physics_layers.canCollide(row, col);
+						std::string id = "##l" + std::to_string(row) + '_' + std::to_string(col);
+						if (ImGui::Checkbox(id.c_str(), &on))
+							physics_layers.setCollision(row, col, on);
+					}
+
+					ImGui::TableNextColumn();
+					std::string del_id = "remove##del" + std::to_string(row);
+					if (ImGui::SmallButton(del_id.c_str()))
+						layer_to_delete = row;
+				}
+				ImGui::EndTable();
+
+				if (layer_to_delete >= 0)
+					physics_layers.removeLayer(layer_to_delete);
+			}
+
+			static std::string new_name = "NewLayer";
+
+			m_ImGui.InputText("Layer Name", new_name);
+			ImGui::SameLine();
+			if (ImGui::Button("Add Layer"))
+				physics_layers.createLayer(new_name);
+		}
 		ImGui::End();
 	}
 }

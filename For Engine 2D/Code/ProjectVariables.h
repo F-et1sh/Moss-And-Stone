@@ -1,5 +1,5 @@
 #pragma once
-#include "PV_PhysicsLayer.h"
+#include "PV_PhysicsLayers.h"
 
 namespace FE2D {
 	class FOR_API ProjectVariables {
@@ -7,12 +7,12 @@ namespace FE2D {
 		ProjectVariables() = default;
 		~ProjectVariables() = default;
 
-		void Serialize();
-		void Deserialize();
+		void Save();
+		void Load();
 
-		inline PV_PhysicsLayer& getPhysicsLayerManager()noexcept { return m_PhysicsLayerManager; }
+		inline PV_PhysicsLayers& getPhysicsLayers()noexcept { return m_PhysicsLayers; }
 
 	private:
-		PV_PhysicsLayer m_PhysicsLayerManager;
+		PV_PhysicsLayers m_PhysicsLayers;
 	};
 }

@@ -76,6 +76,7 @@
             "bounce_factor": 0.0,
             "is_static": false,
             "is_trigger": false,
+            "layer": 0,
             "mass": 1.0,
             "position": [
                 0.0,

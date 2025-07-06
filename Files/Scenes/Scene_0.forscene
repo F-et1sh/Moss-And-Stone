@@ -2,7 +2,26 @@
     "Entities": [
         {
             "IDComponent": {
-                "id": "18137551200228504205"
+                "id": "2161839158700461559"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": true,
+                "layer": 0,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
             },
             "RelationshipComponent": {
                 "children": [],
@@ -14,24 +33,24 @@
                 "frame": [
                     0.0,
                     0.0,
-                    20.0,
-                    14.0
+                    3.0,
+                    1.0
                 ],
-                "texture": "10481742720340127963"
+                "texture": "4822169590148366020"
             },
             "TagComponent": {
-                "tag": "New Entity"
+                "tag": "ShotgunBullet"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": 0,
+                "layer": 1,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    90.0765151977539,
-                    29.27052116394043
+                    0.0,
+                    0.0
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -43,7 +62,133 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 69.03448486328125,
+                "current_time": 3202.53955078125,
+                "parameters": [
+                    {
+                        "first": "DirectionX",
+                        "second.value": 215.0
+                    },
+                    {
+                        "first": "DirectionY",
+                        "second.value": -288.0
+                    }
+                ],
+                "states": [
+                    {
+                        "animation_points": [
+                            {
+                                "animation": "6381951605241949636",
+                                "direction": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            {
+                                "animation": "586694841512290349",
+                                "direction": [
+                                    0.0,
+                                    -1.0
+                                ]
+                            },
+                            {
+                                "animation": "11039116287368755249",
+                                "direction": [
+                                    0.7071067690849304,
+                                    0.7071067690849304
+                                ]
+                            },
+                            {
+                                "animation": "2065295205648881081",
+                                "direction": [
+                                    0.7071068286895752,
+                                    -0.7071068286895752
+                                ]
+                            }
+                        ],
+                        "looping": true,
+                        "name": "Walk",
+                        "parameter_name_x": "DirectionX",
+                        "parameter_name_y": "DirectionY",
+                        "type": "BlendTree"
+                    }
+                ],
+                "transitions": []
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "IDComponent": {
+                "id": "6792913373566533148"
+            },
+            "NativeScriptComponent": {
+                "script_data": {
+                    "bullet": "10121919862712180585",
+                    "shotgun": "8266231953880164252"
+                },
+                "script_name": "PlayerController"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 0,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    -9.5
+                ],
+                "size": [
+                    6.0,
+                    5.5
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [
+                    8266231953880164252
+                ],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    21.0,
+                    0.0,
+                    7.0,
+                    26.0
+                ],
+                "texture": "6717621450190303964"
+            },
+            "TagComponent": {
+                "tag": "Artem"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -32.546077728271484,
+                    27.995166778564453
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "AnimatorComponent": {
+                "current_state": 0,
+                "current_time": 141.5342254638672,
                 "parameters": [
                     {
                         "first": "IsShooting",
@@ -176,153 +321,8 @@
             }
         },
         {
-            "AnimatorComponent": {
-                "current_state": 0,
-                "current_time": 3129.9208984375,
-                "parameters": [
-                    {
-                        "first": "DirectionX",
-                        "second.value": 215.0
-                    },
-                    {
-                        "first": "DirectionY",
-                        "second.value": -288.0
-                    }
-                ],
-                "states": [
-                    {
-                        "animation_points": [
-                            {
-                                "animation": "6381951605241949636",
-                                "direction": [
-                                    0.0,
-                                    1.0
-                                ]
-                            },
-                            {
-                                "animation": "586694841512290349",
-                                "direction": [
-                                    0.0,
-                                    -1.0
-                                ]
-                            },
-                            {
-                                "animation": "11039116287368755249",
-                                "direction": [
-                                    0.7071067690849304,
-                                    0.7071067690849304
-                                ]
-                            },
-                            {
-                                "animation": "2065295205648881081",
-                                "direction": [
-                                    0.7071068286895752,
-                                    -0.7071068286895752
-                                ]
-                            }
-                        ],
-                        "looping": true,
-                        "name": "Walk",
-                        "parameter_name_x": "DirectionX",
-                        "parameter_name_y": "DirectionY",
-                        "type": "BlendTree"
-                    }
-                ],
-                "transitions": []
-            },
-            "CameraComponent": {
-                "clear_color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
             "IDComponent": {
-                "id": "6792913373566533148"
-            },
-            "NativeScriptComponent": {
-                "script_data": {
-                    "bullet": "10121919862712180585",
-                    "shotgun": "8266231953880164252"
-                },
-                "script_name": "PlayerController"
-            },
-            "PhysicsComponent": {
-                "bounce_factor": 0.0,
-                "is_static": false,
-                "is_trigger": false,
-                "mass": 1.0,
-                "position": [
-                    0.0,
-                    -9.5
-                ],
-                "size": [
-                    6.0,
-                    5.5
-                ]
-            },
-            "RelationshipComponent": {
-                "children": [
-                    8266231953880164252
-                ],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    21.0,
-                    0.0,
-                    7.0,
-                    26.0
-                ],
-                "texture": "6717621450190303964"
-            },
-            "TagComponent": {
-                "tag": "Artem"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    -32.546077728271484,
-                    27.995166778564453
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "IDComponent": {
-                "id": "2161839158700461559"
-            },
-            "NativeScriptComponent": {
-                "script_data": {
-                    "v": 52.0
-                },
-                "script_name": "Bullet"
-            },
-            "PhysicsComponent": {
-                "bounce_factor": 0.0,
-                "is_static": false,
-                "is_trigger": true,
-                "mass": 1.0,
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    3.0,
-                    2.0
-                ]
+                "id": "18137551200228504205"
             },
             "RelationshipComponent": {
                 "children": [],
@@ -334,24 +334,24 @@
                 "frame": [
                     0.0,
                     0.0,
-                    3.0,
-                    1.0
+                    20.0,
+                    14.0
                 ],
-                "texture": "4822169590148366020"
+                "texture": "10481742720340127963"
             },
             "TagComponent": {
-                "tag": "ShotgunBullet"
+                "tag": "New Entity"
             },
             "TransformComponent": {
                 "auto_sort": false,
-                "layer": 1,
+                "layer": 0,
                 "origin": [
                     0.0,
                     0.0
                 ],
                 "position": [
-                    0.0,
-                    0.0
+                    90.0765151977539,
+                    29.27052116394043
                 ],
                 "rotation": 0.0,
                 "scale": [

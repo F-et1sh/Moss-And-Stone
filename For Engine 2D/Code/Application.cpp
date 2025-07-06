@@ -3,6 +3,8 @@
 
 FE2D::Application::~Application() {
 	m_SceneManager.EndGameSession();
+	
+	m_ProjectVariables.Save();
 	m_SceneManager.SaveCurrentScene();
 
 	m_ResourceManager.save_resources();
@@ -10,6 +12,8 @@ FE2D::Application::~Application() {
 
 void FE2D::Application::Initialize(const vec2& window_resolution, const std::string_view& window_name, int monitor) {
 	GLFW::Initialize();
+
+	m_ProjectVariables.Load();
 	
 	m_Window.Initialize(window_resolution, window_name.data(), monitor);
 	

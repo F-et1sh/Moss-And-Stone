@@ -27,7 +27,7 @@
     <ClCompile Include="Code\Enemy.cpp" />
     <ClCompile Include="Code\Fields.cpp" />
     <ClCompile Include="Code\IProjectVariable.cpp" />
-    <ClCompile Include="Code\PV_PhysicsLayer.cpp" />
+    <ClCompile Include="Code\PV_PhysicsLayers.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
     <ClCompile Include="Code\IPickable.cpp" />
     <ClCompile Include="Code\PlayerController.cpp" />
@@ -159,7 +159,7 @@
     <ClInclude Include="Code\fortraits.hpp" />
     <ClInclude Include="Code\IProjectVariable.h" />
     <ClInclude Include="Code\MousePicker.h" />
-    <ClInclude Include="Code\PV_PhysicsLayer.h" />
+    <ClInclude Include="Code\PV_PhysicsLayers.h" />
     <ClInclude Include="Code\PhysicsSystem.h" />
     <ClInclude Include="Code\IPickable.h" />
     <ClInclude Include="Code\PlayerController.h" />

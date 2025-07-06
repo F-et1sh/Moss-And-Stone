@@ -600,7 +600,7 @@
     <ClCompile Include="Code\Bullet.cpp">
       <Filter>Code\ECS\Scripting\Scripts\Weapons\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Code\PV_PhysicsLayer.cpp">
+    <ClCompile Include="Code\PV_PhysicsLayers.cpp">
       <Filter>Code\Application\Project Variables\Variables\Physics Layer</Filter>
     </ClCompile>
     <ClCompile Include="Code\ProjectVariables.cpp">
@@ -881,7 +881,7 @@
     <ClInclude Include="Code\Bullet.h">
       <Filter>Code\ECS\Scripting\Scripts\Weapons\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Code\PV_PhysicsLayer.h">
+    <ClInclude Include="Code\PV_PhysicsLayers.h">
       <Filter>Code\Application\Project Variables\Variables\Physics Layer</Filter>
     </ClInclude>
     <ClInclude Include="Code\ProjectVariables.h">
