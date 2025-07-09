@@ -59,7 +59,18 @@ void FE2D::PhysicsSystem::Update() {
 			if (mtv == vec2()) continue;
 
 			physics_1.entities_in.emplace_back(j->entity);
+
+			if (i->entity.HasComponent<NativeScriptComponent>()) {
+				auto instance = i->entity.GetComponent<NativeScriptComponent>().instance.get();
+				if (instance) instance->OnTriggerEnter(j->entity);
+			}
+
 			physics_2.entities_in.emplace_back(i->entity);
+
+			if (j->entity.HasComponent<NativeScriptComponent>()) {
+				auto instance = j->entity.GetComponent<NativeScriptComponent>().instance.get();
+				if (instance) instance->OnTriggerEnter(i->entity);
+			}
 
 			if (physics_1.is_trigger || physics_2.is_trigger) continue;
 

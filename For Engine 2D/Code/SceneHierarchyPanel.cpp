@@ -147,6 +147,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<PhysicsComponent>("Physics");
 		DisplayAddComponentEntry<AnimatorComponent>("Animator");
 		DisplayAddComponentEntry<NativeScriptComponent>("Script");
+		DisplayAddComponentEntry<HealthComponent>("Health");
 
 		ImGui::EndPopup();
 	}
@@ -192,34 +193,12 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		ImGui::Spacing();
 		ImGui::DragFloat("Mass", &component.mass, 1);
 		
-		auto& physics_layers = m_Context->m_ProjectVariables->getPhysicsLayers();
-
-		std::string_view layer_button_name = "Layer";
-		
-		auto name = physics_layers.get_name_by_mask(component.layer);
-		if (!name.empty()) layer_button_name = name;
-		
-		if (ImGui::Button(layer_button_name.data())) {
-			ImGui::OpenPopup("##LAYER_CHOOSING");
-		}
+		m_ImGui->SelectLayer("Layer", component.layer);
 
 		m_ImGui->CheckBox("Is Trigger", component.is_trigger);
 		m_ImGui->CheckBox("Is Static", component.is_static);
 
 		m_ImGui->DragVector2("Velocity", component.velocity);
-
-		if (ImGui::BeginPopup("##LAYER_CHOOSING")) {
-			size_t i = 0;
-			for (auto& info : physics_layers.getLayers()) {
-				if (info.name.empty()) continue;
-				if (ImGui::MenuItem((info.name + "##LAYER_" + std::to_string(i)).c_str())) {
-					component.layer = i;
-				}
-				i++;
-			}
-			
-			ImGui::EndPopup();
-		}
 
 		ImGui::Spacing();
 
@@ -300,6 +279,10 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 					Trigger value = std::get<Trigger>(parameter.value);
 					if (ImGui::Button((label + "##Trigger").c_str())) value.trigger();
 					parameter.value = value;
+
+					ImGui::SameLine();
+
+					value.is_triggered() ? ImGui::Text("Active") : ImGui::Text("Passive");
 
 					ImGui::PopItemWidth();
 				}
@@ -778,5 +761,23 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 		if (component.instance)
 			component.instance->OnEditorPanel(*this->m_ImGui);
+		});
+
+	DrawComponent<HealthComponent>("Health", entity, [&](auto& component) {
+		int old_max_health = component.max_health;
+
+		m_ImGui->DragInt("Max Health", component.max_health);
+
+		if (old_max_health != component.max_health && component.current_health < component.max_health)
+			component.current_health = component.max_health;
+
+		m_ImGui->DragInt("Current Health", component.current_health);
+		
+		if (component.current_health > component.max_health)
+			component.current_health = component.max_health;
+
+		if (component.current_health > 0) component.is_dead = false;
+
+		component.is_dead ? ImGui::Text("Dead") : ImGui::Text("Alive");
 		});
 }

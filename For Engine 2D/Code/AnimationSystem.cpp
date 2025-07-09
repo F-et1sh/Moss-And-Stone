@@ -51,7 +51,7 @@ void FE2D::AnimationSystem::Render() {
             if (transition.from_state != animator.current_state) continue;
 
             if (state->looping || animator.current_time >= animation.getDuration()) {
-                bool passed = true; // turn on the next animation
+                bool passed = true; // go to the next animation
 
                 for (const auto& cond : transition.conditions) { // look though all transition conditions
                     const auto it = animator.parameters.find(cond.parameter_name);
@@ -63,7 +63,7 @@ void FE2D::AnimationSystem::Render() {
                     auto& param = it->second; // parameter of AnimatorComponent
                     float param_value = 0.0f;
 
-                    if      (std::holds_alternative<bool   >(param.value)) param_value = std::get<bool >(param.value) ? 1.0f : 0.0f;
+                    if      (std::holds_alternative<bool   >(param.value)) param_value = std::get<bool >(param.value);
                     else if (std::holds_alternative<float  >(param.value)) param_value = std::get<float>(param.value);
                     else if (std::holds_alternative<int    >(param.value)) param_value = static_cast<float>(std::get<int>(param.value));
                     else if (std::holds_alternative<Trigger>(param.value)) {

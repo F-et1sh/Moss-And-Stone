@@ -165,6 +165,17 @@ namespace FE2D {
                 j["NativeScriptComponent"] = j_component;
             }
 
+            if (entity.HasComponent<HealthComponent>()) {
+                auto& component = entity.GetComponent<HealthComponent>();
+
+                json j_component;
+                SceneSerializer::save_value(component.max_health, j_component, "max_health");
+                SceneSerializer::save_value(component.current_health, j_component, "current_health");
+                SceneSerializer::save_value(component.is_dead, j_component, "is_dead");
+
+                j["HealthComponent"] = j_component;
+            }
+
             return j;
         }
 
@@ -354,6 +365,17 @@ namespace FE2D {
                 component.instance = ScriptFactory::Instance().CreateScript(component.script_name);
                 if (component.instance)
                     component.instance->Deserialize(j_component["script_data"]);
+
+                deserialized_components.emplace_back(std::move(component));
+            }
+
+            if (j.contains("HealthComponent")) {
+                HealthComponent component;
+
+                const json& j_component = j["HealthComponent"];
+                SceneSerializer::load_value(component.max_health, j_component, "max_health");
+                SceneSerializer::load_value(component.current_health, j_component, "current_health");
+                SceneSerializer::load_value(component.is_dead, j_component, "is_dead");
 
                 deserialized_components.emplace_back(std::move(component));
             }

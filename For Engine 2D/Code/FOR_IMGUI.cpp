@@ -2,6 +2,7 @@
 #include "FOR_IMGUI.h"
 
 #include "RenderContext.h"
+#include "ProjectVariables.h"
 
 void FE2D::IMGUI::Release() {
     if (ImGui::GetCurrentContext()) {
@@ -16,12 +17,13 @@ void FE2D::IMGUI::Release() {
     m_RenderContext = nullptr;
 }
 
-void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager) {
+void FE2D::IMGUI::Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager, ProjectVariables& project_variables) {
     Release();
 
     m_Window = &window;
     m_RenderContext = &render_context;
     m_ResourceManager = &resource_manager;
+    m_ProjectVariables = &project_variables;
     
     m_Window->SubscribeToEvent(m_Event_WindowResized, EventType::WindowResized, [&](const IEvent& e) {
         m_CtrlWasPressed = false; // mouse position will be shifted after window resizing and you need reset values
@@ -394,6 +396,35 @@ void FE2D::IMGUI::SelectPrefab(ResourceID<Prefab>& id) {
             id = dropped_prefab_id;
         }
         ImGui::EndDragDropTarget();
+    }
+}
+
+void FE2D::IMGUI::SelectLayer(const std::string& label, uint8_t& layer) {
+    ImGui::Text(label.c_str());
+
+    ImGui::SameLine();
+
+    auto& physics_layers = m_ProjectVariables->getPhysicsLayers();
+
+    std::string_view layer_button_name = "None##LAYER_CHOOSING";
+
+    auto name = physics_layers.get_name_by_mask(layer);
+    if (!name.empty()) layer_button_name = name;
+
+    if (ImGui::Button(layer_button_name.data())) {
+        ImGui::OpenPopup("##LAYER_CHOOSING");
+    }
+
+    if (ImGui::BeginPopup("##LAYER_CHOOSING")) {
+        size_t i = 0;
+        for (auto& info : physics_layers.getLayers()) {
+            if (info.name.empty()) continue;
+            if (ImGui::MenuItem((info.name + "##LAYER_" + std::to_string(i)).c_str())) 
+                layer = i;
+            i++;
+        }
+
+        ImGui::EndPopup();
     }
 }
 

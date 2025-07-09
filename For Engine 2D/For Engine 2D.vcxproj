@@ -26,6 +26,7 @@
     <ClCompile Include="Code\Cursor.cpp" />
     <ClCompile Include="Code\Enemy.cpp" />
     <ClCompile Include="Code\Fields.cpp" />
+    <ClCompile Include="Code\HealthSystem.cpp" />
     <ClCompile Include="Code\IProjectVariable.cpp" />
     <ClCompile Include="Code\PV_PhysicsLayers.cpp" />
     <ClCompile Include="Code\PhysicsSystem.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Code\forfile.hpp" />
     <ClInclude Include="Code\foroutput.hpp" />
     <ClInclude Include="Code\fortraits.hpp" />
+    <ClInclude Include="Code\HealthSystem.h" />
     <ClInclude Include="Code\IProjectVariable.h" />
     <ClInclude Include="Code\MousePicker.h" />
     <ClInclude Include="Code\PV_PhysicsLayers.h" />

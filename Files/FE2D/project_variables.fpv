@@ -2,7 +2,7 @@
     "PhysicsLayers": {
         "array": [
             {
-                "mask": 0,
+                "mask": 4,
                 "name": "Player"
             },
             {
@@ -10,7 +10,7 @@
                 "name": "PlayerBullet"
             },
             {
-                "mask": 2,
+                "mask": 3,
                 "name": "Enemy"
             },
             {

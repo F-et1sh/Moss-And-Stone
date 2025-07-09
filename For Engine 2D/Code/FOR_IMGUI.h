@@ -24,7 +24,7 @@ namespace FE2D {
 		inline static constexpr float DEFAULT_PIXEL_SIZE = 20.0f;
 	public:
 		void Release();
-		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager);
+		void Initialize(Window& window, RenderContext& render_context, ResourceManager& resource_manager, ProjectVariables& project_variables);
 
 		void BeginFrame();
 		void EndFrame();
@@ -43,6 +43,7 @@ namespace FE2D {
 		void SelectTexture(ResourceID<Texture>& id);
 		void SelectAnimation(ResourceID<Animation>& id);
 		void SelectPrefab(ResourceID<Prefab>& id);
+		void SelectLayer(const std::string& label, uint8_t& layer);
 
 		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
 		void DrawCollider(Entity entity);
@@ -119,6 +120,7 @@ namespace FE2D {
 
 	private:
 		Window* m_Window = nullptr;
+		ProjectVariables* m_ProjectVariables = nullptr;
 		EventSubscription m_Event_WindowResized;
 
 		RenderContext* m_RenderContext = nullptr;

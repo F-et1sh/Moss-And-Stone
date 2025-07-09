@@ -34,6 +34,10 @@ namespace FE2D {
 			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get resource manager in a scrpt\nScene was nullptr");
 			return m_Scene->getResourceManager();
 		}
+		inline ProjectVariables& get_project_variables()const {
+			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get project variables in a scrpt\nScene was nullptr");
+			return m_Scene->getProjectVariables();
+		}
 
 		inline void register_field(IField* field) { m_Fields.emplace_back(field); }
 
@@ -46,11 +50,14 @@ namespace FE2D {
 		virtual void OnStart() {}
 		virtual void OnAwake() {}
 		virtual void OnUpdate(double deltaTime) {}
+		virtual void OnDie() {}
 
 		virtual json Serialize()const { return json(); }
 		virtual void Deserialize(const json& j) {}
 
 		virtual void OnEditorPanel(IMGUI& imgui) {}
+
+		virtual void OnTriggerEnter(Entity entity) {}
 
 	private:
 		std::vector<EventSubscription> m_EventSubscription;
@@ -74,6 +81,8 @@ public: \
     std::unique_ptr<ScriptableEntity> clone()const override { \
         return std::make_unique<T>(*this); \
     }
+
+	using PhysicsLayer = uint8_t;
 
 #define FOR_REGISTER_FIELD(field)		register_field(static_cast<IField*>(&field))
 

@@ -28,6 +28,7 @@ void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, Reso
 	m_PhysicsSystem			 = this->CreateSystem<PhysicsSystem>();
 	m_AnimationSystem		 = this->CreateSystem<AnimationSystem>();
 	m_ScriptManagerSystem	 = this->CreateSystem<ScriptManagerSystem>();
+	m_HealthSystem			 = this->CreateSystem<HealthSystem>();
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {
@@ -103,6 +104,8 @@ void FE2D::Scene::Update() {
 	m_ScriptManagerSystem->OnUpdate();
 
 	m_PhysicsSystem->Update();
+
+	m_HealthSystem->Update();
 
 	if (m_CameraEntityUUID != FE2D::UUID(0)) {
 		vec2 cam_pos = this->GetEntityByUUID(m_CameraEntityUUID).GetComponent<TransformComponent>().position;

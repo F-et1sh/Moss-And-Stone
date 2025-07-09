@@ -67,12 +67,23 @@ public:
 			auto& shotgun_animator = shotgun->GetComponent<AnimatorComponent>();
 			shotgun_animator.callTrigger("IsShooting");
 
-			Entity created_bullet = this->get_resource_manager().GetResource(bullet).CreateEntity(this->get_scene());
-			created_bullet.GetComponent<TransformComponent>().position = transform->position;
+			if (shotgun_animator.isAnimationPlaying("Idle")) {
+				constexpr static int bullets = 8;
+				for (int i = 0; i < bullets; i++) {
+					Entity created_bullet = this->get_resource_manager().GetResource(bullet).CreateEntity(this->get_scene());
+					auto& bullet_transform = created_bullet.GetComponent<TransformComponent>();
+					bullet_transform.position = transform->position;
 
-			if (created_bullet.HasComponent<PhysicsComponent>()) {
-				auto& bullet_physics = created_bullet.GetComponent<PhysicsComponent>();
-				bullet_physics.velocity = mouse_position / vec2(50);
+					float random_shift = std::rand() % 30 - 15;
+					bullet_transform.rotation = glm::degrees(atan2(mouse_position.x, mouse_position.y)) - 90 + random_shift;
+
+					vec2 direction = vec2(cos(random_shift), sin(random_shift));
+
+					if (created_bullet.HasComponent<PhysicsComponent>()) {
+						auto& bullet_physics = created_bullet.GetComponent<PhysicsComponent>();
+						bullet_physics.velocity = mouse_position / vec2(50) + direction;
+					}
+				}
 			}
 		}
 

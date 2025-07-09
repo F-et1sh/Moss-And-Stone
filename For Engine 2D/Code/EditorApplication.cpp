@@ -22,7 +22,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 	m_Window.SubscribeToEvent(m_Event_WindowFocus, EventType::WindowFocus, [&](const IEvent& e) {
 		// Reinitialize ImGui after window gained
 		try {
-			m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager);
+			m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager, m_ProjectVariables);
 		}
 		catch (const std::exception& e) {
 			SAY("Failed to Reinitilize ImGui after window focus\n" << e.what());
@@ -48,7 +48,7 @@ void FE2D::EditorApplication::Initialize(const vec2& window_resolution, const st
 		m_EditorCamera.setZoom(m_EditorCamera.getZoom() * zoom_factor);
 		});
 
-	m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager);
+	m_ImGui.Initialize(m_Window, m_RenderContext, m_ResourceManager, m_ProjectVariables);
 
 	m_ResourceManager.Initialize();
 

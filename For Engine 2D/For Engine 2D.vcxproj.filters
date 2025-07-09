@@ -355,6 +355,9 @@
     <Filter Include="Code\Application\Project Variables\Variables\Project Variable %28 inherit %29">
       <UniqueIdentifier>{ae764b46-9703-4fb5-a0d9-37cda3587768}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\System\Health">
+      <UniqueIdentifier>{46b930ec-15df-49c3-bd81-7bb1899dd121}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -608,6 +611,9 @@
     </ClCompile>
     <ClCompile Include="Code\IProjectVariable.cpp">
       <Filter>Code\Application\Project Variables\Variables\Project Variable %28 inherit %29</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\HealthSystem.cpp">
+      <Filter>Code\ECS\System\Health</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -889,6 +895,9 @@
     </ClInclude>
     <ClInclude Include="Code\IProjectVariable.h">
       <Filter>Code\Application\Project Variables\Variables\Project Variable %28 inherit %29</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\HealthSystem.h">
+      <Filter>Code\ECS\System\Health</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

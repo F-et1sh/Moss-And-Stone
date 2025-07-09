@@ -2,15 +2,15 @@
     {
         "AnimatorComponent": {
             "current_state": 0,
-            "current_time": 960.5107421875,
+            "current_time": 3901.30517578125,
             "parameters": [
                 {
                     "first": "DirectionX",
-                    "second.value": 0.0
+                    "second.value": 225.0
                 },
                 {
                     "first": "DirectionY",
-                    "second.value": 0.0
+                    "second.value": -291.0
                 }
             ],
             "states": [
@@ -67,8 +67,8 @@
         },
         "NativeScriptComponent": {
             "script_data": {
-                "bullet": "0",
-                "shotgun": "0"
+                "bullet": "1374184077757935361",
+                "shotgun": "8266231953880164252"
             },
             "script_name": "PlayerController"
         },
@@ -80,11 +80,11 @@
             "mass": 1.0,
             "position": [
                 0.0,
-                0.0
+                -9.5
             ],
             "size": [
                 6.0,
-                20.0
+                5.5
             ]
         },
         "RelationshipComponent": {
@@ -97,12 +97,12 @@
             "flip_x": false,
             "flip_y": false,
             "frame": [
-                35.0,
                 0.0,
-                7.0,
+                0.0,
+                42.0,
                 26.0
             ],
-            "texture": "11062371011373712234"
+            "texture": "6717621450190303964"
         },
         "TagComponent": {
             "tag": "Artem"
@@ -115,8 +115,8 @@
                 0.0
             ],
             "position": [
-                -7.017428874969482,
-                -6.669442653656006
+                -30.27450942993164,
+                24.449993133544922
             ],
             "rotation": 0.0,
             "scale": [
@@ -128,7 +128,7 @@
     {
         "AnimatorComponent": {
             "current_state": 0,
-            "current_time": 33.510284423828125,
+            "current_time": 5.612478733062744,
             "parameters": [
                 {
                     "first": "IsShooting",
@@ -138,6 +138,12 @@
                 },
                 {
                     "first": "IsReloading",
+                    "second.value": {
+                        "trigger": false
+                    }
+                },
+                {
+                    "first": "CanT_Shoot",
                     "second.value": {
                         "trigger": false
                     }
@@ -170,6 +176,11 @@
                             "condition": 0,
                             "parameter_name": "IsShooting",
                             "value": 1.0
+                        },
+                        {
+                            "condition": 0,
+                            "parameter_name": "CanT_Shoot",
+                            "value": 0.0
                         }
                     ],
                     "from_state": 0,
@@ -233,16 +244,16 @@
         },
         "TransformComponent": {
             "auto_sort": false,
-            "layer": 0,
+            "layer": 1,
             "origin": [
                 0.0,
                 0.0
             ],
             "position": [
                 0.0,
-                4.162603378295898
+                4.691352367401123
             ],
-            "rotation": 0.0,
+            "rotation": 52.2889404296875,
             "scale": [
                 1.0,
                 1.0

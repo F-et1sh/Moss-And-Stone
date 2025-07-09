@@ -145,6 +145,20 @@ namespace FE2D {
                 std::get<Trigger>(it->second.value).trigger(time);
         }
 
+        inline bool isTriggered(const std::string& name) {
+            auto it = parameters.find(name);
+            if (it == parameters.end()) return false;
+
+            if (std::holds_alternative<Trigger>(it->second.value))
+                return std::get<Trigger>(it->second.value).is_triggered();
+        }
+        inline bool isAnimationPlaying(const std::string& name) {
+            auto it = std::find_if(states.begin(), states.end(), [name](const std::unique_ptr<IStateNode>& e) { return e->name == name; });
+            if (it != states.end())
+                if (std::distance(states.begin(), it) == current_state) return true;
+            return false;
+        }
+
         AnimatorComponent() = default;
         ~AnimatorComponent() = default;
 
@@ -223,6 +237,23 @@ namespace FE2D {
         NativeScriptComponent& operator=(NativeScriptComponent&&) noexcept = default;
     };
 
+    struct FOR_API HealthComponent {
+        int max_health = 0;
+        int current_health = 0;
+        bool is_dead = false;
+
+        inline void set_new_health(int health)noexcept { max_health = health; current_health = health; }
+
+        inline void heal(int heal_by)noexcept { current_health += heal_by; }
+        inline void take_damage(int damage)noexcept { current_health -= damage; }
+
+        HealthComponent(int health) : max_health(health), current_health(health) {}
+
+        HealthComponent() = default;
+        ~HealthComponent() = default;
+        HealthComponent(const HealthComponent&) = default;
+    };
+
     template<typename... Components>
     struct FOR_API ComponentGroup 
     {
@@ -237,7 +268,8 @@ namespace FE2D {
         CameraComponent,
         PhysicsComponent,
         AnimatorComponent,
-        NativeScriptComponent>;
+        NativeScriptComponent,
+        HealthComponent>;
 
     template<typename Group>
     struct FOR_API ComponentsHelper;
