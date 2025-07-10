@@ -7,6 +7,7 @@
 #include "AnimationSystem.h"
 #include "ScriptManagerSystem.h"
 #include "HealthSystem.h"
+#include "EffectsSystem.h"
 
 #include "RenderContext.h"
 #include "Cursor.h"
@@ -74,6 +75,7 @@ namespace FE2D {
 		std::unique_ptr<AnimationSystem>		m_AnimationSystem;
 		std::unique_ptr<ScriptManagerSystem>	m_ScriptManagerSystem;
 		std::unique_ptr<HealthSystem>			m_HealthSystem;
+		std::unique_ptr<EffectsSystem>			m_EffectsSystem;
 
 		std::vector<ISystemBase*> m_SystemsList; // this mustn't free data of systems
 

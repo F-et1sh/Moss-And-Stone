@@ -1,18 +1,489 @@
 {
     "Entities": [
         {
+            "IDComponent": {
+                "id": "13887308643493316878"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -49.510128021240234,
+                    -7.004782676696777
+                ],
+                "rotation": -73.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "6690337812198637422"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -48.97005081176758,
+                    -14.171102523803711
+                ],
+                "rotation": -72.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "4183126127582844680"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -47.58024978637695,
+                    -15.765918731689453
+                ],
+                "rotation": -78.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "17797365876981067594"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -45.800193786621094,
+                    -3.2784085273742676
+                ],
+                "rotation": -80.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "7598197639127693661"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -37.030616760253906,
+                    -5.169488430023193
+                ],
+                "rotation": -75.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "4510585508484022464"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -35.484622955322266,
+                    -7.999408721923828
+                ],
+                "rotation": -88.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "7652782788039211361"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -50.10120391845703,
+                    -9.035928726196289
+                ],
+                "rotation": -79.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "7706050571818447279"
+            },
+            "NativeScriptComponent": {
+                "script_data": null,
+                "script_name": "Bullet"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 1,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    3.0,
+                    1.0
+                ],
+                "texture": "4822169590148366020"
+            },
+            "TagComponent": {
+                "tag": "ShotgunBullet"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 1,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -47.58024978637695,
+                    -4.421358108520508
+                ],
+                "rotation": -86.45347595214844,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
             "HealthComponent": {
                 "current_health": 20,
                 "is_dead": false,
                 "max_health": 20
             },
             "IDComponent": {
-                "id": "7400276684638130899"
+                "id": "6108926234610388922"
             },
             "NativeScriptComponent": {
                 "script_data": {
-                    "bullet_layer": 1,
-                    "health": "0",
+                    "health": "6108926234610388922",
                     "player": "6792913373566533148",
                     "speed": 20.0
                 },
@@ -59,52 +530,12 @@
                     0.0
                 ],
                 "position": [
-                    35.089210510253906,
-                    34.01689910888672
+                    24.641212463378906,
+                    14.945536613464355
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "IDComponent": {
-                "id": "10647514133744077722"
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    0.0,
-                    0.0,
-                    16.0,
-                    16.0
-                ],
-                "texture": "11974836725074382672"
-            },
-            "TagComponent": {
-                "tag": "Grass"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": -5,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
+                    -1.0,
                     1.0
                 ]
             }
@@ -112,15 +543,15 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 4056.752685546875,
+                "current_time": 4207.93408203125,
                 "parameters": [
                     {
                         "first": "DirectionX",
-                        "second.value": 60.0
+                        "second.value": 62.0
                     },
                     {
                         "first": "DirectionY",
-                        "second.value": 476.0
+                        "second.value": 468.0
                     }
                 ],
                 "states": [
@@ -225,8 +656,48 @@
                     0.0
                 ],
                 "position": [
-                    -43.40855026245117,
-                    -3.9507498741149902
+                    -39.33189010620117,
+                    35.64793014526367
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "10647514133744077722"
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    16.0,
+                    16.0
+                ],
+                "texture": "11974836725074382672"
+            },
+            "TagComponent": {
+                "tag": "Grass"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": -5,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    0.0,
+                    0.0
                 ],
                 "rotation": 0.0,
                 "scale": [
@@ -238,7 +709,7 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 14.58305549621582,
+                "current_time": 19.94599151611328,
                 "parameters": [
                     {
                         "first": "IsShooting",
@@ -363,7 +834,7 @@
                     0.0,
                     4.691352367401123
                 ],
-                "rotation": -82.81573486328125,
+                "rotation": -82.45347595214844,
                 "scale": [
                     1.0,
                     1.0

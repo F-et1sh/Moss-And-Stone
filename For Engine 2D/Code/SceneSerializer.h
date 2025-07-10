@@ -176,6 +176,24 @@ namespace FE2D {
                 j["HealthComponent"] = j_component;
             }
 
+            if (entity.HasComponent<E_DamageComponent>()) {
+                auto& component = entity.GetComponent<E_DamageComponent>();
+
+                json j_component;
+                SceneSerializer::save_value(component.damage, j_component, "damage");
+
+                j["E_DamageComponent"] = j_component;
+            }
+
+            if (entity.HasComponent<E_FreezeComponent>()) {
+                auto& component = entity.GetComponent<E_FreezeComponent>();
+
+                json j_component;
+                SceneSerializer::save_value(component.duration, j_component, "duration");
+
+                j["E_FreezeComponent"] = j_component;
+            }
+
             return j;
         }
 
@@ -376,6 +394,24 @@ namespace FE2D {
                 SceneSerializer::load_value(component.max_health, j_component, "max_health");
                 SceneSerializer::load_value(component.current_health, j_component, "current_health");
                 SceneSerializer::load_value(component.is_dead, j_component, "is_dead");
+
+                deserialized_components.emplace_back(std::move(component));
+            }
+
+            if (j.contains("E_DamageComponent")) {
+                E_DamageComponent component;
+
+                const json& j_component = j["E_DamageComponent"];
+                SceneSerializer::load_value(component.damage, j_component, "damage");
+
+                deserialized_components.emplace_back(std::move(component));
+            }
+
+            if (j.contains("E_FreezeComponent")) {
+                E_FreezeComponent component;
+
+                const json& j_component = j["E_FreezeComponent"];
+                SceneSerializer::load_value(component.duration, j_component, "duration");
 
                 deserialized_components.emplace_back(std::move(component));
             }

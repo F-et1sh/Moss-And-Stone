@@ -21,6 +21,12 @@ namespace FE2D {
 			return component;
 		}
 
+		template<typename T, typename... Args>
+		inline T& EmplaceOrReplaceComponent(Args&&... args) {
+			T& component = this->GetRegistry().emplace_or_replace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			return component;
+		}
+
 		template<typename T>
 		inline T& GetComponent() {
 			FOR_ASSERT(HasComponent<T>(), "Entity does not have component");

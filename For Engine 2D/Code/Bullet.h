@@ -31,6 +31,22 @@ public:
 		}
 	}
 
+	void OnTriggerEnter(Entity entity)override {
+		if (entity.HasComponent<PhysicsComponent>()) {
+			
+			auto& physics = entity.GetComponent<PhysicsComponent>();
+			
+			if (get_project_variables().getPhysicsLayers().get_name_by_mask(physics.layer) == "Enemy") {
+				
+				if (!entity.HasComponent<E_FreezeComponent>())
+					entity.AddComponent<E_FreezeComponent>(1.0f);
+				else {
+					entity.GetComponent<E_FreezeComponent>().duration += 1.0f;
+				}
+			}
+		}
+	}
+
 	json Serialize()const override {
 		json j;
 		return j;

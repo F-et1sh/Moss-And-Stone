@@ -358,6 +358,9 @@
     <Filter Include="Code\ECS\System\Health">
       <UniqueIdentifier>{46b930ec-15df-49c3-bd81-7bb1899dd121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\System\Effects">
+      <UniqueIdentifier>{9bcf401e-a612-4cae-8f13-75788a83f0df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -614,6 +617,9 @@
     </ClCompile>
     <ClCompile Include="Code\HealthSystem.cpp">
       <Filter>Code\ECS\System\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EffectsSystem.cpp">
+      <Filter>Code\ECS\System\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -898,6 +904,9 @@
     </ClInclude>
     <ClInclude Include="Code\HealthSystem.h">
       <Filter>Code\ECS\System\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\EffectsSystem.h">
+      <Filter>Code\ECS\System\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

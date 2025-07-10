@@ -137,6 +137,10 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 	ImGui::SameLine();
 	ImGui::PushItemWidth(-1);
 
+	/* Display AddComponent buttons */
+
+	static float x_pos = ImGui::GetCursorPosX();
+
 	if (ImGui::Button("Add Component"))
 		ImGui::OpenPopup("AddComponent");
 
@@ -148,6 +152,20 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<AnimatorComponent>("Animator");
 		DisplayAddComponentEntry<NativeScriptComponent>("Script");
 		DisplayAddComponentEntry<HealthComponent>("Health");
+
+		ImGui::EndPopup();
+	}
+
+	/* Display AddEffect buttons */
+
+	ImGui::SetCursorPosX(x_pos);
+
+	if (ImGui::Button("Add Effect"))
+		ImGui::OpenPopup("AddEffect");
+
+	if (ImGui::BeginPopup("AddEffect")) {
+		DisplayAddComponentEntry<E_DamageComponent>("Damage");
+		DisplayAddComponentEntry<E_FreezeComponent>("Freeze");
 
 		ImGui::EndPopup();
 	}
@@ -779,5 +797,13 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		if (component.current_health > 0) component.is_dead = false;
 
 		component.is_dead ? ImGui::Text("Dead") : ImGui::Text("Alive");
+		});
+
+	DrawComponent<E_DamageComponent>("Effect - Damage", entity, [&](auto& component) {
+		m_ImGui->DragInt("Damage", component.damage);
+		});
+
+	DrawComponent<E_FreezeComponent>("Effect - Freeze", entity, [&](auto& component) {
+		m_ImGui->DragFloat("Duration", component.duration);
 		});
 }

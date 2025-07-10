@@ -5,7 +5,6 @@
         },
         "NativeScriptComponent": {
             "script_data": {
-                "bullet_layer": 1,
                 "health": "0",
                 "player": "6792913373566533148",
                 "speed": 20.0

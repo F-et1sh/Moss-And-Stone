@@ -254,6 +254,30 @@ namespace FE2D {
         HealthComponent(const HealthComponent&) = default;
     };
 
+    // Pattern of effect naming : E_NameComponent
+    // E - Effect
+    // Effects are serialized and edited like other components
+
+    struct FOR_API E_DamageComponent {
+        int damage = 0;
+
+        E_DamageComponent(int damage) : damage(damage) {}
+            
+        E_DamageComponent() = default;
+        ~E_DamageComponent() = default;
+        E_DamageComponent(const E_DamageComponent&) = default;
+    };
+
+    struct FOR_API E_FreezeComponent {
+        float duration = 0;
+
+        E_FreezeComponent(float duration) : duration(duration) {}
+
+        E_FreezeComponent() = default;
+        ~E_FreezeComponent() = default;
+        E_FreezeComponent(const E_FreezeComponent&) = default;
+    };
+
     template<typename... Components>
     struct FOR_API ComponentGroup 
     {
@@ -269,7 +293,9 @@ namespace FE2D {
         PhysicsComponent,
         AnimatorComponent,
         NativeScriptComponent,
-        HealthComponent>;
+        HealthComponent,
+        E_DamageComponent,
+        E_FreezeComponent>;
 
     template<typename Group>
     struct FOR_API ComponentsHelper;
