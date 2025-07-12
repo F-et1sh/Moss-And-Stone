@@ -119,7 +119,7 @@ void FE2D::EditorApplication::OnMainMenuBar() {
 void FE2D::EditorApplication::OnCloseRequest() {
 	ImGui::OpenPopup("Save Changes?");
 
-	if (ImGui::BeginPopupModal("Save Changes?", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+	if (ImGui::BeginPopupModal("Save Changes?", 0, ImGuiWindowFlags_AlwaysAutoResize)) {
 		ImGui::Text("Do you want to save changes before exiting?");
 		ImGui::Separator();
 
@@ -136,7 +136,7 @@ void FE2D::EditorApplication::OnCloseRequest() {
 
 		ImGui::SameLine();
 
-		if (ImGui::Button("Cancel")) {
+		if (ImGui::Button("Cancel") || ImGui::IsKeyDown(ImGuiKey_Escape)) {
 			m_CloseRequest = false;
 			ImGui::CloseCurrentPopup();
 		}

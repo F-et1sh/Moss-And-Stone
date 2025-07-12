@@ -39,7 +39,7 @@ namespace FE2D {
 		void DragInt(const std::string& label, int& value, float columnWidth = 100.0f);
 		void DragFloat(const std::string& label, float& value, float columnWidth = 100.0f);
 		void DragVector2(const std::string& label, vec2& values, float resetValue = 0.0f, float columnWidth = 100.0f);
-		void DragVector2I(const std::string& label, int& width, int& height, float resetValue = 0.0f, float columnWidth = 100.0f);
+		void DragVector2_U64(const std::string& label, size_t& width, size_t& height, float resetValue = 0.0f, float columnWidth = 100.0f);
 
 		void SelectTexture(const std::string& label, ResourceID<Texture>& id);
 		void SelectAnimation(ResourceID<Animation>& id);
@@ -48,9 +48,10 @@ namespace FE2D {
 
 		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
 		void DrawCollider(Entity entity);
-		void DrawTilemapGrid(Entity entity);
+		void DrawTexture(ResourceID<Texture> id, ImVec2 sprite_size = ImVec2(100, 100));
 
 		void TransformControl(Entity entity);
+		void TilemapControl(Entity entity);
 
 		inline bool IsAnyGizmoHovered()const noexcept { return m_IsAnyGizmoHovered; }
 		inline bool IsAnyTextInput()const noexcept { return m_IsAnyTextInput; }

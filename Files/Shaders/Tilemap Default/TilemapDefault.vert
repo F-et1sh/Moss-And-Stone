@@ -18,5 +18,6 @@ uniform mat4 u_ViewProj;
 
 void main() {
 	gl_Position = u_ViewProj * data.u_TilemapTransform * vec4(a_Vertex + data.u_TileInfo[gl_InstanceID].xy, 0.0f, 1.0f);
-	i_TexCoords = a_Vertex + data.u_TileInfo[gl_InstanceID].zw;
+	i_TexCoords = a_Vertex + vec2(0.5f, 0.5f) * vec2(16, 16) + data.u_TileInfo[gl_InstanceID].zw / vec2(64, 64);
+
 }

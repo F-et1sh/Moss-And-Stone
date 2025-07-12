@@ -257,14 +257,11 @@ namespace FE2D {
     };
 
     struct FOR_API TilemapComponent {
-        int width  = 10;
-        int height = 10;
+        size_t width  = 10;
+        size_t height = 10;
         
-        std::vector<uint8_t> world_tiles;
-
-        // tile texture index | atlas offset
-        std::unordered_map<uint8_t, vec2> texture_frames;
-        ResourceID<Texture> texture_atlas;
+        std::vector<uint8_t> tiles;
+        std::vector<ResourceID<Texture>> textures;
 
         TilemapComponent() = default;
         ~TilemapComponent() = default;

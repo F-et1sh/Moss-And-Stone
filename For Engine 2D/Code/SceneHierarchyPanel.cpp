@@ -53,7 +53,7 @@ void FE2D::SceneHierarchyPanel::OnImGuiRender(bool is_preview_window_hovered, co
 		int entity_index = m_MousePicker->ReadPixel(preview_mouse_position);
 
 		if (entity_index != -1) this->setSelected({ (entt::entity)entity_index, m_Context });
-		else					this->resetSelected();
+		//else					this->resetSelected();
 	}
 
 	ImGui::Begin("Properties", nullptr, m_ImGui->IsAnyGizmoHovered() ? ImGuiWindowFlags_NoMove : 0);
@@ -191,6 +191,9 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 	DrawComponent<SpriteComponent>("Sprite Renderer", entity, [&](auto& component) {
 		m_ImGui->SelectTexture("Sprite Texture", component.texture);
+		ImGui::Separator();
+		m_ImGui->DrawTexture(component.texture);
+		ImGui::Separator();
 
 		auto& texture = m_ImGui->getResourceManager()->GetResource(component.texture);
 		component.frame = vec4(0, 0, texture.getSize());
@@ -809,8 +812,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<TilemapComponent>("Tilemap Renderer", entity, [&](auto& component) {
-		m_ImGui->SelectTexture("Texture Atlas", component.texture_atlas);
-		m_ImGui->DragVector2I("Grid Size", component.width, component.height);
-		m_ImGui->DrawTilemapGrid(entity);
+		m_ImGui->DragVector2_U64("Grid Size", component.width, component.height);
+		m_ImGui->TilemapControl(entity);
 		});
 }

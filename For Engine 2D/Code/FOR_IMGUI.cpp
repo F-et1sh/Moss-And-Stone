@@ -4,6 +4,9 @@
 #include "RenderContext.h"
 #include "ProjectVariables.h"
 
+#undef min
+#undef max
+
 void FE2D::IMGUI::Release() {
     if (ImGui::GetCurrentContext()) {
         ImGui_ImplOpenGL3_Shutdown();
@@ -221,7 +224,7 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
     ImGui::PopID();
 }
 
-void FE2D::IMGUI::DragVector2I(const std::string& label, int& width, int& height, float resetValue, float columnWidth) {
+void FE2D::IMGUI::DragVector2_U64(const std::string& label, size_t& width, size_t& height, float resetValue, float columnWidth) {
     ImGui::PushID(label.c_str());
     ImGui::Columns(2);
     ImGui::SetColumnWidth(0, columnWidth);
@@ -237,13 +240,13 @@ void FE2D::IMGUI::DragVector2I(const std::string& label, int& width, int& height
         if (ImGui::Button("X", button_size))
             width = resetValue;
         ImGui::SameLine();
-        ImGui::DragInt("##X", &width, 0.5f);
+        ImGui::DragScalar("##X", ImGuiDataType_U64, &width, 0.5f, 0);
     }
     {
         if (ImGui::Button("Y", button_size))
             height = resetValue;
         ImGui::SameLine();
-        ImGui::DragInt("##Y", &height, 0.5f);
+        ImGui::DragScalar("##Y", ImGuiDataType_U64, &height, 0.5f, 0);
     }
 
     ImGui::PopStyleVar();
@@ -258,21 +261,6 @@ void FE2D::IMGUI::SelectTexture(const std::string& label, ResourceID<Texture>& i
     constexpr ImVec2 texture_size = ImVec2(100, 100);
     constexpr float padding = 10.0f;
     
-    {
-        Texture& texture = m_ResourceManager->GetResource(id);
-
-        ImVec2 button_size = ImVec2(
-            texture_size.x * (float(texture.getSize().x) / texture.getSize().y),
-            texture_size.y
-        );
-
-        ImGui::Separator();
-     
-        ImGui::Image(texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0));
-
-        ImGui::Separator();
-    }
-
     const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
 
     FE2D::UUID selected_uuid = id.uuid;
@@ -518,33 +506,13 @@ void FE2D::IMGUI::DrawCollider(Entity entity) {
     draw->AddRectFilled(rect_min, rect_max, rect_color);
 }
 
-void FE2D::IMGUI::DrawTilemapGrid(Entity entity) {
-    if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<TilemapComponent>()) return;
-
-    auto& transform = entity.GetComponent<TransformComponent>();
-    auto& tilemap = entity.GetComponent<TilemapComponent>();
-
-    mat4 matrix = entity.GetGlobalTransform();
-
-    constexpr vec2 default_cell_size = vec2(16.0f, 16.0f);
-    constexpr ImColor cell_color = IM_COL32(80, 80, 80, 255);
-
-    auto draw = this->GetPreviewWindowDrawList();
-
-    for (int x = 0; x < tilemap.width; x++) {
-        for (int y = 0; y < tilemap.height; y++) {
-            vec2 offset = vec2(x, y) * default_cell_size;
-            mat4 cell_matrix = matrix * translate(mat4(1.0f), vec3(offset, 0.0f));
-
-            vec2 top_left     = GetWorldPosition(cell_matrix * translate(mat4(1.0f), vec3(-default_cell_size * 0.5f, 0.0f)));
-            vec2 bottom_right = GetWorldPosition(cell_matrix * translate(mat4(1.0f), vec3( default_cell_size * 0.5f, 0.0f)));
-
-            ImVec2 rect_min(top_left.x, top_left.y);
-            ImVec2 rect_max(bottom_right.x, bottom_right.y);
-
-            draw->AddRect(rect_min, rect_max, cell_color);
-        }
-    }
+void FE2D::IMGUI::DrawTexture(ResourceID<Texture> id, ImVec2 sprite_size) {
+    Texture& texture = m_ResourceManager->GetResource(id);
+    ImVec2 button_size = ImVec2(
+        sprite_size.x * (float(texture.getSize().x) / texture.getSize().y),
+        sprite_size.y
+    );
+    ImGui::Image(texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0));
 }
 
 vec2 FE2D::IMGUI::GetWorldPosition(const mat4& matrix) {
@@ -694,6 +662,110 @@ void IMGUI::TransformControl(Entity entity) {
     }
 }
 
+void FE2D::IMGUI::TilemapControl(Entity entity) {
+    if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<TilemapComponent>()) return;
+
+    static ResourceID<Texture> adding_texture;
+    static uint8_t texture_id_in_vector = 0;
+    static FE2D::UUID last_entity_uuid = entity.GetUUID();
+
+    if (entity.GetUUID() != last_entity_uuid) {
+        texture_id_in_vector = 0;
+        adding_texture = {};
+        last_entity_uuid = entity.GetUUID();
+    }
+
+    auto& transform = entity.GetComponent<TransformComponent>();
+    auto& tilemap = entity.GetComponent<TilemapComponent>();
+
+    if (tilemap.tiles.size() < tilemap.width * tilemap.height)
+        tilemap.tiles.resize(tilemap.width * tilemap.height);
+
+    this->SelectTexture("Tile Texture", adding_texture);
+    ImGui::Separator();
+    this->DrawTexture(adding_texture);
+    ImGui::Separator();
+
+    if (ImGui::Button("Add Texture") && tilemap.textures.size() < 256) {
+        tilemap.textures.emplace_back(adding_texture);
+    }
+    else if (tilemap.textures.size() >= 256) {
+        FOR_RUNTIME_ERROR("Failed to add a texture to tilemap\nToo many textures");
+    }
+
+    int to_delete = -1;
+    for (uint8_t i = 0; i < tilemap.textures.size(); i++) {
+        Texture& texture = m_ResourceManager->GetResource(tilemap.textures[i]);
+        constexpr vec2 sprite_size = vec2(100, 100);
+
+        ImVec2 button_size = ImVec2(
+            sprite_size.x * (float(texture.getSize().x) / texture.getSize().y),
+            sprite_size.y
+        );
+
+        static constexpr ImVec4 selected_bg_color = ImVec4(0, 1, 1, 0.5);
+        static constexpr ImVec4 selected_tint_color = ImVec4(0, 0.5, 0.5, 1);
+
+        ImVec4 bg_color = ImVec4(0, 0, 0, 0);
+        ImVec4 tint_color = ImVec4(1, 1, 1, 1);
+
+        if (texture_id_in_vector == i) {
+            bg_color = selected_bg_color;
+            tint_color = selected_tint_color;
+        }
+
+        bool is_pressed = ImGui::ImageButton(("##TILE_TEXTURE_" + std::to_string(i)).c_str(), texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color);
+        if (is_pressed) texture_id_in_vector = i;
+
+        ImGui::SameLine();
+
+        if (ImGui::Button(("Remove##" + std::to_string(i)).c_str())) to_delete = i;
+    }
+    if (to_delete != -1) tilemap.textures.erase(tilemap.textures.begin() + to_delete);
+
+    constexpr vec2 cell_size = vec2(16.0f, 16.0f);
+    constexpr ImColor cell_color = IM_COL32(80, 80, 80, 255);
+
+    auto draw = this->GetPreviewWindowDrawList();
+
+    for (size_t x = 0; x < tilemap.width; x++) {
+        for (size_t y = 0; y < tilemap.height; y++) {
+            vec2 offset = vec2(x, y) * cell_size;
+            mat4 entity_matrix = entity.GetGlobalTransform();
+            mat4 cell_matrix = entity_matrix * translate(mat4(1.0f), vec3(offset, 0.0f));
+
+            vec2 top_left     = GetWorldPosition(cell_matrix * translate(mat4(1.0f), vec3(-cell_size * 0.5f, 0.0f)));
+            vec2 bottom_right = GetWorldPosition(cell_matrix * translate(mat4(1.0f), vec3( cell_size * 0.5f, 0.0f)));
+
+            ImVec2 rect_min = ImVec2(
+                std::min(top_left.x, bottom_right.x),
+                std::min(top_left.y, bottom_right.y)
+            );
+            ImVec2 rect_max = ImVec2(
+                std::max(top_left.x, bottom_right.x),
+                std::max(top_left.y, bottom_right.y)
+            );
+
+            draw->AddRect(rect_min, rect_max, cell_color);
+            
+            uint8_t& tile = tilemap.tiles[y * tilemap.width + x];
+
+            if (ImGui::IsMouseDown(0)) {
+                ImVec2 mouse_pos = ImGui::GetMousePos();
+                if (mouse_pos.x >= rect_min.x && mouse_pos.x <= rect_max.x &&
+                    mouse_pos.y >= rect_min.y && mouse_pos.y <= rect_max.y) {
+                    tile = texture_id_in_vector;
+                }
+            }
+
+            if (tile < tilemap.textures.size()) {
+                Texture& texture = m_ResourceManager->GetResource(tilemap.textures[tile]);
+                draw->AddImage(texture.reference(), rect_min, rect_max);
+            }
+        }
+    }
+}
+
 bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, int text_width) {
     char buffer[256];
     memset(buffer, 0, sizeof(buffer));
@@ -721,9 +793,6 @@ bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, int te
 
     return changed;
 }
-
-#undef min
-#undef max
 
 bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw, bool is_filled) {
     ImGuiIO& io = ImGui::GetIO();
