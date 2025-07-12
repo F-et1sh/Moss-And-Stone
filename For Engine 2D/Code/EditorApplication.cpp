@@ -265,6 +265,7 @@ void FE2D::EditorApplication::OnPreviewWindow() {
 		}
 		else {
 			this->m_SceneManager.StartGameSession();
+			m_SceneHierarchyPanel.resetSelected();
 		}
 	}
 

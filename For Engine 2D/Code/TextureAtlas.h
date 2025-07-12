@@ -6,7 +6,10 @@ namespace FE2D {
 	public:
 		TextureAtlas() = default;
 		~TextureAtlas();
-	
+		
+		TextureAtlas(const vec2& load_size) { this->Initialize(load_size); }
+
+		// legacy
 		void Initialize(const vec2& load_size);
 
 		void AddTexture(Texture& load_texture);
@@ -26,16 +29,16 @@ namespace FE2D {
 
 	private:
 		void emplace_texture(Texture& load_texture);
-		void recalculate_atlasOffset(Texture& load_texture);
-	
+		void recalculate_atlas_offset(Texture& load_texture);
+
 		unsigned int m_Reference = 0;
-	
+
 		// Texture* - texture pointer to find
 		// vec2 - texture coordinates in this texture atlas
 		std::unordered_map<Texture*, vec2> m_LoadedTextures;
 
-		vec2 m_AtlasSize = vec2();   // The Size of this Texture Atlas
-		vec2 m_AtlasOffset = vec2(); // The Beginning of Available Space
-		unsigned int maxHeight = 0;  // The Biggest Height at one Line
+		vec2		 m_AtlasSize   = vec2(); // The Size of this Texture Atlas
+		vec2		 m_AtlasOffset = vec2(); // The Beginning of Available Space
+		unsigned int m_MaxHeight   = 0;		 // The Biggest Height at one Line
 	};
 }

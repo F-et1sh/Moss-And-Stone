@@ -7,8 +7,8 @@ FE2D::SpriteRendererSystem::SpriteRendererSystem() {
 	m_Shader.Initialize(FOR_PATH.get_shaders_path() / L"Sprite Default" / L"SpriteDefault");
 
 	m_UniformBuffer.create();
-	m_UniformBuffer.bufferData((sizeof(mat4) + sizeof(vec4)) * SPRITE_LIMIT + sizeof(vec4), nullptr, GL_DYNAMIC_DRAW);
-	m_UniformBuffer.bindBlock(1);
+	m_UniformBuffer.bufferData((sizeof(mat4) + sizeof(vec4)) * FOR_SPRITE_LIMIT + sizeof(vec4), nullptr, GL_DYNAMIC_DRAW);
+	m_UniformBuffer.bindBlock(UniformBuffer::SPRITE_RENDERER);
 
 	m_VertexArray.Create();
 	m_VertexArray.Bind();
@@ -31,7 +31,7 @@ FE2D::SpriteRendererSystem::SpriteRendererSystem() {
 	m_VertexBuffer.Unbind();
 	m_VertexArray.Unbind();
 
-	m_TextureAtlas.Initialize(TEXTURE_ATLAS_SIZE);
+	m_TextureAtlas.Initialize(FOR_TEXTURE_ATLAS_SIZE);
 }
 
 void FE2D::SpriteRendererSystem::Handle(Entity entity) {
@@ -72,13 +72,13 @@ void FE2D::SpriteRendererSystem::Render() {
 
 	auto group = registry.group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto e : group) {
-		Entity entity{e, m_Scene};
+		Entity entity{ e, m_Scene };
 
 		this->Handle(entity);
 
 		count++;
 
-		if (count == SPRITE_LIMIT) {
+		if (count == FOR_SPRITE_LIMIT) {
 			this->DrawSprites();
 			count = 0;
 		}
@@ -89,34 +89,22 @@ void FE2D::SpriteRendererSystem::Render() {
 }
 
 void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, MousePicker& mouse_picker) {
-	m_EntityHandles.set_capacity(SPRITE_LIMIT);
-
 	size_t count = 0;
 
 	entt::registry& registry = this->m_Scene->getRegistry();
 
 	auto view = registry.group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto e : view) {
-		auto& transform = registry.get<TransformComponent>(e);
-		auto& sprite = registry.get<SpriteComponent>(e);
+		Entity entity = { e, m_Scene };
+		auto& transform = entity.GetComponent<TransformComponent>();
+		auto& sprite = entity.GetComponent<SpriteComponent>();
 
-		mat4 matrix = transform;
-
-		matrix = scale(matrix, vec3(
-			sprite.flip_x ? -1 : 1,  // Flipping X
-			sprite.flip_y ? -1 : 1,  // Flipping Y
-			1));
-
-		Texture& texture = m_ResourceManager->GetResource(sprite.texture);
-
-		matrix = scale(matrix, vec3(texture.getSize(), 1.0f));
-
+		this->Handle(entity);
 		m_EntityHandles.add(vec4(e, e, e, e));
-		m_Matrices.add(matrix);
-
+		
 		count++;
 
-		if (count == SPRITE_LIMIT) {
+		if (count == FOR_SPRITE_LIMIT) {
 			this->DrawPickable(render_context, mouse_picker.getShader(), mouse_picker.getUniformBuffer());
 			count = 0;
 		}
@@ -127,25 +115,33 @@ void FE2D::SpriteRendererSystem::RenderPickable(RenderContext& render_context, M
 }
 
 void FE2D::SpriteRendererSystem::DrawPickable(RenderContext& render_context, Shader& shader, UniformBuffer& ubo) {
-	if (m_Matrices.empty()) return;
+	if (m_Matrices.empty() || m_AtlasOffsets.empty()) return;
 
 	shader.Bind();
 
-	shader.setUniformMat4("u_ViewProj", render_context.getViewProjection());
+	shader.setUniformMat4("u_ViewProj", m_RenderContext->getViewProjection());
 
-	constexpr size_t _matrices = sizeof(mat4) * SPRITE_LIMIT;
-	constexpr size_t _entity_handles = sizeof(vec4) * SPRITE_LIMIT;
+	m_TextureAtlas.bind();
 
-	ubo.bufferSubData(0		   , _matrices		, m_Matrices	 .reference());
-	ubo.bufferSubData(_matrices, _entity_handles, m_EntityHandles.reference());
+	constexpr size_t _atlas			 = sizeof(vec4);
+	constexpr size_t _matrices		 = sizeof(mat4) * FOR_SPRITE_LIMIT;
+	constexpr size_t _offsets		 = sizeof(vec4) * FOR_SPRITE_LIMIT;
+	constexpr size_t _entity_handles = sizeof(vec4) * FOR_SPRITE_LIMIT;
+
+	ubo.bufferSubData(0							   , _atlas			, glm::value_ptr(m_TextureAtlas.getSize()));
+	ubo.bufferSubData(_atlas					   , _matrices		, glm::value_ptr(m_Matrices[0]));
+	ubo.bufferSubData(_atlas + _matrices		   , _offsets		, glm::value_ptr(m_AtlasOffsets[0]));
+	ubo.bufferSubData(_atlas + _matrices + _offsets, _entity_handles, glm::value_ptr(m_EntityHandles[0]));
 
 	m_VertexArray.Bind();
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_Matrices.size());
 	m_VertexArray.Unbind();
 
+	m_TextureAtlas.unbind();
 	shader.Unbind();
 
 	m_Matrices.reset();
+	m_AtlasOffsets.reset();
 	m_EntityHandles.reset();
 }
 
@@ -159,8 +155,8 @@ void FE2D::SpriteRendererSystem::DrawSprites() {
 	m_TextureAtlas.bind();
 
 	constexpr size_t _atlas    = sizeof(vec4);
-	constexpr size_t _matrices = sizeof(mat4) * SPRITE_LIMIT;
-	constexpr size_t _offsets  = sizeof(vec4) * SPRITE_LIMIT;
+	constexpr size_t _matrices = sizeof(mat4) * FOR_SPRITE_LIMIT;
+	constexpr size_t _offsets  = sizeof(vec4) * FOR_SPRITE_LIMIT;
 
 	m_UniformBuffer.bufferSubData(0					, _atlas   , glm::value_ptr(m_TextureAtlas.getSize()));
 	m_UniformBuffer.bufferSubData(_atlas			, _matrices, glm::value_ptr(m_Matrices[0]));

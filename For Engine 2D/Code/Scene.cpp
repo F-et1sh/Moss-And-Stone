@@ -30,6 +30,7 @@ void FE2D::Scene::Initialize(Window& window, RenderContext& render_context, Reso
 	m_ScriptManagerSystem	 = this->CreateSystem<ScriptManagerSystem>();
 	m_HealthSystem			 = this->CreateSystem<HealthSystem>();
 	m_EffectsSystem			 = this->CreateSystem<EffectsSystem>();
+	m_TilemapRendererSystem  = this->CreateSystem<TilemapRendererSystem>();
 }
 
 Entity FE2D::Scene::CreateEntity(const std::string& name) {
@@ -133,6 +134,8 @@ void FE2D::Scene::Update() {
 }
 
 void FE2D::Scene::Render() {
+
+	m_TilemapRendererSystem->Render();
 
 	m_AnimationSystem->Render();
 	m_SpriteRendererSystem->Render();

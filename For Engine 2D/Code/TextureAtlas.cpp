@@ -39,7 +39,7 @@ void FE2D::TextureAtlas::AddTexture(Texture& load_texture) {
 
 	m_LoadedTextures.emplace(&load_texture, m_AtlasOffset);
 
-	recalculate_atlasOffset(load_texture);
+	recalculate_atlas_offset(load_texture);
 }
 
 inline void TextureAtlas::bind() const noexcept { glBindTexture(GL_TEXTURE_2D, m_Reference); }
@@ -69,7 +69,7 @@ void FE2D::TextureAtlas::emplace_texture(Texture& load_texture) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void FE2D::TextureAtlas::recalculate_atlasOffset(Texture& load_texture) {
+void FE2D::TextureAtlas::recalculate_atlas_offset(Texture& load_texture) {
 	const unsigned int width = load_texture.getSize().x;
 	const unsigned int height = load_texture.getSize().y;
 
@@ -77,8 +77,8 @@ void FE2D::TextureAtlas::recalculate_atlasOffset(Texture& load_texture) {
 
 	if (m_AtlasOffset.x + width + padding > m_AtlasSize.x) {
 		m_AtlasOffset.x = 0;
-		m_AtlasOffset.y += maxHeight + padding;
-		maxHeight = 0;
+		m_AtlasOffset.y += m_MaxHeight + padding;
+		m_MaxHeight = 0;
 	}
 
 	if (m_AtlasOffset.y + height + padding > m_AtlasSize.y) {
@@ -89,8 +89,8 @@ void FE2D::TextureAtlas::recalculate_atlasOffset(Texture& load_texture) {
 			"\nPadding : " + std::to_string(padding));
 	}
 
-	if (height > maxHeight)
-		maxHeight = height;
+	if (height > m_MaxHeight)
+		m_MaxHeight = height;
 
 	m_AtlasOffset.x += width + padding;
 }

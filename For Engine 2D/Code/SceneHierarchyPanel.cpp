@@ -152,6 +152,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		DisplayAddComponentEntry<AnimatorComponent>("Animator");
 		DisplayAddComponentEntry<NativeScriptComponent>("Script");
 		DisplayAddComponentEntry<HealthComponent>("Health");
+		DisplayAddComponentEntry<TilemapComponent>("Tilemap Renderer");
 
 		ImGui::EndPopup();
 	}
@@ -189,7 +190,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<SpriteComponent>("Sprite Renderer", entity, [&](auto& component) {
-		m_ImGui->SelectTexture(component.texture);
+		m_ImGui->SelectTexture("Sprite Texture", component.texture);
 
 		auto& texture = m_ImGui->getResourceManager()->GetResource(component.texture);
 		component.frame = vec4(0, 0, texture.getSize());
@@ -805,5 +806,11 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 
 	DrawComponent<E_FreezeComponent>("Effect - Freeze", entity, [&](auto& component) {
 		m_ImGui->DragFloat("Duration", component.duration);
+		});
+
+	DrawComponent<TilemapComponent>("Tilemap Renderer", entity, [&](auto& component) {
+		m_ImGui->SelectTexture("Texture Atlas", component.texture_atlas);
+		m_ImGui->DragVector2I("Grid Size", component.width, component.height);
+		m_ImGui->DrawTilemapGrid(entity);
 		});
 }

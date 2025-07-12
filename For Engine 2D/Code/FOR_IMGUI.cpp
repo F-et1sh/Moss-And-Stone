@@ -221,11 +221,59 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
     ImGui::PopID();
 }
 
-void FE2D::IMGUI::SelectTexture(ResourceID<Texture>& id) {
-    const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
+void FE2D::IMGUI::DragVector2I(const std::string& label, int& width, int& height, float resetValue, float columnWidth) {
+    ImGui::PushID(label.c_str());
+    ImGui::Columns(2);
+    ImGui::SetColumnWidth(0, columnWidth);
+    ImGui::Text(label.c_str());
+    ImGui::NextColumn();
+
+    float line_height = ImGui::GetFontSize() + ImGui::GetStyle().FramePadding.y * 2;
+    ImVec2 button_size = ImVec2(line_height + 3.0f, line_height);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+
+    {
+        if (ImGui::Button("X", button_size))
+            width = resetValue;
+        ImGui::SameLine();
+        ImGui::DragInt("##X", &width, 0.5f);
+    }
+    {
+        if (ImGui::Button("Y", button_size))
+            height = resetValue;
+        ImGui::SameLine();
+        ImGui::DragInt("##Y", &height, 0.5f);
+    }
+
+    ImGui::PopStyleVar();
+
+    ImGui::Columns(1);
+    ImGui::PopID();
+}
+
+void FE2D::IMGUI::SelectTexture(const std::string& label, ResourceID<Texture>& id) {
+    ImGui::Button((label + "##TEXTURE_SELECTION").c_str());
 
     constexpr ImVec2 texture_size = ImVec2(100, 100);
     constexpr float padding = 10.0f;
+    
+    {
+        Texture& texture = m_ResourceManager->GetResource(id);
+
+        ImVec2 button_size = ImVec2(
+            texture_size.x * (float(texture.getSize().x) / texture.getSize().y),
+            texture_size.y
+        );
+
+        ImGui::Separator();
+     
+        ImGui::Image(texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0));
+
+        ImGui::Separator();
+    }
+
+    const auto& resource_array = m_ResourceManager->getCache().get_resource_array();
 
     FE2D::UUID selected_uuid = id.uuid;
 
@@ -252,11 +300,6 @@ void FE2D::IMGUI::SelectTexture(ResourceID<Texture>& id) {
 
             ImGui::PushID(texture);
 
-            ImVec2 button_size = ImVec2(
-                texture_size.x * (float(texture->getSize().x) / texture->getSize().y),
-                texture_size.y
-            );
-
             static constexpr ImVec4 selected_bg_color = ImVec4(0, 1, 1, 0.5);
             static constexpr ImVec4 selected_tint_color = ImVec4(0, 0.5, 0.5, 1);
 
@@ -267,6 +310,11 @@ void FE2D::IMGUI::SelectTexture(ResourceID<Texture>& id) {
                 bg_color = selected_bg_color;
                 tint_color = selected_tint_color;
             }
+
+            ImVec2 button_size = ImVec2(
+                texture_size.x * (float(texture->getSize().x) / texture->getSize().y),
+                texture_size.y
+            );
 
             if (ImGui::ImageButton("##Texture", texture->reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color))
                 selected_uuid = uuid;
@@ -320,8 +368,7 @@ void FE2D::IMGUI::SelectAnimation(ResourceID<Animation>& id) {
                 std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower);
                 std::transform(search_lower.begin(), search_lower.end(), search_lower.begin(), ::tolower);
 
-                if (name_lower.find(search_lower) == std::string::npos)
-                    continue;
+                if (name_lower.find(search_lower) == std::string::npos) continue;
             }
 
             ResourceID<Texture> tex_id = animation->getTexture(*m_ResourceManager);
@@ -449,27 +496,55 @@ void FE2D::IMGUI::DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size) {
 }
 
 void FE2D::IMGUI::DrawCollider(Entity entity) {
+    if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<PhysicsComponent>()) return;
+
     auto& transform = entity.GetComponent<TransformComponent>();
     auto& physics = entity.GetComponent<PhysicsComponent>();
 
     mat4 matrix = entity.GetGlobalTransform();
     matrix = translate(matrix, vec3(physics.position, 0));
 
-    vec2 pos = this->GetWorldPosition(matrix);
+    constexpr ImU32 rect_color = IM_COL32(20, 240, 40, 100);
 
-    static constexpr float factor = 0.703f;
-    vec2 size = physics.size * m_RenderContext->getCamera()->getZoom() * factor;
+    vec2 top_left_world     = GetWorldPosition(matrix * translate(mat4(1.0f), vec3(-physics.size * vec2(0.5f, 0.5f), 0.0f)));
+    vec2 bottom_right_world = GetWorldPosition(matrix * translate(mat4(1.0f), vec3( physics.size * vec2(0.5f, 0.5f), 0.0f)));
 
-    ImVec2 rect_min(pos.x - (size.x / 2), pos.y - (size.y / 2));
-    ImVec2 rect_max(pos.x + (size.x / 2), pos.y + (size.y / 2));
+    ImVec2 rect_min(top_left_world.x, top_left_world.y);
+    ImVec2 rect_max(bottom_right_world.x, bottom_right_world.y);
 
     std::swap(rect_min.y, rect_max.y);
 
-    constexpr ImU32 rect_color = IM_COL32(20, 240, 40, 100);
+    auto draw = this->GetPreviewWindowDrawList();
+    draw->AddRectFilled(rect_min, rect_max, rect_color);
+}
+
+void FE2D::IMGUI::DrawTilemapGrid(Entity entity) {
+    if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<TilemapComponent>()) return;
+
+    auto& transform = entity.GetComponent<TransformComponent>();
+    auto& tilemap = entity.GetComponent<TilemapComponent>();
+
+    mat4 matrix = entity.GetGlobalTransform();
+
+    constexpr vec2 default_cell_size = vec2(16.0f, 16.0f);
+    constexpr ImColor cell_color = IM_COL32(80, 80, 80, 255);
 
     auto draw = this->GetPreviewWindowDrawList();
 
-    draw->AddRectFilled(rect_min, rect_max, rect_color);
+    for (int x = 0; x < tilemap.width; x++) {
+        for (int y = 0; y < tilemap.height; y++) {
+            vec2 offset = vec2(x, y) * default_cell_size;
+            mat4 cell_matrix = matrix * translate(mat4(1.0f), vec3(offset, 0.0f));
+
+            vec2 top_left     = GetWorldPosition(cell_matrix * translate(mat4(1.0f), vec3(-default_cell_size * 0.5f, 0.0f)));
+            vec2 bottom_right = GetWorldPosition(cell_matrix * translate(mat4(1.0f), vec3( default_cell_size * 0.5f, 0.0f)));
+
+            ImVec2 rect_min(top_left.x, top_left.y);
+            ImVec2 rect_max(bottom_right.x, bottom_right.y);
+
+            draw->AddRect(rect_min, rect_max, cell_color);
+        }
+    }
 }
 
 vec2 FE2D::IMGUI::GetWorldPosition(const mat4& matrix) {
@@ -597,7 +672,7 @@ void IMGUI::TransformControl(Entity entity) {
             m_IsDraggingY = true;
         }
     }
-    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRect(rect_start, rect_size, rect_color, m_IsDraggingRect, draw)) {
+    if (!m_IsDraggingX && !m_IsDraggingY && DrawGizmoRectangle(rect_start, rect_size, rect_color, m_IsDraggingRect, draw)) {
         vec2 delta = vec2(ImGui::GetIO().MouseDelta.x, -ImGui::GetIO().MouseDelta.y);
 
         if (ImGui::GetIO().KeyCtrl) {
@@ -625,11 +700,11 @@ bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, int te
     strncpy_s(buffer, sizeof(buffer), value.c_str(), sizeof(buffer));
 
     ImGui::PushID(label.c_str());
-    
+
     ImGui::Text(label.c_str());
 
     ImGui::SameLine();
-    
+
     bool changed = false;
 
     ImGui::PushItemWidth(text_width);
@@ -645,17 +720,20 @@ bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, int te
     ImGui::PopID();
 
     return changed;
-}   
+}
 
-bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw) {
+#undef min
+#undef max
+
+bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw, bool is_filled) {
     ImGuiIO& io = ImGui::GetIO();
 
     ImVec2 point_a(from.x, from.y);
     ImVec2 point_b(to.x, to.y);
 
     constexpr float thickness = 2.0f;
-    ImVec2 minBB(min(point_a.x, point_b.x) - thickness, min(point_a.y, point_b.y) - thickness);
-    ImVec2 maxBB(max(point_a.x, point_b.x) + thickness, max(point_a.y, point_b.y) + thickness);
+    ImVec2 minBB(std::min(point_a.x, point_b.x) - thickness, std::min(point_a.y, point_b.y) - thickness);
+    ImVec2 maxBB(std::max(point_a.x, point_b.x) + thickness, std::max(point_a.y, point_b.y) + thickness);
 
     bool hovered = ImGui::IsMouseHoveringRect(minBB, maxBB, false);
     if (hovered) m_IsAnyGizmoHovered = true;
@@ -681,15 +759,14 @@ bool IMGUI::DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, 
     
     ImVec2 tip1 = ImVec2(point_b.x - dir.x * size + perp.x * size * 0.5f, point_b.y - dir.y * size + perp.y * size * 0.5f);
     ImVec2 tip2 = ImVec2(point_b.x - dir.x * size - perp.x * size * 0.5f, point_b.y - dir.y * size - perp.y * size * 0.5f);
-    draw->AddTriangleFilled(point_b, tip1, tip2, arrow_color);
+    is_filled ? draw->AddTriangleFilled(point_b, tip1, tip2, arrow_color) : draw->AddTriangle(point_b, tip1, tip2, arrow_color);
     
-    if (is_dragging)
-        return true;
+    if (is_dragging) return true;
 
     return held;
 }
 
-bool IMGUI::DrawGizmoRect(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw) {
+bool IMGUI::DrawGizmoRectangle(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw, bool is_filled) {
     ImGuiIO& io = ImGui::GetIO();
 
     ImVec2 rect_min(position.x, position.y);
@@ -714,10 +791,9 @@ bool IMGUI::DrawGizmoRect(const vec2& position, const vec2& size, const vec4& co
     else if (hovered) rect_color = hover_color;
     else              rect_color = base_color;
 
-    draw->AddRectFilled(rect_min, rect_max, rect_color);
+    is_filled ? draw->AddRectFilled(rect_min, rect_max, rect_color) : draw->AddRect(rect_min, rect_max, rect_color);
 
-    if (is_dragging)
-        return true;
+    if (is_dragging) return true;
 
     return held;
 }

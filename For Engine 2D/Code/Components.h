@@ -5,6 +5,8 @@
 #include "AnimationStateNodes.h"
 
 namespace FE2D {
+    /* start of components */
+    
     struct FOR_API IDComponent {
         FE2D::UUID id;
 
@@ -254,9 +256,30 @@ namespace FE2D {
         HealthComponent(const HealthComponent&) = default;
     };
 
+    struct FOR_API TilemapComponent {
+        int width  = 10;
+        int height = 10;
+        
+        std::vector<uint8_t> world_tiles;
+
+        // tile texture index | atlas offset
+        std::unordered_map<uint8_t, vec2> texture_frames;
+        ResourceID<Texture> texture_atlas;
+
+        TilemapComponent() = default;
+        ~TilemapComponent() = default;
+        TilemapComponent(const TilemapComponent&) = default;
+    };
+
+    /* end of components */
+
+    //
+
+    /* start of effects */
+
     // Pattern of effect naming : E_NameComponent
     // E - Effect
-    // Effects are serialized and edited like other components
+    // Effects are components, which handling by EffectsSystem
 
     struct FOR_API E_DamageComponent {
         int damage = 0;
@@ -278,6 +301,12 @@ namespace FE2D {
         E_FreezeComponent(const E_FreezeComponent&) = default;
     };
 
+    /* end of effects */
+
+    //
+
+    /* start of component traits */
+
     template<typename... Components>
     struct FOR_API ComponentGroup 
     {
@@ -294,6 +323,7 @@ namespace FE2D {
         AnimatorComponent,
         NativeScriptComponent,
         HealthComponent,
+        TilemapComponent,
         E_DamageComponent,
         E_FreezeComponent>;
 
@@ -320,4 +350,6 @@ namespace FE2D {
 
     using FOR_COMPONENTS_HELPER = ComponentsHelper<AllComponentsGroup>;
     using ComponentsVariant = FOR_COMPONENTS_HELPER::variant;
+
+    /* end of component traits */
 }

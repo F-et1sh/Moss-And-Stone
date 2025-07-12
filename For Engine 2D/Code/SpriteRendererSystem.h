@@ -10,8 +10,8 @@
 #include "Components.h"
 
 namespace FE2D {
-	static constexpr size_t SPRITE_LIMIT = 256; // Limit of Sprites per one drawcall
-	static constexpr vec2 TEXTURE_ATLAS_SIZE = vec2(4096*3, 4096*3); // Initial Size of Texture Atlas. HARDCODED, DO NOT TOUCH IT YET
+	static constexpr size_t FOR_SPRITE_LIMIT = 256; // Limit of Sprites per one drawcall
+	static constexpr vec2 FOR_TEXTURE_ATLAS_SIZE = vec2(4096*3, 4096*3); // Initial Size of Texture Atlas. HARDCODED, DO NOT TOUCH IT YET
 }
 
 namespace FE2D {
@@ -42,8 +42,8 @@ namespace FE2D {
 		VertexArray m_VertexArray;
 		VertexBuffer m_VertexBuffer;
 	private:
-		FE2D::dynamic_array<mat4, SPRITE_LIMIT> m_Matrices;
-		FE2D::dynamic_array<vec4, SPRITE_LIMIT> m_AtlasOffsets;
+		FE2D::dynamic_array<mat4, FOR_SPRITE_LIMIT> m_Matrices;
+		FE2D::dynamic_array<vec4, FOR_SPRITE_LIMIT> m_AtlasOffsets;
 
 	private:
 		FE2D::dynamic_array<vec4> m_EntityHandles;

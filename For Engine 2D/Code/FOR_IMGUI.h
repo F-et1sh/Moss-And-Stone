@@ -39,14 +39,16 @@ namespace FE2D {
 		void DragInt(const std::string& label, int& value, float columnWidth = 100.0f);
 		void DragFloat(const std::string& label, float& value, float columnWidth = 100.0f);
 		void DragVector2(const std::string& label, vec2& values, float resetValue = 0.0f, float columnWidth = 100.0f);
+		void DragVector2I(const std::string& label, int& width, int& height, float resetValue = 0.0f, float columnWidth = 100.0f);
 
-		void SelectTexture(ResourceID<Texture>& id);
+		void SelectTexture(const std::string& label, ResourceID<Texture>& id);
 		void SelectAnimation(ResourceID<Animation>& id);
 		void SelectPrefab(ResourceID<Prefab>& id);
 		void SelectLayer(const std::string& label, uint8_t& layer);
 
 		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
 		void DrawCollider(Entity entity);
+		void DrawTilemapGrid(Entity entity);
 
 		void TransformControl(Entity entity);
 
@@ -107,8 +109,8 @@ namespace FE2D {
 		bool IsAnyTransformGizmoDragging()const noexcept { return m_IsDraggingX || m_IsDraggingY || m_IsDraggingRect; }
 		bool IsAnyColliderGizmoDragging()const noexcept { return m_IsDraggingColliderLeft || m_IsDraggingColliderRight || m_IsDraggingColliderTop || m_IsDraggingColliderBottom; }
 
-		bool DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
-		bool DrawGizmoRect(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList());
+		bool DrawGizmoArrow(const vec2& from, const vec2& to, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList(), bool is_filled = true);
+		bool DrawGizmoRectangle(const vec2& position, const vec2& size, const vec4& color, bool is_dragging, ImDrawList* draw = ImGui::GetForegroundDrawList(), bool is_filled = true);
 
 		static vec2 extractScale(const glm::mat4& matrix);
 		static vec2 extractPosition(const glm::mat4& matrix);

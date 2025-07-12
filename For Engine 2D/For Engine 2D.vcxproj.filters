@@ -343,23 +343,26 @@
     <Filter Include="Code\Scene Management\Scene Hierarchy Panel">
       <UniqueIdentifier>{f28fe58e-19e9-49bd-a53a-80e0b73943aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\ECS\System\Health">
+      <UniqueIdentifier>{46b930ec-15df-49c3-bd81-7bb1899dd121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\System\Effects">
+      <UniqueIdentifier>{9bcf401e-a612-4cae-8f13-75788a83f0df}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Code\Application\Project Variables">
       <UniqueIdentifier>{22677742-f79b-4dcb-886c-8d0077b1cbb8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Application\Project Variables\Variables">
       <UniqueIdentifier>{173f202e-5800-4a06-a46e-c976ca96e209}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Application\Project Variables\Variables\Physics Layer">
-      <UniqueIdentifier>{4668a3ff-340e-4f9b-a318-8d8abaa0288b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Application\Project Variables\Variables\Project Variable %28 inherit %29">
       <UniqueIdentifier>{ae764b46-9703-4fb5-a0d9-37cda3587768}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Health">
-      <UniqueIdentifier>{46b930ec-15df-49c3-bd81-7bb1899dd121}</UniqueIdentifier>
+    <Filter Include="Code\Application\Project Variables\Variables\Physics Layers Manager">
+      <UniqueIdentifier>{4668a3ff-340e-4f9b-a318-8d8abaa0288b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Effects">
-      <UniqueIdentifier>{9bcf401e-a612-4cae-8f13-75788a83f0df}</UniqueIdentifier>
+    <Filter Include="Code\ECS\System\Tilemap">
+      <UniqueIdentifier>{f2e8cc31-1287-4f59-80ff-0ff278e5fb8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -607,7 +610,7 @@
       <Filter>Code\ECS\Scripting\Scripts\Weapons\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Code\PV_PhysicsLayers.cpp">
-      <Filter>Code\Application\Project Variables\Variables\Physics Layer</Filter>
+      <Filter>Code\Application\Project Variables\Variables\Physics Layers Manager</Filter>
     </ClCompile>
     <ClCompile Include="Code\ProjectVariables.cpp">
       <Filter>Code\Application\Project Variables</Filter>
@@ -620,6 +623,9 @@
     </ClCompile>
     <ClCompile Include="Code\EffectsSystem.cpp">
       <Filter>Code\ECS\System\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\TilemapRendererSystem.cpp">
+      <Filter>Code\ECS\System\Tilemap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -894,7 +900,7 @@
       <Filter>Code\ECS\Scripting\Scripts\Weapons\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Code\PV_PhysicsLayers.h">
-      <Filter>Code\Application\Project Variables\Variables\Physics Layer</Filter>
+      <Filter>Code\Application\Project Variables\Variables\Physics Layers Manager</Filter>
     </ClInclude>
     <ClInclude Include="Code\ProjectVariables.h">
       <Filter>Code\Application\Project Variables</Filter>
@@ -907,6 +913,9 @@
     </ClInclude>
     <ClInclude Include="Code\EffectsSystem.h">
       <Filter>Code\ECS\System\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\TilemapRendererSystem.h">
+      <Filter>Code\ECS\System\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

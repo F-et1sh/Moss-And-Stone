@@ -85,13 +85,15 @@ inline void FE2D::MousePicker::Initialize(const vec2& resolution) noexcept {
 
     m_Shader.Initialize(FOR_PATH.get_shaders_path() / L"Picker Default" / L"PickerDefault");
     m_UniformBuffer.create();
-    m_UniformBuffer.bindBlock(0);
+    m_UniformBuffer.bindBlock(UniformBuffer::MOUSE_PICKER);
 
-    constexpr size_t entity_count = 256;
-    constexpr size_t matrix_size = sizeof(mat4);
-    constexpr size_t entity_hanle = sizeof(vec4); // use vec4 instead of just int because of alignas of std140
+    constexpr size_t entity_count        = 256;
+    constexpr size_t texture_atlas_size  = sizeof(vec4);
+    constexpr size_t texture_coords_size = sizeof(vec4);
+    constexpr size_t matrix_size         = sizeof(mat4);
+    constexpr size_t entity_hanle        = sizeof(vec4); // use vec4 instead of just int because of alignas of std140
 
-    m_UniformBuffer.bufferData(entity_count * (matrix_size + entity_hanle), nullptr, GL_DYNAMIC_DRAW);
+    m_UniformBuffer.bufferData(texture_atlas_size + entity_count * (matrix_size + texture_coords_size + entity_hanle), nullptr, GL_DYNAMIC_DRAW);
 }
 
 inline void FE2D::MousePicker::Bind() const noexcept {
