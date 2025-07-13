@@ -20,9 +20,7 @@ namespace FE2D {
 
         inline void rename(uint8_t id, const std::string& new_name) { m_Layers[id].name = new_name; }
 
-        std::string_view get_name_by_mask(uint8_t id) const {
-            return m_Layers[id].name;
-        }
+        inline std::string_view get_name_by_mask(uint8_t id) const { return m_Layers[id].name; }
 
         inline void setCollision(uint8_t a, uint8_t b, bool on) {
             if (on) {

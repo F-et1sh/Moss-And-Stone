@@ -194,11 +194,8 @@ void FE2D::EditorApplication::OnImGuiRender() {
 
 	if (m_IsLayerWindowOpen) {
 		if (ImGui::Begin("Layers", &m_IsLayerWindowOpen)) {
-
-			constexpr static int count = physics_layers.FOR_PHYSICS_LAYERS_COUNT;
-
 			std::vector<int> named;
-			for (int i = 0; i < count; i++)
+			for (int i = 0; i < physics_layers.FOR_PHYSICS_LAYERS_COUNT; i++)
 				if (!layers[i].name.empty())
 					named.push_back(i);
 

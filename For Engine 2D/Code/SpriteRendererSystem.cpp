@@ -57,10 +57,7 @@ void FE2D::SpriteRendererSystem::Handle(Entity entity) {
 	matrix = scale(matrix, vec3(sprite.frame.z, sprite.frame.w, 1.0f));
 	m_Matrices.add(matrix);
 
-	vec4 atlas_offset = vec4(m_TextureAtlas.getTextureCoords(&texture) + vec2(sprite.frame.x, sprite.frame.y), frame_size);
-
-	atlas_offset = vec4(static_cast<int>(atlas_offset.x), static_cast<int>(atlas_offset.y),
-						static_cast<int>(atlas_offset.z), static_cast<int>(atlas_offset.w));
+	ivec4 atlas_offset = vec4(m_TextureAtlas.getTextureCoords(&texture) + vec2(sprite.frame.x, sprite.frame.y), frame_size);
 
 	m_AtlasOffsets.add(atlas_offset);
 }

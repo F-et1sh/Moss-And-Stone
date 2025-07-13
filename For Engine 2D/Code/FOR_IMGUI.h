@@ -39,6 +39,7 @@ namespace FE2D {
 		void DragInt(const std::string& label, int& value, float columnWidth = 100.0f);
 		void DragFloat(const std::string& label, float& value, float columnWidth = 100.0f);
 		void DragVector2(const std::string& label, vec2& values, float resetValue = 0.0f, float columnWidth = 100.0f);
+		void DragVector2I(const std::string& label, ivec2& values, float resetValue = 0.0f, float columnWidth = 100.0f);
 		void DragVector2_U64(const std::string& label, size_t& width, size_t& height, float resetValue = 0.0f, float columnWidth = 100.0f);
 
 		void SelectTexture(const std::string& label, ResourceID<Texture>& id);
@@ -48,7 +49,7 @@ namespace FE2D {
 
 		void DrawAnimation(ResourceID<Animation> id, ImVec2 sprite_size = ImVec2(100, 100));
 		void DrawCollider(Entity entity);
-		void DrawTexture(ResourceID<Texture> id, ImVec2 sprite_size = ImVec2(100, 100));
+		void DrawTexture(ResourceID<Texture> id, ImVec2 sprite_size = ImVec2(100, 100), ImVec2 uv0 = ImVec2(0, 1), ImVec2 uv1 = ImVec2(1, 0));
 
 		void TransformControl(Entity entity);
 		void TilemapControl(Entity entity);

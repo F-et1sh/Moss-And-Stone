@@ -2,7 +2,64 @@
     "Entities": [
         {
             "IDComponent": {
-                "id": "4361471940168107619"
+                "id": "12300071225769281369"
+            },
+            "RelationshipComponent": {
+                "children": [],
+                "parent": 0
+            },
+            "TagComponent": {
+                "tag": "Tilemap"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    64.0,
+                    64.0
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "HealthComponent": {
+                "current_health": 20,
+                "is_dead": false,
+                "max_health": 20
+            },
+            "IDComponent": {
+                "id": "6108926234610388922"
+            },
+            "NativeScriptComponent": {
+                "script_data": {
+                    "health": "6108926234610388922",
+                    "player": "6792913373566533148",
+                    "speed": 20.0
+                },
+                "script_name": "Enemy"
+            },
+            "PhysicsComponent": {
+                "bounce_factor": 0.0,
+                "is_static": false,
+                "is_trigger": false,
+                "layer": 2,
+                "mass": 1.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    19.5,
+                    15.5
+                ]
             },
             "RelationshipComponent": {
                 "children": [],
@@ -14,13 +71,13 @@
                 "frame": [
                     0.0,
                     0.0,
-                    16.0,
-                    16.0
+                    20.0,
+                    14.0
                 ],
-                "texture": "11974836725074382672"
+                "texture": "10481742720340127963"
             },
             "TagComponent": {
-                "tag": "A few tiles"
+                "tag": "Enemy"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -30,12 +87,12 @@
                     0.0
                 ],
                 "position": [
-                    0.0,
-                    0.0
+                    24.641212463378906,
+                    14.945536613464355
                 ],
                 "rotation": 0.0,
                 "scale": [
-                    1.0,
+                    -1.0,
                     1.0
                 ]
             }
@@ -43,133 +100,7 @@
         {
             "AnimatorComponent": {
                 "current_state": 0,
-                "current_time": 4637.5546875,
-                "parameters": [
-                    {
-                        "first": "DirectionX",
-                        "second.value": 62.0
-                    },
-                    {
-                        "first": "DirectionY",
-                        "second.value": 468.0
-                    }
-                ],
-                "states": [
-                    {
-                        "animation_points": [
-                            {
-                                "animation": "6381951605241949636",
-                                "direction": [
-                                    0.0,
-                                    1.0
-                                ]
-                            },
-                            {
-                                "animation": "586694841512290349",
-                                "direction": [
-                                    0.0,
-                                    -1.0
-                                ]
-                            },
-                            {
-                                "animation": "11039116287368755249",
-                                "direction": [
-                                    0.7071067690849304,
-                                    0.7071067690849304
-                                ]
-                            },
-                            {
-                                "animation": "2065295205648881081",
-                                "direction": [
-                                    0.7071068286895752,
-                                    -0.7071068286895752
-                                ]
-                            }
-                        ],
-                        "looping": true,
-                        "name": "Walk",
-                        "parameter_name_x": "DirectionX",
-                        "parameter_name_y": "DirectionY",
-                        "type": "BlendTree"
-                    }
-                ],
-                "transitions": []
-            },
-            "CameraComponent": {
-                "clear_color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "IDComponent": {
-                "id": "6792913373566533148"
-            },
-            "NativeScriptComponent": {
-                "script_data": {
-                    "bullet": "1374184077757935361",
-                    "shotgun": "8266231953880164252"
-                },
-                "script_name": "PlayerController"
-            },
-            "PhysicsComponent": {
-                "bounce_factor": 0.0,
-                "is_static": false,
-                "is_trigger": false,
-                "layer": 0,
-                "mass": 1.0,
-                "position": [
-                    0.0,
-                    -9.5
-                ],
-                "size": [
-                    6.0,
-                    5.5
-                ]
-            },
-            "RelationshipComponent": {
-                "children": [
-                    8266231953880164252
-                ],
-                "parent": 0
-            },
-            "SpriteComponent": {
-                "flip_x": false,
-                "flip_y": false,
-                "frame": [
-                    7.0,
-                    0.0,
-                    7.0,
-                    26.0
-                ],
-                "texture": "201749409655308652"
-            },
-            "TagComponent": {
-                "tag": "Artem"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    -39.33189010620117,
-                    35.64793014526367
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "AnimatorComponent": {
-                "current_state": 0,
-                "current_time": 452.5610656738281,
+                "current_time": 555.47216796875,
                 "parameters": [
                     {
                         "first": "IsShooting",
@@ -302,36 +233,134 @@
             }
         },
         {
-            "HealthComponent": {
-                "current_health": 20,
-                "is_dead": false,
-                "max_health": 20
+            "AnimatorComponent": {
+                "current_state": 0,
+                "current_time": 4740.08984375,
+                "parameters": [
+                    {
+                        "first": "DirectionX",
+                        "second.value": 62.0
+                    },
+                    {
+                        "first": "DirectionY",
+                        "second.value": 468.0
+                    }
+                ],
+                "states": [
+                    {
+                        "animation_points": [
+                            {
+                                "animation": "6381951605241949636",
+                                "direction": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            {
+                                "animation": "586694841512290349",
+                                "direction": [
+                                    0.0,
+                                    -1.0
+                                ]
+                            },
+                            {
+                                "animation": "11039116287368755249",
+                                "direction": [
+                                    0.7071067690849304,
+                                    0.7071067690849304
+                                ]
+                            },
+                            {
+                                "animation": "2065295205648881081",
+                                "direction": [
+                                    0.7071068286895752,
+                                    -0.7071068286895752
+                                ]
+                            }
+                        ],
+                        "looping": true,
+                        "name": "Walk",
+                        "parameter_name_x": "DirectionX",
+                        "parameter_name_y": "DirectionY",
+                        "type": "BlendTree"
+                    }
+                ],
+                "transitions": []
+            },
+            "CameraComponent": {
+                "clear_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
             },
             "IDComponent": {
-                "id": "6108926234610388922"
+                "id": "6792913373566533148"
             },
             "NativeScriptComponent": {
                 "script_data": {
-                    "health": "6108926234610388922",
-                    "player": "6792913373566533148",
-                    "speed": 20.0
+                    "bullet": "1374184077757935361",
+                    "shotgun": "8266231953880164252"
                 },
-                "script_name": "Enemy"
+                "script_name": "PlayerController"
             },
             "PhysicsComponent": {
                 "bounce_factor": 0.0,
                 "is_static": false,
                 "is_trigger": false,
-                "layer": 2,
+                "layer": 0,
                 "mass": 1.0,
                 "position": [
                     0.0,
-                    0.0
+                    -9.5
                 ],
                 "size": [
-                    19.5,
-                    15.5
+                    6.0,
+                    5.5
                 ]
+            },
+            "RelationshipComponent": {
+                "children": [
+                    8266231953880164252
+                ],
+                "parent": 0
+            },
+            "SpriteComponent": {
+                "flip_x": false,
+                "flip_y": false,
+                "frame": [
+                    0.0,
+                    0.0,
+                    7.0,
+                    26.0
+                ],
+                "texture": "201749409655308652"
+            },
+            "TagComponent": {
+                "tag": "Artem"
+            },
+            "TransformComponent": {
+                "auto_sort": false,
+                "layer": 0,
+                "origin": [
+                    0.0,
+                    0.0
+                ],
+                "position": [
+                    -39.33189010620117,
+                    35.64793014526367
+                ],
+                "rotation": 0.0,
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "IDComponent": {
+                "id": "4361471940168107619"
             },
             "RelationshipComponent": {
                 "children": [],
@@ -343,42 +372,13 @@
                 "frame": [
                     0.0,
                     0.0,
-                    20.0,
-                    14.0
+                    16.0,
+                    16.0
                 ],
-                "texture": "10481742720340127963"
+                "texture": "11974836725074382672"
             },
             "TagComponent": {
-                "tag": "Enemy"
-            },
-            "TransformComponent": {
-                "auto_sort": false,
-                "layer": 0,
-                "origin": [
-                    0.0,
-                    0.0
-                ],
-                "position": [
-                    24.641212463378906,
-                    14.945536613464355
-                ],
-                "rotation": 0.0,
-                "scale": [
-                    -1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "IDComponent": {
-                "id": "12300071225769281369"
-            },
-            "RelationshipComponent": {
-                "children": [],
-                "parent": 0
-            },
-            "TagComponent": {
-                "tag": "Tilemap"
+                "tag": "A few tiles"
             },
             "TransformComponent": {
                 "auto_sort": false,
@@ -389,7 +389,7 @@
                 ],
                 "position": [
                     0.0,
-                    -21.184892654418945
+                    0.0
                 ],
                 "rotation": 0.0,
                 "scale": [

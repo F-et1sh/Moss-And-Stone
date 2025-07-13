@@ -224,6 +224,37 @@ void FE2D::IMGUI::DragVector2(const std::string& label, vec2& values, float rese
     ImGui::PopID();
 }
 
+void FE2D::IMGUI::DragVector2I(const std::string& label, ivec2& values, float resetValue, float columnWidth) {
+    ImGui::PushID(label.c_str());
+    ImGui::Columns(2);
+    ImGui::SetColumnWidth(0, columnWidth);
+    ImGui::Text(label.c_str());
+    ImGui::NextColumn();
+
+    float line_height = ImGui::GetFontSize() + ImGui::GetStyle().FramePadding.y * 2;
+    ImVec2 button_size = ImVec2(line_height + 3.0f, line_height);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+
+    {
+        if (ImGui::Button("X", button_size))
+            values.x = resetValue;
+        ImGui::SameLine();
+        ImGui::DragInt("##X", &values.x, 0.5f);
+    }
+    {
+        if (ImGui::Button("Y", button_size))
+            values.y = resetValue;
+        ImGui::SameLine();
+        ImGui::DragInt("##Y", &values.y, 0.5f);
+    }
+
+    ImGui::PopStyleVar();
+
+    ImGui::Columns(1);
+    ImGui::PopID();
+}
+
 void FE2D::IMGUI::DragVector2_U64(const std::string& label, size_t& width, size_t& height, float resetValue, float columnWidth) {
     ImGui::PushID(label.c_str());
     ImGui::Columns(2);
@@ -506,13 +537,13 @@ void FE2D::IMGUI::DrawCollider(Entity entity) {
     draw->AddRectFilled(rect_min, rect_max, rect_color);
 }
 
-void FE2D::IMGUI::DrawTexture(ResourceID<Texture> id, ImVec2 sprite_size) {
+void FE2D::IMGUI::DrawTexture(ResourceID<Texture> id, ImVec2 sprite_size, ImVec2 uv0, ImVec2 uv1) {
     Texture& texture = m_ResourceManager->GetResource(id);
     ImVec2 button_size = ImVec2(
         sprite_size.x * (float(texture.getSize().x) / texture.getSize().y),
         sprite_size.y
     );
-    ImGui::Image(texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0));
+    ImGui::Image(texture.reference(), button_size, uv0, uv1);
 }
 
 vec2 FE2D::IMGUI::GetWorldPosition(const mat4& matrix) {
@@ -665,63 +696,127 @@ void IMGUI::TransformControl(Entity entity) {
 void FE2D::IMGUI::TilemapControl(Entity entity) {
     if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<TilemapComponent>()) return;
 
-    static ResourceID<Texture> adding_texture;
-    static uint8_t texture_id_in_vector = 0;
-    static FE2D::UUID last_entity_uuid = entity.GetUUID();
-
-    if (entity.GetUUID() != last_entity_uuid) {
-        texture_id_in_vector = 0;
-        adding_texture = {};
-        last_entity_uuid = entity.GetUUID();
-    }
-
     auto& transform = entity.GetComponent<TransformComponent>();
     auto& tilemap = entity.GetComponent<TilemapComponent>();
 
-    if (tilemap.tiles.size() < tilemap.width * tilemap.height)
-        tilemap.tiles.resize(tilemap.width * tilemap.height);
+    static FE2D::UUID last_entity = entity.GetUUID();
+    static ResourceID<Texture> selected_texture;
+    static uint8_t selected_tile;
 
-    this->SelectTexture("Tile Texture", adding_texture);
-    ImGui::Separator();
-    this->DrawTexture(adding_texture);
-    ImGui::Separator();
+    if (last_entity != entity.GetUUID()) {
+        selected_texture = {};
+        selected_tile = 0;
 
-    if (ImGui::Button("Add Texture") && tilemap.textures.size() < 256) {
-        tilemap.textures.emplace_back(adding_texture);
-    }
-    else if (tilemap.textures.size() >= 256) {
-        FOR_RUNTIME_ERROR("Failed to add a texture to tilemap\nToo many textures");
+        last_entity = entity.GetUUID();
     }
 
-    int to_delete = -1;
-    for (uint8_t i = 0; i < tilemap.textures.size(); i++) {
-        Texture& texture = m_ResourceManager->GetResource(tilemap.textures[i]);
-        constexpr vec2 sprite_size = vec2(100, 100);
+    this->SelectTexture("Texture to create a tile", selected_texture);
+    this->DrawTexture(selected_texture);
 
-        ImVec2 button_size = ImVec2(
-            sprite_size.x * (float(texture.getSize().x) / texture.getSize().y),
-            sprite_size.y
-        );
+    if (ImGui::Button("Add 15-piece tileset")) {
+        TilemapComponent::TileType type;
+        type.mask = 1ull << tilemap.tile_types.size();
+        type.texture_atlas = selected_texture;
+        tilemap.tile_types.emplace_back(type);
 
-        static constexpr ImVec4 selected_bg_color = ImVec4(0, 1, 1, 0.5);
-        static constexpr ImVec4 selected_tint_color = ImVec4(0, 0.5, 0.5, 1);
+        for (int x = 0; x < 64; x += 16) {
+            for (int y = 0; y < 64; y += 16) {
+                TilemapComponent::TileInfo tile_info;
+                tile_info.frame = ivec4(x, y, 16, 16);
+                tile_info.type = tilemap.tile_types.size() - 1;
 
-        ImVec4 bg_color = ImVec4(0, 0, 0, 0);
-        ImVec4 tint_color = ImVec4(1, 1, 1, 1);
+                tilemap.tile_info.emplace_back(tile_info);
+            }
+        }
+    }
 
-        if (texture_id_in_vector == i) {
-            bg_color = selected_bg_color;
-            tint_color = selected_tint_color;
+    ImGui::SameLine();
+
+    if (ImGui::Button("Add Tile")) {
+        TilemapComponent::TileType type;
+        type.mask = 1ull << tilemap.tile_types.size();
+        type.texture_atlas = selected_texture;
+        tilemap.tile_types.emplace_back(type);
+
+        Texture& texture = m_ResourceManager->GetResource(selected_texture);
+
+        TilemapComponent::TileInfo tile_info;
+        tile_info.frame = ivec4(0, 0, texture.getSize());
+        tile_info.type = tilemap.tile_types.size() - 1;
+
+        tilemap.tile_info.emplace_back(tile_info);
+    }
+
+    float window_visible_x = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+    size_t i = 0;
+    for (auto& info : tilemap.tile_info) {
+        ImGui::PushID(i);
+
+        ImVec2 uv0 = ImVec2(0, 1);
+        ImVec2 uv1 = ImVec2(1, 0);
+
+        Texture& texture = m_ResourceManager->GetResource(tilemap.tile_types[info.type].texture_atlas);
+
+        uv0.x = info.frame.x / texture.getSize().x;
+        uv0.y = info.frame.y / texture.getSize().y;
+
+        uv1.x = uv0.x + (info.frame.z / texture.getSize().x);
+        uv1.y = uv0.y + (info.frame.w / texture.getSize().y);
+
+        std::swap(uv0.y, uv1.y);
+
+        constexpr static ImVec2 button_size = ImVec2(100, 100);
+
+        if (ImGui::ImageButton("##Tile", texture.reference(), button_size, uv0, uv1)) {
+            selected_tile = i;
         }
 
-        bool is_pressed = ImGui::ImageButton(("##TILE_TEXTURE_" + std::to_string(i)).c_str(), texture.reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color);
-        if (is_pressed) texture_id_in_vector = i;
+        float last_button_x = ImGui::GetItemRectMax().x;
+        float next_button_x = last_button_x + 10.0f + button_size.x;
 
-        ImGui::SameLine();
-
-        if (ImGui::Button(("Remove##" + std::to_string(i)).c_str())) to_delete = i;
+        if (next_button_x < window_visible_x && i < tilemap.tile_info.size() - 1)
+            ImGui::SameLine();
+        
+        ImGui::PopID();
+        i++;
     }
-    if (to_delete != -1) tilemap.textures.erase(tilemap.textures.begin() + to_delete);
+
+    ImGui::Separator();
+
+    if (tilemap.tile_types.empty())
+        ImGui::Text("There is no tiles in this tilemap. Please create at least one");
+
+    if (ImGui::BeginTable("TileInterectionsTable", tilemap.tile_types.size() + 2, ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        for (auto& type : tilemap.tile_types) {
+            ImGui::TableNextColumn();
+            this->DrawTexture(type.texture_atlas);
+        }
+        ImGui::TableNextColumn();
+
+        for (uint8_t row = 0; row < tilemap.tile_types.size(); row++) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            this->DrawTexture(tilemap.tile_types[row].texture_atlas);
+
+            for (uint8_t col = 0; col < tilemap.tile_types.size(); col++) {
+                ImGui::TableNextColumn();
+                if (col > row) continue;
+
+                bool on = tilemap.is_compatible(row, col);
+                std::string id = "##l" + std::to_string(row) + '_' + std::to_string(col);
+                if (ImGui::Checkbox(id.c_str(), &on))
+                    tilemap.set_compatible(row, col, on);
+            }
+        }
+        ImGui::EndTable();
+    }
+
+    ImGui::Separator();
+
+    if (tilemap.tiles.size() < tilemap.width * tilemap.height)
+        tilemap.tiles.resize(tilemap.width * tilemap.height);
 
     constexpr vec2 cell_size = vec2(16.0f, 16.0f);
     constexpr ImColor cell_color = IM_COL32(80, 80, 80, 255);
@@ -754,13 +849,27 @@ void FE2D::IMGUI::TilemapControl(Entity entity) {
                 ImVec2 mouse_pos = ImGui::GetMousePos();
                 if (mouse_pos.x >= rect_min.x && mouse_pos.x <= rect_max.x &&
                     mouse_pos.y >= rect_min.y && mouse_pos.y <= rect_max.y) {
-                    tile = texture_id_in_vector;
+                    tile = selected_tile;
                 }
             }
 
-            if (tile < tilemap.textures.size()) {
-                Texture& texture = m_ResourceManager->GetResource(tilemap.textures[tile]);
-                draw->AddImage(texture.reference(), rect_min, rect_max);
+            if (tile < tilemap.tile_info.size()) {
+                auto& info = tilemap.tile_info[tile];
+
+                Texture& texture = m_ResourceManager->GetResource(tilemap.tile_types[info.type].texture_atlas);
+
+                ImVec2 uv0 = ImVec2(0, 1);
+                ImVec2 uv1 = ImVec2(1, 0);
+
+                uv0.x = info.frame.x / texture.getSize().x;
+                uv0.y = info.frame.y / texture.getSize().y;
+
+                uv1.x = uv0.x + (info.frame.z / texture.getSize().x);
+                uv1.y = uv0.y + (info.frame.w / texture.getSize().y);
+
+                std::swap(uv0.y, uv1.y);
+
+                draw->AddImage(texture.reference(), rect_min, rect_max, uv0, uv1);
             }
         }
     }

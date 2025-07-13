@@ -260,8 +260,41 @@ namespace FE2D {
         size_t width  = 10;
         size_t height = 10;
         
+        // this uint8_t needed to find tile info in the array ( TilemapComponnet::tile_info )
+        // there is a limit of tiles
+        // maximum can be 64 types of tiles, because of uint64_t
         std::vector<uint8_t> tiles;
-        std::vector<ResourceID<Texture>> textures;
+
+        struct TileInfo {
+            ivec4 frame;
+            uint8_t type = 0;
+        };
+
+        struct TileType {
+            uint64_t mask;
+            ResourceID<Texture> texture_atlas;
+        };
+
+        std::vector<TileInfo> tile_info;
+        std::vector<TileType> tile_types;
+
+        void set_compatible(uint8_t a, uint8_t b, bool value) {
+            if (a >= tile_types.size() || b >= tile_types.size()) return;
+
+            if (value) {
+                tile_types[a].mask |= (1ull << b);
+                tile_types[b].mask |= (1ull << a);
+            }
+            else {
+                tile_types[a].mask &= ~(1ull << b);
+                tile_types[b].mask &= ~(1ull << a);
+            }
+        }
+
+        bool is_compatible(uint8_t a, uint8_t b) const {
+            if (a >= tile_types.size() || b >= tile_types.size()) return false;
+            return (tile_types[a].mask & (1ull << b)) != 0;
+        }
 
         TilemapComponent() = default;
         ~TilemapComponent() = default;

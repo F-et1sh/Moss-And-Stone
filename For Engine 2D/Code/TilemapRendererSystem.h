@@ -13,7 +13,8 @@ namespace FE2D {
 		void Render();
 
 	private:
-		void Draw(Texture& texture_atlas);
+		void Handle(Entity entity);
+		void Draw(Entity entity);
 
 	private:
 		Shader m_Shader;
@@ -22,8 +23,9 @@ namespace FE2D {
 		VertexArray m_VertexArray;
 		VertexBuffer m_VertexBuffer;
 
-		// xy - position
-		// zw - atlas offset
-		FE2D::dynamic_array<vec4, FOR_TILE_LIMIT> m_TileInfo;
+		TextureAtlas m_TextureAtlas;
+
+		FE2D::dynamic_array<vec4, FOR_TILE_LIMIT> m_TilesFrames;
+		FE2D::dynamic_array<mat4, FOR_TILE_LIMIT> m_TilesMatrices;
 	};
 }
