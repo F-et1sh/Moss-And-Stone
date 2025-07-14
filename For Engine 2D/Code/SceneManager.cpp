@@ -32,13 +32,13 @@ void FE2D::SceneManager::Update() {
 void FE2D::SceneManager::SaveCurrentScene() {
 
 	SceneSerializer ser(&m_CurrentScene);
-	ser.Serialize(FOR_PATH.get_scenes_path() / (L"Scene_" + std::to_wstring(m_CurrentScene.getIndex()) + L".forscene"));
+	ser.Serialize(FOR_PATH.this_scenes_path() / (L"Scene_" + std::to_wstring(m_CurrentScene.getIndex()) + L".forscene"));
 }
 
 void FE2D::SceneManager::LoadAvailableScenes() {
 	m_ScenePaths.clear();
 
-	const auto& scenes_path = FOR_PATH.get_scenes_path();
+	const auto& scenes_path = FOR_PATH.this_scenes_path();
 	
 	const auto& scenes = ResourceManager::scan_folder(scenes_path, ResourceManager::ScanMode::FILES);
 	m_ScenePaths.reserve(scenes.size());

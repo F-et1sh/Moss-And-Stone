@@ -29,7 +29,7 @@ namespace FE2D {
 			return this->get_application_path() / "Cursors";
 		}
 
-		inline std::filesystem::path get_scenes_path()const {
+		inline std::filesystem::path this_scenes_path()const {
 			return this->get_assets_path() / L"Scenes";
 		}
 

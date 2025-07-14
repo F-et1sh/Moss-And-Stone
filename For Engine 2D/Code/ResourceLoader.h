@@ -6,11 +6,11 @@ namespace FE2D {
 	class Animation;
 	class Prefab;
 
-	// .fs		 - For Save				. Used as a metadata file for resources
-	// .forscene - For Scene			. Used as a file for scenes
-	// .fa		 - For Animation		. Used as a file for animations from Aseprite
-	// .fp		 - For Prefab			. Used as a file for prefabs
-	// .fpv		 - For Project Variables. Used as a file to contain all of variables of the project
+	// .fs		 - For Save — metadata for resources				   
+	// .forscene - For Scene — scene files						   
+	// .fa		 - For Animation — Aseprite animation				   
+	// .fp		 - For Prefab — prefab files						   
+	// .fpv		 - For Project Variables - contans project variables 
 
 	class FOR_API ResourceLoader : public IResourceModule {
 	public:

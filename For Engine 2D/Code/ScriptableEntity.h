@@ -26,7 +26,7 @@ namespace FE2D {
 
 		inline void destroy_this()noexcept { m_IsDestroyed = true; }
 
-		inline Scene& get_scene()const {
+		inline Scene& this_scene()const {
 			if (!m_Scene) FOR_RUNTIME_ERROR("Failed to get scene in a scrpt\nScene was nullptr");
 			return *m_Scene;
 		}
@@ -50,7 +50,7 @@ namespace FE2D {
 		virtual void OnStart() {}
 		virtual void OnAwake() {}
 		virtual void OnUpdate(double deltaTime) {}
-		virtual void OnDie() {}
+		virtual void OnDie() { destroy_this(); }
 
 		virtual json Serialize()const { return json(); }
 		virtual void Deserialize(const json& j) {}
@@ -73,7 +73,7 @@ namespace FE2D {
 
 	public:
 		virtual std::unique_ptr<ScriptableEntity> clone()const = 0;
-		virtual void OnRegisterFields() = 0;
+		virtual void OnRegisterFields() {}
 	};
 
 #define GENERATED_BODY(T) \

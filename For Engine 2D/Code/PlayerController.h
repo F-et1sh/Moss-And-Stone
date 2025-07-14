@@ -47,8 +47,8 @@ public:
 		subscribe_to_event(EventType::MouseMoved, [&](const IEvent& e) {
 			const MouseMoved& _event = static_cast<const MouseMoved&>(e);
 			mouse_position = _event.position;
-			mouse_position.y = m_Scene->getRenderContext().getResolution().y - mouse_position.y;
-			mouse_position -= m_Scene->getRenderContext().getResolution() / vec2(2);
+			mouse_position.y = this_scene().getRenderContext().getResolution().y - mouse_position.y;
+			mouse_position -= this_scene().getRenderContext().getResolution() / vec2(2);
 			});
 	}
 
@@ -70,7 +70,7 @@ public:
 			if (shotgun_animator.isAnimationPlaying("Idle")) {
 				constexpr static int bullets = 8;
 				for (int i = 0; i < bullets; i++) {
-					Entity created_bullet = this->get_resource_manager().GetResource(bullet).CreateEntity(this->get_scene());
+					Entity created_bullet = this->get_resource_manager().GetResource(bullet).CreateEntity(this->this_scene());
 					auto& bullet_transform = created_bullet.GetComponent<TransformComponent>();
 					bullet_transform.position = transform->position;
 
