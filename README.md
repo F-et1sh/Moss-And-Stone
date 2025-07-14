@@ -43,7 +43,7 @@ It's a 2D top-down pixel-art game inspired by titles like **Vampire Survivors** 
 
 ---
 
-## Scripting (Native C++)
+## Scripting ( Native C++ )
 
 To create a native script, create two files : `MyScript.h` and `MyScript.cpp`.
 
@@ -162,8 +162,8 @@ void OnEditorPanel(IMGUI& imgui) override {
 ResourceID<Prefab> effect;
 
 void OnAwake() override {
-    auto& rm = get_resource_manager();
-    auto& prefab = rm.GetResource(effect);
+    auto& resource_manager = get_resource_manager();
+    auto& prefab = resource_manager.GetResource(effect);
     Entity summoned = prefab.CreateEntity(this_scene());
 
     auto& summoned_transform = summoned.GetComponent<TransformComponent>();
@@ -226,10 +226,10 @@ void OnStart() override {
 vec2 dir;
 
 void OnUpdate(double deltaTime) override {
-    if (is_key_pressed(GLFW_KEY_W)) dir += vec2(0, 1);
-    if (is_key_pressed(GLFW_KEY_S)) dir += vec2(0, -1);
-    if (is_key_pressed(GLFW_KEY_A)) dir += vec2(-1, 0);
-    if (is_key_pressed(GLFW_KEY_D)) dir += vec2(1, 0);
+    if (is_key_pressed(GLFW_KEY_W)) dir += vec2( 0,  1);
+    if (is_key_pressed(GLFW_KEY_S)) dir += vec2( 0, -1);
+    if (is_key_pressed(GLFW_KEY_A)) dir += vec2(-1,  0);
+    if (is_key_pressed(GLFW_KEY_D)) dir += vec2( 1,  0);
 }
 ```
 
