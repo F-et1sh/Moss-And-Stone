@@ -10,6 +10,9 @@ namespace FE2D {
 		TilemapRendererSystem();
 		~TilemapRendererSystem() = default;
 
+		// this function will update the display tiles of tilemap even it's already updated
+		static void UpdateTilemap(Entity entity);
+
 		void Render();
 
 	private:

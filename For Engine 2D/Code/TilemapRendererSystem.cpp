@@ -1,6 +1,49 @@
 #include "forpch.h"
 #include "TilemapRendererSystem.h"
 
+void FE2D::TilemapRendererSystem::UpdateTilemap(Entity entity) {
+	auto& transform = entity.GetComponent<TransformComponent>();
+	auto& tilemap = entity.GetComponent<TilemapComponent>();
+
+	if (tilemap.tiles.size() < tilemap.width * tilemap.height || tilemap.tile_types.empty() || tilemap.tile_info.empty()) return;
+
+	if (tilemap.display_tiles.size() != tilemap.tiles.size())
+		tilemap.display_tiles.resize(tilemap.tiles.size());
+
+	for (int x = 0; x < tilemap.width; x++) {
+		for (int y = 0; y < tilemap.height; y++) {
+			const int index = y * tilemap.width + x;
+
+			uint8_t logic_tile = tilemap.tiles[index];
+			uint8_t type = tilemap.tile_info[logic_tile].type;
+
+			bool bad_x = x + 1 >= tilemap.width;
+			bool bad_y = y + 1 >= tilemap.height;
+
+			uint8_t id_left_bottom  = logic_tile;
+			uint8_t id_right_bottom = bad_x          ? 255 : tilemap.tiles[y      * tilemap.width + (x + 1)];
+			uint8_t id_right_top    = bad_x || bad_y ? 255 : tilemap.tiles[(y + 1) * tilemap.width + (x + 1)];
+			uint8_t id_left_top     = bad_y          ? 255 : tilemap.tiles[(y + 1) * tilemap.width + x];
+
+			uint8_t type_left_bottom  = tilemap.tile_info[id_left_bottom ].type;
+			uint8_t type_right_bottom = bad_x          ? 255 : tilemap.tile_info[id_right_bottom].type;
+			uint8_t type_right_top    = bad_x || bad_y ? 255 : tilemap.tile_info[id_right_top   ].type;
+			uint8_t type_left_top     = bad_y          ? 255 : tilemap.tile_info[id_left_top    ].type;
+
+			bool lb = tilemap.is_compatible(type, type_left_bottom);
+			bool rb = tilemap.is_compatible(type, type_right_bottom);
+			bool rt = tilemap.is_compatible(type, type_right_top);
+			bool lt = tilemap.is_compatible(type, type_left_top);
+
+			TilemapComponent::DisplayTile& display_tile = tilemap.display_tiles[index];
+			display_tile.tile_id = logic_tile;
+			display_tile.frame = TilemapComponent::get_frame(lb, rb, rt, lt);
+		}
+	}
+
+	tilemap.is_updated = true;
+}
+
 FE2D::TilemapRendererSystem::TilemapRendererSystem() {
 	m_Shader.Initialize(FOR_PATH.get_shaders_path() / L"Tilemap Default" / L"TilemapDefault");
 	
@@ -36,17 +79,19 @@ void FE2D::TilemapRendererSystem::Handle(Entity entity) {
 	auto& transform = entity.GetComponent<TransformComponent>();
 	auto& tilemap = entity.GetComponent<TilemapComponent>();
 
-	if (tilemap.tiles.size() < tilemap.width * tilemap.height || tilemap.tile_types.empty() || tilemap.tile_info.empty()) return;
+	UpdateTilemap(entity);
+
+	if (tilemap.display_tiles.size() < tilemap.width * tilemap.height || tilemap.tile_types.empty() || tilemap.tile_info.empty()) return;
 
 	for (int x = 0; x < tilemap.width; x++) {
 		for (int y = 0; y < tilemap.height; y++) {
 			
-			uint8_t tile = tilemap.tiles[y * tilemap.width + x];
+			uint8_t tile = tilemap.display_tiles[y * tilemap.width + x].tile_id;
 			auto& info = tilemap.tile_info[tile];
 
 			auto& type = tilemap.tile_types[info.type];
 			auto& texture = m_ResourceManager->GetResource(type.texture_atlas);
-			vec4 frame = info.frame;
+			vec4 frame = tilemap.display_tiles[y * tilemap.width + x].frame;
 			
 			m_TextureAtlas.AddTexture(texture);
 			frame += vec4(m_TextureAtlas.getTextureCoords(&texture), 0, 0);
