@@ -812,7 +812,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<TilemapComponent>("Tilemap Renderer", entity, [&](auto& component) {
-		m_ImGui->DragVector2_U64("Grid Size", component.width, component.height);
-		m_ImGui->TilemapControl(entity);
+		auto& tilemap_system = m_Context->getSystem<TilemapRendererSystem>();
+		tilemap_system.TilemapEditor(entity, *m_ImGui);
 		});
 }

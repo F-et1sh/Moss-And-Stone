@@ -17,14 +17,14 @@ FE2D::Prefab::Prefab(Entity entity) {
 bool FE2D::Prefab::LoadFromFile(const std::filesystem::path& file_path) {
 	std::ifstream file(file_path);
 	if (!file.good()) {
-		SAY("ERROR : Failed to open file"); // there is no need of logging file path
+		SAY("ERROR : Failed to open file\nPath : " << file_path);
 		return false;
 	}
 
 	json j;
 	file >> j;
 	if (!j.is_array()) {
-		SAY("ERROR : Failed to read JSON\nIt's not an array"); // there is no need of logging file path
+		SAY("ERROR : Failed to read JSON\nIt's not an array\nPath : " << file_path);
 		return false;
 	}
 
@@ -40,7 +40,7 @@ bool FE2D::Prefab::LoadFromFile(const std::filesystem::path& file_path) {
 void FE2D::Prefab::UploadToFile(const std::filesystem::path& file_path) const {
 	std::ofstream file(file_path);
 	if (!file.good()) {
-		SAY("ERROR : Failed to open file\nPath : " << file_path.string().c_str());
+		SAY("ERROR : Failed to open file\nPath : " << file_path);
 		return;
 	}
 	

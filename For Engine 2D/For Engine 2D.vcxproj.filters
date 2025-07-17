@@ -364,6 +364,9 @@
     <Filter Include="Code\ECS\System\Tilemap">
       <UniqueIdentifier>{f2e8cc31-1287-4f59-80ff-0ff278e5fb8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Resource Management\Resources\Tileset">
+      <UniqueIdentifier>{260443b4-80a2-4858-8489-6934656439a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\forpch.cpp">
@@ -626,6 +629,9 @@
     </ClCompile>
     <ClCompile Include="Code\TilemapRendererSystem.cpp">
       <Filter>Code\ECS\System\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Tileset.cpp">
+      <Filter>Code\Resource Management\Resources\Tileset</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -916,6 +922,9 @@
     </ClInclude>
     <ClInclude Include="Code\TilemapRendererSystem.h">
       <Filter>Code\ECS\System\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Tileset.h">
+      <Filter>Code\Resource Management\Resources\Tileset</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

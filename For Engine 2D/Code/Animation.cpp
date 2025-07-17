@@ -43,9 +43,8 @@ bool FE2D::Animation::LoadFromFile(const std::filesystem::path& file_path) {
     return true;
 }
 
-vec4 FE2D::Animation::getFrameUV(float time) const noexcept {
-    if (m_Frames.empty())
-        return vec4();
+ivec4 FE2D::Animation::getFrameUV(float time) const noexcept {
+    if (m_Frames.empty()) return ivec4();
 
     float time_mod = std::fmod(time, m_Duration);
 

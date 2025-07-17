@@ -61,6 +61,15 @@ namespace FE2D {
 		inline std::unordered_map<UUID, Entity>& getEntityMap()noexcept { return m_EntityMap; }
 		inline size_t getIndex()const noexcept { return m_Index; }
 
+		template<typename T>
+		inline T& getSystem() {
+			for (auto* base : m_SystemsList) {
+				if (auto* system = dynamic_cast<T*>(base))
+					return *system;
+			}
+			FOR_ASSERT(false, "Failed to get system. There is no needed system");
+		}
+
 	private:
 		template<typename T> requires std::is_base_of_v<ISystemBase, T>
 		std::unique_ptr<T> CreateSystem() {
@@ -88,7 +97,6 @@ namespace FE2D {
 		Window* m_Window = nullptr;
 		RenderContext* m_RenderContext = nullptr;
 		ResourceManager* m_ResourceManager = nullptr;
-		IMGUI* m_ImGui = nullptr;
 		ProjectVariables* m_ProjectVariables = nullptr;
 
 		Camera m_Camera;

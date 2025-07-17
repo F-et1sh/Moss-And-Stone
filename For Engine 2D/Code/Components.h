@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "ScriptableEntity.h"
 #include "AnimationStateNodes.h"
+#include "Tileset.h"
 
 namespace FE2D {
     /* start of components */
@@ -257,87 +258,11 @@ namespace FE2D {
     };
 
     struct FOR_API TilemapComponent {
-        size_t width  = 10;
+        size_t width = 10;
         size_t height = 10;
 
-        bool is_updated = false;
-        
-        // this uint8_t needed to find tile info in the array ( TilemapComponnet::tile_info )
-        // there is a limit of tiles
-        // maximum can be 64 types of tiles, because of uint64_t
-        std::vector<uint8_t> tiles;
-
-        struct DisplayTile {
-            uint8_t tile_id;
-            ivec4 frame;
-        };
-
-        std::vector<DisplayTile> display_tiles;
-
-        struct TileInfo {
-            ivec4 frame;
-            uint8_t type = 0;
-        };
-
-        struct TileType {
-            uint64_t mask;
-            ResourceID<Texture> texture_atlas;
-        };
-
-        std::vector<TileInfo> tile_info;
-        std::vector<TileType> tile_types;
-
-        void set_compatible(uint8_t a, uint8_t b, bool value) {
-            if (a >= tile_types.size() || b >= tile_types.size()) return;
-
-            if (value) {
-                tile_types[a].mask |= (1ull << b);
-                tile_types[b].mask |= (1ull << a);
-            }
-            else {
-                tile_types[a].mask &= ~(1ull << b);
-                tile_types[b].mask &= ~(1ull << a);
-            }
-        }
-
-        bool is_compatible(uint8_t a, uint8_t b) const {
-            if (a >= tile_types.size() || b >= tile_types.size()) return false;
-            return (tile_types[a].mask & (1ull << b)) != 0;
-        }
-
-        static glm::ivec4 get_frame(bool lb, bool rb, bool rt, bool lt) {
-            uint8_t mask =
-                (lb ? 1 : 0) << 0 |  // 0001
-                (rb ? 1 : 0) << 1 |  // 0010
-                (rt ? 1 : 0) << 2 |  // 0100
-                (lt ? 1 : 0) << 3;   // 1000
-
-            static const uint8_t lut[16] = {
-                15, // 0000
-                14, // 0001 lb
-                13, // 0010 rb
-                12, // 0011 lb+rb
-                11, // 0100 rt
-                10, // 0101 lb+rt
-                 9, // 0110 rb+rt
-                 8, // 0111 lb+rb+rt
-                 7, // 1000 lt
-                 6, // 1001 lb+lt
-                 5, // 1010 rb+lt
-                 4, // 1011 lb+rb+lt
-                 3, // 1100 rt+lt
-                 2, // 1101 lb+rt+lt
-                 1, // 1110 rb+rt+lt
-                 0  // 1111 all
-            };
-
-            uint8_t index = lut[mask];
-
-            int x = (index % 4) * 16;
-            int y = (index / 4) * 16;
-
-            return glm::ivec4(x, y, 16, 16);
-        }
+        std::vector<TileID> tiles;
+        Tileset tileset;
 
         TilemapComponent() = default;
         ~TilemapComponent() = default;
@@ -397,6 +322,7 @@ namespace FE2D {
         NativeScriptComponent,
         HealthComponent,
         TilemapComponent,
+
         E_DamageComponent,
         E_FreezeComponent>;
 

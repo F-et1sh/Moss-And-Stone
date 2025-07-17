@@ -6,7 +6,7 @@ namespace FE2D {
 	class FOR_API Animation : public IResource {
 	public:
 		struct FOR_API Frame {
-			vec4 uv = vec4();
+			ivec4 uv = ivec4();
 			float duration = 0.0f;
 
 			Frame() = default;
@@ -20,7 +20,7 @@ namespace FE2D {
 
 		inline float getDuration()const noexcept { return m_Duration; }
 		
-		vec4 getFrameUV(float time)const noexcept;
+		ivec4 getFrameUV(float time)const noexcept;
 		ResourceID<Texture> getTexture(ResourceManager& resource_manager);
 
 	private:

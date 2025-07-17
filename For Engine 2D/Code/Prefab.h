@@ -7,7 +7,7 @@ namespace FE2D {
 		std::vector<ComponentsVariant> m_Components;
 
 		template<typename T, typename... Args>
-		T& AddComponent(Args&&... args) {
+		inline T& AddComponent(Args&&... args) {
 			FOR_ASSERT(!HasComponent<T>(), "Prefab already has component");
 			T component{ std::forward<Args>(args)... };
 			m_Components.emplace_back(std::move(component));
@@ -16,7 +16,7 @@ namespace FE2D {
 		}
 
 		template<typename T>
-		T& GetComponent() {
+		inline T& GetComponent() {
 			FOR_ASSERT(HasComponent<T>(), "Prefab does not have component");
 			for (auto& comp : m_Components)
 				if (auto* ptr = std::get_if<T>(&comp))
@@ -24,7 +24,7 @@ namespace FE2D {
 		}
 
 		template<typename T>
-		const T& GetComponent()const {
+		inline const T& GetComponent()const {
 			FOR_ASSERT(HasComponent<T>(), "Prefab does not have component");
 			for (const auto& comp : m_Components)
 				if (const auto* ptr = std::get_if<T>(&comp))
@@ -32,7 +32,7 @@ namespace FE2D {
 		}
 
 		template<typename T>
-		bool HasComponent() const {
+		inline bool HasComponent() const {
 			for (const auto& component : m_Components)
 				if (std::holds_alternative<T>(component))
 					return true;
@@ -40,7 +40,7 @@ namespace FE2D {
 		}
 
 		template<typename T>
-		void RemoveComponent() {
+		inline void RemoveComponent() {
 			FOR_ASSERT(HasComponent<T>(), "Prefab does not have component");
 
 			auto it = std::find_if(m_Components.begin(), m_Components.end(),
@@ -60,16 +60,16 @@ namespace FE2D {
 		Prefab() = default;
 		~Prefab() = default;
 		
-		Prefab(Entity entity);
+		explicit Prefab(Entity entity);
 
 		bool LoadFromFile(const std::filesystem::path& file_path) override;
 		void UploadToFile(const std::filesystem::path& file_path) const override;
 
 		// this function will spawn the 'main' entity and its children on the scene
 		// and return the 'main' entity
-		Entity CreateEntity(Scene& scene);
+		inline Entity CreateEntity(Scene& scene);
 
-		void OnEditorDraw(IMGUI& imgui) override;
+		inline void OnEditorDraw(IMGUI& imgui) override;
 
 		inline PrefabEntity& main_entity() {
 			if (m_Entities.empty()) m_Entities.push_back({});

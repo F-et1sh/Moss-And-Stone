@@ -313,8 +313,7 @@ void FE2D::IMGUI::SelectTexture(const std::string& label, ResourceID<Texture>& i
                 std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower);
                 std::transform(search_lower.begin(), search_lower.end(), search_lower.begin(), ::tolower);
 
-                if (name_lower.find(search_lower) == std::string::npos)
-                    continue;
+                if (name_lower.find(search_lower) == std::string::npos) continue;
             }
 
             ImGui::PushID(texture);
@@ -335,8 +334,11 @@ void FE2D::IMGUI::SelectTexture(const std::string& label, ResourceID<Texture>& i
                 texture_size.y
             );
 
-            if (ImGui::ImageButton("##Texture", texture->reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color))
+            if (ImGui::ImageButton("##Texture", texture->reference(), button_size, ImVec2(0, 1), ImVec2(1, 0), bg_color, tint_color)) {
                 selected_uuid = uuid;
+                ImGui::PopID();
+                break;
+            }
 
             if (ImGui::BeginDragDropSource()) {
                 ImGui::SetDragDropPayload("TEXTURE_UUID", &uuid, sizeof(FE2D::UUID));
@@ -694,7 +696,7 @@ void IMGUI::TransformControl(Entity entity) {
 }
 
 void FE2D::IMGUI::TilemapControl(Entity entity) {
-    if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<TilemapComponent>()) return;
+    /*if (!entity.HasComponent<TransformComponent>() || !entity.HasComponent<TilemapComponent>()) return;
 
     auto& transform = entity.GetComponent<TransformComponent>();
     auto& tilemap = entity.GetComponent<TilemapComponent>();
@@ -872,7 +874,7 @@ void FE2D::IMGUI::TilemapControl(Entity entity) {
                 draw->AddImage(texture.reference(), rect_min, rect_max, uv0, uv1);
             }
         }
-    }
+    }*/
 }
 
 bool FE2D::IMGUI::InputText(const std::string& label, std::string& value, int text_width) {

@@ -74,6 +74,7 @@
     <ClCompile Include="Code\ISystemBase.cpp" />
     <ClCompile Include="Code\Test.cpp" />
     <ClCompile Include="Code\TilemapRendererSystem.cpp" />
+    <ClCompile Include="Code\Tileset.cpp" />
     <ClCompile Include="Code\UI_Button.cpp" />
     <ClCompile Include="Code\IEvent.cpp" />
     <ClCompile Include="Code\EventDispatcher.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Code\ISystemBase.h" />
     <ClInclude Include="Code\Test.h" />
     <ClInclude Include="Code\TilemapRendererSystem.h" />
+    <ClInclude Include="Code\Tileset.h" />
     <ClInclude Include="Code\UI_Button.h" />
     <ClInclude Include="Code\IEvent.h" />
     <ClInclude Include="Code\EventDispatcher.h" />
