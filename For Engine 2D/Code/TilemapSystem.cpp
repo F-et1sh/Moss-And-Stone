@@ -1,7 +1,7 @@
 #include "forpch.h"
-#include "TilemapRendererSystem.h"
+#include "TilemapSystem.h"
 
-FE2D::TilemapRendererSystem::TilemapRendererSystem() {
+FE2D::TilemapSystem::TilemapSystem() {
 	m_Shader.Initialize(FOR_PATH.get_shaders_path() / L"Tilemap Default" / L"TilemapDefault");
 	
 	m_UniformBuffer.create();
@@ -32,7 +32,7 @@ FE2D::TilemapRendererSystem::TilemapRendererSystem() {
 	m_TextureAtlas.Initialize(FOR_TEXTURE_ATLAS_SIZE);
 }
 
-void FE2D::TilemapRendererSystem::TilemapEditor(Entity entity, IMGUI& imgui) {
+void FE2D::TilemapSystem::TilemapEditor(Entity entity, IMGUI& imgui) {
 	if (!entity.HasComponent<TilemapComponent>()) return;
 	auto& tilemap = entity.GetComponent<TilemapComponent>();
 
@@ -43,11 +43,11 @@ void FE2D::TilemapRendererSystem::TilemapEditor(Entity entity, IMGUI& imgui) {
 	ImGui::End();
 }
 
-void FE2D::TilemapRendererSystem::Handle(Entity entity) {
+void FE2D::TilemapSystem::Handle(Entity entity) {
 	auto& transform = entity.GetComponent<TransformComponent>();
 	auto& tilemap = entity.GetComponent<TilemapComponent>();
 
-	for (int x = 0; x < tilemap.width; x++) {
+	/*for (int x = 0; x < tilemap.width; x++) {
 		for (int y = 0; y < tilemap.height; y++) {
 			
 			uint8_t i = y * tilemap.width + x;
@@ -71,12 +71,12 @@ void FE2D::TilemapRendererSystem::Handle(Entity entity) {
 
 			if (m_TilesFrames.size() == FOR_TILE_LIMIT) this->Draw(entity);
 		}
-	}
+	}*/
 
 	this->Draw(entity);
 }
 
-void FE2D::TilemapRendererSystem::Render() {
+void FE2D::TilemapSystem::Render() {
 	entt::registry& registry = this->m_Scene->getRegistry();
 
 	auto group = registry.group<TilemapComponent>(entt::get<TransformComponent>);
@@ -88,7 +88,7 @@ void FE2D::TilemapRendererSystem::Render() {
 	}
 }
 
-void FE2D::TilemapRendererSystem::Draw(Entity entity) {
+void FE2D::TilemapSystem::Draw(Entity entity) {
 	if (m_TilesFrames.empty() || m_TilesMatrices.empty()) return;
 
 	m_Shader.Bind();

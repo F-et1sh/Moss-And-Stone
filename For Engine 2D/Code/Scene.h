@@ -8,7 +8,7 @@
 #include "ScriptManagerSystem.h"
 #include "HealthSystem.h"
 #include "EffectsSystem.h"
-#include "TilemapRendererSystem.h"
+#include "TilemapSystem.h"
 
 #include "RenderContext.h"
 #include "Cursor.h"
@@ -86,7 +86,7 @@ namespace FE2D {
 		std::unique_ptr<ScriptManagerSystem>	m_ScriptManagerSystem;
 		std::unique_ptr<HealthSystem>			m_HealthSystem;
 		std::unique_ptr<EffectsSystem>			m_EffectsSystem;
-		std::unique_ptr<TilemapRendererSystem>  m_TilemapRendererSystem;
+		std::unique_ptr<TilemapSystem>  m_TilemapSystem;
 
 		std::vector<ISystemBase*> m_SystemsList; // this mustn't free data of systems
 

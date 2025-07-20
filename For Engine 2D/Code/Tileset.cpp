@@ -13,13 +13,13 @@ bool FE2D::Tileset::LoadFromFile(const std::filesystem::path& file_path) {
 
 	const json& j_array = j["tiles"];
 	for (const json& j_element : j_array) {
-		vec4 uv = vec4();
+		vec4 uv = vec4(); // SceneSerializer::load_vec4 doesn't support ivec4
 		ResourceID<Texture> texture_id;
 
 		SceneSerializer::load_vec4(uv, j_element, "uv");
 		SceneSerializer::load_resource_id(texture_id, j_element, "texture_id");
 
-		if (m_TilesCount + 1 >= FOR_TILES_COUNT) {
+		if (!this->canAdd()) {
 			SAY("WARNING : Too much tiles in file. Loaded only first " << FOR_TILES_COUNT << " tile");
 			break;
 		}

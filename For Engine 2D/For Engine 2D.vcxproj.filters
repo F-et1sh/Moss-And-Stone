@@ -115,9 +115,6 @@
     <Filter Include="Code\ECS\Entity">
       <UniqueIdentifier>{92b52d8b-50c4-4b92-811d-13302b175715}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System">
-      <UniqueIdentifier>{3d91933a-0774-4c10-9941-924698d3e7a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Scene Management\Scene Serializer">
       <UniqueIdentifier>{c96ab60f-4881-48b4-b103-bc2181a82a7d}</UniqueIdentifier>
     </Filter>
@@ -135,15 +132,6 @@
     </Filter>
     <Filter Include="Code\Resource Management\Resource Module %28 inherit %29">
       <UniqueIdentifier>{b3b45ea8-0420-4fcc-8ac9-4e9715e49d25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\Component">
-      <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\System\SpriteRenderer">
-      <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\System\Animation">
-      <UniqueIdentifier>{9063ff2c-256d-48d4-a7a6-aa6c7a1e0daf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Resource Management\Resources">
       <UniqueIdentifier>{5c0c09ef-5625-4b1c-827b-90ddd6f9c137}</UniqueIdentifier>
@@ -274,17 +262,11 @@
     <Filter Include="Code\Graphics %28 Legacy %29\Animator\Animation State">
       <UniqueIdentifier>{7a295321-e52e-4894-8ace-d1f67a7bd990}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\ScriptManager">
-      <UniqueIdentifier>{17d4c217-85be-4eb6-aad4-7b35c6e9d6b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Event System\Event %28 inherit %29">
       <UniqueIdentifier>{68d26f98-24a0-42a5-83d4-2c246e79186c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Event System\Subscription">
       <UniqueIdentifier>{b5bac8a7-f1a5-46de-b3ab-065af3b2a789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\System\System Base %28 inherit %29">
-      <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Cursor">
       <UniqueIdentifier>{a3551581-e45b-47d7-92f3-2452dbb5a3b6}</UniqueIdentifier>
@@ -313,9 +295,6 @@
     <Filter Include="Code\ECS\Scripting\Scripts\IPickable">
       <UniqueIdentifier>{8ed3b931-7694-4341-83f3-1e4c0db28e94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Physics">
-      <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Resource Management\Resources\Prefab">
       <UniqueIdentifier>{62c62c8f-f10a-4700-9ec8-71d63183c3ac}</UniqueIdentifier>
     </Filter>
@@ -327,9 +306,6 @@
     </Filter>
     <Filter Include="Code\Output">
       <UniqueIdentifier>{0f0ab065-6da5-4b43-9271-2a7f4dcd40e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\System\Animation\Nodes">
-      <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\ECS\Scripting\Scripts\Weapons">
       <UniqueIdentifier>{2a9826e0-60ec-45e2-9420-61a0138118f4}</UniqueIdentifier>
@@ -343,12 +319,6 @@
     <Filter Include="Code\Scene Management\Scene Hierarchy Panel">
       <UniqueIdentifier>{f28fe58e-19e9-49bd-a53a-80e0b73943aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Health">
-      <UniqueIdentifier>{46b930ec-15df-49c3-bd81-7bb1899dd121}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ECS\System\Effects">
-      <UniqueIdentifier>{9bcf401e-a612-4cae-8f13-75788a83f0df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Application\Project Variables">
       <UniqueIdentifier>{22677742-f79b-4dcb-886c-8d0077b1cbb8}</UniqueIdentifier>
     </Filter>
@@ -361,11 +331,41 @@
     <Filter Include="Code\Application\Project Variables\Variables\Physics Layers Manager">
       <UniqueIdentifier>{4668a3ff-340e-4f9b-a318-8d8abaa0288b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\ECS\System\Tilemap">
-      <UniqueIdentifier>{f2e8cc31-1287-4f59-80ff-0ff278e5fb8f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Resource Management\Resources\Tileset">
       <UniqueIdentifier>{260443b4-80a2-4858-8489-6934656439a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems">
+      <UniqueIdentifier>{3d91933a-0774-4c10-9941-924698d3e7a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\SpriteRenderer">
+      <UniqueIdentifier>{e5590157-0c38-4081-8e56-f707ab12dd54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\Animation">
+      <UniqueIdentifier>{9063ff2c-256d-48d4-a7a6-aa6c7a1e0daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\Animation\Nodes">
+      <UniqueIdentifier>{61706e43-b30c-42ff-ab9a-d18a342874d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\ScriptManager">
+      <UniqueIdentifier>{17d4c217-85be-4eb6-aad4-7b35c6e9d6b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\System Base %28 inherit %29">
+      <UniqueIdentifier>{757579ab-4e7d-40b6-9c9f-8165d10d5fa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\Physics">
+      <UniqueIdentifier>{8d1b3e6a-3b89-44db-973b-f13f89f079c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\Health">
+      <UniqueIdentifier>{46b930ec-15df-49c3-bd81-7bb1899dd121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\Effects">
+      <UniqueIdentifier>{9bcf401e-a612-4cae-8f13-75788a83f0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Systems\Tilemap">
+      <UniqueIdentifier>{f2e8cc31-1287-4f59-80ff-0ff278e5fb8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ECS\Components">
+      <UniqueIdentifier>{297a2bca-7c2a-43d1-9be6-256f700cc34a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -535,16 +535,16 @@
       <Filter>Code\ECS\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Code\SpriteRendererSystem.cpp">
-      <Filter>Code\ECS\System\SpriteRenderer</Filter>
+      <Filter>Code\ECS\Systems\SpriteRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Code\ISystemBase.cpp">
-      <Filter>Code\ECS\System\System Base %28 inherit %29</Filter>
+      <Filter>Code\ECS\Systems\System Base %28 inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\SceneSerializer.cpp">
       <Filter>Code\Scene Management\Scene Serializer</Filter>
     </ClCompile>
     <ClCompile Include="Code\Components.cpp">
-      <Filter>Code\ECS\Component</Filter>
+      <Filter>Code\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="Code\UUID.cpp">
       <Filter>Code\UUID</Filter>
@@ -559,10 +559,10 @@
       <Filter>Code\Graphics %28 Legacy %29\Render Context</Filter>
     </ClCompile>
     <ClCompile Include="Code\PhysicsSystem.cpp">
-      <Filter>Code\ECS\System\Physics</Filter>
+      <Filter>Code\ECS\Systems\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Code\AnimationSystem.cpp">
-      <Filter>Code\ECS\System\Animation</Filter>
+      <Filter>Code\ECS\Systems\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Code\ContentBrowser.cpp">
       <Filter>Code\Resource Management\Content Browser</Filter>
@@ -574,7 +574,7 @@
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClCompile>
     <ClCompile Include="Code\AnimationStateNodes.cpp">
-      <Filter>Code\ECS\System\Animation\Nodes</Filter>
+      <Filter>Code\ECS\Systems\Animation\Nodes</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptableEntity.cpp">
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
@@ -586,7 +586,7 @@
       <Filter>Code\ECS\Scripting\Scripts\Test Script</Filter>
     </ClCompile>
     <ClCompile Include="Code\ScriptManagerSystem.cpp">
-      <Filter>Code\ECS\System\ScriptManager</Filter>
+      <Filter>Code\ECS\Systems\ScriptManager</Filter>
     </ClCompile>
     <ClCompile Include="Code\PlayerController.cpp">
       <Filter>Code\ECS\Scripting\Scripts\Player Controller</Filter>
@@ -622,13 +622,13 @@
       <Filter>Code\Application\Project Variables\Variables\Project Variable %28 inherit %29</Filter>
     </ClCompile>
     <ClCompile Include="Code\HealthSystem.cpp">
-      <Filter>Code\ECS\System\Health</Filter>
+      <Filter>Code\ECS\Systems\Health</Filter>
     </ClCompile>
     <ClCompile Include="Code\EffectsSystem.cpp">
-      <Filter>Code\ECS\System\Effects</Filter>
+      <Filter>Code\ECS\Systems\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Code\TilemapRendererSystem.cpp">
-      <Filter>Code\ECS\System\Tilemap</Filter>
+    <ClCompile Include="Code\TilemapSystem.cpp">
+      <Filter>Code\ECS\Systems\Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="Code\Tileset.cpp">
       <Filter>Code\Resource Management\Resources\Tileset</Filter>
@@ -813,16 +813,16 @@
       <Filter>Code\ECS\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Code\SpriteRendererSystem.h">
-      <Filter>Code\ECS\System\SpriteRenderer</Filter>
+      <Filter>Code\ECS\Systems\SpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Code\ISystemBase.h">
-      <Filter>Code\ECS\System\System Base %28 inherit %29</Filter>
+      <Filter>Code\ECS\Systems\System Base %28 inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\SceneSerializer.h">
       <Filter>Code\Scene Management\Scene Serializer</Filter>
     </ClInclude>
     <ClInclude Include="Code\Components.h">
-      <Filter>Code\ECS\Component</Filter>
+      <Filter>Code\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Code\UUID.h">
       <Filter>Code\UUID</Filter>
@@ -837,10 +837,10 @@
       <Filter>Code\Graphics %28 Legacy %29\Render Context</Filter>
     </ClInclude>
     <ClInclude Include="Code\PhysicsSystem.h">
-      <Filter>Code\ECS\System\Physics</Filter>
+      <Filter>Code\ECS\Systems\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Code\AnimationSystem.h">
-      <Filter>Code\ECS\System\Animation</Filter>
+      <Filter>Code\ECS\Systems\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Code\ContentBrowser.h">
       <Filter>Code\Resource Management\Content Browser</Filter>
@@ -861,7 +861,7 @@
       <Filter>Code\Resource Management\Resource Cache</Filter>
     </ClInclude>
     <ClInclude Include="Code\AnimationStateNodes.h">
-      <Filter>Code\ECS\System\Animation\Nodes</Filter>
+      <Filter>Code\ECS\Systems\Animation\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptableEntity.h">
       <Filter>Code\ECS\Scripting\Scriptable Entity</Filter>
@@ -873,7 +873,7 @@
       <Filter>Code\ECS\Scripting\Scripts\Test Script</Filter>
     </ClInclude>
     <ClInclude Include="Code\ScriptManagerSystem.h">
-      <Filter>Code\ECS\System\ScriptManager</Filter>
+      <Filter>Code\ECS\Systems\ScriptManager</Filter>
     </ClInclude>
     <ClInclude Include="Code\PlayerController.h">
       <Filter>Code\ECS\Scripting\Scripts\Player Controller</Filter>
@@ -915,13 +915,13 @@
       <Filter>Code\Application\Project Variables\Variables\Project Variable %28 inherit %29</Filter>
     </ClInclude>
     <ClInclude Include="Code\HealthSystem.h">
-      <Filter>Code\ECS\System\Health</Filter>
+      <Filter>Code\ECS\Systems\Health</Filter>
     </ClInclude>
     <ClInclude Include="Code\EffectsSystem.h">
-      <Filter>Code\ECS\System\Effects</Filter>
+      <Filter>Code\ECS\Systems\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Code\TilemapRendererSystem.h">
-      <Filter>Code\ECS\System\Tilemap</Filter>
+    <ClInclude Include="Code\TilemapSystem.h">
+      <Filter>Code\ECS\Systems\Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="Code\Tileset.h">
       <Filter>Code\Resource Management\Resources\Tileset</Filter>

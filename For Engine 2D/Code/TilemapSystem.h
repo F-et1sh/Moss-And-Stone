@@ -5,10 +5,10 @@ namespace FE2D {
 }
 
 namespace FE2D {
-	class FOR_API TilemapRendererSystem : public ISystemBase {
+	class FOR_API TilemapSystem : public ISystemBase {
 	public:
-		TilemapRendererSystem();
-		~TilemapRendererSystem() = default;
+		TilemapSystem();
+		~TilemapSystem() = default;
 
 		void TilemapEditor(Entity entity, IMGUI& imgui);
 

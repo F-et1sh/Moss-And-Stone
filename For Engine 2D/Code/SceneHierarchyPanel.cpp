@@ -812,7 +812,7 @@ void FE2D::SceneHierarchyPanel::DrawComponents(Entity entity) {
 		});
 
 	DrawComponent<TilemapComponent>("Tilemap Renderer", entity, [&](auto& component) {
-		auto& tilemap_system = m_Context->getSystem<TilemapRendererSystem>();
+		auto& tilemap_system = m_Context->getSystem<TilemapSystem>();
 		tilemap_system.TilemapEditor(entity, *m_ImGui);
 		});
 }

@@ -262,7 +262,7 @@ namespace FE2D {
         size_t height = 10;
 
         std::vector<TileID> tiles;
-        Tileset tileset;
+        ResourceID<Tileset> tileset_id;
 
         TilemapComponent() = default;
         ~TilemapComponent() = default;

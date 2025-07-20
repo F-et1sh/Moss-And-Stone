@@ -24,15 +24,31 @@ namespace FE2D {
 		bool LoadFromFile(const std::filesystem::path& file_path) override;
 		void UploadToFile(const std::filesystem::path& file_path) const override;
 
-		inline const Tile& getTile(TileID index)const noexcept { return m_Tiles[index]; /* can't throw an error */ }
-		inline const Tile& setTile(TileID index, const Tile& tile)noexcept { return m_Tiles[index] = tile; }
+		inline Tile getTile(TileID index)const {
+			if (index >= FOR_TILES_COUNT)
+				FOR_RUNTIME_ERROR("Failed to get tile. Index out of range\nIndex : " + std::to_string(index) + "\nMax count : " + std::to_string(FOR_TILES_COUNT));
+			return m_Tiles[index];
+		}
 
-		inline const Tile& addTile(const Tile& tile) {
+		inline Tile& getTile(TileID index) {
+			if (index >= FOR_TILES_COUNT)
+				FOR_RUNTIME_ERROR("Failed to get tile. Index out of range\nIndex : " + std::to_string(index) + "\nMax count : " + std::to_string(FOR_TILES_COUNT));
+			return m_Tiles[index];
+		}
+		inline Tile& setTile(TileID index, const Tile& tile) {
+			if (index >= FOR_TILES_COUNT)
+				FOR_RUNTIME_ERROR("Failed to set tile. Index out of range\nIndex : " + std::to_string(index) + "\nMax count : " + std::to_string(FOR_TILES_COUNT));
+			return m_Tiles[index] = tile;
+		}
+
+		inline Tile& addTile(const Tile& tile) {
 			size_t i = m_TilesCount;
 			if (m_TilesCount++ >= FOR_TILES_COUNT)
-				FOR_RUNTIME_ERROR("Failed to add tile. Tileset overflow\nMax count : " + std::to_string(FOR_TILES_COUNT));
+				FOR_RUNTIME_ERROR("Failed to add tile. Tileset overflow\nMax count : " + std::to_string(FOR_TILES_COUNT - 1));
 			return m_Tiles[i] = tile;
 		}
+
+		inline bool canAdd()const noexcept { return m_TilesCount + 1 <= FOR_TILES_COUNT; }
 
 	private:
 		std::array<Tile, FOR_TILES_COUNT> m_Tiles;
