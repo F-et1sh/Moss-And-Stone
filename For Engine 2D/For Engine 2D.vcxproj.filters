@@ -973,6 +973,9 @@
     <CopyFileToFolders Include="boost\boost-1.88.0-LICENSE_1_0.txt">
       <Filter>Dependencies\Licenses</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="OpenGL\GLEW_LICENSE.txt">
+      <Filter>Dependencies\Licenses</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <Text Include="EnTT\EnTT_License.txt">

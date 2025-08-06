@@ -268,7 +268,8 @@ void OnTriggerEnter(Entity other) override {
 | `.forscene`  | For Scene — scene files						   |
 | `.fa`        | For Animation — Aseprite animation				   |
 | `.fp`        | For Prefab — prefab files						   |
-| `.fpv`       | For Project Variables - contans project variables |
+| `.fpv`       | For Project Variables - project variables         |
+| `.fts`	   | For Tileset - tileset                             |
 
 ---
 

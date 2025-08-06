@@ -62,6 +62,7 @@ namespace FE2D {
 		Texture m_EmptyImage;
 		Texture m_AnimationImage;
 		Texture m_PrefabImage;
+		Texture m_TilesetImage;
 	
 		std::filesystem::path m_RootDirectory;    // path to the assets folder
 		std::filesystem::path m_CurrentDirectory; // current opened directory

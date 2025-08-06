@@ -11,6 +11,16 @@ bool FE2D::Tileset::LoadFromFile(const std::filesystem::path& file_path) {
 	json j;
 	file >> j;
 
+	if (!j.contains("tiles")) {
+		SAY("ERROR : Failed to load tileset. JSON doens't contain array \"tiles\"\nPath : " << file_path);
+		return false;
+	}
+
+	if (!j["tiles"].is_array()) {
+		SAY("ERROR : Failed to load tileset. \"tiles\" is not array\nPath : " << file_path);
+		return false;
+	}
+
 	const json& j_array = j["tiles"];
 	for (const json& j_element : j_array) {
 		vec4 uv = vec4(); // SceneSerializer::load_vec4 doesn't support ivec4
@@ -18,11 +28,6 @@ bool FE2D::Tileset::LoadFromFile(const std::filesystem::path& file_path) {
 
 		SceneSerializer::load_vec4(uv, j_element, "uv");
 		SceneSerializer::load_resource_id(texture_id, j_element, "texture_id");
-
-		if (!this->canAdd()) {
-			SAY("WARNING : Too much tiles in file. Loaded only first " << FOR_TILES_COUNT << " tile");
-			break;
-		}
 
 		this->addTile({ uv, texture_id });
 	}
@@ -40,8 +45,7 @@ void FE2D::Tileset::UploadToFile(const std::filesystem::path& file_path)const {
 	json j;
 	json j_array = json::array();
 
-	for (TileID i = 0; i < m_TilesCount; i++) {
-		const Tile& tile = this->getTile(i);
+	for (const auto& tile : m_Tiles) {
 		json j_element;
 		SceneSerializer::save_vec4(tile.uv, j_element, "uv");
 		SceneSerializer::save_resource_id(tile.texture_id, j_element, "texture_id");

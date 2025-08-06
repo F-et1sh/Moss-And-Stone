@@ -78,6 +78,7 @@ void FE2D::ResourceManager::load_fallback_resources() {
     m_ResourceLoader.LoadFallback(L"Texture.png");
     m_ResourceLoader.LoadFallback(L"Player_WalkDown.fa");
     m_ResourceLoader.LoadFallback(L"ShotgunBullet.fp");
+    m_ResourceLoader.LoadFallback(L"Tileset.fts");
 }
 
 void FE2D::ResourceManager::save_resources() {

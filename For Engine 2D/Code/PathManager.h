@@ -8,7 +8,7 @@ namespace FE2D {
 		void init(const char* argv0, bool is_editor);
 
 		static PathManager& Instance() {
-			static PathManager path_manager;	
+			static PathManager path_manager;
 			return path_manager;
 		}
 

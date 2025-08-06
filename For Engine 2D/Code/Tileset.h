@@ -3,8 +3,7 @@
 #undef max
 
 namespace FE2D {
-	using TileID = uint8_t;
-	inline constexpr static size_t FOR_TILES_COUNT = std::numeric_limits<TileID>::max() + 1;
+	using TileID = uint64_t;
 
 	struct FOR_API Tile {
 		ivec4 uv = ivec4();
@@ -21,37 +20,35 @@ namespace FE2D {
 		Tileset() = default;
 		~Tileset() = default;
 
-		bool LoadFromFile(const std::filesystem::path& file_path) override;
-		void UploadToFile(const std::filesystem::path& file_path) const override;
+		bool LoadFromFile(const std::filesystem::path& file_path)override;
+		void UploadToFile(const std::filesystem::path& file_path)const override;
 
-		inline Tile getTile(TileID index)const {
-			if (index >= FOR_TILES_COUNT)
-				FOR_RUNTIME_ERROR("Failed to get tile. Index out of range\nIndex : " + std::to_string(index) + "\nMax count : " + std::to_string(FOR_TILES_COUNT));
-			return m_Tiles[index];
-		}
+		inline bool hasTile(TileID index)const noexcept { return index < m_Tiles.size(); }
+
+		inline Tile& addTile(const Tile& tile) { return m_Tiles.emplace_back(tile); }
 
 		inline Tile& getTile(TileID index) {
-			if (index >= FOR_TILES_COUNT)
-				FOR_RUNTIME_ERROR("Failed to get tile. Index out of range\nIndex : " + std::to_string(index) + "\nMax count : " + std::to_string(FOR_TILES_COUNT));
+			if (!hasTile(index)) FOR_RUNTIME_ERROR("Failed to get tile by lvalue. Use hasTile() to check\nIndex : " + std::to_string(index) + "\nTileset size : " + std::to_string(m_Tiles.size()));
 			return m_Tiles[index];
 		}
+
+		inline Tile getTile(TileID index)const noexcept {
+			if (!hasTile(index)) return {};
+			return m_Tiles[index];
+		}
+
+		// if your index is greater than the array size, it will be incremented
 		inline Tile& setTile(TileID index, const Tile& tile) {
-			if (index >= FOR_TILES_COUNT)
-				FOR_RUNTIME_ERROR("Failed to set tile. Index out of range\nIndex : " + std::to_string(index) + "\nMax count : " + std::to_string(FOR_TILES_COUNT));
+			if (m_Tiles.size() >= index) m_Tiles.resize(index);
 			return m_Tiles[index] = tile;
 		}
 
-		inline Tile& addTile(const Tile& tile) {
-			size_t i = m_TilesCount;
-			if (m_TilesCount++ >= FOR_TILES_COUNT)
-				FOR_RUNTIME_ERROR("Failed to add tile. Tileset overflow\nMax count : " + std::to_string(FOR_TILES_COUNT - 1));
-			return m_Tiles[i] = tile;
+		inline void removeTile(TileID index)noexcept {
+			if (index >= m_Tiles.size()) return;
+			m_Tiles.erase(m_Tiles.begin() + index);
 		}
 
-		inline bool canAdd()const noexcept { return m_TilesCount + 1 <= FOR_TILES_COUNT; }
-
 	private:
-		std::array<Tile, FOR_TILES_COUNT> m_Tiles;
-		size_t m_TilesCount = 0;
+		std::vector<Tile> m_Tiles;
 	};
 }

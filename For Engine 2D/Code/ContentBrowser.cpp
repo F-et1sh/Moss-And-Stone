@@ -12,6 +12,7 @@ void FE2D::ContentBrowser::Initialize(Window& window, ResourceManager& resource_
     this->LoadContentImage(m_EmptyImage    , base_path / L"empty_icon.png");
     this->LoadContentImage(m_AnimationImage, base_path / L"animation_icon.png");
     this->LoadContentImage(m_PrefabImage   , base_path / L"prefab_icon.png");
+    this->LoadContentImage(m_TilesetImage  , base_path / L"tileset_icon.png");
 
     m_RootDirectory = FOR_PATH.get_assets_path();
     m_CurrentDirectory = m_RootDirectory;
@@ -133,6 +134,10 @@ void FE2D::ContentBrowser::DrawFile(const std::filesystem::path& path) {
     else if (ResourceLoader::prefab_supported_extensions.contains(ext)) {
         texture_index = m_PrefabImage.reference();
         texture_size = TEXTURE_SIZE(m_PrefabImage);
+    }
+    else if (ResourceLoader::tileset_supported_extensions.contains(ext)) {
+        texture_index = m_TilesetImage.reference();
+        texture_size = TEXTURE_SIZE(m_TilesetImage);
     }
 
     ImVec4 color = DEFAULT_FILE_COLOR;

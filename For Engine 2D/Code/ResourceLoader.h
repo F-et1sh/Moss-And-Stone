@@ -10,7 +10,8 @@ namespace FE2D {
 	// .forscene - For Scene — scene files						   
 	// .fa		 - For Animation — Aseprite animation				   
 	// .fp		 - For Prefab — prefab files						   
-	// .fpv		 - For Project Variables - contans project variables 
+	// .fpv		 - For Project Variables - project variables
+	// .fts		 - For Tileset - tileset
 
 	class FOR_API ResourceLoader : public IResourceModule {
 	public:
@@ -48,8 +49,9 @@ namespace FE2D {
 			auto path = FOR_PATH.get_fallbacks_path() / filename;
 			if (!resource->LoadFromFile(path)) {
 				delete resource;
-				resource = nullptr;
-				FOR_RUNTIME_ERROR(("Failed to create fallback for " + std::string(typeid(T).name()) + "\nPath : " + path.string()));
+				SAY("ERROR : Failed to create fallback for " << typeid(T).name() << "\nPath : " << path.wstring());
+				
+				return nullptr;
 			}
 			
 			this->fallback_resource(typeid(T).hash_code(), resource);
@@ -107,6 +109,9 @@ namespace FE2D {
 		};
 		inline static const std::unordered_set<std::wstring> prefab_supported_extensions = {
 			L".fp",
+		};
+		inline static const std::unordered_set<std::wstring> tileset_supported_extensions = {
+			L".fts",
 		};
 		inline static const std::unordered_set<std::wstring> audio_supported_extensions = {
 			 L".wav", L".aif", L".aiff", L".au", L".snd", L".raw", L".pcm", L".sf", L".paf", L".svx",

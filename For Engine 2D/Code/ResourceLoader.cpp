@@ -5,6 +5,7 @@ bool FE2D::ResourceLoader::is_supported(const std::filesystem::path& ext) {
     if (ResourceLoader::texture_supported_extensions.contains(ext)) return true;
     if (ResourceLoader::animation_supported_extensions.contains(ext)) return true;
     if (ResourceLoader::prefab_supported_extensions.contains(ext)) return true;
+    if (ResourceLoader::tileset_supported_extensions.contains(ext)) return true;
 
     return false;
 }
@@ -15,6 +16,7 @@ void FE2D::ResourceLoader::LoadResource(const std::filesystem::path& full_path) 
     if (texture_supported_extensions.contains(full_path.extension())) load_resource<Texture>(full_path);
     if (animation_supported_extensions.contains(full_path.extension())) load_resource<Animation>(full_path);
     if (prefab_supported_extensions.contains(full_path.extension())) load_resource<Prefab>(full_path);
+    if (tileset_supported_extensions.contains(full_path.extension())) load_resource<Tileset>(full_path);
 }
 
 void FE2D::ResourceLoader::LoadMetadata(const std::filesystem::path& full_path) {
@@ -46,6 +48,7 @@ void FE2D::ResourceLoader::LoadFallback(const std::filesystem::path& filename) {
     if (texture_supported_extensions.contains(filename.extension())) load_fallback<Texture>(filename);
     if (animation_supported_extensions.contains(filename.extension())) load_fallback<Animation>(filename);
     if (prefab_supported_extensions.contains(filename.extension())) load_fallback<Prefab>(filename);
+    if (tileset_supported_extensions.contains(filename.extension())) load_fallback<Tileset>(filename);
 }
 
 void FE2D::ResourceLoader::CreateMetadata(const std::filesystem::path& full_path, FE2D::UUID uuid) {

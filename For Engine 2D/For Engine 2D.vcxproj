@@ -305,6 +305,7 @@
     <CopyFileToFolders Include="..\Files\FE2D\ContentBrowser\Flaticon_License.txt" />
     <CopyFileToFolders Include="boost\boost-1.88.0-LICENSE_1_0.txt" />
     <Text Include="EnTT\EnTT_License.txt" />
+    <CopyFileToFolders Include="OpenGL\GLEW_LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="json\nlohmann-json_LICENSE.MIT">

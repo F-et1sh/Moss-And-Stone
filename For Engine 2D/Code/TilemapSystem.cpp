@@ -47,18 +47,20 @@ void FE2D::TilemapSystem::Handle(Entity entity) {
 	auto& transform = entity.GetComponent<TransformComponent>();
 	auto& tilemap = entity.GetComponent<TilemapComponent>();
 
-	/*for (int x = 0; x < tilemap.width; x++) {
+	for (int x = 0; x < tilemap.width; x++) {
 		for (int y = 0; y < tilemap.height; y++) {
 			
-			uint8_t i = y * tilemap.width + x;
+			size_t i = y * tilemap.width + x;
 
-			if (tilemap.tiles.size() <= i || tilemap.tileset.tile_types.empty()) break;
+			if (i >= tilemap.tiles.size()) break;
 			
-			uint8_t tile = tilemap.tiles[i];
-			auto& type = tilemap.tileset.tile_types[tile];
+			TileID tile = tilemap.tiles[i];
+			
+			auto& tileset = m_ResourceManager->GetResource(tilemap.tileset_id);
+			auto& tile_type = tileset.getTile(tile);
 
-			auto& texture = m_ResourceManager->GetResource(type.texture_atlas);
-			vec4 frame = type.frame;
+			auto& texture = m_ResourceManager->GetResource(tile_type.texture_id);
+			vec4 frame = tile_type.uv;
 			
 			m_TextureAtlas.AddTexture(texture);
 			frame += vec4(m_TextureAtlas.getTextureCoords(&texture), 0, 0);
@@ -71,7 +73,7 @@ void FE2D::TilemapSystem::Handle(Entity entity) {
 
 			if (m_TilesFrames.size() == FOR_TILE_LIMIT) this->Draw(entity);
 		}
-	}*/
+	}
 
 	this->Draw(entity);
 }
