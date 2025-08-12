@@ -1,5 +1,0 @@
-ERROR : Failed to Initlaize Game Application
-RUNTIME ERROR : ERROR : ComponentField failure
-Entity name : <unknown>
-Component name : struct FE2D::SpriteComponent
-Message : Entity wasn't initialized

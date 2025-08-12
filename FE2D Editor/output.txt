@@ -1,2 +1,0 @@
-RUNTIME ERROR : Failed to create fallback for class FE2D::Tileset
-Path : C:\Users\Пользователь\Desktop\Moss And Stone\Files\FE2D\Fallbacks\Tileset.fts

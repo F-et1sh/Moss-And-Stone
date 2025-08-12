@@ -31,9 +31,6 @@
     <Filter Include="Code\Dynamic Array">
       <UniqueIdentifier>{b99e1a61-fe05-405c-9fbb-ac3cf1d44e03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{525f6fd6-efc0-4dc4-8150-ab1c51b5dd02}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\File">
       <UniqueIdentifier>{0d627577-6119-4e9d-863d-ecf91a88f764}</UniqueIdentifier>
     </Filter>
@@ -267,9 +264,6 @@
     </Filter>
     <Filter Include="Code\Event System\Subscription">
       <UniqueIdentifier>{b5bac8a7-f1a5-46de-b3ab-065af3b2a789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Cursor">
-      <UniqueIdentifier>{a3551581-e45b-47d7-92f3-2452dbb5a3b6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\ECS\Scripting">
       <UniqueIdentifier>{d556bf41-00c0-4f8e-a8e6-461195d74498}</UniqueIdentifier>
@@ -594,9 +588,6 @@
     <ClCompile Include="Code\EventSubscription.cpp">
       <Filter>Code\Event System\Subscription</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Cursor.cpp">
-      <Filter>Cursor</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Enemy.cpp">
       <Filter>Code\ECS\Scripting\Scripts\Enemy</Filter>
     </ClCompile>
@@ -880,9 +871,6 @@
     </ClInclude>
     <ClInclude Include="Code\EventSubscription.h">
       <Filter>Code\Event System\Subscription</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\Cursor.h">
-      <Filter>Cursor</Filter>
     </ClInclude>
     <ClInclude Include="Code\Enemy.h">
       <Filter>Code\ECS\Scripting\Scripts\Enemy</Filter>

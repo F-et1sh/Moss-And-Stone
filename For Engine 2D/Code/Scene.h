@@ -11,8 +11,6 @@
 #include "TilemapSystem.h"
 
 #include "RenderContext.h"
-#include "Cursor.h"
-
 #include "ProjectVariables.h"
 
 namespace FE2D {

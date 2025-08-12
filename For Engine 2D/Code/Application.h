@@ -6,7 +6,6 @@
 #include "ContentBrowser.h"
 #include "Framebuffer.h"
 #include "MousePicker.h"
-#include "Cursor.h"
 
 #include "ProjectVariables.h"
 #include "SceneManager.h"
