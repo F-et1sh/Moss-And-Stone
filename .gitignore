@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# 09.06.2026 project type fix. HTML --> C++
+For Engine 2D\glm-master\doc
+
 # User-specific files
 *.rsuser
 *.suo

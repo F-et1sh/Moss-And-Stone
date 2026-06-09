@@ -23,6 +23,7 @@ void FE2D::AnimationSystem::Render() {
                 break;
             }
         }
+
         if (!state) continue;
 
         if (auto blend = dynamic_cast<BlendTreeNode*>(state)) {
@@ -43,7 +44,7 @@ void FE2D::AnimationSystem::Render() {
             }
         }
 
-        auto& animation = m_ResourceManager->GetResource(state->animation_id); // there is no error
+        auto& animation = m_ResourceManager->GetResource(state->animation_id); // state can't be nullptr here
         sprite.texture = animation.getTexture(*m_ResourceManager);
         sprite.frame = animation.getFrameUV(animator.current_time);
 

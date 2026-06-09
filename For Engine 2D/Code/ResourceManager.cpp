@@ -41,6 +41,7 @@ std::vector<std::filesystem::path> FE2D::ResourceManager::scan_folder(const std:
             }
         }
     }
+
     return scanned;
 }
 
